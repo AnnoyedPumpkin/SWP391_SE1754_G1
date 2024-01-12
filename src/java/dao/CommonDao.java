@@ -35,8 +35,7 @@ public class CommonDao extends DBContext{
 
             if (resultSet.next()) {
                 Account foundAccount = new Account();
-                foundAccount.setId(resultSet.getInt("id"));
-                foundAccount.setEmail(resultSet.getString("username"));
+                foundAccount.setEmail(resultSet.getString("email"));
                 foundAccount.setPassword(resultSet.getString("password"));
                 return foundAccount;
             } else {
