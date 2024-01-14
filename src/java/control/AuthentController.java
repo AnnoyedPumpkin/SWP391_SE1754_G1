@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author LENOVO
  */
+
 @WebServlet(name = "AuthentController", urlPatterns = {"/authen"})
 public class AuthentController extends HttpServlet {
-
     CommonDao commonDAO;
 
     @Override
@@ -52,7 +52,7 @@ public class AuthentController extends HttpServlet {
         }
         request.getRequestDispatcher(url).forward(request, response);
     }
-
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -71,16 +71,17 @@ public class AuthentController extends HttpServlet {
         String remember = request.getParameter("remember");
         String email = request.getParameter("username");
         String password = request.getParameter("password");
-
         Account account = Account.builder()
                 .email(email)
                 .password(password)
                 .build();
         account = commonDAO.CheckExistOfAcc(account);
+
         if (account == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
+
             HttpSession session = request.getSession();
             session.setAttribute(Constant.SESSION_ACCOUNT, account);
             Cookie userC = new Cookie("userC", email);
