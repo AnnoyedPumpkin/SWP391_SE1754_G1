@@ -30,7 +30,7 @@ public class AuthentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
     } 
 
     @Override
@@ -59,7 +59,7 @@ public class AuthentController extends HttpServlet {
         account = commonDAO.CheckExistOfAcc(account);
         if(account == null){
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         }else{
             HttpSession session = request.getSession();
             session.setAttribute(Constant.SESSION_ACCOUNT, account);
