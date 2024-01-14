@@ -11,6 +11,7 @@ import lombok.Data;
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
+
 /**
  *
  * @author admin
@@ -25,6 +26,4 @@ public class Account_Detail {
     private String address;
     private int type;
 
-    
-  
 }

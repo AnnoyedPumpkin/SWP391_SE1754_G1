@@ -4,6 +4,7 @@
  */
 package entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ import lombok.ToString;
  *
  * @author admin
  */
+
 @ToString
 @Builder
 @Data
@@ -23,6 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class Account {
     private int id;
     private String email;

@@ -21,28 +21,45 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author LENOVO
  */
+
 @WebServlet(name = "AuthentController", urlPatterns = {"/authen"})
 public class AuthentController extends HttpServlet {
+
+
 
     CommonDao commonDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String url ="";
         String action = request.getParameter("action") == null ? "login" : request.getParameter("action");
         switch (action) {
             case "login":
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                Cookie arr[] = request.getCookies();
+                if (arr != null) {
+                    for (Cookie cookie : arr) {
+                        if (cookie.getName().equals("userC")) {
+                            request.setAttribute("username", cookie.getValue());
+                        }
+                        if (cookie.getName().equals("passC")) {
+                            request.setAttribute("password", cookie.getValue());
+                        }
+                    }
+                }
+                url = "views/common/login.jsp";
                 break;
             case "register":
-                request.getRequestDispatcher("signup.jsp").forward(request, response);
+                request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
                 break;
             default:
-                throw new AssertionError();
+                url = "views/common/login.jsp";
+                break;
         }
-
+        request.getRequestDispatcher(url).forward(request, response);
     }
-
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,10 +87,12 @@ public class AuthentController extends HttpServlet {
                 .password(password)
                 .build();
         account = commonDAO.CheckExistOfAcc(account);
+
         if (account == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
+
             HttpSession session = request.getSession();
             session.setAttribute(Constant.SESSION_ACCOUNT, account);
             Cookie userC = new Cookie("userC", email);
@@ -90,6 +109,7 @@ public class AuthentController extends HttpServlet {
             response.sendRedirect("home");
         }
     }
+
 
    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     commonDAO = new CommonDao();

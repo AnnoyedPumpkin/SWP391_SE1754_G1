@@ -15,11 +15,13 @@ import java.sql.SQLException;
  *
  * @author admin
  */
+
 public class CommonDao extends DBContext {
 
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+
 
     public Account CheckExistOfAcc(Account account) {
         try {
@@ -36,8 +38,10 @@ public class CommonDao extends DBContext {
 
             if (resultSet.next()) {
                 Account foundAccount = new Account();
+
                 foundAccount.setId(resultSet.getInt("id"));
-                foundAccount.setEmail(resultSet.getString("username"));
+                foundAccount.setEmail(resultSet.getString("email"));
+
                 foundAccount.setPassword(resultSet.getString("password"));
                 return foundAccount;
             } else {
@@ -48,6 +52,7 @@ public class CommonDao extends DBContext {
             return null;
         }
     }
+
 
    public boolean CheckAccount(Account account) {
     try {
