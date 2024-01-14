@@ -113,10 +113,10 @@ public class AuthentController extends HttpServlet {
 
     if (!isExist) {
         // Nếu tài khoản chưa tồn tại thì thêm vào cơ sở dữ liệu
-        boolean isInserted = commonDAO.createaccount(account);
+        boolean isInserted = commonDAO.CreateAccount(account);
         if (isInserted) {
-            // Chuyển hướng đến trang home nếu insert thành công
-            response.sendRedirect("home");
+            // Chuyển hướng đến trang login nếu insert thành công
+            response.sendRedirect("login.jsp");
         } else {
             // Xử lý lỗi nếu insert không thành công
             request.setAttribute("error", "Lỗi khi thêm tài khoản");

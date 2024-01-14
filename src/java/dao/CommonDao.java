@@ -67,7 +67,7 @@ public class CommonDao extends DBContext {
     }
 }
 
-public boolean createaccount(Account account) {
+public boolean CreateAccount(Account account) {
     try {
         connection = this.getConnection();
 
