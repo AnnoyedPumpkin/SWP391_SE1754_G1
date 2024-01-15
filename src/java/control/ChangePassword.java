@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package control;
 
 import dao.CommonDao;
@@ -13,15 +9,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "RecoveryPassword", urlPatterns = {"/recovery_password"})
-public class RecoveryPassword extends HttpServlet {
+@WebServlet(name = "ChangePassword", urlPatterns = {"/change_password"})
+public class ChangePassword extends HttpServlet {
 
     CommonDao commonDAO = new CommonDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("recovery_password.jsp");
+        response.sendRedirect("change_password.jsp");
     }
 
     @Override
@@ -33,14 +29,14 @@ public class RecoveryPassword extends HttpServlet {
         boolean isEmail = contactInfo.contains("@");
         boolean accountExists = isEmail ? commonDAO.checkAccountExistByEmail(contactInfo) : commonDAO.checkAccountExistByPhoneNumber(contactInfo);
         int accountID = isEmail ? commonDAO.getAccountIdByEmail(contactInfo) : commonDAO.getAccountIdByPhoneNumber(contactInfo);
-        
+
         if (accountExists && (accountID != -1)) {
-            commonDAO.updatePassword(newPassword, accountID);
+            commonDAO.changePassword(newPassword, accountID);
             response.getWriter().println("Password updated successfully!");
             response.sendRedirect("login.jsp");
         } else {
             request.setAttribute("errorMessage", "Incorrect username or contact information.");
-            request.getRequestDispatcher("recovery_password.jsp").forward(request, response);
+            request.getRequestDispatcher("change_password+.jsp").forward(request, response);
         }
     }
 

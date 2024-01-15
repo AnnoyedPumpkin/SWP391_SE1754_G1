@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Jan 11, 2024, 12:32:33 AM
+    Document   : signup
+    Created on : Jan 11, 2024, 12:32:39 AM
     Author     : LENOVO
 --%>
 
@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <title>Login Page - Neoncart HTML5 Template</title>
+        <title>Register Page</title>
         <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
@@ -854,11 +854,11 @@
             <section class="breadcrumb_section text-white text-center text-uppercase d-flex align-items-end clearfix" data-background="assets/images/breadcrumb/bg_01.jpg">
                 <div class="overlay" data-bg-color="#1d1d1d"></div>
                 <div class="container">
-                    <h1 class="page_title text-white">Login Page</h1>
+                    <h1 class="page_title text-white">Register Page</h1>
                     <ul class="breadcrumb_nav ul_li_center clearfix">
                         <li><a href="#!">Home</a></li>
                         <li>Pages</li>
-                        <li>Login</li>
+                        <li>Register</li>
                     </ul>
                 </div>
             </section>
@@ -868,41 +868,32 @@
 
             <!-- register_section - start
             ================================================== -->
-            <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
-                <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
+            <section class="register_section sec_ptb_140 parallaxie clearfix" data-background="assets/images/backgrounds/bg_23.jpg">
                 <div class="container">
-                    <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form action="authen?action=login" method="POST">
+                    <div class="reg_form_wrap signup_form" data-background="assets/images/reg_bg_02.png">
+                        <form action="authen?action=register" method = "POST">
                             <div class="reg_form">
-                                <h2 class="form_title text-uppercase text-center">Login</h2>
+                                <h2 class="form_title text-uppercase">Register</h2>
                                 <div class="form_item">
-                                    <input id="username_input" type="text" name="username" placeholder="username">
-                                    <label for="username_input"><i class="fal fa-user"></i></label>
+                                    <input type="text" name="email" placeholder="Email">
+                                </div>								
+                                <div class="form_item">
+                                    <input type="password" name="password" placeholder="Password">
                                 </div>
                                 <div class="form_item">
-                                    <input id="password_input" type="password" name="password" placeholder="password">
-                                    <label for="password_input"><i class="fal fa-unlock-alt"></i></label>
+                                    <input type="password" name="password2" placeholder="Confirm Password">
                                 </div>
-                                <div class="form-group form-check d-flex">
-                                    <input id="check" name="remember" value="1" type="checkbox" class="form-check-input">
-                                    <label class="form-check-label" for="check">Remember me</label>
+                                <div class="checkbox_item mb_30">
+                                    <label for="agree_checkbox"><input id="agree_checkbox" type="checkbox"> I agree to the Terms of User</label>
                                 </div>
-                                <div style="color: red">${err}</div>
-                                <a class="forget_pass text-uppercase mb_30" href="recovery_password.jsp">Forgot password?</a>
-                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Login</button>
-
-                                <div class="social_wrap mb_100">
-                                    <h4 class="small_title_text mb_15 text-center text-uppercase">Or Login With</h4>
-                                    <ul class="circle_social_links ul_li_center clearfix">
-                                        <li><a data-bg-color="#3b5998" href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a data-bg-color="#1da1f2" href="#!"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a data-bg-color="#ea4335" href="#!"><i class="fab fa-google-plus-g"></i></a></li>
-                                    </ul>
+                                <div style = "color: red">
+                                    ${error}
                                 </div>
+                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Create Account</button>
 
                                 <div class="create_account text-center">
                                     <h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-                                    <a class="create_account_btn text-uppercase" href="#!">Sign Up</a>
+                                    <a class="create_account_btn text-uppercase" href="#!">Login</a>
                                 </div>
                             </div>
                         </form>
