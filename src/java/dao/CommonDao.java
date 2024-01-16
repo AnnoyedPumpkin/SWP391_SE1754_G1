@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 /**
  *
@@ -186,6 +187,47 @@ public class CommonDao extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    
+    /**
+     * Method description: Generates a random password with 8 characters.
+     *
+     * @return A character array representing the randomly generated password.
+     */
+    public char[] generateRandomPassword() {
+
+        String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String Small_chars = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String symbols = "!@#$%^&*?)";
+
+        String values = Capital_chars + Small_chars + numbers + symbols;
+
+        Random random = new Random();
+
+        char[] password = new char[8];
+
+        for (int i = 0; i < 8; i++) {
+            password[i] = values.charAt(random.nextInt(values.length()));
+        }
+        return password;
+    }
+    /**
+     * Method description: Generates a random otp-code with 6 characters.
+     * 
+     * @return A character array representing the randomly generated otp-code.
+     */
+    public String generateRandomOTP() {
+        int otpLength = 6;
+        String digits = "0123456789";
+        Random random = new Random();
+        StringBuilder otp = new StringBuilder(otpLength);
+
+        for (int i = 0; i < otpLength; i++) {
+            otp.append(digits.charAt(random.nextInt(digits.length())));
+        }
+
+        return otp.toString();
     }
 
 }

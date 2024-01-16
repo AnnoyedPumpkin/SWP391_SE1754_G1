@@ -1,15 +1,9 @@
-<%-- 
-    Document   : change_password
-    Created on : Jan 15, 2024, 10:18:06 PM
-    Author     : FPT-LAPTOP
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Change Password Page</title>
         <style>
             body {
                 font-family: 'Arial', sans-serif;
@@ -100,12 +94,12 @@
                 cursor: pointer;
             }
         </style>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     </head>
-    <body>
     <body>
         <div class="container-wrapper">
             <div class="container">
-                <form action="change_password" method="post">
+                <form id="changePasswordForm" action="change_password?action=addNewPassword" method="post">
                     <h2>Get New Password</h2>
                     <div class="error-message">
                         <c:if test="${not empty requestScope.errorMessage}">
@@ -114,11 +108,11 @@
                     </div>
 
                     <label for="contactInfo">Enter Email:</label>
-                    <input type="text" id="contactInfo" name="contactInfo" >
+                    <input type="email" id="contactInfo" name="contactInfo" >
 
                     <label for="otpCode" >Enter OTP:</label>
                     <input type="text" id="otpCode" name="otpCode" >
-                    <button style="background-color: red;">Send OTP Code</button>
+                    <button style="background-color: red;" type="button" onclick="sendOTP()">Send OTP Code</button>
 
                     <label for="newPassword">Enter New Password:</label>
                     <input type="password" id="newPassword" name="newPassword" >
@@ -130,11 +124,34 @@
             </div>
 
             <div class="container">
-
+                <!--Code change password here-->
             </div>
         </div>  
 
         <script>
+            function sendOTP() {
+                var contactInfo = document.getElementById("contactInfo").value.trim();
+
+                if (contactInfo === "") {
+                    alert("Please enter an email first.");
+                    return;
+                }
+
+                alert("Sending OTP to " + contactInfo);
+
+                $.ajax({
+                    type: "POST",
+                    url: "change_password?action=sendOTP",
+                    data: $("#changePasswordForm").serialize(),
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+            
             function toggleContactType() {
                 var contactLabel = document.querySelector('label[for="contactInfo"]');
                 var contactInfo = document.getElementById("contactInfo");
@@ -146,7 +163,7 @@
                     toggleLink.innerText = "Get new password by email";
                 } else {
                     contactLabel.innerText = "Enter Email:";
-                    contactInfo.type = "text";
+                    contactInfo.type = "email";
                     toggleLink.innerText = "Get new password by phone number";
                 }
             }
