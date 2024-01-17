@@ -9,13 +9,13 @@ import dao.CommonDao;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -119,7 +119,7 @@ public class AuthentController extends HttpServlet {
         // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
         if (!password.equals(password2)) {
             request.setAttribute("error", "Mật khẩu phải giống nhau");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
             return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
         }
 
@@ -135,16 +135,16 @@ public class AuthentController extends HttpServlet {
             boolean isInserted = commonDAO.CreateAccount(account);
             if (isInserted) {
                 // Chuyển hướng đến trang login nếu insert thành công
-                response.sendRedirect("login.jsp");
+                request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
             } else {
                 // Xử lý lỗi nếu insert không thành công
                 request.setAttribute("error", "Lỗi khi thêm tài khoản");
-                request.getRequestDispatcher("signup.jsp").forward(request, response);
+                request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
             }
         } else {
             // Nếu tài khoản đã tồn tại thì thông báo lỗi
             request.setAttribute("error", "Tài khoản đã tồn tại, vui lòng chọn tài khoản khác!!");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
         }
     }
 
