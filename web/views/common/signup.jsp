@@ -15,7 +15,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 		<title>Register Page - Neoncart HTML5 Template</title>
-		<link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
 		<!-- fraimwork - css include -->
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">

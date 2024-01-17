@@ -15,13 +15,11 @@ import java.sql.SQLException;
  *
  * @author admin
  */
-
 public class CommonDao extends DBContext {
 
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-
 
     public Account CheckExistOfAcc(Account account) {
         try {
@@ -38,10 +36,7 @@ public class CommonDao extends DBContext {
 
             if (resultSet.next()) {
                 Account foundAccount = new Account();
-
-                foundAccount.setId(resultSet.getInt("id"));
                 foundAccount.setEmail(resultSet.getString("email"));
-
                 foundAccount.setPassword(resultSet.getString("password"));
                 return foundAccount;
             } else {
@@ -53,42 +48,42 @@ public class CommonDao extends DBContext {
         }
     }
 
+    public boolean CheckAccount(Account account) {
+        try {
+            connection = this.getConnection();
 
-   public boolean CheckAccount(Account account) {
-    try {
-        connection = this.getConnection();
+            String sql = "SELECT * FROM [Account] WHERE Email = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, account.getEmail());
 
-        String sql = "SELECT * FROM [Account] WHERE Email = ?";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, account.getEmail());
+            resultSet = preparedStatement.executeQuery();
 
-        resultSet = preparedStatement.executeQuery();
+            return resultSet.next(); // Trả về true nếu tìm thấy tài khoản, ngược lại trả về false
 
-        return resultSet.next(); // Trả về true nếu tìm thấy tài khoản, ngược lại trả về false
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
-public boolean CreateAccount(Account account) {
-    try {
-        connection = this.getConnection();
+    public boolean CreateAccount(Account account) {
+        try {
+            connection = this.getConnection();
 
-        String sql = "INSERT INTO [dbo].[Account] ([Email], [Password]) VALUES (?, ?)";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, account.getEmail());
-        preparedStatement.setString(2, account.getPassword());
+            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Member_code]) VALUES (?, ?, ?)"; // Thêm cột Member_code
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, account.getEmail());
+            preparedStatement.setString(2, account.getPassword());
+            preparedStatement.setString(3, account.getMember_code()); // Cài đặt giá trị cho cột Member_code
 
-        int affectedRows = preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
 
-        return affectedRows > 0; // Trả về true nếu có bản ghi được chèn thành công, ngược lại trả về false
+            return affectedRows > 0; // Trả về true nếu có bản ghi được chèn thành công, ngược lại trả về false
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
 }
