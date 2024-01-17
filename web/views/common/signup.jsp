@@ -14,8 +14,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-		<title>Register Page</title>
-		<link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+		<title>Register Page - Neoncart HTML5 Template</title>
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
 		<!-- fraimwork - css include -->
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
@@ -871,33 +871,24 @@
 			<section class="register_section sec_ptb_140 parallaxie clearfix" data-background="assets/images/backgrounds/bg_23.jpg">
 				<div class="container">
 					<div class="reg_form_wrap signup_form" data-background="assets/images/reg_bg_02.png">
-						<form action="#">
+						<form action="authen?action=register" method = "POST">
 							<div class="reg_form">
 								<h2 class="form_title text-uppercase">Register</h2>
 								<div class="form_item">
-									<input type="text" name="firstname" placeholder="First Name">
-								</div>
-								<div class="form_item">
-									<input type="text" name="lastname" placeholder="Last Name">
-								</div>
-								<div class="form_item">
-									<input type="text" name="company" placeholder="Company Name">
-								</div>
-								<div class="form_item">
-									<input type="email" name="email" placeholder="Email">
-								</div>
-								<div class="form_item">
-									<input type="tel" name="phone" placeholder="phone">
-								</div>
+									<input type="text" name="email" placeholder="Email">
+								</div>								
 								<div class="form_item">
 									<input type="password" name="password" placeholder="Password">
 								</div>
 								<div class="form_item">
-									<input type="password" name="password" placeholder="Confirm Password">
+									<input type="password" name="password2" placeholder="Confirm Password">
 								</div>
 								<div class="checkbox_item mb_30">
 									<label for="agree_checkbox"><input id="agree_checkbox" type="checkbox"> I agree to the Terms of User</label>
 								</div>
+                                                                <div style = "color: red">
+                                                                    ${error}
+                                                                </div>
 								<button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Create Account</button>
 
 								<div class="create_account text-center">

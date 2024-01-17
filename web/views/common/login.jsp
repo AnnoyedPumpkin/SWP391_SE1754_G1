@@ -15,7 +15,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
         <title>Login Page</title>
-        <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
@@ -902,7 +902,7 @@
 
                                 <div class="create_account text-center">
                                     <h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-                                    <a class="create_account_btn text-uppercase" href="#!">Sign Up</a>
+                                    <a class="create_account_btn text-uppercase" href="${pageContext.request.contextPath}/authen?action=register">Sign Up</a>
                                 </div>
                             </div>
                         </form>

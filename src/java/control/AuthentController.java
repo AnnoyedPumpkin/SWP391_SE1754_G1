@@ -9,13 +9,13 @@ import dao.CommonDao;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,6 +46,9 @@ public class AuthentController extends HttpServlet {
                 }
                 url = "views/common/login.jsp";
                 break;
+            case "register":
+                url = "views/common/signup.jsp";
+                break;
             default:
                 url = "views/common/login.jsp";
                 break;
@@ -60,6 +63,9 @@ public class AuthentController extends HttpServlet {
         switch (action) {
             case "login":
                 login(request, response);
+                break;
+            case "register":
+                register(request, response);
                 break;
             default:
                 throw new AssertionError();
@@ -99,8 +105,46 @@ public class AuthentController extends HttpServlet {
                 }
                 response.addCookie(userC);
                 response.addCookie(passC);
-                response.sendRedirect("views/common/homepage.jsp");
+                request.getRequestDispatcher("views/common/homepage.jsp").forward(request, response);
             }
+        }
+    }
+
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        commonDAO = new CommonDao();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String password2 = request.getParameter("password2");
+
+        // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
+        if (!password.equals(password2)) {
+            request.setAttribute("error", "Mật khẩu phải giống nhau");
+            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
+        }
+
+        Account account = Account.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        boolean isExist = commonDAO.CheckAccount(account);
+
+        if (!isExist) {
+            // Nếu tài khoản chưa tồn tại thì thêm vào cơ sở dữ liệu
+            boolean isInserted = commonDAO.CreateAccount(account);
+            if (isInserted) {
+                // Chuyển hướng đến trang login nếu insert thành công
+                response.sendRedirect("login.jsp");
+            } else {
+                // Xử lý lỗi nếu insert không thành công
+                request.setAttribute("error", "Lỗi khi thêm tài khoản");
+                request.getRequestDispatcher("signup.jsp").forward(request, response);
+            }
+        } else {
+            // Nếu tài khoản đã tồn tại thì thông báo lỗi
+            request.setAttribute("error", "Tài khoản đã tồn tại, vui lòng chọn tài khoản khác!!");
+            request.getRequestDispatcher("signup.jsp").forward(request, response);
         }
     }
 
