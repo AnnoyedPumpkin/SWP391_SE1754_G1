@@ -9,13 +9,13 @@ import dao.CommonDao;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -44,10 +44,10 @@ public class AuthentController extends HttpServlet {
                         }
                     }
                 }
-                url = "login.jsp";
+                url = "views/common/login.jsp";
                 break;
             default:
-                url = "login.jsp";
+                url = "views/common/login.jsp";
                 break;
         }
         request.getRequestDispatcher(url).forward(request, response);
@@ -73,7 +73,7 @@ public class AuthentController extends HttpServlet {
         String password = request.getParameter("password");
         if (!email.matches(Constant.EMAIL_REGEX)) {
             request.setAttribute("err", "Email khong hop le");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         } else {
             Account account = Account.builder()
                     .email(email)
@@ -83,7 +83,7 @@ public class AuthentController extends HttpServlet {
 
             if (account == null) {
                 request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
             } else {
 
                 HttpSession session = request.getSession();
@@ -99,7 +99,7 @@ public class AuthentController extends HttpServlet {
                 }
                 response.addCookie(userC);
                 response.addCookie(passC);
-                response.sendRedirect("home");
+                response.sendRedirect("views/common/homepage.jsp");
             }
         }
     }
