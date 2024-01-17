@@ -4,6 +4,7 @@
  */
 package dao;
 
+
 import context.DBContext;
 import entity.Account;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
  *
  * @author admin
  */
+
 public class CommonDao extends DBContext {
 
     Connection connection = null;
@@ -84,5 +86,6 @@ public class CommonDao extends DBContext {
             return false;
         }
     }
+
 
 }
