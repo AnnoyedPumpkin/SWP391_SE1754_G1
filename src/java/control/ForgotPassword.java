@@ -16,17 +16,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
-@WebServlet(name = "ChangePassword", urlPatterns = {"/change_password"})
-public class ChangePassword extends HttpServlet {
+@WebServlet(name = "ForgotPassword", urlPatterns = {"/ForgotPassword"})
+public class ForgotPassword extends HttpServlet {
 
     CommonDao commonDao = new CommonDao();
     private final String FROM_EMAIL = "clothingshoponlineg1se1754@gmail.com";
-    private final String EMAIL_PASSWORD = "xgqfbmhihkjvmzak";
+    private final String EMAIL_PASSWORD = "pizwgjrviipmttyx";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("change_password.jsp");
+        response.sendRedirect("forgotpassword.jsp");
     }
 
     @Override
@@ -48,19 +48,20 @@ public class ChangePassword extends HttpServlet {
     }
 private void addNewPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String contactInfo = request.getParameter("contactInfo");
-        String newPassword = request.getParameter("newPassword");
+        String otp = request.getParameter("otpCode");
 
-        boolean isEmail = contactInfo.contains("@");
-        boolean accountExists = isEmail ? commonDao.checkAccountExistByEmail(contactInfo) : commonDao.checkAccountExistByPhoneNumber(contactInfo);
-        int accountID = isEmail ? commonDao.getAccountIdByEmail(contactInfo) : commonDao.getAccountIdByPhoneNumber(contactInfo);
-
-        if (accountExists && (accountID != -1)) {
-            commonDao.changePassword(newPassword, accountID);
-            response.getWriter().println("Password updated successfully!");
-            response.sendRedirect("login.jsp");
+        boolean accountExists = commonDao.checkAccountExistByEmail(contactInfo) ;
+        int accountID = commonDao.getAccountIdByEmail(contactInfo);
+        boolean otpMatched = commonDao.checkOTPMatchedWithEmail(contactInfo);
+        
+        if (accountExists && otpMatched) {
+            String newPassword = commonDao.generateRandomPassword();
+            commonDao.updatePasswordById(newPassword, accountID);
+            request.setAttribute("newPassword", newPassword);
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMessage", "Incorrect username or contact information.");
-            request.getRequestDispatcher("change_password.jsp").forward(request, response);
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         }
     }
     
@@ -68,7 +69,7 @@ private void addNewPassword(HttpServletRequest request, HttpServletResponse resp
         String otpCode = commonDao.generateRandomOTP();
         String email = request.getParameter("contactInfo");
         sendOTPEmail(email, otpCode);
-        response.sendRedirect("change_password.jsp");
+        response.sendRedirect("forgotpassword.jsp");
     }
     
     private void sendOTPEmail(String toEmail, String otpCode) {

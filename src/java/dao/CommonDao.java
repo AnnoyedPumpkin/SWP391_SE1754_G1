@@ -128,18 +128,12 @@ public class CommonDao extends DBContext {
         }
         return -1;
     }
-
-    /**
-     * Methods description: Checks the existence of an account by phone number.
-     *
-     * @param phone_number - The phone number to be checked.
-     * @return true if the account with the specified phone number exists; otherwise, false.
-     */
-    public boolean checkAccountExistByPhoneNumber(String phone_number) {
-        try {
-            String query = "SELECT * FROM Account_Detail WHERE phone_number=?";
+    
+    public boolean checkOTPMatchedWithEmail(String Email){
+         try {
+            String query = "SELECT OTP_code FROM Account WHERE Email=?";
             ps = connection.prepareStatement(query);
-            ps.setString(1, phone_number);
+            ps.setString(1, Email);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return true;
@@ -149,35 +143,14 @@ public class CommonDao extends DBContext {
         }
         return false;
     }
-
-    /**
-     * Methods description: Gets the account ID based on the phone number.
-     *
-     * @param phone_number - The phone number for which the account ID is needed.
-     * @return the account ID if the phone number given; otherwise, -1.
-     */
-    public int getAccountIdByPhoneNumber(String phone_number) {
-        try {
-            String query = "SELECT Account_Id FROM Account_Detail WHERE phone_number=?";
-            ps = connection.prepareStatement(query);
-            ps.setString(1, phone_number);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("Account_Id");
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return -1;
-    }
-
+    
     /**
      * Methods description: Updates the password for the specified account.
      *
      * @param newPassword - The new password to be set.
      * @param accountId - The ID of the account for which the password should be updated.
      */
-    public void changePassword(String newPassword, int accountId) {
+    public void updatePasswordById(String newPassword, int accountId) {
         String query = "UPDATE Account Set password = ? Where Id = ?";
         try {
             ps = connection.prepareStatement(query);
@@ -189,29 +162,42 @@ public class CommonDao extends DBContext {
         }
     }
     
+    public void addOTPForAccountByEmail(String otp_code, String Email) {
+        String query = "UPDATE Account Set OTP_code = ? Where Email = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, otp_code);
+            ps.setString(2, Email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
     /**
      * Method description: Generates a random password with 8 characters.
      *
-     * @return A character array representing the randomly generated password.
+     * @return A String representing the randomly generated password.
      */
-    public char[] generateRandomPassword() {
-
-        String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String Small_chars = "abcdefghijklmnopqrstuvwxyz";
+    public String generateRandomPassword() {
+        String capitalChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String smallChars = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
         String symbols = "!@#$%^&*?)";
 
-        String values = Capital_chars + Small_chars + numbers + symbols;
+        String values = capitalChars + smallChars + numbers + symbols;
 
         Random random = new Random();
 
-        char[] password = new char[8];
+        StringBuilder password = new StringBuilder(8);
 
         for (int i = 0; i < 8; i++) {
-            password[i] = values.charAt(random.nextInt(values.length()));
+            password.append(values.charAt(random.nextInt(values.length())));
         }
-        return password;
+
+        return password.toString();
     }
+    
     /**
      * Method description: Generates a random otp-code with 6 characters.
      * 
