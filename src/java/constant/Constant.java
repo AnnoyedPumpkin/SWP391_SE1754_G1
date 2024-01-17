@@ -14,7 +14,7 @@ public class Constant {
 
     public static final String SESSION_ACCOUNT = "customer";
 
-
+    public static final String EMAIL_REGEX = "^[0-9A-Za-z_+$*-]+(?:\\."+"[0-9A-Za-z_+$*-]+)*@"+"(?:[0-9A-Za-z-]+\\.)+[a-zA-Z]{2,7}$";
     public static final int ROLE_USER = 2;
     public static final int ROLE_ADMIN = 1;
 }

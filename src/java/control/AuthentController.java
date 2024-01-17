@@ -71,6 +71,9 @@ public class AuthentController extends HttpServlet {
         String remember = request.getParameter("remember");
         String email = request.getParameter("username");
         String password = request.getParameter("password");
+        if(!email.matches(Constant.EMAIL_REGEX)){
+            request.setAttribute("err", "Email khong hop le");
+        }
         Account account = Account.builder()
                 .email(email)
                 .password(password)
