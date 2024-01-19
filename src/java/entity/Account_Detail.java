@@ -17,21 +17,19 @@ public class Account_Detail {
     private float phone_number;
     private boolean gender;
     private Date dob;
-    private String member_code;
     private String address;
     private int type;
 
     public Account_Detail() {
     }
 
-    public Account_Detail(int id, int account_id, String username, float phone_number, boolean gender, Date dob, String member_code, String address, int type) {
+    public Account_Detail(int id, int account_id, String username, float phone_number, boolean gender, Date dob, String address, int type) {
         this.id = id;
         this.account_id = account_id;
         this.username = username;
         this.phone_number = phone_number;
         this.gender = gender;
         this.dob = dob;
-        this.member_code = member_code;
         this.address = address;
         this.type = type;
     }
@@ -82,14 +80,6 @@ public class Account_Detail {
 
     public void setDob(Date dob) {
         this.dob = dob;
-    }
-
-    public String getMember_code() {
-        return member_code;
-    }
-
-    public void setMember_code(String member_code) {
-        this.member_code = member_code;
     }
 
     public String getAddress() {

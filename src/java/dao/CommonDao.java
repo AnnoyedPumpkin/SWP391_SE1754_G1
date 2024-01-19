@@ -89,18 +89,16 @@ public class CommonDao extends DBContext {
     }
 
     public void updatePassword(Account account) {
-        String sql = "UPDATE [dbo].[Account]\n"
-                + "   SET [Password] = ?\n"
-                + "   WHERE [Email] = ?\n"
-                + "   AND [Password} = ?";
         try {
-            ps = connection.prepareStatement(sql);
-            ps.setString(1, account.getPassword());
-            ps.setString(2, account.getEmail());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error " + e.getMessage() + "at DBContext method: update");
-            Logger.getLogger(CommonDao.class.getName()).log(Level.SEVERE, null, e);
+            String sql = "UPDATE account SET password = ? WHERE id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, account.getPassword());
+            preparedStatement.setInt(2, account.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            /* Đóng các tài nguyên, đóng kết nối */
         }
     }
 
@@ -123,7 +121,6 @@ public class CommonDao extends DBContext {
                 accountDetail.setPhone_number(resultSet.getFloat("phone_number"));
                 accountDetail.setGender(resultSet.getBoolean("gender"));
                 accountDetail.setDob(resultSet.getDate("dob"));
-                accountDetail.setMember_code(resultSet.getString("member_code"));
                 accountDetail.setAddress(resultSet.getString("address"));
                 accountDetail.setType(resultSet.getInt("type"));
             }
