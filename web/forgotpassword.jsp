@@ -860,13 +860,13 @@
             ================================================== -->
 
 
-            <!-- register_section - start
+            <!-- forgot_password_section - start
             ================================================== -->
             <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
                     <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form id="changePasswordForm" action="ForgotPassword?action=addNewPassword" method="post">
+                        <form id="changePasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
                             <div class="reg_form">
                                 <h2 class="form_title text-uppercase text-center">Get New Password</h2>
                                 <div style="color: red">
@@ -891,13 +891,13 @@
                                 </div>
                                 <button type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase mb_50">Send OTP Code</button>
                                 <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
-                                <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
+                                <a class="forget_pass text-uppercase mb_30" href="#">Back to Login Page</a>
                             </div>
  
                     </div>
                 </div>
             </section>
-            <!-- register_section - end
+            <!-- forgot_password_section - end
             ================================================== -->
 
 

@@ -52,7 +52,7 @@ private void addNewPassword(HttpServletRequest request, HttpServletResponse resp
 
         boolean accountExists = commonDao.checkAccountExistByEmail(contactInfo) ;
         int accountID = commonDao.getAccountIdByEmail(contactInfo);
-        boolean otpMatched = commonDao.checkOTPMatchedWithEmail(contactInfo);
+        boolean otpMatched = commonDao.checkOTPMatchedByEmail(contactInfo);
         
         if (accountExists && otpMatched) {
             String newPassword = commonDao.generateRandomPassword();
