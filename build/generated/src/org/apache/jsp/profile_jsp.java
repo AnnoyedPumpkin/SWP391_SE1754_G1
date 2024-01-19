@@ -992,7 +992,7 @@ public final class profile_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                                                                        <span class=\"text-secondary\">bootdey</span>\n");
       out.write("                                                                                    </li>\n");
       out.write("                                                                                </ul>-->\n");
-      out.write("                                        <form action=\"authen?action=changepass\" method=\"POST\">\n");
+      out.write("                                        <form action=\"profile?action=changepass\" method=\"POST\">\n");
       out.write("                                            <div class=\"reg_form\">\n");
       out.write("                                                <h5 class=\"form_title text-uppercase text-center\">Change Pass</h5><br>\n");
       out.write("                                                <div class=\"form_item\">\n");
@@ -1018,7 +1018,7 @@ public final class profile_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <div class=\"col-lg-8\">\n");
       out.write("                                <div class=\"card\">\n");
       out.write("                                    <div class=\"card-body\">\n");
-      out.write("                                        <form action=\"profile\" method=\"post\">\n");
+      out.write("                                        <form action=\"profile?action=profile\" method=\"POST\">\n");
       out.write("                                            <div class=\"row mb-3\">\n");
       out.write("                                                <div class=\"col-sm-3\">\n");
       out.write("                                                    <h6 class=\"mb-0\">Full Name</h6>\n");

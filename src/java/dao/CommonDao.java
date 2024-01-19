@@ -6,6 +6,7 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Account_Detail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,7 +69,7 @@ public class CommonDao extends DBContext {
         }
     }
 
-    public boolean register(Account account) {
+    public boolean CreateAccount(Account account) {
         try {
             connection = this.getConnection();
 
@@ -96,12 +97,65 @@ public class CommonDao extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setString(1, account.getPassword());
             ps.setString(2, account.getEmail());
-            ps.executeUpdate();            
+            ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage() + "at DBContext method: update");
             Logger.getLogger(CommonDao.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-  
+
+    public Account_Detail getAccountDetailByEmail(String email) {
+        try {
+            String sql = "SELECT * FROM account_detail WHERE email = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+
+            // Thực hiện truy vấn
+            resultSet = preparedStatement.executeQuery();
+
+            // Kiểm tra xem có dữ liệu trả về không
+            if (resultSet.next()) {
+                // Đọc thông tin từ ResultSet và tạo đối tượng Account_Detail
+                Account_Detail accountDetail = new Account_Detail();
+                accountDetail.setId(resultSet.getInt("id"));
+                accountDetail.setAccount_id(resultSet.getInt("account_id"));
+                accountDetail.setUsername(resultSet.getString("username"));
+                accountDetail.setPhone_number(resultSet.getFloat("phone_number"));
+                accountDetail.setGender(resultSet.getBoolean("gender"));
+                accountDetail.setDob(resultSet.getDate("dob"));
+                accountDetail.setMember_code(resultSet.getString("member_code"));
+                accountDetail.setAddress(resultSet.getString("address"));
+                accountDetail.setType(resultSet.getInt("type"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý hoặc ghi log lỗi
+        } finally {
+            // Đóng tất cả các tài nguyên (ResultSet, PreparedStatement, Connection)
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Account_Detail accountDetail = null;
+
+        return accountDetail;
+    }
 
 }
