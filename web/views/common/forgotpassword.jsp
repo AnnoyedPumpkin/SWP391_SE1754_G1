@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Jan 11, 2024, 12:32:33 AM
-    Author     : LENOVO
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +9,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
         <title>Login Page</title>
-        <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
+        <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
@@ -866,50 +860,44 @@
             ================================================== -->
 
 
-            <!-- register_section - start
+            <!-- forgot_password_section - start
             ================================================== -->
             <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
                     <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form action="authen?action=login" method="POST">
+                        <form id="changePasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
                             <div class="reg_form">
-                                <h2 class="form_title text-uppercase text-center">Login</h2>
-                                <div class="form_item">
-                                    <input id="username_input" type="text" name="username" placeholder="username">
-                                    <label for="username_input"><i class="fal fa-user"></i></label>
+                                <h2 class="form_title text-uppercase text-center">Get New Password</h2>
+                                <div style="color: red">
+                                    <c:if test="${not empty requestScope.errorMessage}">
+                                        ${requestScope.errorMessage}
+                                    </c:if>
                                 </div>
                                 <div class="form_item">
-                                    <input id="password_input" type="password" name="password" placeholder="password">
-                                    <label for="password_input"><i class="fal fa-unlock-alt"></i></label>
+                                    <input id="contactInfo" type="email" name="contactInfo" placeholder="Enter your email">
+                                    <label for="contactInfo"><i class="fal fa-mailbox"></i></label>
                                 </div>
-                                <div class="form-group form-check d-flex">
-                                    <input id="check" name="remember" value="1" type="checkbox" class="form-check-input">
-                                    <label class="form-check-label" for="check">Remember me</label>
+                                <div class="form_item">
+                                    <input id="otpCode" type="text" name="password" placeholder="Enter OTP Code">
+                                    <label for="otpCode"><i class="fal fa-code"></i></label>
                                 </div>
-                                <div style="color: red">${err}</div>
-                                <a class="forget_pass text-uppercase mb_30" href="${pageContext.request.contextPath}/ForgotPassword">Forgot password?</a>
-                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Login</button>
-
-                                <div class="social_wrap mb_100">
-                                    <h4 class="small_title_text mb_15 text-center text-uppercase">Or Login With</h4>
-                                    <ul class="circle_social_links ul_li_center clearfix">
-                                        <li><a data-bg-color="#3b5998" href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a data-bg-color="#1da1f2" href="#!"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a data-bg-color="#ea4335" href="#!"><i class="fab fa-google-plus-g"></i></a></li>
-                                    </ul>
+                                <div class="form_title">
+                                    <c:if test="${not empty requestScope.newPassword}">
+                                        <div class="alert alert-info" role="alert">
+                                        <strong class="h4">New Password: ${requestScope.newPassword}</strong>
+                                        </div>
+                                    </c:if>
                                 </div>
-
-                                <div class="create_account text-center">
-                                    <h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-                                    <a class="create_account_btn text-uppercase" href="${pageContext.request.contextPath}/authen?action=register">Sign Up</a>
-                                </div>
+                                <button type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase mb_50">Send OTP Code</button>
+                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
+                                <a class="forget_pass text-uppercase mb_30" href="#">Back to Login Page</a>
                             </div>
-                        </form>
+ 
                     </div>
                 </div>
             </section>
-            <!-- register_section - end
+            <!-- forgot_password_section - end
             ================================================== -->
 
 
@@ -1068,6 +1056,7 @@
         <script src="${pageContext.request.contextPath}/assets/js/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <!-- mobile menu - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/mCustomScrollbar.js"></script>
@@ -1102,7 +1091,9 @@
 
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
-
+        
+        <!--Send OTP Code include-->
+        <script src="${pageContext.request.contextPath}/assets/js/sendOTP.js"></script>
 
     </body>
 </html>
