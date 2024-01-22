@@ -114,11 +114,19 @@ public class AuthentController extends HttpServlet {
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
 
-        // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
-        if (!password.equals(password2)) {
-            request.setAttribute("error", "Mật khẩu phải giống nhau");
+         if (!email.matches(Constant.EMAIL_REGEX)) {
+            request.setAttribute("error", "Email không hợp lệ");
             request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
-            return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
+        }else if (!password.matches(Constant.PASSWORD_REGEX)){
+            request.setAttribute("error", "Mật khẩu phải chứa ít nhất 8 kí tự (1 số, 1 chữ in hoa, 1 kí tự đặc biệt(trừ khoảng trắng)");
+            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);    
+        }else{
+            // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
+            if (!password.equals(password2)) {
+                request.setAttribute("error", "Mật khẩu phải giống nhau");
+                request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
+                return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
+            }
         }
 
         Account account = Account.builder()

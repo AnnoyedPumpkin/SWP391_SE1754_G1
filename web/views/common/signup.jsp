@@ -883,9 +883,7 @@
 								<div class="form_item">
 									<input type="password" name="password2" placeholder="Confirm Password">
 								</div>
-								<div class="checkbox_item mb_30">
-									<label for="agree_checkbox"><input id="agree_checkbox" type="checkbox"> I agree to the Terms of User</label>
-								</div>
+								
                                                                 <div style = "color: red">
                                                                     ${error}
                                                                 </div>
@@ -893,7 +891,7 @@
 
 								<div class="create_account text-center">
 									<h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-									<a class="create_account_btn text-uppercase" href="#!">Login</a>
+									<a class="create_account_btn text-uppercase" href="views/common/login.jsp">Login</a>
 								</div>
 							</div>
 						</form>

@@ -70,7 +70,7 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Member_code]) VALUES (?, ?, ?)"; // Thêm cột Member_code
+            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Member_code], [Type]) VALUES (?, ?, ?, 1)"; // Thêm cột Member_code
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getEmail());
             preparedStatement.setString(2, account.getPassword());
