@@ -11,7 +11,7 @@ function sendOTP() {
                 $.ajax({
                     type: "POST",
                     url: "ForgotPassword?action=sendOTP",
-                    data: $("#changePasswordForm").serialize(),
+                    data: $("#forgotPasswordForm").serialize(),
                     success: function (response) {
                         console.log(response);
                     },
@@ -22,5 +22,9 @@ function sendOTP() {
             }
             
 function copyPassword() {
-    var cpPass = document.getElementById("np").value.trim();
+    var copyPass = document.getElementById("np");
+    copyPass.type = "text";
+    copyPass.select();
+    document.execCommand("copy");
+    copyPass.type = "password";
 }

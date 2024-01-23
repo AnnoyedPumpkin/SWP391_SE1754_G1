@@ -866,7 +866,7 @@
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
                     <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form id="changePasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
+                        <form id="forgotPasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
                             <div class="reg_form">
                                 <h2 class="form_title text-uppercase text-center">Get New Password</h2>
                                 <div style="color: red">
@@ -883,9 +883,8 @@
                                     <label for="otpCode"><i class="fal fa-code"></i></label>
                                 </div>
                                 <div class="form_item" >
-                                    New Password:
                                     <c:if test="${not empty requestScope.newPassword}">
-                                    <input id="np" type="password" readonly value="${requestScope.newPassword}">   
+                                        New Password:<input  id="np" type="password" readonly value="${requestScope.newPassword}">   
                                     </c:if>
                                 </div>
                                 <button type="button" onclick="copyPassword()" class="custom_btn bg_default_black text-uppercase mb_50">Copy Password</button>

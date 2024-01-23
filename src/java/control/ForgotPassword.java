@@ -68,8 +68,8 @@ private void addNewPassword(HttpServletRequest request, HttpServletResponse resp
     private void sendOTP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String otpCode = commonDao.generateRandomOTP();
         String email = request.getParameter("contactInfo");
-        sendOTPEmail(email, otpCode);
         commonDao.addOTPForAccountByEmail(otpCode, email);
+        sendOTPEmail(email, otpCode);
         response.sendRedirect("forgotpassword.jsp");
     }
     
