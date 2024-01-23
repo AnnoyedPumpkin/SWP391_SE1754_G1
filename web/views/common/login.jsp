@@ -876,11 +876,11 @@
                             <div class="reg_form">
                                 <h2 class="form_title text-uppercase text-center">Login</h2>
                                 <div class="form_item">
-                                    <input id="username_input" type="text" name="username" placeholder="username">
+                                    <input id="username_input" value="${username}" type="text" name="username" placeholder="username">
                                     <label for="username_input"><i class="fal fa-user"></i></label>
                                 </div>
                                 <div class="form_item">
-                                    <input id="password_input" type="password" name="password" placeholder="password">
+                                    <input id="password_input" value="${password}" type="password" name="password" placeholder="password">
                                     <label for="password_input"><i class="fal fa-unlock-alt"></i></label>
                                 </div>
                                 <div class="form-group form-check d-flex">

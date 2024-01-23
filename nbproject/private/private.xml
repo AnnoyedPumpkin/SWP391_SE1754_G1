@@ -10,6 +10,7 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/SWP391/web/views/common/login.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/SWP391/web/views/common/signup.jsp</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/SWP391/src/java/dao/CommonDao.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/SWP391/src/java/helper/BCrypt.java</file>
         </group>
     </open-files>
 </project-private>

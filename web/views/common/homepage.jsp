@@ -411,11 +411,11 @@
 						<ul class="settings_options ul_li_block clearfix">
 							<li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
 							<li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-							<li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
 						</ul>
 					</div>
 				</div>
-
+                                <jsp:include page="../../views/common/logOutModal.jsp"></jsp:include>
 				<div class="overlay"></div>
 			</div>
 			<!-- sidebar mobile menu & sidebar cart - end
