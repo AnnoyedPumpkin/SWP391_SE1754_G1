@@ -10,8 +10,8 @@ function sendOTP() {
 
                 $.ajax({
                     type: "POST",
-                    url: "RecoveryPassword?action=sendOTP",
-                    data: $("#recoveryForm").serialize(),
+                    url: "ForgotPassword?action=sendOTP",
+                    data: $("#changePasswordForm").serialize(),
                     success: function (response) {
                         console.log(response);
                     },
@@ -20,3 +20,7 @@ function sendOTP() {
                     }
                 });
             }
+            
+function copyPassword() {
+    var cpPass = document.getElementById("np").value.trim();
+}

@@ -69,6 +69,7 @@ private void addNewPassword(HttpServletRequest request, HttpServletResponse resp
         String otpCode = commonDao.generateRandomOTP();
         String email = request.getParameter("contactInfo");
         sendOTPEmail(email, otpCode);
+        commonDao.addOTPForAccountByEmail(otpCode, email);
         response.sendRedirect("forgotpassword.jsp");
     }
     

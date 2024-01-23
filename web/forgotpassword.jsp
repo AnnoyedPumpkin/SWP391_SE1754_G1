@@ -882,16 +882,16 @@
                                     <input id="otpCode" type="text" name="password" placeholder="Enter OTP Code">
                                     <label for="otpCode"><i class="fal fa-code"></i></label>
                                 </div>
-                                <div class="form_title">
+                                <div class="form_item" >
+                                    New Password:
                                     <c:if test="${not empty requestScope.newPassword}">
-                                        <div class="alert alert-info" role="alert">
-                                        <strong class="h4">New Password: ${requestScope.newPassword}</strong>
-                                        </div>
+                                    <input id="np" type="password" readonly value="${requestScope.newPassword}">   
                                     </c:if>
                                 </div>
+                                <button type="button" onclick="copyPassword()" class="custom_btn bg_default_black text-uppercase mb_50">Copy Password</button>
                                 <button type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase mb_50">Send OTP Code</button>
                                 <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
-                                <a class="forget_pass text-uppercase mb_30" href="#">Back to Login Page</a>
+                                <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
                             </div>
  
                     </div>
