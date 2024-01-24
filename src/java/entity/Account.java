@@ -19,4 +19,6 @@ public class Account {
     private int id;
     private String email;
     private String password;
+    private int verifyCode;
+    private int roleId;
 }

@@ -32,7 +32,7 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT a.Email, a.Password "
+            String sql = "SELECT a.Email, a.Password, a.Role_Id "
                     + "FROM Account a "
                     + "WHERE a.Email = ?";
             preparedStatement = connection.prepareStatement(sql);
@@ -48,6 +48,7 @@ public class CommonDao extends DBContext {
                     Account foundAccount = new Account();
                     foundAccount.setEmail(resultSet.getString("email"));
                     foundAccount.setPassword(hashedPassword);
+                    foundAccount.setRoleId(resultSet.getInt("Role_Id"));
                     return foundAccount;
                 } else {
                     return null;

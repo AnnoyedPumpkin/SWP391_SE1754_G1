@@ -54,7 +54,7 @@ public class AuthentController extends HttpServlet {
                 break;
             case "logout":
                 logout(request, response);
-                url = "views/common/homepage.jsp";
+                url = "home";
                 break;
             default:
                 url = "views/common/login.jsp";
@@ -95,20 +95,25 @@ public class AuthentController extends HttpServlet {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         } else {
-            HttpSession session = request.getSession();
-            session.setAttribute(Constant.SESSION_ACCOUNT, account);
-            Cookie userC = new Cookie("userC", email);
-            Cookie passC = new Cookie("passC", password);
-            if (remember != null) {
-                userC.setMaxAge(60 * 60 * 24);
-                passC.setMaxAge(60 * 60 * 24);
+            if (account.getRoleId() == 1) {
+                HttpSession session = request.getSession();
+                session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                Cookie userC = new Cookie("userC", email);
+                Cookie passC = new Cookie("passC", password);
+                if (remember != null) {
+                    userC.setMaxAge(60 * 60 * 24);
+                    passC.setMaxAge(60 * 60 * 24);
+                } else {
+                    userC.setMaxAge(0);
+                    passC.setMaxAge(0);
+                }
+                response.addCookie(userC);
+                response.addCookie(passC);
+                response.sendRedirect("home");
             } else {
-                userC.setMaxAge(0);
-                passC.setMaxAge(0);
+                request.setAttribute("err", "You don't have permission!");
+                request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
             }
-            response.addCookie(userC);
-            response.addCookie(passC);
-            request.getRequestDispatcher("views/common/homepage.jsp").forward(request, response);
         }
     }
 
