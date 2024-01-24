@@ -22,9 +22,5 @@ public class Account {
     private int id;
     private String email;
     private String password;
-
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
-    }
-
+    private int role_Id;
 }

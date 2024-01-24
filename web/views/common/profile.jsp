@@ -941,7 +941,7 @@
                                                 ${accountDetail.username}
                                             </div>
                                         </div>
-                                        <hr>
+<!--                                        <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0">Email</h6>
@@ -949,7 +949,7 @@
                                             <div class="col-sm-9 text-secondary">
                                                 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6a657c4c667967617964226d60">[email&#160;protected]</a>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
@@ -984,15 +984,6 @@
                                             </div>
                                             <div class="col-sm-9 text-secondary">
                                                 ${accountDetail.address}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Type</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.type}
                                             </div>
                                         </div>
                                         <hr>
