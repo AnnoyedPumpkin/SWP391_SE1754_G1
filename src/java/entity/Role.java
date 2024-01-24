@@ -4,7 +4,6 @@
  */
 package entity;
 
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,10 +16,7 @@ import lombok.Data;
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-
-public class Account {
+public class Role {
     private int id;
-    private String email;
-    private String password;
-    private int role_Id;
+    private String role;
 }
