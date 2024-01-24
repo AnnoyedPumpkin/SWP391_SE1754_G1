@@ -95,7 +95,7 @@ public class AuthentController extends HttpServlet {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         } else {
-            if (account.getRoleId() == 1) {
+            if (account.getRole_Id() == 1) {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
                 Cookie userC = new Cookie("userC", email);

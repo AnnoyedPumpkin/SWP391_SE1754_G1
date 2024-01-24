@@ -11,14 +11,14 @@ import lombok.Data;
  *
  * @author admin
  */
+
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account {
+
+public class Image {
     private int id;
-    private String email;
-    private String password;
-    private int verifyCode;
-    private int role_Id;
+    private int product_Id;
+    private String image;
 }

@@ -11,14 +11,13 @@ import lombok.Data;
  *
  * @author admin
  */
+
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account {
+
+public class Gender {
     private int id;
-    private String email;
-    private String password;
-    private int verifyCode;
-    private int role_Id;
+    private String gender;
 }
