@@ -7,15 +7,16 @@ package entity;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
-@Data
-@Builder
-@lombok.AllArgsConstructor
-@lombok.NoArgsConstructor
 
 /**
  *
  * @author admin
  */
+
+@Data
+@Builder
+@lombok.AllArgsConstructor
+@lombok.NoArgsConstructor
 public class Account_Detail {
     private int id;
     private int account_id;
@@ -24,6 +25,5 @@ public class Account_Detail {
     private Date dob;
     private String member_code;
     private String address;
-    private int type;
 
 }

@@ -19,4 +19,6 @@ public class Product {
     private int id;
     private int name;
     private Date create_on;
+    private String description;
+    private double price;
 }
