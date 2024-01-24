@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -24,25 +25,33 @@ public class CommonDao extends DBContext {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    BCrypt bcryp = new BCrypt();
 
-    public Account CheckExistOfAcc(Account account) {
+    public Account checkExistOfAcc(Account account) {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT a.Email, a.Password "
+            String sql = "SELECT a.Email, a.Password, a.Role_Id "
                     + "FROM Account a "
-                    + "WHERE a.Email = ? AND a.Password = ?";
+                    + "WHERE a.Email = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getEmail());
-            preparedStatement.setString(2, account.getPassword());
 
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Account foundAccount = new Account();
-                foundAccount.setEmail(resultSet.getString("email"));
-                foundAccount.setPassword(resultSet.getString("password"));
-                return foundAccount;
+                String hashedPassword = resultSet.getString("password");
+
+                // Kiem tra mat khau nhap vao voi mat khau ma hoa trong db
+                if (bcryp.checkpw(account.getPassword(), hashedPassword)) {
+                    Account foundAccount = new Account();
+                    foundAccount.setEmail(resultSet.getString("email"));
+                    foundAccount.setPassword(hashedPassword);
+                    foundAccount.setRole_Id(resultSet.getInt("Role_Id"));
+                    return foundAccount;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -70,19 +79,23 @@ public class CommonDao extends DBContext {
         }
     }
 
-    public boolean CreateAccount(Account account) {
+     public boolean createAccountCustomer(Account account) {
+        //Ma hoa mat khau khi them vao db
+        String password = bcryp.hashpw(account.getPassword(), bcryp.gensalt());
         try {
             connection = this.getConnection();
 
-            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password]) VALUES (?, ?)";
+            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Member_code], [Role_Id]) VALUES (?, ?, ?, 1)";
             preparedStatement = connection.prepareStatement(sql);
+
+            // Set parameters
             preparedStatement.setString(1, account.getEmail());
-            preparedStatement.setString(2, account.getPassword());
-
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, account.getMember_code()); // Cài đặt giá trị cho cột Member_code
+            
+            // Execute the update
             int affectedRows = preparedStatement.executeUpdate();
-
-            return affectedRows > 0; // Trả về true nếu có bản ghi được chèn thành công, ngược lại trả về false
-
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -93,7 +106,8 @@ public class CommonDao extends DBContext {
      * Methods description: Checks the existence of an account by email.
      *
      * @param Email - The email to be checked.
-     * @return true if the account with the specified email exists; otherwise, false.
+     * @return true if the account with the specified email exists; otherwise,
+     * false.
      */
     public boolean checkAccountExistByEmail(String Email) {
         try {
@@ -140,7 +154,7 @@ public class CommonDao extends DBContext {
      */
     public boolean checkOTPMatchedByEmail(String Email) {
         try {
-            String query = "SELECT OTP_code FROM Account WHERE Email=?";
+            String query = "SELECT Verify_Code FROM Account WHERE Email=?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, Email);
             resultSet = preparedStatement.executeQuery();
@@ -157,7 +171,8 @@ public class CommonDao extends DBContext {
      * Methods description: Updates the password for the specified account.
      *
      * @param newPassword - The new password to be set.
-     * @param accountId - The ID of the account for which the password should be updated.
+     * @param accountId - The ID of the account for which the password should be
+     * updated.
      */
     public void updatePasswordById(String newPassword, int accountId) {
         String query = "UPDATE Account Set password = ? Where Id = ?";
@@ -172,14 +187,15 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Add OTP Code for Account with the given Email, It also includes a scheduled task to
-     * automatically delete the OTP code after a specified delay in minutes.
+     * Methods description: Add OTP Code for Account with the given Email, It
+     * also includes a scheduled task to automatically delete the OTP code after
+     * a specified delay in minutes.
      *
      * @param otp_code - The OTP Code to be add.
      * @param Email - The Email of the account for which the OTP Code added.
      */
     public void addOTPForAccountByEmail(String otp_code, String Email) {
-        String query = "UPDATE Account Set OTP_code = ? Where Email = ?";
+        String query = "UPDATE Account Set Verify_Code = ? Where Email = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, otp_code);
@@ -194,10 +210,12 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Schedule a task to delete the OTP Code associated with the given Email after a specified delay.
+     * Methods description: Schedule a task to delete the OTP Code associated
+     * with the given Email after a specified delay.
      *
      * @param Email - The email for which the OTP Code is to be deleted
-     * @param delayInMinutes - The delay in minutes before deleting the OTP Code.
+     * @param delayInMinutes - The delay in minutes before deleting the OTP
+     * Code.
      */
     public void scheduleTaskToDeleteOTP(String Email, int delayInMinutes) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -217,7 +235,7 @@ public class CommonDao extends DBContext {
      * @throws SQLException - If a database access error occurs.
      */
     public void deleteOTPByEmail(String Email) throws SQLException {
-        String deleteQuery = "UPDATE Account SET OTP_code = NULL WHERE Email = ?";
+        String deleteQuery = "UPDATE Account SET Verify_Code  = NULL WHERE Email = ?";
         preparedStatement = connection.prepareStatement(deleteQuery);
         preparedStatement.setString(1, Email);
         preparedStatement.executeUpdate();

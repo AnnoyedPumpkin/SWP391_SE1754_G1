@@ -883,17 +883,14 @@
 								<div class="form_item">
 									<input type="password" name="password2" placeholder="Confirm Password">
 								</div>
-								<div class="checkbox_item mb_30">
-									<label for="agree_checkbox"><input id="agree_checkbox" type="checkbox"> I agree to the Terms of User</label>
-								</div>
                                                                 <div style = "color: red">
                                                                     ${error}
                                                                 </div>
 								<button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Create Account</button>
 
 								<div class="create_account text-center">
-									<h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-									<a class="create_account_btn text-uppercase" href="#!">Login</a>
+									<h4 class="small_title_text text-center text-uppercase">Already have a account</h4>
+									<a class="create_account_btn text-uppercase" href="${pageContext.request.contextPath}/authen?action=login">Login</a>
 								</div>
 							</div>
 						</form>
