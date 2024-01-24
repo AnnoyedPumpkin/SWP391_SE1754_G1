@@ -86,12 +86,13 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Role_Id]) VALUES (?, ?, 1)";
+            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Role_Id]) VALUES (?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
 
             // Set parameters
             preparedStatement.setString(1, account.getEmail());
             preparedStatement.setString(2, password);
+            preparedStatement.setInt(3, account.getRole_Id());
 
             // Execute the update
             int affectedRows = preparedStatement.executeUpdate();

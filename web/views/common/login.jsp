@@ -888,7 +888,7 @@
                                     <label class="form-check-label" for="check">Remember me</label>
                                 </div>
                                 <div style="color: red">${err}</div>
-                                <a class="forget_pass text-uppercase mb_30" href="${pageContext.request.contextPath}/views/common/forgotpassword">Forgot password?</a>
+                                <a class="forget_pass text-uppercase mb_30" href="${pageContext.request.contextPath}/ForgotPassword">Forgot password?</a>
                                 <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Login</button>
 
                                 <div class="social_wrap mb_100">

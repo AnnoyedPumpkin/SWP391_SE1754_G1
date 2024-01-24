@@ -883,9 +883,6 @@
 								<div class="form_item">
 									<input type="password" name="password2" placeholder="Confirm Password">
 								</div>
-								<div class="checkbox_item mb_30">
-                                                                    <label for="agree_checkbox"><input id="agree_checkbox" type="checkbox" required="required"> I agree to the Terms of User</label>
-								</div>
                                                                 <div style = "color: red">
                                                                     ${error}
                                                                 </div>

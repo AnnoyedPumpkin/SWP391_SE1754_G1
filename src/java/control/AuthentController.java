@@ -139,6 +139,7 @@ public class AuthentController extends HttpServlet {
             Account account = Account.builder()
                     .email(email)
                     .password(password)
+                    .role_Id(Constant.ROLE_CUSTOMER)
                     .build();
 
             boolean isExist = commonDAO.CheckAccount(account);
