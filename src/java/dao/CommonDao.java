@@ -80,13 +80,13 @@ public class CommonDao extends DBContext {
         }
     }
 
-    public boolean createAccount(Account account) {
+    public boolean createAccountCustomer(Account account) {
         //Ma hoa mat khau khi them vao db
         String password = bcryp.hashpw(account.getPassword(), bcryp.gensalt());
         try {
             connection = this.getConnection();
 
-            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password]) VALUES (?, ?)";
+            String sql = "INSERT INTO [dbo].[Account] ([Email], [Password], [Role_Id]) VALUES (?, ?, 1)";
             preparedStatement = connection.prepareStatement(sql);
 
             // Set parameters
