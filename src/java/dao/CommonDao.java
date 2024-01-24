@@ -189,7 +189,7 @@ public class CommonDao extends DBContext {
             preparedStatement.executeUpdate();
 
             //Schedule a task to delete the OTP associated with the given Email after a specified delay.
-            scheduleTaskToDeleteOTP(email, 2);
+            scheduleTaskToDeleteOTP(email, 5);
         } catch (SQLException e) {
             System.out.println(e);
         }

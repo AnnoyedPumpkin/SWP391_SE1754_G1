@@ -882,17 +882,21 @@
                                     <input id="otpCode" type="text" name="password" placeholder="Enter OTP Code">
                                     <label for="otpCode"><i class="fal fa-code"></i></label>
                                 </div>
-                                <div class="form_item" >
+                                <div>
                                     <c:if test="${not empty requestScope.newPassword}">
-                                        New Password:<input  id="np" type="password" readonly value="${requestScope.newPassword}">   
+                                        <input  id="np" type="hidden" value="${requestScope.newPassword}">   
                                     </c:if>
                                 </div>
-                                <button type="button" onclick="copyPassword()" class="custom_btn bg_default_black text-uppercase mb_50">Copy Password</button>
-                                <button type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase mb_50">Send OTP Code</button>
-                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
+                                <button type="button" onclick="sendOTP()" style="width: 46%" class="custom_btn bg_default_black text-uppercase btn_block mb_50">Send OTP Code</button>
+                                <button type="button" onclick="getNewPasswrod()" style="width: 47%" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
+                                <div style="color: darkgreen">
+                                    <c:if test="${not empty requestScope.notificationMessage}">
+                                        ${requestScope.notificationMessage}
+                                    </c:if>
+                                </div>
                                 <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
                             </div>
- 
+
                     </div>
                 </div>
             </section>
@@ -1090,7 +1094,7 @@
 
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
-        
+
         <!--Send OTP Code include-->
         <script src="${pageContext.request.contextPath}/assets/js/sendOTP.js"></script>
 

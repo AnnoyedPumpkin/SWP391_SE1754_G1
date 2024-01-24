@@ -32,48 +32,55 @@ public class ForgotPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         String action = request.getParameter("action");
-        switch (action) {
-            case "getNewPassword":
-                addNewPassword(request, response);
-                break;
-            case "sendOTP":
-                sendOTP(request, response);
-                break;
-            default:
-                throw new AssertionError();
+        String contactInfo = request.getParameter("contactInfo");
+        boolean accountExists = commonDao.checkAccountExistByEmail(contactInfo);
+        if (accountExists) {
+            switch (action) {
+                case "getNewPassword":
+                    getNewPassword(request, response);
+                    break;
+                case "sendOTP":
+                    sendOTP(request, response);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        } else {
+            request.setAttribute("errorMessage", "This account not correct or not register yet.");
+            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         }
 
     }
-private void addNewPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String contactInfo = request.getParameter("contactInfo");
+
+    private void getNewPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("contactInfo");
         String otp = request.getParameter("otpCode");
 
-        boolean accountExists = commonDao.checkAccountExistByEmail(contactInfo) ;
-        int accountID = commonDao.getAccountIdByEmail(contactInfo);
-        boolean otpMatched = commonDao.checkOTPMatchedByEmail(contactInfo);
-        
-        if (accountExists && otpMatched) {
+        int accountID = commonDao.getAccountIdByEmail(email);
+        boolean otpMatched = commonDao.checkOTPMatchedByEmail(email);
+
+        if (otpMatched) {
             String newPassword = commonDao.generateRandomPassword();
             commonDao.updatePasswordById(newPassword, accountID);
-            request.setAttribute("newPassword", newPassword);
-            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+            sendMsgEmail(email, "Your new password is: " + newPassword);
+            response.sendRedirect("forgotpassword.jsp");
         } else {
-            request.setAttribute("errorMessage", "Incorrect username or contact information.");
+            request.setAttribute("errorMessage", "Your email or OTP Code not correct!.");
             request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
         }
     }
-    
-    private void sendOTP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String otpCode = commonDao.generateRandomOTP();
+
+    private void sendOTP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String otp = commonDao.generateRandomOTP();
         String email = request.getParameter("contactInfo");
-        commonDao.addOTPForAccountByEmail(otpCode, email);
-        sendOTPEmail(email, otpCode);
-        response.sendRedirect("forgotpassword.jsp");
+        commonDao.addOTPForAccountByEmail(otp, email);
+        sendMsgEmail(email, "Your OTP Code is: " + otp);
+        request.setAttribute("notificationMessage", "Your OTP Code will exprie after 5 minutes, click Send OTP Code again if you don't recive any OTP Code.");
+        request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
     }
-    
-    private void sendOTPEmail(String toEmail, String otpCode) {
+
+    private void sendMsgEmail(String toEmail, String msg) {
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.user", FROM_EMAIL);
@@ -89,7 +96,7 @@ private void addNewPassword(HttpServletRequest request, HttpServletResponse resp
             message.setFrom(new InternetAddress(FROM_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Your OTP Code");
-            message.setText("Your OTP code is: " + otpCode);
+            message.setText(msg);
 
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", FROM_EMAIL, EMAIL_PASSWORD);
