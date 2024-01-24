@@ -15,7 +15,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
         <title>Profile</title>
-        <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
@@ -112,7 +112,7 @@
                         <div class="col-lg-3">
                             <div class="brand_logo">
                                 <a class="brand_link" href="index.html">
-                                    <img src="assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
+                                    <img src="${pageContext.request.contextPath}/assets/images/logo/logo_27_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
                                 </a>
 
                                 <ul class="mh_action_btns ul_li clearfix">
@@ -144,7 +144,7 @@
                                                         <li>
                                                             <a href="home_carparts.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/carparts.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/carparts.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Car Parts</span>
                                                             </a>
@@ -152,7 +152,7 @@
                                                         <li>
                                                             <a href="home_classic_ecommerce.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Classic Ecommerce</span>
                                                             </a>
@@ -903,9 +903,7 @@
                                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
                                             <div class="mt-3">
                                                 <h4>${username}</h4>
-                                                <p class="text-secondary mb-1">${email}</p>
-                                                <button class="btn btn-primary">Follow</button>
-                                                <button class="btn btn-outline-primary">Message</button>
+                                                <p class="text-secondary mb-1">${email}</p>                                          
                                             </div>
                                         </div>
                                         <hr class="my-4">

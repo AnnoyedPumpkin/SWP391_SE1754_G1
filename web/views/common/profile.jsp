@@ -112,7 +112,7 @@
                         <div class="col-lg-3">
                             <div class="brand_logo">
                                 <a class="brand_link" href="index.html">
-                                    <img src="assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
+                                    <img src="${pageContext.request.contextPath}/assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
                                 </a>
 
                                 <ul class="mh_action_btns ul_li clearfix">
@@ -144,7 +144,7 @@
                                                         <li>
                                                             <a href="home_carparts.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/carparts.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/carparts.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Car Parts</span>
                                                             </a>
@@ -152,7 +152,7 @@
                                                         <li>
                                                             <a href="home_classic_ecommerce.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Classic Ecommerce</span>
                                                             </a>
@@ -160,7 +160,7 @@
                                                         <li>
                                                             <a href="home_creative_onelook.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/creative_onelook.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/creative_onelook.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Creative Onelook</span>
                                                             </a>
@@ -168,7 +168,7 @@
                                                         <li>
                                                             <a href="home_electronic.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/electronic.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/electronic.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Electronic</span>
                                                             </a>
@@ -176,7 +176,7 @@
                                                         <li>
                                                             <a href="home_fashion.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/fashion.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/fashion.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Fashion</span>
                                                             </a>
@@ -184,7 +184,7 @@
                                                         <li>
                                                             <a href="home_fashion_minimal.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/fashion_minimal.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/fashion_minimal.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Fashion Minimal</span>
                                                             </a>
@@ -192,7 +192,7 @@
                                                         <li>
                                                             <a href="home_furniture.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/furniture.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/furniture.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Furniture</span>
                                                             </a>
@@ -200,7 +200,7 @@
                                                         <li>
                                                             <a href="home_gadget.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/gadget.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/gadget.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Gadget</span>
                                                             </a>
@@ -208,7 +208,7 @@
                                                         <li>
                                                             <a href="home_lookbook_creative.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/lookbook_creative.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/lookbook_creative.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Lookbook Creative</span>
                                                             </a>
@@ -216,7 +216,7 @@
                                                         <li>
                                                             <a href="home_lookbook_slide.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/lookbook_slide.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/lookbook_slide.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Lookbook Slide</span>
                                                             </a>
@@ -224,7 +224,7 @@
                                                         <li>
                                                             <a href="home_medical.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/medical.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/medical.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Medical</span>
                                                             </a>
@@ -232,7 +232,7 @@
                                                         <li>
                                                             <a href="home_modern.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/modern.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/modern.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Modern</span>
                                                             </a>
@@ -240,7 +240,7 @@
                                                         <li>
                                                             <a href="home_modern_minimal.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/modern_minimal.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/modern_minimal.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Modern Minimal</span>
                                                             </a>
@@ -248,7 +248,7 @@
                                                         <li>
                                                             <a href="home_motorcycle.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/motorcycle.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/motorcycle.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Motorcycle</span>
                                                             </a>
@@ -256,7 +256,7 @@
                                                         <li>
                                                             <a href="home_parallax_shop.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/parallax_shop.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/parallax_shop.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Parallax Shop</span>
                                                             </a>
@@ -264,7 +264,7 @@
                                                         <li>
                                                             <a href="home_simple_shop.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/simple_shop.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/simple_shop.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Simple Shop</span>
                                                             </a>
@@ -272,7 +272,7 @@
                                                         <li>
                                                             <a href="home_single_story_black.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/single_story_black.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/single_story_black.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Single Story Black</span>
                                                             </a>
@@ -280,7 +280,7 @@
                                                         <li>
                                                             <a href="home_single_story_white.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/single_story_white.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/single_story_white.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Single Story White</span>
                                                             </a>
@@ -288,7 +288,7 @@
                                                         <li>
                                                             <a href="home_sports.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/sports.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/sports.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Sports Shop</span>
                                                             </a>
@@ -296,7 +296,7 @@
                                                         <li>
                                                             <a href="home_supermarket.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/supermarket.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/supermarket.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Supermarket</span>
                                                             </a>
@@ -304,7 +304,7 @@
                                                         <li>
                                                             <a href="home_watch.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/watch.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/watch.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Watch</span>
                                                             </a>
@@ -520,7 +520,7 @@
                                         <div class="dropdown_content">
                                             <div class="profile_info clearfix">
                                                 <div class="user_thumbnail">
-                                                    <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                    <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                 </div>
                                                 <div class="user_content">
                                                     <h4 class="user_name">Jone Doe</h4>
@@ -588,7 +588,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -598,7 +598,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -638,7 +638,7 @@
 
                     <div class="msb_widget brand_logo text-center">
                         <a href="index.html">
-                            <img src="assets/images/logo/logo_25_1x.png" srcset="assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
+                            <img src="${pageContext.request.contextPath}/assets/images/logo/logo_25_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
                         </a>
                     </div>
 
@@ -850,7 +850,7 @@
                         <h3 class="title_text mb_30 text-uppercase"><i class="fas fa-user mr-2"></i> User Info</h3>
                         <div class="profile_info clearfix">
                             <div class="user_thumbnail">
-                                <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                             </div>
                             <div class="user_content">
                                 <h4 class="user_name">Jone Doe</h4>
@@ -904,8 +904,6 @@
                                             <div class="mt-3">
                                                 <h4>${username}</h4>
                                                 <p class="text-secondary mb-1">${email}</p>
-                                                <button class="btn btn-primary">Follow</button>
-                                                <button class="btn btn-outline-primary">Message</button>
                                             </div>
                                         </div>
                                         <hr class="my-4">
@@ -1051,7 +1049,7 @@
                             <div class="footer_widget df_about_area">
                                 <div class="brand_logo mb_30">
                                     <a href="index.html">
-                                        <img src="assets/images/logo/logo_28_1x.png" srcset="assets/images/logo/logo_28_2x.png 2x" alt="logo_not_found">
+                                        <img src="${pageContext.request.contextPath}/assets/images/logo/logo_28_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_28_2x.png 2x" alt="logo_not_found">
                                     </a>
                                 </div>
 
@@ -1073,7 +1071,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_10.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_10.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1089,7 +1087,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_11.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_11.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1112,7 +1110,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_12.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_12.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1128,7 +1126,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_13.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_13.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
