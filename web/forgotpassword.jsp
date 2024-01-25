@@ -866,7 +866,7 @@
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
                     <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form id="forgotPasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
+                        <form id="forgotPasswordForm">
                             <div class="reg_form">
                                 <h2 class="form_title text-uppercase text-center">Get New Password</h2>
                                 <div style="color: red">
@@ -887,8 +887,10 @@
                                         <input  id="np" type="hidden" value="${requestScope.newPassword}">   
                                     </c:if>
                                 </div>
-                                <button type="button" onclick="sendOTP()" style="width: 46%" class="custom_btn bg_default_black text-uppercase btn_block mb_50">Send OTP Code</button>
-                                <button type="button" onclick="getNewPasswrod()" style="width: 47%" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
+                                <div style="width: 100%" class="d-flex justify-content-between mb-3">
+                                    <button style="width: 45%" type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase">Send OTP Code</button>
+                                    <button style="width: 45%" type="button" onclick="getNewPassword()" class="custom_btn bg_default_red text-uppercase">Get New Password</button>
+                                </div>
                                 <div style="color: darkgreen">
                                     <c:if test="${not empty requestScope.notificationMessage}">
                                         ${requestScope.notificationMessage}
@@ -896,7 +898,7 @@
                                 </div>
                                 <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
                             </div>
-
+                        </form>
                     </div>
                 </div>
             </section>
@@ -1097,6 +1099,8 @@
 
         <!--Send OTP Code include-->
         <script src="${pageContext.request.contextPath}/assets/js/sendOTP.js"></script>
+        
+        <script src="${pageContext.request.contextPath}/assets/js/getNewPassword.js"></script>
 
     </body>
 </html>

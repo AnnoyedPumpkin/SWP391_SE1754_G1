@@ -179,7 +179,6 @@ public class CommonDao extends DBContext {
      * @param email - The Email of the account for which the OTP Code added.
      */
     public void addOTPForAccountByEmail(String OTPCode, String email) {
-        
         try {
             connection = this.getConnection();
             String query = "UPDATE Account Set Verify_Code = ? Where Email = ?";
