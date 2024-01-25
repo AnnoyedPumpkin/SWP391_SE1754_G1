@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/dao/CommonDao.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/AuthentController.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/common/signup.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Account.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/constant/Constant.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/common/login.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/AuthentAdminController.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/dashboard.jsp</file>
         </group>
     </open-files>
 </project-private>

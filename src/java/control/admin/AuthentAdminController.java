@@ -38,6 +38,10 @@ public class AuthentAdminController extends HttpServlet {
             case "login":
                 url = "../views/admin/login.jsp";
                 break;
+            case "logout":
+                logout(request, response);
+                url = "../views/admin/login.jsp";
+                break;       
             default:
                 url = "../views/admin/login.jsp";
                 break;
@@ -52,7 +56,7 @@ public class AuthentAdminController extends HttpServlet {
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         String url = "";
         switch (action) {
-            case "admin-login":
+            case "login":
                 login(request, response);
                 break;
             default:
@@ -85,4 +89,8 @@ public class AuthentAdminController extends HttpServlet {
         }
     }
 
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(Constant.SESSION_ACCOUNT);
+    }
 }
