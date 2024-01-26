@@ -28,7 +28,8 @@ public class HomeController extends HttpServlet {
         String url="";
         String page = request.getParameter("page") == null ? "default" : request.getParameter("page");
         switch(page){
-            case "":
+            case "403":
+                url = "views/common/errorpage.jsp";
                 break;
             default:
                 url = "views/common/homepage.jsp";
