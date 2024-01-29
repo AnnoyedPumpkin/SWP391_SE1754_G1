@@ -14,6 +14,7 @@ import lombok.Data;
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
+
 public class Product_Detail {
     private int id;
     private int product_id;
@@ -23,6 +24,5 @@ public class Product_Detail {
     private int brand_id;
     private int discount_id;
     private double stock;
-    private String description;
-    private String image;  
+    private int gender_Id;
 }

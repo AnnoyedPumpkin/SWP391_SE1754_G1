@@ -23,4 +23,6 @@ public class Account {
     private String email;
     private String password;
     private String member_code;
+    private String verify_code;
+    private int role_Id;
 }

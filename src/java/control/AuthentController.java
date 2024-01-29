@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Random;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -26,11 +27,11 @@ import java.util.Random;
 public class AuthentController extends HttpServlet {
 
     CommonDao commonDAO;
+    BCrypt bcryp = new BCrypt();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String url = "";
         String action = request.getParameter("action") == null ? "login" : request.getParameter("action");
         switch (action) {
@@ -51,6 +52,10 @@ public class AuthentController extends HttpServlet {
             case "register":
                 url = "views/common/signup.jsp";
                 break;
+            case "logout":
+                logout(request, response);
+                url = "home";
+                break;
             default:
                 url = "views/common/login.jsp";
                 break;
@@ -67,7 +72,7 @@ public class AuthentController extends HttpServlet {
                 login(request, response);
                 break;
             case "register":
-                CreateAccount(request, response);
+                register(request, response);
                 break;
             default:
                 throw new AssertionError();
@@ -84,87 +89,88 @@ public class AuthentController extends HttpServlet {
                 .email(email)
                 .password(password)
                 .build();
-        account = commonDAO.CheckExistOfAcc(account);
+        account = commonDAO.checkExistOfAcc(account);
 
         if (account == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         } else {
-
-            HttpSession session = request.getSession();
-            session.setAttribute(Constant.SESSION_ACCOUNT, account);
-            Cookie userC = new Cookie("userC", email);
-            Cookie passC = new Cookie("passC", password);
-            if (remember != null) {
-                userC.setMaxAge(60 * 60 * 24);
-                passC.setMaxAge(60 * 60 * 24);
+            if (account.getRole_Id() == 1) {
+                HttpSession session = request.getSession();
+                session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                Cookie userC = new Cookie("userC", email);
+                Cookie passC = new Cookie("passC", password);
+                if (remember != null) {
+                    userC.setMaxAge(60 * 60 * 24);
+                    passC.setMaxAge(60 * 60 * 24);
+                } else {
+                    userC.setMaxAge(0);
+                    passC.setMaxAge(0);
+                }
+                response.addCookie(userC);
+                response.addCookie(passC);
+                response.sendRedirect("home");
             } else {
-                userC.setMaxAge(0);
-                passC.setMaxAge(0);
+                request.setAttribute("err", "You don't have permission!");
+                request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
             }
-            response.addCookie(userC);
-            response.addCookie(passC);
-            request.getRequestDispatcher("views/common/homepage.jsp").forward(request, response);
         }
     }
 
-    private void CreateAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         commonDAO = new CommonDao();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
 
-         if (!email.matches(Constant.EMAIL_REGEX)) {
+        if (!email.matches(Constant.EMAIL_REGEX)) {
             request.setAttribute("error", "Email không hợp lệ");
             request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
-        }else if (!password.matches(Constant.PASSWORD_REGEX)){
+        } else if (!password.matches(Constant.PASSWORD_REGEX)) {
             request.setAttribute("error", "Mật khẩu phải chứa ít nhất 8 kí tự (1 số, 1 chữ in hoa, 1 kí tự đặc biệt(trừ khoảng trắng)");
-            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);    
-        }else{
+            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
+        } else {
             // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
             if (!password.equals(password2)) {
                 request.setAttribute("error", "Mật khẩu phải giống nhau");
                 request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
                 return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
             }
-        }
 
-        Account account = Account.builder()
-                .email(email)
-                .password(password)
-                .member_code(email)
-                .build();
+            Account account = Account.builder()
+                    .email(email)
+                    .password(password)
+                    .build();
 
-        // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
-        if (!password.equals(password2)) {
-            request.setAttribute("error", "Mật khẩu phải giống nhau");
-            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
-            return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
-        }
+            // Tạo mã thành viên
+            String memberCode = generateMemberCode();
+            account.setMember_code(memberCode);
 
-// Tạo mã thành viên
-        String memberCode = generateMemberCode();
-        account.setMember_code(memberCode);
+            boolean isExist = commonDAO.CheckAccount(account);
 
-// Kiểm tra xem tài khoản chưa tồn tại thì thêm vào cơ sở dữ liệu
-        boolean isExist = commonDAO.CheckAccount(account);
-
-        if (!isExist) {
-            // Nếu tài khoản chưa tồn tại thì thêm vào cơ sở dữ liệu
-            boolean isInserted = commonDAO.CreateAccount(account);
-            if (isInserted) {
-                // Chuyển hướng đến trang login nếu insert thành công
-                request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
+            if (!isExist) {
+                // Nếu tài khoản chưa tồn tại thì thêm vào cơ sở dữ liệu
+                boolean isInserted = commonDAO.createAccountCustomer(account);
+                if (isInserted) {
+                    // Chuyển hướng đến trang login nếu insert thành công
+                    request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
+                } else {
+                    // Xử lý lỗi nếu insert không thành công
+                    request.setAttribute("error", "Lỗi khi thêm tài khoản");
+                    request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
+                }
             } else {
-                // Xử lý lỗi nếu insert không thành công
-                request.setAttribute("error", "Lỗi khi thêm tài khoản");
+                // Nếu tài khoản đã tồn tại thì thông báo lỗi
+                request.setAttribute("error", "Tài khoản đã tồn tại, vui lòng chọn tài khoản khác!!");
                 request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
             }
-        } else {
-            // Nếu tài khoản đã tồn tại thì thông báo lỗi
-            request.setAttribute("error", "Tài khoản đã tồn tại, vui lòng chọn tài khoản khác!!");
-            request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);
         }
+
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(Constant.SESSION_ACCOUNT);
     }
 
     private String generateMemberCode() {
@@ -172,5 +178,4 @@ public class AuthentController extends HttpServlet {
         int code = random.nextInt(999999);
         return String.format("%06d", code);
     }
-
 }

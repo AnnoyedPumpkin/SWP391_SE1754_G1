@@ -91,35 +91,14 @@
                                                         <label for="user-password">Password</label>
                                                     </fieldset>
                                                     <div class="form-group d-flex justify-content-between align-items-center">
-                                                        <div class="text-left">
-                                                            <fieldset class="checkbox">
-                                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                                    <input type="checkbox">
-                                                                    <span class="vs-checkbox">
-                                                                        <span class="vs-checkbox--check">
-                                                                            <i class="vs-icon feather icon-check"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span class="">Remember me</span>
-                                                                </div>
-                                                            </fieldset>
-                                                        </div>
                                                         <div class="text-right"><a href="auth-forgot-password.html" class="card-link">Forgot Password?</a></div>
                                                     </div>
-                                                    <a href="auth-register.html" class="btn btn-outline-primary float-left btn-inline">Register</a>
                                                     <button type="submit" class="btn btn-primary float-right btn-inline">Login</button>
                                                 </form>
                                             </div>
                                         </div>
                                         <div class="login-footer">
                                             <div class="divider">
-                                                <div class="divider-text">OR</div>
-                                            </div>
-                                            <div class="footer-btn d-inline">
-                                                <a href="#" class="btn btn-facebook"><span class="fa fa-facebook"></span></a>
-                                                <a href="#" class="btn btn-twitter white"><span class="fa fa-twitter"></span></a>
-                                                <a href="#" class="btn btn-google"><span class="fa fa-google"></span></a>
-                                                <a href="#" class="btn btn-github"><span class="fa fa-github-alt"></span></a>
                                             </div>
                                         </div>
                                     </div>
