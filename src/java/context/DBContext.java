@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class DBContext {
 
-   protected Connection cnn;
+    protected Connection cnn;
     protected PreparedStatement ps;
     protected ResultSet rs;
     protected Connection connection;
@@ -33,7 +33,7 @@ public class DBContext {
             String url = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_SE1754_G1";
 
             String user = "sa";
-            String password = "12345678";
+            String password = "12345";
             connection = DriverManager.getConnection(url, user, password);
             return connection;
         } catch (SQLException | ClassNotFoundException e) {
