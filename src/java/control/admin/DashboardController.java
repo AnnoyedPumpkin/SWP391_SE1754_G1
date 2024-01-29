@@ -8,6 +8,8 @@ import dao.AdminDao;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
+import entity.Gender;
+import entity.Size;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -30,10 +32,13 @@ public class DashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        adminDAO = new AdminDao();
         HttpSession session = request.getSession();
         List<Color> listC;
         List<Brand> listB;
+        List<Gender> listG;
         List<Category> listCate;
+        List<Size> listS;
         String page = request.getParameter("page") == null ? "" : request.getParameter("page");
         String url = "";
         switch (page) {
@@ -44,9 +49,13 @@ public class DashboardController extends HttpServlet {
                 listC = adminDAO.findAllColor();
                 listB = adminDAO.findAllBrand();
                 listCate = adminDAO.findAllCategory();
+                listG = adminDAO.findAllGender();
+                listS = adminDAO.findAllSize();
                 session.setAttribute("listC", listC);
                 session.setAttribute("listB", listB);
                 session.setAttribute("listCate", listCate);
+                session.setAttribute("listG", listG);
+                session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
             default:
@@ -63,6 +72,8 @@ public class DashboardController extends HttpServlet {
         List<Color> listC;
         List<Brand> listB;
         List<Category> listCate;
+        List<Gender> listG;
+        List<Size> listS;
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         String url = "";
         switch (action) {
@@ -120,6 +131,42 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listCate", listCate);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
+            case "add-gender":
+                addGender(request, response);
+                listG = adminDAO.findAllGender();
+                session.setAttribute("listG", listG);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "delete-gender":
+                deleteGender(request, response);
+                listG = adminDAO.findAllGender();
+                session.setAttribute("listG", listG);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "edit-gender":
+                editGender(request, response);
+                listG = adminDAO.findAllGender();
+                session.setAttribute("listG", listG);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "add-size":
+                addSize(request, response);
+                listS = adminDAO.findAllSize();
+                session.setAttribute("listS", listS);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "delete-size":
+                deleteSize(request, response);
+                listS = adminDAO.findAllSize();
+                session.setAttribute("listS", listS);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "edit-size":
+                editSize(request, response);
+                listS = adminDAO.findAllSize();
+                session.setAttribute("listS", listS);
+                url = "../views/admin/productCharacteristic.jsp";
+                break;
             default:
                 throw new AssertionError();
         }
@@ -154,13 +201,14 @@ public class DashboardController extends HttpServlet {
                 .id(id)
                 .color(color)
                 .build();
-        boolean colorExist = adminDAO.findColorExist(color);
-        
-        if (adminDAO.findColorByOldColorName(oldColorName)) {
-            request.setAttribute("errorce", "This color edit is duplicate with the newest of this !!");
+        boolean colorExist = adminDAO.findColorExistByIdAndColor(id, color);
+
+        if (adminDAO.findColorByOldColorAndId(id, oldColorName)) {
+            adminDAO.editColor(c, oldColorName);
+            request.setAttribute("msgcoe", "Edit color successfully !!");
         } else {
             if (!colorExist) {
-                adminDAO.editColor(c);
+                adminDAO.editColor(c, oldColorName);
                 request.setAttribute("msgcoe", "Edit color successfully !!");
             } else {
                 request.setAttribute("errorcoe", "This color exist already, please edit different from remaining color !!");
@@ -190,12 +238,13 @@ public class DashboardController extends HttpServlet {
                 .id(id)
                 .category(cate)
                 .build();
-        boolean cateExist = adminDAO.findCateExist(cate);
-        if (adminDAO.findCategoryByOldCategoryName(oldCategoryName)) {
-            request.setAttribute("errorce", "This category edit is duplicate with the newest of this !!");
+        boolean cateExist = adminDAO.findCateExistByIdAndCate(id, cate);
+        if (adminDAO.findCateByOldCateAndId(id, oldCategoryName)) {
+            adminDAO.editCate(c, oldCategoryName);
+            request.setAttribute("msgce", "Edit category successfully !!");
         } else {
             if (!cateExist) {
-                adminDAO.editCate(c);
+                adminDAO.editCate(c, oldCategoryName);
                 request.setAttribute("msgce", "Edit category successfully !!");
             } else {
                 request.setAttribute("errorce", "This category exist already, please edit different from remaining category !!");
@@ -230,9 +279,10 @@ public class DashboardController extends HttpServlet {
                 .id(id)
                 .brand(brand)
                 .build();
-        boolean brandExist = adminDAO.findBrandExist(brand);
-        if (adminDAO.findBrandByOldBrandName(oldBrandName)) {
-            request.setAttribute("errorbe", "This brand name is duplicate with the newest of this !!");
+        boolean brandExist = adminDAO.findBrandExistByBrandAndId(id, brand);
+        if (adminDAO.findBrandByOldBrandAndId(id, oldBrandName)) {
+            adminDAO.editBrand(b, oldBrandName);
+            request.setAttribute("msgge", "Edit gender successfully !!");
         } else {
             if (!brandExist) {
                 adminDAO.editBrand(b, oldBrandName);
@@ -247,5 +297,87 @@ public class DashboardController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("brandId"));
         adminDAO.deleteBrandById(id);
         request.setAttribute("msgbd", "Delete brand successfully!");
+    }
+
+    private void addGender(HttpServletRequest request, HttpServletResponse response) {
+        String gender = request.getParameter("gender");
+
+        boolean genderExist = adminDAO.findGenderExist(gender);
+
+        if (!genderExist) {
+            adminDAO.addGender(gender);
+            request.setAttribute("msgga", "Create new gender success");
+        } else {
+            request.setAttribute("errorga", "This gender is exist already, please create other gender!");
+        }
+    }
+
+    private void deleteGender(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("genderId"));
+        adminDAO.deleteGenderById(id);
+        request.setAttribute("msggd", "Delete gender successfully!");
+    }
+
+    private void editGender(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("genderIdToUpdate"));
+        String gender = request.getParameter("genderToUpdate");
+        String oldGenderName = request.getParameter("oldGenderName");
+        Gender g = Gender.builder()
+                .id(id)
+                .gender(gender)
+                .build();
+        boolean genderExist = adminDAO.findGenderExistByIdAndGender(id, gender);
+        if (adminDAO.findGenderByOldGenderAndId(id, oldGenderName)) {
+            adminDAO.editGender(g, oldGenderName);
+            request.setAttribute("msgge", "Edit gender successfully !!");
+        } else {
+            if (!genderExist) {
+                adminDAO.editGender(g, oldGenderName);
+                request.setAttribute("msgge", "Edit gender successfully !!");
+            } else {
+                request.setAttribute("errorge", "This gender exist already, please edit different from remaining gender !!");
+            }
+        }
+    }
+
+    private void addSize(HttpServletRequest request, HttpServletResponse response) {
+        String size = request.getParameter("size");
+
+        boolean sizeExist = adminDAO.findSizeExist(size);
+
+        if (!sizeExist) {
+            adminDAO.addSize(size);
+            request.setAttribute("msgsa", "Create new size success");
+        } else {
+            request.setAttribute("errorsa", "This size is exist already, please create other gender!");
+        }
+    }
+
+    private void editSize(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("sizeIdToUpdate"));
+        String size = request.getParameter("sizeToUpdate");
+        String oldSizeName = request.getParameter("oldSizeName");
+        Size s = Size.builder()
+                .id(id)
+                .size(size)
+                .build();
+        boolean genderExist = adminDAO.findSizeExistByIdAndSize(id, size);
+        if (adminDAO.findSizeByOldSizeAndId(id, oldSizeName)) {
+            adminDAO.editSize(s, oldSizeName);
+            request.setAttribute("msgse", "Edit size successfully !!");
+        } else {
+            if (!genderExist) {
+                adminDAO.editSize(s, oldSizeName);
+                request.setAttribute("msgse", "Edit size successfully !!");
+            } else {
+                request.setAttribute("errorse", "This size exist already, please edit different from remaining gender !!");
+            }
+        }
+    }
+
+    private void deleteSize(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("sizeId"));
+        adminDAO.deleteSizeById(id);
+        request.setAttribute("msgsd", "Delete size successfully!");
     }
 }

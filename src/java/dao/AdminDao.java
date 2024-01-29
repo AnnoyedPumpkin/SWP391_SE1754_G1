@@ -9,6 +9,8 @@ import entity.Account;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
+import entity.Gender;
+import entity.Size;
 import helper.BCrypt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -104,6 +106,27 @@ public class AdminDao extends DBContext {
         return listB;
     }
 
+    public List<Gender> findAllGender() {
+        List<Gender> listG = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Gender g ORDER BY g.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Gender gender = new Gender();
+                gender.setId(resultSet.getInt("Id"));
+                gender.setGender(resultSet.getString("Gender"));
+                listG.add(gender);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listG;
+    }
+    
     public List<Category> findAllCategory() {
         List<Category> listC = new ArrayList<>();
         try {
@@ -141,6 +164,44 @@ public class AdminDao extends DBContext {
         }
     }
 
+        public boolean findColorExistByIdAndColor(int id, String color) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Color WHERE Color = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, color);
+            preparedStatement.setInt(2, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean findColorByOldColorAndId(int id, String oldColorName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * "
+                    + "FROM Color "
+                    + "WHERE id = ? "
+                    + "AND color = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, oldColorName);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     public int addColor(String color) {
         try {
             connection = this.getConnection();
@@ -179,16 +240,16 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public void editColor(Color c) {
+    public void editColor(Color c, String oldColorName) {
         try {
             connection = this.getConnection();
 
             String sql = "UPDATE Color "
                     + "SET Color = ? "
-                    + "WHERE Id = ?";
+                    + "WHERE Color = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, c.getColor());
-            preparedStatement.setInt(2, c.getId());
+            preparedStatement.setString(2, oldColorName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,6 +272,44 @@ public class AdminDao extends DBContext {
         }
     }
 
+        public boolean findCateExistByIdAndCate(int id, String cate) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Gender WHERE Gender = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cate);
+            preparedStatement.setInt(2, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean findCateByOldCateAndId(int id, String oldCateName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * "
+                    + "FROM Category g "
+                    + "WHERE id = ? "
+                    + "AND category = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, oldCateName);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     public int addCategory(String category) {
         try {
             connection = this.getConnection();
@@ -233,16 +332,16 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public void editCate(Category c) {
+    public void editCate(Category c, String oldCategoryName) {
         try {
             connection = this.getConnection();
 
             String sql = "UPDATE Category "
                     + "SET Category = ? "
-                    + "WHERE Id = ?";
+                    + "WHERE Category = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, c.getCategory());
-            preparedStatement.setInt(2, c.getId());
+            preparedStatement.setString(2, oldCategoryName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -303,6 +402,44 @@ public class AdminDao extends DBContext {
         }
     }
 
+    public boolean findBrandExistByBrandAndId(int id, String gender) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Brand WHERE Brand = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, gender);
+            preparedStatement.setInt(2, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean findBrandByOldBrandAndId(int id, String oldBrandName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * "
+                    + "FROM Brand b "
+                    + "WHERE id = ? "
+                    + "AND brand = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, oldBrandName);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     public void editCate(Brand b) {
         try {
             connection = this.getConnection();
@@ -316,25 +453,6 @@ public class AdminDao extends DBContext {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public boolean findBrandByOldBrandName(String oldBrandName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Brand b "
-                    + "WHERE b.brand = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, oldBrandName);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -371,15 +489,29 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public boolean findCategoryByOldCategoryName(String oldCategoryName) {
+    public boolean findGenderExist(String gender) {
         try {
             connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Category c "
-                    + "WHERE c.category = ?";
+            String sql = "SELECT * FROM Gender WHERE Gender = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, oldCategoryName);
+            preparedStatement.setString(1, gender);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean findGenderExistByIdAndGender(int id, String gender) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Gender WHERE Gender = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, gender);
+            preparedStatement.setInt(2, id);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -390,15 +522,72 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public boolean findColorByOldColorName(String oldColorName) {
+    public int addGender(String gender) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO Gender (Gender) VALUES (?)";
+
+            // Create a PreparedStatement with the SQL query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, gender);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Close the PreparedStatement when you're done
+            preparedStatement.close();
+
+            return rowsAffected;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void deleteGenderById(int id) {
+        try {
+            Connection connection = getConnection();
+
+            String sql = "DELETE FROM Gender WHERE Id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            int rowsDeleted = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editGender(Gender g, String oldGenderName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Gender "
+                    + "SET gender = ? "
+                    + "WHERE gender = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, g.getGender());
+            preparedStatement.setString(2, oldGenderName);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean findGenderByOldGenderAndId(int id, String oldGenderName) {
         try {
             connection = this.getConnection();
 
             String sql = "SELECT * "
-                    + "FROM Color c "
-                    + "WHERE c.color = ?";
+                    + "FROM Gender g "
+                    + "WHERE id = ? "
+                    + "AND gender = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, oldColorName);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, oldGenderName);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -408,4 +597,135 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
+
+    public List<Size> findAllSize() {
+        List<Size> listS = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Size s ORDER BY s.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Size size = new Size();
+                size.setId(resultSet.getInt("Id"));
+                size.setSize(resultSet.getString("Size"));
+                listS.add(size);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listS;
+    }
+
+    public int addSize(String size) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO Size (Size) VALUES (?)";
+
+            // Create a PreparedStatement with the SQL query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, size);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Close the PreparedStatement when you're done
+            preparedStatement.close();
+
+            return rowsAffected;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public boolean findSizeExist(String size) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Size WHERE Size = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, size);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean findSizeExistByIdAndSize(int id, String size) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Size WHERE Size = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, size);
+            preparedStatement.setInt(2, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean findSizeByOldSizeAndId(int id, String oldSizeName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * "
+                    + "FROM Size "
+                    + "WHERE id = ? "
+                    + "AND size = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, oldSizeName);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void editSize(Size s, String oldSizeName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Size "
+                    + "SET size = ? "
+                    + "WHERE size = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, s.getSize());
+            preparedStatement.setString(2, oldSizeName);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSizeById(int id) {
+        try {
+            Connection connection = getConnection();
+
+            String sql = "DELETE FROM Size WHERE Id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            int rowsDeleted = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

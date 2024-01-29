@@ -554,6 +554,109 @@
                     </section>
                     <!-- list category end -->
 
+                    <!-- list gender start -->
+                    <section id="backcolor-gradient">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card background-color">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title mb-0">Gender</h4>
+                                        <div class="breadcrumb-item ml-2 mb-2">
+                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addGenderModal">
+                                                <i class="fas fa-plus mr-2"></i> Add Gender
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body mb-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped col-10 text-center" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-4">ID</th>
+                                                            <th class="col-4">Gender</th>
+                                                            <th class="col-4">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach items="${listG}" var="g">
+                                                            <tr>
+                                                                <td>${g.id}</td>
+                                                                <td>${g.gender}</td>
+                                                                <td>
+                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
+                                                                       data-toggle="modal" data-target="#editGenderModal" title="Edit Gender"
+                                                                       onclick="editGenderModal(`${g.id}`, `${g.gender}`)">
+                                                                    </i>
+                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
+                                                                       data-toggle="modal" data-target="#deleteGenderModal" title="Delete Gender"
+                                                                       onclick="deleteGenderModal(`${g.id}`)">
+                                                                    </i>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- list gender end -->
+
+                    <!-- list size start -->
+                    <section id="backcolor-gradient">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card background-color">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title mb-0">Size</h4>
+                                        <div class="breadcrumb-item ml-2 mb-2">
+                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addSizeModal">
+                                                <i class="fas fa-plus mr-2"></i> Add Size
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body mb-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped col-10 text-center" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-4">ID</th>
+                                                            <th class="col-4">Size</th>
+                                                            <th class="col-4">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach items="${listS}" var="s">
+                                                            <tr>
+                                                                <td>${s.id}</td>
+                                                                <td>${s.size}</td>
+                                                                <td>
+                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
+                                                                       data-toggle="modal" data-target="#editSizeModal" title="Edit Size"
+                                                                       onclick="editSizeModal(`${s.id}`, `${s.size}`)">
+                                                                    </i>
+                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
+                                                                       data-toggle="modal" data-target="#deleteSizeModal" title="Delete Size"
+                                                                       onclick="deleteSizeModal(`${s.id}`)">
+                                                                    </i>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- list size end -->
                 </div>
             </div>
         </div>
@@ -580,6 +683,12 @@
         <jsp:include page="../admin/addBrandModal.jsp"></jsp:include>
         <jsp:include page="../admin/editBrandModal.jsp"></jsp:include>
         <jsp:include page="../admin/deleteBrandModal.jsp"></jsp:include>
+        <jsp:include page="../admin/addGenderModal.jsp"></jsp:include>
+        <jsp:include page="../admin/deleteGenderModal.jsp"></jsp:include>
+        <jsp:include page="../admin/editGenderModal.jsp"></jsp:include>
+        <jsp:include page="../admin/addSizeModal.jsp"></jsp:include>
+        <jsp:include page="../admin/editSizeModal.jsp"></jsp:include>
+        <jsp:include page="../admin/deleteSizeModal.jsp"></jsp:include>
 
 
             <!-- BEGIN: Vendor JS-->
