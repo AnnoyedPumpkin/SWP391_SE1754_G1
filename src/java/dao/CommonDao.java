@@ -79,7 +79,7 @@ public class CommonDao extends DBContext {
         }
     }
 
-     public boolean createAccountCustomer(Account account) {
+    public boolean createAccountCustomer(Account account) {
         //Ma hoa mat khau khi them vao db
         String password = bcryp.hashpw(account.getPassword(), bcryp.gensalt());
         try {
@@ -92,7 +92,7 @@ public class CommonDao extends DBContext {
             preparedStatement.setString(1, account.getEmail());
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, account.getMember_code()); // Cài đặt giá trị cho cột Member_code
-            
+
             // Execute the update
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
