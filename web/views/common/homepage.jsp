@@ -62,8 +62,7 @@
 				<div class="container-fluid prl_100">
 					<div class="row align-items-center">
 						<div class="col-lg-7">
-							<ul class="contact_info ul_li clearfix">
-0								
+							<ul class="contact_info ul_li clearfix">								
 								<li>081-719-3222</li>
 								<li>Support@domain.com</li>
 							</ul>

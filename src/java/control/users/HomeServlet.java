@@ -111,7 +111,7 @@ public class HomeServlet extends HttpServlet {
             case "search":
                 String keyword = request.getParameter("keyword");
                 //Tim san pham dua theo thuoc tinh name va key
-                listProduct = ProductDAO.findContainsByProperty("productName", keyword);
+                listProduct = productDAO.findContainsByName(keyword);
                 break;
             default:
                 listProduct = productDAO.findAll();

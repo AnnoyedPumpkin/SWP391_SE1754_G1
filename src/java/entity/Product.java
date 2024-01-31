@@ -5,20 +5,29 @@
 package entity;
 
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 /**
  *
  * @author Win 10
  */
-@Data
+@ToString
 @Builder
-@lombok.AllArgsConstructor
-@lombok.NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Product {
     private int id;
-    private int name;
+    private String name;
     private Date create_on;
     private String description;
     private double price;
+    
 }
