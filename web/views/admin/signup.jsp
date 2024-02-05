@@ -74,7 +74,7 @@
                                             <p class="px-2">Fill the below form to create a new account.</p>
                                             <div class="card-content">
                                                 <div class="card-body pt-0">
-                                                    <form action="authen?action=register" method = "POST">
+                                                    <form action="../admin/authen?action=register" method = "POST">
                                                         <div class="form-label-group">
                                                             <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
                                                             <label for="inputEmail">Email</label>

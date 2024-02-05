@@ -123,15 +123,15 @@ public class AuthentAdminController extends HttpServlet {
 
         if (!email.matches(Constant.EMAIL_REGEX)) {
             request.setAttribute("error", "Email không hợp lệ");
-            request.getRequestDispatcher("views/admin/signup.jsp").forward(request, response);
+            request.getRequestDispatcher("../views/admin/signup.jsp").forward(request, response);
         } else if (!password.matches(Constant.PASSWORD_REGEX)) {
             request.setAttribute("error", "Mật khẩu phải chứa ít nhất 8 kí tự (1 số, 1 chữ in hoa, 1 kí tự đặc biệt(trừ khoảng trắng)");
-            request.getRequestDispatcher("views/admin/signup.jsp").forward(request, response);
+            request.getRequestDispatcher("../views/admin/signup.jsp").forward(request, response);
         } else {
             // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
             if (!password.equals(password2)) {
                 request.setAttribute("error", "Mật khẩu phải giống nhau");
-                request.getRequestDispatcher("views/admin/signup.jsp").forward(request, response);
+                request.getRequestDispatcher("../views/admin/signup.jsp").forward(request, response);
                 return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
             }
 
@@ -147,16 +147,16 @@ public class AuthentAdminController extends HttpServlet {
                 boolean isInserted = sellerDAO.createAccountSeller(account);
                 if (isInserted) {
                     // Chuyển hướng đến trang login nếu insert thành công
-                    request.getRequestDispatcher("views/admin/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("../views/admin/login.jsp").forward(request, response);
                 } else {
                     // Xử lý lỗi nếu insert không thành công
                     request.setAttribute("error", "Lỗi khi thêm tài khoản");
-                    request.getRequestDispatcher("views/admin/signup.jsp").forward(request, response);
+                    request.getRequestDispatcher("../views/admin/signup.jsp").forward(request, response);
                 }
             } else {
                 // Nếu tài khoản đã tồn tại thì thông báo lỗi
                 request.setAttribute("error", "Tài khoản đã tồn tại, vui lòng chọn tài khoản khác!!");
-                request.getRequestDispatcher("views/admin/signup.jsp").forward(request, response);
+                request.getRequestDispatcher("../views/admin/signup.jsp").forward(request, response);
             }
         }
 
