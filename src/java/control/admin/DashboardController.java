@@ -4,15 +4,21 @@
  */
 package control.admin;
 
+import constant.Constant;
 import dao.AdminDao;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
 import entity.Gender;
+import entity.Pagination;
+import entity.Product;
 import entity.Size;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,6 +63,11 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listG", listG);
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
+                break;
+            case "view-products":
+                break;
+            case "view-product-details":
+                url = "../views/admin/productDetails.jsp";
                 break;
             default:
                 url = "../views/admin/dashboard.jsp";
@@ -380,4 +391,6 @@ public class DashboardController extends HttpServlet {
         adminDAO.deleteSizeById(id);
         request.setAttribute("msgsd", "Delete size successfully!");
     }
+
+   
 }

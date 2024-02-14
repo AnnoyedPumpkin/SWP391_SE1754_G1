@@ -7,18 +7,27 @@ package entity;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
+
 /**
  *
- * @author Win 10
+ * @author LENOVO
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Product {
+public class Product_Form {
     private int id;
     private String name;
     private Date create_on;
     private String description;
     private double price;
+    private int product_id;
+    private int color_id;
+    private int category_id;
+    private int size_id;
+    private int brand_id;
+    private int discount_id;
+    private double stock;
+    private int gender_Id;
 }

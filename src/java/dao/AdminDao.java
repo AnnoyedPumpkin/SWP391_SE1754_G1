@@ -4,12 +4,14 @@
  */
 package dao;
 
+import constant.Constant;
 import context.DBContext;
 import entity.Account;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
 import entity.Gender;
+import entity.Product;
 import entity.Size;
 import helper.BCrypt;
 import java.sql.Connection;
@@ -17,7 +19,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -126,7 +130,7 @@ public class AdminDao extends DBContext {
         }
         return listG;
     }
-    
+
     public List<Category> findAllCategory() {
         List<Category> listC = new ArrayList<>();
         try {
@@ -164,7 +168,7 @@ public class AdminDao extends DBContext {
         }
     }
 
-        public boolean findColorExistByIdAndColor(int id, String color) {
+    public boolean findColorExistByIdAndColor(int id, String color) {
         try {
             connection = this.getConnection();
             String sql = "SELECT * FROM Color WHERE Color = ? OR Id = ?";
@@ -180,7 +184,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public boolean findColorByOldColorAndId(int id, String oldColorName) {
         try {
             connection = this.getConnection();
@@ -201,7 +205,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public int addColor(String color) {
         try {
             connection = this.getConnection();
@@ -272,7 +276,7 @@ public class AdminDao extends DBContext {
         }
     }
 
-        public boolean findCateExistByIdAndCate(int id, String cate) {
+    public boolean findCateExistByIdAndCate(int id, String cate) {
         try {
             connection = this.getConnection();
             String sql = "SELECT * FROM Gender WHERE Gender = ? OR Id = ?";
@@ -288,7 +292,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public boolean findCateByOldCateAndId(int id, String oldCateName) {
         try {
             connection = this.getConnection();
@@ -309,7 +313,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public int addCategory(String category) {
         try {
             connection = this.getConnection();
@@ -418,7 +422,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public boolean findBrandByOldBrandAndId(int id, String oldBrandName) {
         try {
             connection = this.getConnection();
@@ -439,7 +443,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public void editCate(Brand b) {
         try {
             connection = this.getConnection();
@@ -504,7 +508,7 @@ public class AdminDao extends DBContext {
             return false;
         }
     }
-    
+
     public boolean findGenderExistByIdAndGender(int id, String gender) {
         try {
             connection = this.getConnection();
@@ -726,6 +730,104 @@ public class AdminDao extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Product> findAllProducts() {
+        List<Product> listP = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Product p = new Product();
+                p.setId(resultSet.getInt("Id"));
+                p.setName(resultSet.getString("Name"));
+                p.setCreate_on(resultSet.getDate("Create_on"));
+                p.setDescription(resultSet.getString("Description"));
+                p.setPrice(resultSet.getDouble("Price"));
+                listP.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listP;
+    }
+
+    public int findTotalProducts() {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id ";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+
+    public List<Product> findByPage(int page) {
+        List<Product> productList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "ORDER BY p.price OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product p = new Product();
+                p.setId(resultSet.getInt("id"));
+                p.setName(resultSet.getString("Name"));
+                p.setCreate_on(resultSet.getDate("Create_on"));
+                p.setDescription(resultSet.getString("Description"));
+                p.setPrice(resultSet.getInt("Price"));
+                productList.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
+    public List<Brand> countProductsByBrand() {
+        List<Brand> brandCounts = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT b.Brand, b.id, COUNT(*) AS Count "
+                    + "FROM Product_Detail pd "
+                    + "INNER JOIN Brand b ON pd.brand_id = b.id "
+                    + "GROUP BY b.Brand, b.id";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Brand b = new Brand();
+                b.setId(resultSet.getInt("Id"));
+                b.setBrand(resultSet.getString("Brand"));
+                b.setCountEachBrand(resultSet.getInt("Count"));
+                brandCounts.add(b);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return brandCounts;
     }
 
 }

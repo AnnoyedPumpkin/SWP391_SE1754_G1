@@ -18,4 +18,5 @@ import lombok.Data;
 public class Brand {
     private int id;
     private String brand;
+    private int countEachBrand;
 }

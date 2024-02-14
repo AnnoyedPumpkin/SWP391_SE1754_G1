@@ -1,6 +1,6 @@
 <%-- 
-    Document   : productCharacteristic
-    Created on : Jan 27, 2024, 1:42:33 PM
+    Document   : manageProduct
+    Created on : Feb 5, 2024, 8:59:19 AM
     Author     : LENOVO
 --%>
 
@@ -17,18 +17,16 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>Colors - Vuexy - Bootstrap HTML admin template</title>
+        <title>Shop - Vuexy - Bootstrap HTML admin template</title>
         <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/apple-icon-120.png">
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
-        <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
 
         <!-- BEGIN: Vendor CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/charts/apexcharts.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/tether-theme-arrows.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/tether.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/shepherd-theme-default.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/nouislider.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/ui/prism.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/forms/select/select2.min.css">
         <!-- END: Vendor CSS-->
 
         <!-- BEGIN: Theme CSS-->
@@ -42,29 +40,20 @@
         <!-- BEGIN: Page CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/menu/menu-types/vertical-menu.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/colors/palette-gradient.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/dashboard-analytics.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/card-analytics.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/plugins/tour/tour.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/plugins/extensions/noui-slider.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/app-ecommerce-shop.css">
         <!-- END: Page CSS-->
 
         <!-- BEGIN: Custom CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <!-- END: Custom CSS-->
 
-        <!-- Custom fonts for this template-->
-        <link type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/fontawesome-free/css/all.min.css" rel="stylesheet">
-
-        <style>
-            .error {
-                color: red;
-            }
-        </style>
     </head>
     <!-- END: Head-->
 
     <!-- BEGIN: Body-->
 
-    <body class="vertical-layout vertical-menu-modern dark-layout 2-columns  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
+    <body class="vertical-layout vertical-menu-modern dark-layout content-detached-left-sidebar ecommerce-application navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-left-sidebar" data-layout="dark-layout">
 
         <!-- BEGIN: Header-->
         <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-dark navbar-shadow">
@@ -221,7 +210,7 @@
                                     <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">John Doe</span><span class="user-status">Available</span></div><span><img class="round" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
-                                    <div class="dropdown-divider"></div><a class="dropdown-item" data-toggle="modal" data-target="#logoutModalAdmin" href="#"><i class="feather icon-power"></i> Logout</a>
+                                    <div class="dropdown-divider"></div><a class="dropdown-item" href="auth-login.html"><i class="feather icon-power"></i> Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -315,7 +304,7 @@
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mr-auto"><a class="navbar-brand" href="${pageContext.request.contextPath}/html/ltr/vertical-menu-template-dark/index.html">
                             <div class="brand-logo"></div>
-                            <h2 class="brand-text mb-0">Admin</h2>
+                            <h2 class="brand-text mb-0">Vuexy</h2>
                         </a></li>
                     <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
                 </ul>
@@ -333,9 +322,9 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                         <ul class="menu-content">
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-products"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
+                            <li class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-products"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
                             </li>
-                            <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Details</span></a>
                             </li>
                             <li><a href="app-ecommerce-wishlist.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Wish List">Wish List</span></a>
                             </li>
@@ -359,14 +348,14 @@
                     </li>
                     <li class=" nav-item"><a href="page-account-settings.html"><i class="feather icon-settings"></i><span class="menu-title" data-i18n="Account Settings">Account Settings</span></a>
                     </li>
-                    <li class=" nav-item"><a href="page-invoice.html"><i class="feather icon-file"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
+                    <li class=" nav-item"><a href="page-search.html"><i class="feather icon-search"></i><span class="menu-title" data-i18n="Search">Search</span></a>
                     </li>
-                    <li class="disabled nav-item"><a href="#"><i class="feather icon-eye-off"></i><span class="menu-title" data-i18n="Disabled Menu">Disabled Menu</span></a>
+                    <li class=" nav-item"><a href="page-invoice.html"><i class="feather icon-file"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
                     </li>
                 </ul>
             </div>
         </div>
-        <!-- END: Main Menu-->   
+        <!-- END: Main Menu-->
 
         <!-- BEGIN: Content-->
         <div class="app-content content">
@@ -377,12 +366,14 @@
                     <div class="content-header-left col-md-9 col-12 mb-2">
                         <div class="row breadcrumbs-top">
                             <div class="col-12">
-                                <h2 class="content-header-title float-left mb-0">Details</h2>
+                                <h2 class="content-header-title float-left mb-0">Shop</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.html">Home</a>
                                         </li>
-                                        <li class="breadcrumb-item active">Details
+                                        <li class="breadcrumb-item"><a href="#">eCommerce</a>
+                                        </li>
+                                        <li class="breadcrumb-item active">Shop
                                         </li>
                                     </ol>
                                 </div>
@@ -398,266 +389,335 @@
                         </div>
                     </div>
                 </div>
-                <div class="content-body">
-                    <!-- list color start -->
-                    <section id="backcolor">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Colors</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addColorModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Color
+                <div class="content-detached content-right">
+                    <div class="content-body">
+                        <!-- Ecommerce Content Section Starts -->
+                        <section id="ecommerce-header">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ecommerce-header-items">
+                                        <div class="result-toggler">
+                                            <button class="navbar-toggler shop-sidebar-toggler" type="button" data-toggle="collapse">
+                                                <span class="navbar-toggler-icon d-block d-lg-none"><i class="feather icon-menu"></i></span>
                                             </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10" id="colorTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Color</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listC}" var="c">
-                                                            <tr>
-                                                                <td>${c.id}</td>
-                                                                <td>${c.color}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editColorModal" title="Edit Color"
-                                                                       onclick="editColorModal(`${c.id}`, `${c.color}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteColorModal" title="Delete Color"
-                                                                       onclick="deleteColorModal(`${c.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
+                                            <div class="search-results">
+                                                ${pagination.totalRecord} results found
                                             </div>
+                                        </div>
+                                        <div class="view-options">
+                                            <select name="sort" class="price-options form-control" id="ecommerce-price-options" onchange="sortHiddenInput(this)">
+                                                <option selected>Sorted</option>
+                                                <option value="asc">Lowest</option>
+                                                <option value="desc">Highest</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                    <!-- list color end -->
+                        </section>
+                        <!-- Ecommerce Content Section Starts -->
+                        <!-- background Overlay when sidebar is shown  starts-->
+                        <div class="shop-content-overlay"></div>
+                        <!-- background Overlay when sidebar is shown  ends-->
 
-                    <!-- list brand start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Brands</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addBrandModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Brands
-                                            </button>
+                        <!-- Ecommerce Search Bar Starts -->
+                        <section id="ecommerce-searchbar">
+                            <div class="row mt-1">
+                                <div class="col-sm-12">
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control search-product" id="iconLeft5" placeholder="Search here">
+                                        <div class="form-control-position">
+                                            <i class="feather icon-search"></i>
                                         </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="brandTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Brand</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listB}" var="b">
-                                                            <tr>
-                                                                <td>${b.id}</td>
-                                                                <td>${b.brand}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editBrandModal" title="Edit Brand"
-                                                                       onclick="editBrandModal(`${b.id}`, `${b.brand}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteBrandModal" title="Delete Brand"
-                                                                       onclick="deleteBrandModal(`${b.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                    <!-- list brand end -->
+                        </section>
+                        <!-- Ecommerce Search Bar Ends -->
 
-                    <!-- list category start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Category</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addCategoryModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Category
-                                            </button>
-                                        </div>
-                                    </div>
+                        <!-- Ecommerce Products Starts -->
+                        <section id="ecommerce-products" class="grid-view">
+                            <c:forEach items="${listP}" var="p">
+                                <div class="card ecommerce-card">
                                     <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="cateTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Category</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listCate}" var="cate">
-                                                            <tr>
-                                                                <td>${cate.id}</td>
-                                                                <td>${cate.category}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editCategoryModal" title="Edit Category"
-                                                                       onclick="editCategoryModal(`${cate.id}`, `${cate.category}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteCategoryModal" title="Delete Category"
-                                                                       onclick="deleteCategoryModal(`${cate.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
+                                        <div class="item-img text-center">
+                                            <a href="app-ecommerce-details.html">
+                                                <img class="img-fluid" src="${pageContext.request.contextPath}/app-assets/images/pages/eCommerce/1.png" alt="img-placeholder">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="item-wrapper">
+                                                <!--                                                <div class="item-rating">
+                                                                                                    <div class="badge badge-primary badge-md">
+                                                                                                        <span>4</span> <i class="feather icon-star"></i>
+                                                                                                    </div>
+                                                                                                </div>-->
+                                                <div>
+                                                    <h6 class="item-price">
+                                                        ${p.price}$
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="item-name">
+                                                <a href="app-ecommerce-details.html">${p.name}</a>
+                                                <!--                                                <p class="item-company">By <span class="company-name">Google</span></p>-->
+                                            </div>
+                                            <div>
+                                                <p class="item-description">
+                                                    ${p.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="item-options text-center">
+                                            <div class="button-group d-flex justify-content-around mt-3">
+                                                <a class="btn btn-primary btn-equal-size view-btn" href="${pageContext.request.contextPath}/admin/dashboard?page=view-product-details&productID=${p.id}" style="background-color: #3498db; color: #fff; transition: background-color 0.3s;">
+                                                    <i class="feather icon-eye"></i> <span>View</span>
+                                                </a>
+                                                <button class="btn btn-success btn-equal-size wishlist" style="background-color: #27ae60; color: #fff; transition: background-color 0.3s;">
+                                                    <i class="feather icon-edit"></i> <span>Update</span>
+                                                </button>
+                                                <button class="btn btn-danger btn-equal-size delete-btn" style="background-color: #e74c3c; color: #fff; transition: background-color 0.3s;">
+                                                    <i class="feather icon-trash"></i> <span>Delete</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- list category end -->
+                            </c:forEach>
+                        </section>
+                        <!-- Ecommerce Products Ends -->
 
-                    <!-- list gender start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Gender</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addGenderModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Gender
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="genderTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Gender</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listG}" var="g">
-                                                            <tr>
-                                                                <td>${g.id}</td>
-                                                                <td>${g.gender}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editGenderModal" title="Edit Gender"
-                                                                       onclick="editGenderModal(`${g.id}`, `${g.gender}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteGenderModal" title="Delete Gender"
-                                                                       onclick="deleteGenderModal(`${g.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <!-- Ecommerce Pagination Starts -->
+                        <section id="ecommerce-pagination">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center mt-2">
+                                            <c:if test="${pagination.page > 1}">
+                                                <li class="page-item prev-item"><a class="page-link" href="${pagination.urlPattern}pagination=1">Start</a></li>
+                                                </c:if>
+                                                <c:if test="${pagination.page > 1}">
+                                                <li class="page-item active"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
+                                                </c:if>
+                                            <!--PAGE - 2 (in case last page )-->
+                                            <c:if test="${pagination.page == pagination.totalPage && pagination.page > 2}">
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 2}">${pagination.page - 2}</a></li>
+                                                </c:if>
+                                            <!--PAGE - 1 (in case last page )-->
+                                            <c:if test="${pagination.page == pagination.totalPage && pagination.page > 1}">
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">${pagination.page - 1}</a></li>
+                                                </c:if>
+                                            <!--PAGE-->
+                                            <c:if test="${pagination.totalPage > 0}">
+                                                <li class="page-item" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
+                                                </c:if>
+                                            <!--PAGE + 1-->
+                                            <c:if test="${pagination.page < pagination.totalPage}">
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">${pagination.page + 1}</a></li>
+                                                </c:if>
+                                            <!--PAGE + 2-->
+                                            <c:if test="${pagination.page + 1 < pagination.totalPage}">
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 2}">${pagination.page + 2}</a></li>
+                                                </c:if>
+                                            <!--NEXT-->
+                                            <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                                <li class="page-item active"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
+                                                </c:if>
+                                            <!--LAST-->
+                                            <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                                <li class="page-item next-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.totalPage}">Last</a></li>
+                                                </c:if>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                    <!-- list gender end -->
+                        </section>
+                        <!-- Ecommerce Pagination Ends -->
 
-                    <!-- list size start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Size</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addSizeModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Size
-                                            </button>
-                                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-detached sidebar-left">
+                    <div class="sidebar">
+                        <!-- Ecommerce Sidebar Starts -->
+                        <form id="filter-form2" action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
+                            <input type="hidden" name="action" value="filter-products">
+                            <input type="hidden"  name="sort" id="sortHidden" value="">
+                            <div class="sidebar-shop" id="ecommerce-sidebar-toggler">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h6 class="filter-heading d-none d-lg-block">Filters</h6>
                                     </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="sizeTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Size</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listS}" var="s">
-                                                            <tr>
-                                                                <td>${s.id}</td>
-                                                                <td>${s.size}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editSizeModal" title="Edit Size"
-                                                                       onclick="editSizeModal(`${s.id}`, `${s.size}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteSizeModal" title="Delete Size"
-                                                                       onclick="deleteSizeModal(`${s.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
+                                </div>
+                                <span class="sidebar-close-icon d-block d-md-none">
+                                    <i class="feather icon-x"></i>
+                                </span>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="multi-range-price">
+                                            <div class="multi-range-title pb-75">
+                                                <h6 class="filter-title mb-0">Multi Range</h6>
+                                            </div>
+                                            <ul class="list-unstyled price-range" id="price-range">
+                                                <li>
+                                                    <span class="vs-radio-con vs-radio-primary py-25">
+                                                        <input type="radio" name="price-range" value="">
+                                                        <span class="vs-radio">
+                                                            <span class="vs-radio--border"></span>
+                                                            <span class="vs-radio--circle"></span>
+                                                        </span>
+                                                        <span class="ml-50">All</span>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="vs-radio-con vs-radio-primary py-25">
+                                                        <input type="radio" name="price-range" value="0-100">
+                                                        <span class="vs-radio">
+                                                            <span class="vs-radio--border"></span>
+                                                            <span class="vs-radio--circle"></span>
+                                                        </span>
+                                                        <span class="ml-50" value="">&lt;=$100</span>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="vs-radio-con vs-radio-primary py-25">
+                                                        <input type="radio" name="price-range" value="100-300">
+                                                        <span class="vs-radio">
+                                                            <span class="vs-radio--border"></span>
+                                                            <span class="vs-radio--circle"></span>
+                                                        </span>
+                                                        <span class="ml-50" value="">$100 - $300</span>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="vs-radio-con vs-radio-primary py-25">
+                                                        <input type="radio" name="price-range" value="300-1000">
+                                                        <span class="vs-radio">
+                                                            <span class="vs-radio--border"></span>
+                                                            <span class="vs-radio--circle"></span>
+                                                        </span>
+                                                        <span class="ml-50" value="">&gt;= $300</span>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- /Price Filter -->
+                                        <hr>
+                                        <!-- Categories Starts -->
+                                        <div id="product-categories">
+                                            <div class="product-category-title">
+                                                <h6 class="filter-title mb-1">Categories</h6>
+                                            </div>
+                                            <ul class="list-unstyled categories-list">
+                                                <c:forEach items="${listCate}" var="cate">
+                                                    <li>
+                                                        <span class="vs-radio-con vs-radio-primary py-25">
+                                                            <input type="radio" name="category-filter" value="${cate.id}">
+                                                            <span class="vs-radio">
+                                                                <span class="vs-radio--border"></span>
+                                                                <span class="vs-radio--circle"></span>
+                                                            </span>
+                                                            <span class="ml-50">${cate.category}</span>
+                                                        </span>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+                                        <!-- Categories Ends -->
+                                        <hr>
+                                        <!-- Brands -->
+                                        <div class="brands">
+                                            <div class="brand-title mt-1 pb-1">
+                                                <h6 class="filter-title mb-0">Brands</h6>
+                                            </div>
+                                            <div class="brand-list" id="brands">
+                                                <ul class="list-unstyled">
+                                                    <c:forEach items="${brandCounts}" var="bc">
+                                                        <li class="d-flex justify-content-between align-items-center py-25">
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="brand-filter" value="${bc.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="">${bc.brand}</span>
+                                                            </span>
+                                                            <span>${bc.countEachBrand}</span>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
                                             </div>
                                         </div>
+                                        <!-- /Brand -->
+
+                                        <!--                                     Rating section starts 
+                                                                            <div id="ratings">
+                                                                                <div class="ratings-title mt-1 pb-75">
+                                                                                    <h6 class="filter-title mb-0">Ratings</h6>
+                                                                                </div>
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li>& up</li>
+                                                                                    </ul>
+                                                                                    <div class="stars-received">(160)</div>
+                                                                                </div>
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li>& up</li>
+                                                                                    </ul>
+                                                                                    <div class="stars-received">(176)</div>
+                                                                                </div>
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li>& up</li>
+                                                                                    </ul>
+                                                                                    <div class="stars-received">(291)</div>
+                                                                                </div>
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0 ">
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
+                                                                                        <li>& up</li>
+                                                                                    </ul>
+                                                                                    <div class="stars-received">(190)</div>
+                                                                                </div>
+                                                                            </div>
+                                                                             Rating section Ends -->
+                                        <hr>
+                                        <div id="submit-filters">
+                                            <button type="submit" id="submit-filters-btn" class="btn btn-block btn-primary">SEARCH</button>
+                                        </div>
+                                        <br>
+                                        <!-- Clear Filters Starts -->
+                                        <div id="clear-filters">
+                                            <button id="clear-filters-btn" class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
+                                        </div>
+                                        <!-- Clear Filters Ends -->
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                    <!-- list size end -->
+                        </form>
+                        <!-- Ecommerce Sidebar Ends -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -674,32 +734,16 @@
         </footer>
         <!-- END: Footer-->
 
-        <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
-        <jsp:include page="../admin/addColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addSizeModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editSizeModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteSizeModal.jsp"></jsp:include>
 
-
-            <!-- BEGIN: Vendor JS-->
-            <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
+        <!-- BEGIN: Vendor JS-->
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
         <!-- BEGIN Vendor JS-->
 
         <!-- BEGIN: Page Vendor JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/charts/apexcharts.min.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/tether.min.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/shepherd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/ui/prism.min.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/wNumb.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/nouislider.min.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
         <!-- END: Page Vendor JS-->
 
         <!-- BEGIN: Theme JS-->
@@ -709,27 +753,39 @@
         <!-- END: Theme JS-->
 
         <!-- BEGIN: Page JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/app-ecommerce-shop.js"></script>
         <!-- END: Page JS-->
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
         <script>
-            new DataTable('#colorTable', {
-                pagingType: 'full_numbers'
-            });
-            new DataTable('#brandTable', {
-                pagingType: 'full_numbers'
-            });
-            new DataTable('#cateTable', {
-                pagingType: 'full_numbers'
-            });
-            new DataTable('#genderTable', {
-                pagingType: 'full_numbers'
-            });
-            new DataTable('#sizeTable', {
-                pagingType: 'full_numbers'
-            });
-        </script>
+                                                function clearFilters() {
+                                                    // Clear radio buttons for price range
+                                                    document.querySelectorAll('input[name="price-range"]').forEach(function (element) {
+                                                        element.checked = false;
+                                                    });
+
+                                                    // Clear radio buttons for category filter
+                                                    document.querySelectorAll('input[name="category-filter"]').forEach(function (element) {
+                                                        element.checked = false;
+                                                    });
+
+                                                    // Clear checkboxes for brands
+                                                    document.querySelectorAll('input[name="brand-filter"]').forEach(function (element) {
+                                                        element.checked = false;
+                                                    });
+                                                }
+                                                document.getElementById('clear-filters-btn').addEventListener('click', function () {
+                                                    clearFilters();
+                                                });
+
+                                                function sortHiddenInput(selectElement) {
+                                                    var selectedValue = selectElement.value;
+                                                    if (selectedValue === 'Sorted') {
+                                                        document.getElementById('sortHidden').value = null;
+                                                    } else {
+                                                        document.getElementById('sortHidden').value = selectedValue;
+                                                    }
+                                                }
+        </script>    
     </body>
     <!-- END: Body-->
 
