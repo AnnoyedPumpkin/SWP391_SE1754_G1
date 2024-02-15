@@ -778,6 +778,93 @@ public class AdminDao extends DBContext {
         return totalProduct;
     }
 
+    public int findTotalProducts(String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id ";
+            if (brandID != null && !brandID.equals("null")) {
+                sql += "WHERE pd.Brand_Id = ? ";
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Category_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Category_Id = ? ";
+                }
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Color_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Color_Id = ? ";
+                }
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Size_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Size_Id = ? ";
+                }
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Gender_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Gender_Id = ? ";
+                }
+            }
+            if (priceRange == null || priceRange.isEmpty()) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN 0 AND 1000000 ";
+                } else {
+                    sql += "WHERE p.price BETWEEN 0 AND 1000000 ";
+                }
+            } else {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN ? AND ? ";
+                } else {
+                    sql += "WHERE p.price BETWEEN ? AND ? ";
+                }
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (brandID != null && !brandID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, brandID);
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, cateID);
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, colorID);
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, sizeID);
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderID);
+            }
+            if (priceRange != null && !priceRange.isEmpty()) {
+                preparedStatement.setString(parameterIndex++, minPrice);
+                preparedStatement.setString(parameterIndex++, maxPrice);
+            }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+
     public List<Product> findByPage(int page) {
         List<Product> productList = new ArrayList<>();
         try {

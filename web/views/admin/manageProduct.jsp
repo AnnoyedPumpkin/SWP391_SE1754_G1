@@ -508,7 +508,7 @@
                                                 <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">${pagination.page - 1}</a></li>
                                                 </c:if>
                                             <!--PAGE-->
-                                            <c:if test="${pagination.totalPage > 0}">
+                                            <c:if test="${pagination.totalPage > 1}">
                                                 <li class="page-item" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
                                                 </c:if>
                                             <!--PAGE + 1-->
@@ -541,7 +541,7 @@
                         <!-- Ecommerce Sidebar Starts -->
                         <form id="filter-form2" action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
                             <input type="hidden" name="action" value="filter-products">
-                            <input type="hidden"  name="sort" id="sortHidden" value="">
+                            <input type="hidden" name="sort" id="sortHidden">
                             <div class="sidebar-shop" id="ecommerce-sidebar-toggler">
 
                                 <div class="row">
@@ -561,7 +561,7 @@
                                             <ul class="list-unstyled price-range" id="price-range">
                                                 <li>
                                                     <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="">
+                                                        <input type="radio" name="price-range" checked value="">
                                                         <span class="vs-radio">
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
@@ -571,12 +571,22 @@
                                                 </li>
                                                 <li>
                                                     <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="0-100">
+                                                        <input type="radio" name="price-range" value="0-50">
                                                         <span class="vs-radio">
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
                                                         </span>
-                                                        <span class="ml-50" value="">&lt;=$100</span>
+                                                        <span class="ml-50" value="">&lt;=$50</span>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span class="vs-radio-con vs-radio-primary py-25">
+                                                        <input type="radio" name="price-range" value="50-100">
+                                                        <span class="vs-radio">
+                                                            <span class="vs-radio--border"></span>
+                                                            <span class="vs-radio--circle"></span>
+                                                        </span>
+                                                        <span class="ml-50" value="">$50 - $100</span>
                                                     </span>
                                                 </li>
                                                 <li>
@@ -644,6 +654,81 @@
                                                                 <span class="">${bc.brand}</span>
                                                             </span>
                                                             <span>${bc.countEachBrand}</span>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- /Brand -->
+                                        <hr>
+                                        <!-- Color -->
+                                        <div class="colors">
+                                            <div class="brand-title mt-1 pb-1">
+                                                <h6 class="filter-title mb-0">Color</h6>
+                                            </div>
+                                            <div class="colors-list" id="colors">
+                                                <ul class="list-unstyled">
+                                                    <c:forEach items="${listC}" var="c">
+                                                        <li class="d-flex justify-content-between align-items-center py-25">
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="colors-filter" value="${c.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="">${c.color}</span>
+                                                            </span>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- /Brand -->
+                                        <hr>
+                                        <!-- Size -->
+                                        <div class="size">
+                                            <div class="brand-title mt-1 pb-1">
+                                                <h6 class="filter-title mb-0">Size</h6>
+                                            </div>
+                                            <div class="size-list" id="size">
+                                                <ul class="list-unstyled">
+                                                    <c:forEach items="${listS}" var="s">
+                                                        <li class="d-flex justify-content-between align-items-center py-25">
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="size-filter" value="${s.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="">${s.size}</span>
+                                                            </span>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- /Size -->
+                                        <hr>
+                                        <!-- Gender -->
+                                        <div class="gender">
+                                            <div class="brand-title mt-1 pb-1">
+                                                <h6 class="filter-title mb-0">Gender</h6>
+                                            </div>
+                                            <div class="gender-list" id="gender">
+                                                <ul class="list-unstyled">
+                                                    <c:forEach items="${listG}" var="g">
+                                                        <li class="d-flex justify-content-between align-items-center py-25">
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="gender-filter" value="${g.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check">
+                                                                        <i class="vs-icon feather icon-check"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="">${g.gender}</span>
+                                                            </span>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>

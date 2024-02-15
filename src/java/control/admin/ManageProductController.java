@@ -8,8 +8,11 @@ import constant.Constant;
 import dao.AdminDao;
 import entity.Brand;
 import entity.Category;
+import entity.Color;
+import entity.Gender;
 import entity.Pagination;
 import entity.Product;
+import entity.Size;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -37,6 +40,9 @@ public class ManageProductController extends HttpServlet {
         HttpSession session = request.getSession();
         List<Brand> listB = adminDAO.findAllBrand();;
         List<Category> listCate = adminDAO.findAllCategory();
+        List<Color> listC = adminDAO.findAllColor();
+        List<Size> listS = adminDAO.findAllSize();
+        List<Gender> listG = adminDAO.findAllGender();
         List<Product> listP;
         String url = "";
         Pagination pagination = new Pagination();
@@ -45,6 +51,9 @@ public class ManageProductController extends HttpServlet {
         listP = pagination(request, pagination);
         session.setAttribute("listB", listB);
         session.setAttribute("listCate", listCate);
+        session.setAttribute("listC", listC);
+        session.setAttribute("listS", listS);
+        session.setAttribute("listG", listG);
         session.setAttribute("listP", listP);
         request.setAttribute("pagination", pagination);
         request.setAttribute("brandCounts", brandCounts);
@@ -71,6 +80,16 @@ public class ManageProductController extends HttpServlet {
             case "search-products":
                 break;
             case "filter-products":
+                String sorted = request.getParameter("sort");
+                String brandID = request.getParameter("brand-filter");
+                String cateID = request.getParameter("category-filter");
+                String colorID = request.getParameter("colors-filter");
+                String sizeID = request.getParameter("size-filter");
+                String genderID = request.getParameter("gender-filter");
+                String priceRange = request.getParameter("price-range");
+                String minPrice = "",
+                 maxPrice = "";
+                
                 break;
             default:
                 totalProducts = adminDAO.findTotalProducts();
