@@ -15,32 +15,32 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 		<title>G1 Shop</title>
-		<link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
 		<!-- fraimwork - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
 
 		<!-- icon - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/fontawesome.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/fontawesome.css">
 
 		<!-- animation - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/animate.css">
 
 		<!-- nice select - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/nice-select.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/nice-select.css">
 
 		<!-- carousel - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/slick.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick-theme.css">
 
 		<!-- popup images & videos - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/magnific-popup.css">
 
 		<!-- jquery ui - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/jquery-ui.css">
 
 		<!-- custom - css include -->
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
 
 	</head>
 
@@ -71,7 +71,7 @@
 						<div class="col-6">
 							<div class="brand_logo">
 								<a class="brand_link" href="index.html">
-									<img src="assets/images/logo/logo_13_1x.png" srcset="assets/images/logo/logo_13_2x.png 2x" alt="logo_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/logo/logo_13_1x.png" srcset="assets/images/logo/logo_13_2x.png 2x" alt="logo_not_found">
 								</a>
 							</div>
 						</div>
@@ -189,7 +189,7 @@
 
 					<div class="msb_widget brand_logo text-center">
 						<a href="index.html">
-							<img src="assets/images/logo/logo_25_1x.png" srcset="assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
+							<img src="${pageContext.request.contextPath}/assets/images/logo/logo_25_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
 						</a>
 					</div>
 
@@ -401,7 +401,7 @@
 						<h3 class="title_text mb_30 text-uppercase"><i class="fas fa-user mr-2"></i> User Info</h3>
 						<div class="profile_info clearfix">
 							<div class="user_thumbnail">
-								<img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
 							</div>
 							<div class="user_content">
 								<h4 class="user_name">Jone Doe</h4>
@@ -409,7 +409,7 @@
 							</div>
 						</div>
 						<ul class="settings_options ul_li_block clearfix">
-							<li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
+							<li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
 							<li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
 							<li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
 						</ul>
@@ -450,7 +450,7 @@
 							</div>
 						</div>
 						<div class="slider_image">
-							<img data-animation="fadeInRight" data-delay=".7s" src="assets/images/slider/fashion/img_01.png" alt="image_not_found">
+							<img data-animation="fadeInRight" data-delay=".7s" src="${pageContext.request.contextPath}/assets/images/slider/fashion/img_01.png" alt="image_not_found">
 							<div class="circle_shape">
 								<span data-animation="zoomIn" data-delay=".3s"></span>
 							</div>
@@ -481,7 +481,7 @@
 							</div>
 						</div>
 						<div class="slider_image">
-							<img data-animation="fadeInRight" data-delay=".7s" src="assets/images/slider/fashion/img_01.png" alt="image_not_found">
+							<img data-animation="fadeInRight" data-delay=".7s" src="${pageContext.request.contextPath}/assets/images/slider/fashion/img_01.png" alt="image_not_found">
 							<div class="circle_shape">
 								<span data-animation="zoomIn" data-delay=".3s"></span>
 							</div>
@@ -512,7 +512,7 @@
 							</div>
 						</div>
 						<div class="slider_image">
-							<img data-animation="fadeInRight" data-delay=".7s" src="assets/images/slider/fashion/img_01.png" alt="image_not_found">
+							<img data-animation="fadeInRight" data-delay=".7s" src="${pageContext.request.contextPath}/assets/images/slider/fashion/img_01.png" alt="image_not_found">
 							<div class="circle_shape">
 								<span data-animation="zoomIn" data-delay=".3s"></span>
 							</div>
@@ -547,7 +547,7 @@
 									<span>FLAT</span>
 								</div>
 								<div class="item_image">
-									<img src="assets/images/category/fashion/img_01.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/category/fashion/img_01.jpg" alt="image_not_found">
 									<a class="icon_btn bg_fashion_red" href="#!"><i class="fal fa-arrow-right"></i></a>
 								</div>
 								<div class="item_content text-uppercase">
@@ -564,7 +564,7 @@
 									<span>FLAT</span>
 								</div>
 								<div class="item_image">
-									<img src="assets/images/category/fashion/img_02.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/category/fashion/img_02.jpg" alt="image_not_found">
 									<a class="icon_btn bg_fashion_red" href="#!"><i class="fal fa-arrow-right"></i></a>
 								</div>
 								<div class="item_content text-uppercase">
@@ -581,7 +581,7 @@
 									<span>FLAT</span>
 								</div>
 								<div class="item_image">
-									<img src="assets/images/category/fashion/img_03.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/category/fashion/img_03.jpg" alt="image_not_found">
 									<a class="icon_btn bg_fashion_red" href="#!"><i class="fal fa-arrow-right"></i></a>
 								</div>
 								<div class="item_content text-uppercase">
@@ -598,7 +598,7 @@
 									<span>FLAT</span>
 								</div>
 								<div class="item_image">
-									<img src="assets/images/category/fashion/img_04.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/category/fashion/img_04.jpg" alt="image_not_found">
 									<a class="icon_btn bg_fashion_red" href="#!"><i class="fal fa-arrow-right"></i></a>
 								</div>
 								<div class="item_content text-uppercase">
@@ -634,7 +634,7 @@
 												<li class="bg_fashion_red">Sale</li>
 											</ul>
 											<div class="item_image">
-												<img src="assets/images/shop/fashion/img_01.jpg" alt="image_not_found">
+												<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_01.jpg" alt="image_not_found">
 												<ul class="product_action_btns ul_li_center clearfix">
 													<li>
 														<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -659,7 +659,7 @@
 												<li class="bg_fashion_red">Sale</li>
 											</ul>
 											<div class="item_image">
-												<img src="assets/images/shop/fashion/img_02.jpg" alt="image_not_found">
+												<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_02.jpg" alt="image_not_found">
 												<ul class="product_action_btns ul_li_center clearfix">
 													<li>
 														<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -702,7 +702,7 @@
 								<div class="tab-content">
 									<div id="mens_tab" class="tab-pane active">
 										<div class="fashion_delas_item">
-											<img src="assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
+											<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
 											<div class="item_content text-center">
 												<h4>All Men's Wear Deal</h4>
 												<ul class="countdown_timer text-uppercase ul_li_center clearfix" data-countdown="2021/3/24"></ul>
@@ -712,7 +712,7 @@
 
 									<div id="womens_tab" class="tab-pane fade">
 										<div class="fashion_delas_item">
-											<img src="assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
+											<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
 											<div class="item_content text-center">
 												<h4>All Women Wear Deal</h4>
 												<ul class="countdown_timer text-uppercase ul_li_center clearfix" data-countdown="2021/3/24"></ul>
@@ -722,7 +722,7 @@
 
 									<div id="kidss_tab" class="tab-pane fade">
 										<div class="fashion_delas_item">
-											<img src="assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
+											<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_03.jpg" alt="image_not_found">
 											<div class="item_content text-center">
 												<h4>All Kids Wear Deal</h4>
 												<ul class="countdown_timer text-uppercase ul_li_center clearfix" data-countdown="2021/3/24"></ul>
@@ -764,7 +764,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_04.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_04.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -789,7 +789,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_05.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_05.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -814,7 +814,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_06.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_06.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -839,7 +839,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_07.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_07.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -864,7 +864,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_08.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_08.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -889,7 +889,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_09.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_09.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -914,7 +914,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_10.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_10.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -939,7 +939,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_11.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_11.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -964,7 +964,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_12.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_12.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -989,7 +989,7 @@
 									<li class="bg_fashion_red">New</li>
 								</ul>
 								<div class="item_image">
-									<img src="assets/images/shop/fashion/img_13.jpg" alt="image_not_found">
+									<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_13.jpg" alt="image_not_found">
 									<ul class="product_action_btns ul_li_center clearfix">
 										<li>
 											<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1025,13 +1025,13 @@
 					<div class="row align-items-center justify-content-lg-between">
 						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 order-last">
 							<div class="item_image">
-								<img src="assets/images/feature/fashion/img_01.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/feature/fashion/img_01.png" alt="image_not_found">
 								<ul class="child_image ul_li_block clearfix">
 									<li>
-										<img src="assets/images/feature/fashion/img_02.png" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/feature/fashion/img_02.png" alt="image_not_found">
 									</li>
 									<li>
-										<img src="assets/images/feature/fashion/img_02.png" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/feature/fashion/img_02.png" alt="image_not_found">
 									</li>
 								</ul>
 							</div>
@@ -1110,7 +1110,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_04.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_04.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1135,7 +1135,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_05.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_05.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1160,7 +1160,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_06.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_06.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1185,7 +1185,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_07.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_07.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1210,7 +1210,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_08.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_08.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1235,7 +1235,7 @@
 										<li class="bg_fashion_red">New</li>
 									</ul>
 									<div class="item_image">
-										<img src="assets/images/shop/fashion/img_09.jpg" alt="image_not_found">
+										<img src="${pageContext.request.contextPath}/assets/images/shop/fashion/img_09.jpg" alt="image_not_found">
 										<ul class="product_action_btns ul_li_center clearfix">
 											<li>
 												<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!">
@@ -1278,75 +1278,75 @@
 					<ul class="fashion_insta_products_group ul_li clearfix">
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_13.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_13.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_14.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_14.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_15.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_15.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_16.jpg" alt="image_not_found">
-								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
-							</div>
-						</li>
-
-						<li>
-							<div class="image_wrap">
-								<img src="assets/images/instagram/img_17.jpg" alt="image_not_found">
-								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
-							</div>
-						</li>
-						<li>
-							<div class="image_wrap">
-								<img src="assets/images/instagram/img_18.jpg" alt="image_not_found">
-								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
-							</div>
-						</li>
-						<li>
-							<div class="image_wrap">
-								<img src="assets/images/instagram/img_19.jpg" alt="image_not_found">
-								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
-							</div>
-						</li>
-						<li>
-							<div class="image_wrap">
-								<img src="assets/images/instagram/img_20.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_16.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_21.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_17.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_22.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_18.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_23.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_19.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
 						<li>
 							<div class="image_wrap">
-								<img src="assets/images/instagram/img_24.jpg" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_20.jpg" alt="image_not_found">
+								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
+							</div>
+						</li>
+
+						<li>
+							<div class="image_wrap">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_21.jpg" alt="image_not_found">
+								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
+							</div>
+						</li>
+						<li>
+							<div class="image_wrap">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_22.jpg" alt="image_not_found">
+								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
+							</div>
+						</li>
+						<li>
+							<div class="image_wrap">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_23.jpg" alt="image_not_found">
+								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
+							</div>
+						</li>
+						<li>
+							<div class="image_wrap">
+								<img src="${pageContext.request.contextPath}/assets/images/instagram/img_24.jpg" alt="image_not_found">
 								<a class="addtocart_btn tooltips" data-placement="top" title="Add To Cart" href="#!"><i class="fal fa-shopping-bag"></i></a>
 							</div>
 						</li>
@@ -1364,73 +1364,73 @@
 					<div class="barnd_carousel clearfix">
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_26.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_26.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_27.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_27.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_28.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_28.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_29.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_29.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_30.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_30.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_24.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_24.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_25.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_25.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_02.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_02.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_03.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_03.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_04.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_04.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_05.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_05.png" alt="image_not_found">
 							</a>
 						</div>
 
 						<div class="item">
 							<a class="brand_item" href="#!">
-								<img src="assets/images/brands/img_06.png" alt="image_not_found">
+								<img src="${pageContext.request.contextPath}/assets/images/brands/img_06.png" alt="image_not_found">
 							</a>
 						</div>
 					</div>
@@ -1472,33 +1472,33 @@
 
 			<ul class="fashion_instagram ul_li zoom-gallery clearfix">
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_25.jpg">
-						<img src="assets/images/instagram/img_25.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_25.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_25.jpg" alt="image_not_found">
 					</a>
 				</li>
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_26.jpg">
-						<img src="assets/images/instagram/img_26.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_26.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_26.jpg" alt="image_not_found">
 					</a>
 				</li>
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_27.jpg">
-						<img src="assets/images/instagram/img_27.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_27.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_27.jpg" alt="image_not_found">
 					</a>
 				</li>
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_28.jpg">
-						<img src="assets/images/instagram/img_28.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_28.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_28.jpg" alt="image_not_found">
 					</a>
 				</li>
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_29.jpg">
-						<img src="assets/images/instagram/img_29.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_29.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_29.jpg" alt="image_not_found">
 					</a>
 				</li>
 				<li>
-					<a class="popup_image" href="assets/images/instagram/img_30.jpg">
-						<img src="assets/images/instagram/img_30.jpg" alt="image_not_found">
+					<a class="popup_image" href="${pageContext.request.contextPath}/assets/images/instagram/img_30.jpg">
+						<img src="${pageContext.request.contextPath}/assets/images/instagram/img_30.jpg" alt="image_not_found">
 					</a>
 				</li>
 			</ul>
@@ -1527,43 +1527,43 @@
 
 		
 		<!-- fraimwork - jquery include -->
-		<script src="assets/js/jquery-3.5.1.min.js"></script>
-		<script src="assets/js/popper.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/jquery-3.5.1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
 		<!-- mobile menu - jquery include -->
-        <script src="assets/js/mCustomScrollbar.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/mCustomScrollbar.js"></script>
 
 		<!-- google map - jquery include -->
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
-        <script src="assets/js/gmaps.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/gmaps.min.js"></script>
 
 		<!-- animation - jquery include -->
-        <script src="assets/js/parallaxie.js"></script>
-        <script src="assets/js/wow.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/parallaxie.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/wow.min.js"></script>
 
 		<!-- nice select - jquery include -->
-        <script src="assets/js/nice-select.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/nice-select.min.js"></script>
 
 		<!-- carousel - jquery include -->
-        <script src="assets/js/slick.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/slick.min.js"></script>
 
 		<!-- countdown timer - jquery include -->
-        <script src="assets/js/countdown.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/countdown.js"></script>
 
 		<!-- popup images & videos - jquery include -->
-        <script src="assets/js/magnific-popup.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/magnific-popup.min.js"></script>
 
 		<!-- filtering & masonry layout - jquery include -->
-        <script src="assets/js/isotope.pkgd.min.js"></script>
-        <script src="assets/js/masonry.pkgd.min.js"></script>
-        <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/isotope.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/masonry.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/imagesloaded.pkgd.min.js"></script>
 
 		<!-- jquery ui - jquery include -->
-        <script src="assets/js/jquery-ui.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/jquery-ui.js"></script>
 
 		<!-- custom - jquery include -->
-		<script src="assets/js/custom.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 
 		
 	</body>

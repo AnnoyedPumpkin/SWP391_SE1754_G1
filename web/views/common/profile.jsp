@@ -987,7 +987,7 @@
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <a class="btn btn-info " target="__blank" href="editprofile.jsp">Edit</a>
+                                                <a class="btn btn-info " target="__blank" href="views/common/editprofile.jsp">Edit</a>
                                             </div>
                                         </div>
                                     </div>
