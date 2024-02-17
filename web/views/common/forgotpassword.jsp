@@ -909,8 +909,9 @@
                                 <input type="tel" maxlength="1" id="digit5" class="digit-input" name="digit5" oninput="focusNext(this, 'digit6')" onkeydown="focusPrevious(event, 'digit4')" pattern="[0-9]" required>
                                 <input type="tel" maxlength="1" id="digit6" class="digit-input" name="digit6" onkeydown="focusPrevious(event, 'digit5')" required> 
                             </div>
+                            <input type="hidden" name="email" value="${requestScope.email}">
                             <button type="submit" class="custom_btn bg_default_red btn-block">Verify</button>
-                            <div class="error_text" style="color: red;">
+                            <div class="error_text" style="color: red; padding-bottom: 20px;">
                                 <c:if test="${not empty requestScope.errorMes}">
                                     ${requestScope.errorMes}
                                 </c:if>
