@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author LENOVO
  */
-@WebServlet(name="HomeController", urlPatterns={"/home"})
+
 public class HomeController extends HttpServlet {
    
     @Override

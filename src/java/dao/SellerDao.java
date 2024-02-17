@@ -95,6 +95,7 @@ public class SellerDao extends DBContext {
             // Set parameters
             preparedStatement.setString(1, account.getEmail());
             preparedStatement.setString(2, password);
+            preparedStatement.setString(3, account.getMember_code()); // Cài đặt giá trị cho cột Member_code
 
             // Execute the update
             int affectedRows = preparedStatement.executeUpdate();

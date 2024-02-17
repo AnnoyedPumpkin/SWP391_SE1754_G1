@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "DashboardController", urlPatterns = {"/seller/dashboard"})
+
 public class DashboardController extends HttpServlet {
 
     SellerDao sellerDAO = new SellerDao();

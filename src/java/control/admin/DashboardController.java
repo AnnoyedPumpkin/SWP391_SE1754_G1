@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author LENOVO
  */
-@WebServlet(name = "DashboardController", urlPatterns = {"/admin/dashboard"})
+
 public class DashboardController extends HttpServlet {
 
     AdminDao adminDAO = new AdminDao();

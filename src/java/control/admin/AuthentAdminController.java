@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package control.admin;
 
 import constant.Constant;
@@ -17,14 +16,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Random;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name="AuthentAdminController", urlPatterns={"/admin/authen"})
 public class AuthentAdminController extends HttpServlet {
-   
+
     AdminDao adminDAO = new AdminDao();
     SellerDao sellerDAO = new SellerDao();
 
@@ -44,7 +43,7 @@ public class AuthentAdminController extends HttpServlet {
             case "logout":
                 logout(request, response);
                 url = "../views/admin/login.jsp";
-                break;       
+                break;
             default:
                 url = "../views/admin/login.jsp";
                 break;
@@ -62,7 +61,7 @@ public class AuthentAdminController extends HttpServlet {
             case "login":
                 login(request, response);
                 break;
-             case "register":
+            case "register":
                 sellerRegister(request, response);
                 break;
             default:
@@ -72,11 +71,11 @@ public class AuthentAdminController extends HttpServlet {
 
     /**
      * Method description: Admin and seller login
-     * 
+     *
      * @param request
      * @param response
      * @throws ServletException
-     * @throws IOException 
+     * @throws IOException
      */
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         adminDAO = new AdminDao();
@@ -87,7 +86,7 @@ public class AuthentAdminController extends HttpServlet {
                 .password(password)
                 .build();
         account = adminDAO.checkExistOfAdmin(account);
-        
+
         if (account == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("../views/admin/login.jsp").forward(request, response);
@@ -96,8 +95,9 @@ public class AuthentAdminController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
                 response.sendRedirect("../admin/dashboard");
-            } if(account.getRole_Id() == 3) {
-                 HttpSession session = request.getSession();
+            }
+            if (account.getRole_Id() == 3) {
+                HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
                 response.sendRedirect("../seller/dashboard");
             } else {
@@ -106,14 +106,14 @@ public class AuthentAdminController extends HttpServlet {
             }
         }
     }
-    
+
     /**
      * Method description: Create account for seller
-     * 
+     *
      * @param request
      * @param response
      * @throws ServletException
-     * @throws IOException 
+     * @throws IOException
      */
     private void sellerRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         sellerDAO = new SellerDao();
@@ -140,6 +140,10 @@ public class AuthentAdminController extends HttpServlet {
                     .password(password)
                     .build();
 
+            // Tạo mã thành viên
+            String memberCode = generateMemberCode();
+            account.setMember_code(memberCode);
+
             boolean isExist = sellerDAO.CheckSellerAccount(account);
 
             if (!isExist) {
@@ -161,15 +165,21 @@ public class AuthentAdminController extends HttpServlet {
         }
 
     }
-    
+
     /**
      * Method description: Seller or admin log out system
-     * 
+     *
      * @param request
-     * @param response 
+     * @param response
      */
     private void logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.removeAttribute(Constant.SESSION_ACCOUNT);
+    }
+
+    private String generateMemberCode() {
+        Random random = new Random();
+        int code = random.nextInt(999999);
+        return String.format("%06d", code);
     }
 }

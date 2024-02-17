@@ -23,7 +23,7 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author LENOVO
  */
-@WebServlet(name = "AuthentController", urlPatterns = {"/authen"})
+
 public class AuthentController extends HttpServlet {
 
     CommonDao commonDAO;
