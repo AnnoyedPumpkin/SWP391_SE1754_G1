@@ -25,7 +25,7 @@ import java.io.StringWriter;
  *
  * @author Win 10
  */
-@WebServlet(name = "SellerDashboardFilter", urlPatterns = {"/admin/dashboard/*"})
+@WebServlet(name = "SellerDashboardFilter", urlPatterns = {"/admin/sellerDashboard/*"})
 public class SellerDashboardFilter implements Filter {
 
     private static final boolean debug = true;
@@ -123,8 +123,8 @@ public class SellerDashboardFilter implements Filter {
         } else {
             if (account.getRole_Id() == Constant.ROLE_SELLER) {
                 // If the role is customer, redirect to the profile dashboard
-                if (!req.getRequestURI().equals(req.getContextPath() + "/admin/dashboard")) {
-                    resp.sendRedirect(req.getServletContext().getContextPath() + "/admin/dashboard");
+                if (!req.getRequestURI().equals(req.getContextPath() + "/admin/sellerDashboard")) {
+                    resp.sendRedirect(req.getServletContext().getContextPath() + "/admin/sellerDashboard");
                 }
             } else {
                 if (!req.getRequestURI().equals(req.getContextPath() + "/home?page=403")) {

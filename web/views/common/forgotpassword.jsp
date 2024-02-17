@@ -35,6 +35,7 @@
 
         <!-- custom - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/hieu.css">
 
     </head>
 
@@ -866,36 +867,60 @@
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
                     <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form id="forgotPasswordForm">
-                            <div class="reg_form">
+                        <form id="forgotPasswordForm" action="ForgotPassword?action=sendCode" method="post">
+                            <div class="reg_form">                                
                                 <h2 class="form_title text-uppercase text-center">Get New Password</h2>
-                                <div style="color: red">
+
+                                <div class="error_text" style="color: red;">
                                     <c:if test="${not empty requestScope.errorMessage}">
                                         ${requestScope.errorMessage}
                                     </c:if>
                                 </div>
-                                <div class="form_item">
-                                    <input id="contactInfo" type="email" name="contactInfo" placeholder="Enter your email">
-                                    <label for="contactInfo"><i class="fal fa-mailbox"></i></label>
+
+                                <div class="form_item">                                        
+                                    <input id="email" type="email" name="email" placeholder="Enter your email" value="${not empty requestScope.email ? requestScope.email : ''}">
+                                    <label for="email"><i class="fal fa-mailbox"></i></label>
                                 </div>
-                                <div class="form_item">
-                                    <input id="otpCode" type="text" name="password" placeholder="Enter OTP Code">
-                                    <label for="otpCode"><i class="fal fa-code"></i></label>
-                                </div>
-                                <div style="width: 100%" class="d-flex justify-content-between mb-3">
-                                    <button style="width: 45%" type="button" onclick="sendOTP()" class="custom_btn bg_default_black text-uppercase">Send OTP Code</button>
-                                    <button style="width: 45%" type="button" onclick="getNewPassword()" class="custom_btn bg_default_red text-uppercase">Get New Password</button>
-                                </div>
-                                <div style="color: darkgreen">
-                                    <c:if test="${not empty requestScope.notificationMessage}">
-                                        ${requestScope.notificationMessage}
+                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Get OTP Code</button>
+                                
+                                <div class="error_text" style="color: lightgreen;">
+                                    <c:if test="${not empty requestScope.successMes}">
+                                        ${requestScope.successMes}
                                     </c:if>
                                 </div>
                                 <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
+                                
                             </div>
                         </form>
                     </div>
                 </div>
+
+                <% if (request.getAttribute("message") != null) { %>
+                <div id="pu">
+                    <div id="pu-content">
+                        <span class="close" onclick="document.getElementById('pu').style.display = 'none'">&times;</span>
+                        <p><%= request.getAttribute("message") %></p>
+                        <form id="forgotPasswordForm" action="ForgotPassword?action=verifyCode" method="post">
+                            <div class="input-group">
+                                <input type="tel" maxlength="1" id="digit1" class="digit-input" name="digit1" oninput="focusNext(this, 'digit2')" onkeydown="focusPrevious(event, 'digit1')" pattern="[0-9]" required>
+                                <input type="tel" maxlength="1" id="digit2" class="digit-input" name="digit2" oninput="focusNext(this, 'digit3')" onkeydown="focusPrevious(event, 'digit1')" pattern="[0-9]" required>
+                                <input type="tel" maxlength="1" id="digit3" class="digit-input" name="digit3" oninput="focusNext(this, 'digit4')" onkeydown="focusPrevious(event, 'digit2')" pattern="[0-9]" required>
+                                <input type="tel" maxlength="1" id="digit4" class="digit-input" name="digit4" oninput="focusNext(this, 'digit5')" onkeydown="focusPrevious(event, 'digit3')" pattern="[0-9]" required>
+                                <input type="tel" maxlength="1" id="digit5" class="digit-input" name="digit5" oninput="focusNext(this, 'digit6')" onkeydown="focusPrevious(event, 'digit4')" pattern="[0-9]" required>
+                                <input type="tel" maxlength="1" id="digit6" class="digit-input" name="digit6" onkeydown="focusPrevious(event, 'digit5')" required> 
+                            </div>
+                            <button type="submit" class="custom_btn bg_default_red btn-block">Verify</button>
+                            <div class="error_text" style="color: red;">
+                                <c:if test="${not empty requestScope.errorMes}">
+                                    ${requestScope.errorMes}
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+
+
             </section>
             <!-- forgot_password_section - end
             ================================================== -->
@@ -1091,11 +1116,19 @@
 
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
+        <script>
+                                    function focusNext(current, nextId) {
+                                        if (current.value.length === 1) {
+                                            document.getElementById(nextId).focus();
+                                        }
+                                    }
 
-        <!--Send OTP Code include-->
-        <script src="${pageContext.request.contextPath}/assets/js/sendOTP.js"></script>
-
-        <script src="${pageContext.request.contextPath}/assets/js/getNewPassword.js"></script>
+                                    function focusPrevious(event, prevId) {
+                                        if (event.key === 'Backspace' && event.target.value.length === 0) {
+                                            document.getElementById(prevId).focus();
+                                        }
+                                    }
+        </script>
 
     </body>
 </html>

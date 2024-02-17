@@ -79,7 +79,7 @@ public class CommonDao extends DBContext {
         }
     }
 
-     public boolean createAccountCustomer(Account account) {
+    public boolean createAccountCustomer(Account account) {
         //Ma hoa mat khau khi them vao db
         String password = bcryp.hashpw(account.getPassword(), bcryp.gensalt());
         try {
@@ -92,7 +92,7 @@ public class CommonDao extends DBContext {
             preparedStatement.setString(1, account.getEmail());
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, account.getMember_code()); // Cài đặt giá trị cho cột Member_code
-            
+
             // Execute the update
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
@@ -105,15 +105,16 @@ public class CommonDao extends DBContext {
     /**
      * Methods description: Checks the existence of an account by email.
      *
-     * @param email - The email to be checked.
-     * @return true if the account with the specified email exists; otherwise, false.
+     * @param Email - The email to be checked.
+     * @return true if the account with the specified email exists; otherwise,
+     * false.
      */
-    public boolean checkAccountExistByEmail(String email) {
+    public boolean checkAccountExistByEmail(String Email) {
         try {
             connection = this.getConnection();
             String query = "SELECT * FROM Account WHERE Email=?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, Email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return true;
@@ -146,17 +147,16 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Gets the existence of OTP Code based on the email given.
+     * Methods description: Checks the existence of OTP Code by email.
      *
-     * @param email - The email for which the OTP Code is needed.
-     * @return the OTP Code of the email given; otherwise, null.
+     * @param Email - The email of account to be checked.
+     * @return true if the OTP Code matched; otherwise, false.
      */
-    public String getOTPByEmail(String email) {
+    public String getOTPByEmail(String Email) {
         try {
-            connection = this.getConnection();
             String query = "SELECT Verify_Code FROM Account WHERE Email=?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, Email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getString("Verify_Code");
@@ -175,8 +175,8 @@ public class CommonDao extends DBContext {
      * updated.
      */
     public void updatePasswordById(String newPassword, int accountId) {
-        try {
         String query = "UPDATE Account Set password = ? Where Id = ?";
+        try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, newPassword);
             preparedStatement.setInt(2, accountId);
@@ -187,23 +187,24 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Add OTP Code for Account with the given Email, It also includes a scheduled task to
-     * automatically delete the OTP code after a specified delay in minutes.
+     * Methods description: Add OTP Code for Account with the given Email, It
+     * also includes a scheduled task to automatically delete the OTP code after
+     * a specified delay in minutes.
      *
-     * @param OTPCode - The OTP Code to be add.
-     * @param email - The Email of the account for which the OTP Code added.
+     * @param code - The OTP Code to be add.
+     * @param Email - The Email of the account for which the OTP Code added.
      */
-    public void addOTPForAccountByEmail(String OTPCode, String email) {
+    public void addOTPForAccountByEmail(String code, String Email) {
+        String query = "UPDATE Account Set Verify_Code = ? Where Email = ?";
         try {
             connection = this.getConnection();
-        String query = "UPDATE Account Set Verify_Code = ? Where Email = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, OTPCode);
-            preparedStatement.setString(2, email);
+            preparedStatement.setString(1, code);
+            preparedStatement.setString(2, Email);
             preparedStatement.executeUpdate();
 
             //Schedule a task to delete the OTP associated with the given Email after a specified delay.
-            scheduleTaskToDeleteOTP(email, 5);
+            scheduleTaskToDeleteOTP(Email, 2);
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -213,14 +214,15 @@ public class CommonDao extends DBContext {
      * Methods description: Schedule a task to delete the OTP Code associated
      * with the given Email after a specified delay.
      *
-     * @param email - The email for which the OTP Code is to be deleted
-     * @param delayInMinutes - The delay in minutes before deleting the OTP Code.
+     * @param Email - The email for which the OTP Code is to be deleted
+     * @param delayInMinutes - The delay in minutes before deleting the OTP
+     * Code.
      */
-    public void scheduleTaskToDeleteOTP(String email, int delayInMinutes) {
+    public void scheduleTaskToDeleteOTP(String Email, int delayInMinutes) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
             try {
-                deleteOTPByEmail(email);
+                deleteOTPByEmail(Email);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -230,13 +232,13 @@ public class CommonDao extends DBContext {
     /**
      * Methods description: Delete OTP Code associated with the given Email.
      *
-     * @param email - The email for which the OTP Code is to be deleted.
+     * @param Email - The email for which the OTP Code is to be deleted.
      * @throws SQLException - If a database access error occurs.
      */
-    public void deleteOTPByEmail(String email) throws SQLException {
-        String deleteQuery = "UPDATE Account SET Verify_Code = NULL WHERE Email = ?";
+    public void deleteOTPByEmail(String Email) throws SQLException {
+        String deleteQuery = "UPDATE Account SET Verify_Code  = NULL WHERE Email = ?";
         preparedStatement = connection.prepareStatement(deleteQuery);
-        preparedStatement.setString(1, email);
+        preparedStatement.setString(1, Email);
         preparedStatement.executeUpdate();
     }
 
@@ -283,3 +285,22 @@ public class CommonDao extends DBContext {
     }
 
 }
+ class main{
+     public static void main(String[] args) {
+         CommonDao c = new CommonDao();
+         String digit1 = "1";
+         String digit2 = "2";
+         String digit3 = "3";
+         String digit4 = "2";
+         String digit5 = "4";
+         String digit6 = "1";
+         c.addOTPForAccountByEmail("123241", "hieulove0408@gmail.com");
+        String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
+        String otpCheck = c.getOTPByEmail("hieulove0408@gmail.com");
+        if(otpInput.equals(otpCheck)){
+            System.out.println("1");
+        } else {
+            System.out.println("2");
+        }
+     }
+ }

@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class DBContext {
 
-    protected Connection cnn;
+   protected Connection cnn;
     protected PreparedStatement ps;
     protected ResultSet rs;
     protected Connection connection;
