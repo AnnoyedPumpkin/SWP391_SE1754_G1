@@ -1,11 +1,3 @@
-<%-- 
-    Document   : productCharacteristic
-    Created on : Jan 27, 2024, 1:42:33 PM
-    Author     : LENOVO
---%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
     <!-- BEGIN: Head-->
@@ -17,17 +9,13 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>Colors - Vuexy - Bootstrap HTML admin template</title>
+        <title>User View - Vuexy - Bootstrap HTML admin template</title>
         <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/apple-icon-120.png">
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
 
         <!-- BEGIN: Vendor CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/charts/apexcharts.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/tether-theme-arrows.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/tether.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/shepherd-theme-default.css">
         <!-- END: Vendor CSS-->
 
         <!-- BEGIN: Theme CSS-->
@@ -41,9 +29,7 @@
         <!-- BEGIN: Page CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/menu/menu-types/vertical-menu.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/colors/palette-gradient.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/dashboard-analytics.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/card-analytics.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/plugins/tour/tour.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/pages/app-user.css">
         <!-- END: Page CSS-->
 
         <!-- BEGIN: Custom CSS-->
@@ -120,7 +106,7 @@
                                         </a><a class="cart-item" href="app-ecommerce-details.html">
                                             <div class="media">
                                                 <div class="media-left d-flex justify-content-center align-items-center"><img class="mt-1 pl-50" src="${pageContext.request.contextPath}/app-assets/images/pages/eCommerce/dell-inspirion.jpg" width="100" alt="Cart Item"></div>
-                                                <div class="media-body"><span class="item-title text-truncate text-bold-500 d-block mb-50">Apple - Macbook® (Latest Model) - 12" Display - Intel Core M5 - 8GB Memory - 512GB Flash Storage - Space Gray</span><span class="item-desc font-small-2 text-truncate d-block"> MacBook delivers a full-size experience in the lightest and most compact Mac notebook ever. With a full-size keyboard, force-sensing trackpad, 12-inch Retina display,1 sixth-generation Intel Core M processor, multifunctional USB-C port, and now up to 10 hours of battery life,2 MacBook features big thinking in an impossibly compact form.</span>
+                                                <div class="media-body"><span class="item-title text-truncate text-bold-500 d-block mb-50">Apple - Macbook� (Latest Model) - 12" Display - Intel Core M5 - 8GB Memory - 512GB Flash Storage - Space Gray</span><span class="item-desc font-small-2 text-truncate d-block"> MacBook delivers a full-size experience in the lightest and most compact Mac notebook ever. With a full-size keyboard, force-sensing trackpad, 12-inch Retina display,1 sixth-generation Intel Core M processor, multifunctional USB-C port, and now up to 10 hours of battery life,2 MacBook features big thinking in an impossibly compact form.</span>
                                                     <div class="d-flex justify-content-between align-items-center mt-1"><span class="align-middle d-block">1 x $1599.99</span><i class="remove-cart-item feather icon-x danger font-medium-1"></i></div>
                                                 </div>
                                             </div>
@@ -211,7 +197,7 @@
                             <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                                     <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">John Doe</span><span class="user-status">Available</span></div><span><img class="round" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="sellerProfile.jsp"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
+                                <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
                                     <div class="dropdown-divider"></div><a class="dropdown-item" data-toggle="modal" data-target="#logoutModalAdmin" href="#"><i class="feather icon-power"></i> Logout</a>
                                 </div>
                             </li>
@@ -324,9 +310,9 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
                         <ul class="menu-content">
-                            <li><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
+                            <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Details</span></a>
+                            <li     class=""><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Details</span></a>
                             </li>
                             <li><a href="app-ecommerce-wishlist.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Wish List">Wish List</span></a>
                             </li>
@@ -346,11 +332,13 @@
                     </li>
                     <li class=" navigation-header"><span>pages</span>
                     </li>
-                    <li class=" nav-item"><a href="sellerProfile.jsp"><i class="feather icon-user"></i><span class="menu-title" data-i18n="Profile">Profile</span></a>
+                    <li class=" nav-item"><a href="page-user-profile.html"><i class="feather icon-user"></i><span class="menu-title" data-i18n="Profile">Profile</span></a>
                     </li>
                     <li class=" nav-item"><a href="page-account-settings.html"><i class="feather icon-settings"></i><span class="menu-title" data-i18n="Account Settings">Account Settings</span></a>
                     </li>
                     <li class=" nav-item"><a href="page-invoice.html"><i class="feather icon-file"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
+                    </li>
+                    <li class="disabled nav-item"><a href="#"><i class="feather icon-eye-off"></i><span class="menu-title" data-i18n="Disabled Menu">Disabled Menu</span></a>
                     </li>
                 </ul>
             </div>
@@ -365,430 +353,227 @@
                 <div class="content-header row">
                 </div>
                 <div class="content-body">
-                    <!-- Dashboard Analytics Start -->
-                    <section id="dashboard-analytics">
+                    <!-- page users view start -->
+                    <section class="page-users-view">
                         <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="card bg-analytics text-white">
-                                    <div class="card-content">
-                                        <div class="card-body text-center">
-                                            <img src="${pageContext.request.contextPath}/app-assets/images/elements/decore-left.png" class="img-left" alt="
-                                                 card-img-left">
-                                            <img src="${pageContext.request.contextPath}/app-assets/images/elements/decore-right.png" class="img-right" alt="
-                                                 card-img-right">
-                                            <div class="avatar avatar-xl bg-primary shadow mt-0">
-                                                <div class="avatar-content">
-                                                    <i class="feather icon-award white font-large-1"></i>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <h1 class="mb-2 text-white">Congratulations John,</h1>
-                                                <p class="m-auto w-75">You have done <strong>57.6%</strong> more sales today. Check your new badge in your profile.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex flex-column align-items-start pb-0">
-                                        <div class="avatar bg-rgba-primary p-50 m-0">
-                                            <div class="avatar-content">
-                                                <i class="feather icon-users text-primary font-medium-5"></i>
-                                            </div>
-                                        </div>
-                                        <h2 class="text-bold-700 mt-1 mb-25">92.6k</h2>
-                                        <p class="mb-0">Subscribers Gained</p>
-                                    </div>
-                                    <div class="card-content">
-                                        <div id="subscribe-gain-chart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex flex-column align-items-start pb-0">
-                                        <div class="avatar bg-rgba-warning p-50 m-0">
-                                            <div class="avatar-content">
-                                                <i class="feather icon-package text-warning font-medium-5"></i>
-                                            </div>
-                                        </div>
-                                        <h2 class="text-bold-700 mt-1 mb-25">97.5K</h2>
-                                        <p class="mb-0">Orders Received</p>
-                                    </div>
-                                    <div class="card-content">
-                                        <div id="orders-received-chart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="row pb-50">
-                                                <div class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
-                                                    <div>
-                                                        <h2 class="text-bold-700 mb-25">2.7K</h2>
-                                                        <p class="text-bold-500 mb-75">Avg Sessions</p>
-                                                        <h5 class="font-medium-2">
-                                                            <span class="text-success">+5.2% </span>
-                                                            <span>vs last 7 days</span>
-                                                        </h5>
-                                                    </div>
-                                                    <a href="#" class="btn btn-primary shadow">View Details <i class="feather icon-chevrons-right"></i></a>
-                                                </div>
-                                                <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
-                                                    <div class="dropdown chart-dropdown">
-                                                        <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Last 7 Days
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem5">
-                                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                                            <a class="dropdown-item" href="#">Last Month</a>
-                                                            <a class="dropdown-item" href="#">Last Year</a>
-                                                        </div>
-                                                    </div>
-                                                    <div id="avg-session-chart"></div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div class="row avg-sessions pt-50">
-                                                <div class="col-6">
-                                                    <p class="mb-0">Goal: $100000</p>
-                                                    <div class="progress progress-bar-primary mt-25">
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="mb-0">Users: 100K</p>
-                                                    <div class="progress progress-bar-warning mt-25">
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width:60%"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="mb-0">Retention: 90%</p>
-                                                    <div class="progress progress-bar-danger mt-25">
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width:70%"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p class="mb-0">Duration: 1yr</p>
-                                                    <div class="progress progress-bar-success mt-25">
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width:90%"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between pb-0">
-                                        <h4 class="card-title">Support Tracker</h4>
-                                        <div class="dropdown chart-dropdown">
-                                            <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Last 7 Days
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
-                                                <a class="dropdown-item" href="#">Last 28 Days</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Last Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body pt-0">
-                                            <div class="row">
-                                                <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
-                                                    <h1 class="font-large-2 text-bold-700 mt-2 mb-0">163</h1>
-                                                    <small>Tickets</small>
-                                                </div>
-                                                <div class="col-sm-10 col-12 d-flex justify-content-center">
-                                                    <div id="support-tracker-chart"></div>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info d-flex justify-content-between">
-                                                <div class="text-center">
-                                                    <p class="mb-50">New Tickets</p>
-                                                    <span class="font-large-1">29</span>
-                                                </div>
-                                                <div class="text-center">
-                                                    <p class="mb-50">Open Tickets</p>
-                                                    <span class="font-large-1">63</span>
-                                                </div>
-                                                <div class="text-center">
-                                                    <p class="mb-50">Response Time</p>
-                                                    <span class="font-large-1">1d</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row match-height">
-                            <div class="col-lg-4 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between pb-0">
-                                        <h4>Product Orders</h4>
-                                        <div class="dropdown chart-dropdown">
-                                            <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Last 7 Days
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem2">
-                                                <a class="dropdown-item" href="#">Last 28 Days</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Last Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div id="product-order-chart" class="mb-3"></div>
-                                            <div class="chart-info d-flex justify-content-between mb-1">
-                                                <div class="series-info d-flex align-items-center">
-                                                    <i class="fa fa-circle-o text-bold-700 text-primary"></i>
-                                                    <span class="text-bold-600 ml-50">Finished</span>
-                                                </div>
-                                                <div class="product-result">
-                                                    <span>23043</span>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info d-flex justify-content-between mb-1">
-                                                <div class="series-info d-flex align-items-center">
-                                                    <i class="fa fa-circle-o text-bold-700 text-warning"></i>
-                                                    <span class="text-bold-600 ml-50">Pending</span>
-                                                </div>
-                                                <div class="product-result">
-                                                    <span>14658</span>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info d-flex justify-content-between mb-75">
-                                                <div class="series-info d-flex align-items-center">
-                                                    <i class="fa fa-circle-o text-bold-700 text-danger"></i>
-                                                    <span class="text-bold-600 ml-50">Rejected</span>
-                                                </div>
-                                                <div class="product-result">
-                                                    <span>4758</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <h4 class="card-title">Sales Stats</h4>
-                                            <p class="text-muted mt-25 mb-0">Last 6 months</p>
-                                        </div>
-                                        <p class="mb-0"><i class="feather icon-more-vertical font-medium-3 text-muted cursor-pointer"></i></p>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body px-0">
-                                            <div id="sales-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Activity Timeline</h4>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <ul class="activity-timeline timeline-left list-unstyled">
-                                                <li>
-                                                    <div class="timeline-icon bg-primary">
-                                                        <i class="feather icon-plus font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Client Meeting</p>
-                                                        <span class="font-small-3">Bonbon macaroon jelly beans gummi bears jelly lollipop apple</span>
-                                                    </div>
-                                                    <small class="text-muted">25 mins ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-warning">
-                                                        <i class="feather icon-alert-circle font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Email Newsletter</p>
-                                                        <span class="font-small-3">Cupcake gummi bears soufflé caramels candy</span>
-                                                    </div>
-                                                    <small class="text-muted">15 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-danger">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Plan Webinar</p>
-                                                        <span class="font-small-3">Candy ice cream cake. Halvah gummi bears</span>
-                                                    </div>
-                                                    <small class="text-muted">20 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-success">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Launch Website</p>
-                                                        <span class="font-small-3">Candy ice cream cake. </span>
-                                                    </div>
-                                                    <small class="text-muted">25 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-primary">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Marketing</p>
-                                                        <span class="font-small-3">Candy ice cream. Halvah bears Cupcake gummi bears.</span>
-                                                    </div>
-                                                    <small class="text-muted">28 days ago</small>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
+                            <!-- account start -->
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="mb-0">Dispatched Orders</h4>
+                                        <div class="card-title">Account</div>
                                     </div>
-                                    <div class="card-content">
-                                        <div class="table-responsive mt-1">
-                                            <table class="table table-hover-animation mb-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="users-view-image">
+                                                <img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-12.jpg" class="users-avatar-shadow w-100 rounded mb-2 pr-2 ml-1" alt="avatar">
+                                            </div>
+                                            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+                                                <table>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Username</td>
+                                                        <td>adoptionism744</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Name</td>
+                                                        <td>Angelo Sashington</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Email</td>
+                                                        <td>angelo@sashington.com</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-5">
+                                                <table class="ml-0 ml-sm-0 ml-lg-0">
+                                                    <tr>
+                                                        <td class="font-weight-bold">Status</td>
+                                                        <td>active</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Role</td>
+                                                        <td>admin</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Company</td>
+                                                        <td>WinDon Technologies Pvt Ltd</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-12">
+                                                <a href="app-user-edit.html" class="btn btn-primary mr-1"><i class="feather icon-edit-1"></i> Edit</a>
+                                                <button class="btn btn-outline-danger"><i class="feather icon-trash-2"></i> Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- account end -->
+                            <!-- information start -->
+                            <div class="col-md-6 col-12 ">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title mb-2">Information</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table>
+                                            <tr>
+                                                <td class="font-weight-bold">Birth Date </td>
+                                                <td>28 January 1998
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Mobile</td>
+                                                <td>+65958951757</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Website</td>
+                                                <td>https://rowboat.com/insititious/Angelo
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Languages</td>
+                                                <td>English, Arabic
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Gender</td>
+                                                <td>female</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Contact</td>
+                                                <td>email, message, phone
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- information start -->
+                            <!-- social links end -->
+                            <div class="col-md-6 col-12 ">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title mb-2">Social Links</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table>
+                                            <tr>
+                                                <td class="font-weight-bold">Twitter</td>
+                                                <td>https://twitter.com/adoptionism744
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Facebook</td>
+                                                <td>https://www.facebook.com/adoptionism664
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Instagram</td>
+                                                <td>https://www.instagram.com/adopt-ionism744/
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Github</td>
+                                                <td>https://github.com/madop818
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">CodePen</td>
+                                                <td>https://codepen.io/adoptism243
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">Slack</td>
+                                                <td>@adoptionism744
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- social links end -->
+                            <!-- permissions start -->
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header border-bottom mx-2 px-0">
+                                        <h6 class="border-bottom py-1 mb-0 font-medium-2"><i class="feather icon-lock mr-50 "></i>Permission
+                                        </h6>
+                                    </div>
+                                    <div class="card-body px-75">
+                                        <div class="table-responsive users-view-permission">
+                                            <table class="table table-borderless">
                                                 <thead>
                                                     <tr>
-                                                        <th>ORDER</th>
-                                                        <th>STATUS</th>
-                                                        <th>OPERATORS</th>
-                                                        <th>LOCATION</th>
-                                                        <th>DISTANCE</th>
-                                                        <th>START DATE</th>
-                                                        <th>EST DEL. DT</th>
+                                                        <th>Module</th>
+                                                        <th>Read</th>
+                                                        <th>Write</th>
+                                                        <th>Create</th>
+                                                        <th>Delete</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>#879985</td>
-                                                        <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>Moving</td>
-                                                        <td class="p-1">
-                                                            <ul class="list-unstyled users-list m-0  d-flex align-items-center">
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Vinnie Mostowy" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-5.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Elicia Rieske" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-7.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Julee Rossignol" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-10.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Darcey Nooner" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-8.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>Anniston, Alabama</td>
+                                                        <td>Users</td>
                                                         <td>
-                                                            <span>130 km</span>
-                                                            <div class="progress progress-bar-success mt-1 mb-0">
-                                                                <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox1" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox1"></label>
                                                             </div>
                                                         </td>
-                                                        <td>14:58 26/07/2018</td>
-                                                        <td>28/07/2018</td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox2" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox2"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox3" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox3"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox4" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox4"></label>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#156897</td>
-                                                        <td><i class="fa fa-circle font-small-3 text-warning mr-50"></i>Pending</td>
-                                                        <td class="p-1">
-                                                            <ul class="list-unstyled users-list m-0  d-flex align-items-center">
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Trina Lynes" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-1.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Lilian Nenez" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-2.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Alberto Glotzbach" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-3.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>Cordova, Alaska</td>
+                                                        <td>Articles</td>
                                                         <td>
-                                                            <span>234 km</span>
-                                                            <div class="progress progress-bar-warning mt-1 mb-0">
-                                                                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox5" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox5"></label>
                                                             </div>
                                                         </td>
-                                                        <td>14:58 26/07/2018</td>
-                                                        <td>28/07/2018</td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox6" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox6"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox7" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox7"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox8" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox8"></label>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>#568975</td>
-                                                        <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>Moving</td>
-                                                        <td class="p-1">
-                                                            <ul class="list-unstyled users-list m-0  d-flex align-items-center">
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Lai Lewandowski" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-6.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Elicia Rieske" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-7.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Darcey Nooner" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-8.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Julee Rossignol" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-10.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Jeffrey Gerondale" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-9.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>Florence, Alabama</td>
+                                                        <td>Staff</td>
                                                         <td>
-                                                            <span>168 km</span>
-                                                            <div class="progress progress-bar-success mt-1 mb-0">
-                                                                <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox9" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox9"></label>
                                                             </div>
                                                         </td>
-                                                        <td>14:58 26/07/2018</td>
-                                                        <td>28/07/2018</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#245689</td>
-                                                        <td><i class="fa fa-circle font-small-3 text-danger mr-50"></i>Canceled</td>
-                                                        <td class="p-1">
-                                                            <ul class="list-unstyled users-list m-0  d-flex align-items-center">
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Vinnie Mostowy" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-5.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Elicia Rieske" class="avatar pull-up">
-                                                                    <img class="media-object rounded-circle" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-7.jpg" alt="Avatar" height="30" width="30">
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>Clifton, Arizona</td>
                                                         <td>
-                                                            <span>125 km</span>
-                                                            <div class="progress progress-bar-danger mt-1 mb-0">
-                                                                <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox10" class="custom-control-input" disabled checked>
+                                                                <label class="custom-control-label" for="users-checkbox10"></label>
                                                             </div>
                                                         </td>
-                                                        <td>14:58 26/07/2018</td>
-                                                        <td>28/07/2018</td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox11" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox11"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox ml-50"><input type="checkbox" id="users-checkbox12" class="custom-control-input" disabled><label class="custom-control-label" for="users-checkbox12"></label>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -796,9 +581,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- permissions end -->
                         </div>
                     </section>
-                    <!-- Dashboard Analytics end -->
+                    <!-- page users view end -->
 
                 </div>
             </div>
@@ -816,16 +602,12 @@
         </footer>
         <!-- END: Footer-->
 
-        <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
 
-            <!-- BEGIN: Vendor JS-->
-            <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
+        <!-- BEGIN: Vendor JS-->
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
         <!-- BEGIN Vendor JS-->
 
         <!-- BEGIN: Page Vendor JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/charts/apexcharts.min.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/tether.min.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/shepherd.min.js"></script>
         <!-- END: Page Vendor JS-->
 
         <!-- BEGIN: Theme JS-->
@@ -835,7 +617,7 @@
         <!-- END: Theme JS-->
 
         <!-- BEGIN: Page JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/app-user.js"></script>
         <!-- END: Page JS-->
 
     </body>

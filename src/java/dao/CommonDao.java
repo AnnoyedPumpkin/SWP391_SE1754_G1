@@ -283,4 +283,25 @@ public class CommonDao extends DBContext {
         return otp.toString();
     }
 
+    
+    /**
+     * Methods description: Checks the existence of OTP Code by email.
+     *
+     * @param Email - The email of account to be checked.
+     * @return true if the OTP Code matched; otherwise, false.
+     */
+    public String getOTPByEmail(String Email) {
+        try {
+            String query = "SELECT Verify_Code FROM Account WHERE Email=?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, Email);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("Verify_Code");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
