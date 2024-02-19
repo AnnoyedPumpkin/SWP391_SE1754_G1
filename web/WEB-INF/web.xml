@@ -24,6 +24,10 @@
         <servlet-name>AuthentAdminController</servlet-name>
         <servlet-class>control.admin.AuthentAdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SellerProfileController</servlet-name>
+        <servlet-class>control.seller.ProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthentController</servlet-name>
         <url-pattern>/authen</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>AuthentAdminController</servlet-name>
         <url-pattern>/admin/authen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerProfileController</servlet-name>
+        <url-pattern>/SellerProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -371,24 +371,16 @@
                                                 <table>
                                                     <tr>
                                                         <td class="font-weight-bold">Username</td>
-                                                        <td>adoptionism744</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Name</td>
-                                                        <td>Angelo Sashington</td>
+                                                        <input type="text" class="form-control" value="${username}">
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Email</td>
-                                                        <td>angelo@sashington.com</td>
+                                                        <input type="text" class="form-control" value="${email}">
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="col-12 col-md-12 col-lg-5">
                                                 <table class="ml-0 ml-sm-0 ml-lg-0">
-                                                    <tr>
-                                                        <td class="font-weight-bold">Status</td>
-                                                        <td>active</td>
-                                                    </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Role</td>
                                                         <td>admin</td>

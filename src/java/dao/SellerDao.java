@@ -6,6 +6,7 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Account_Detail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,6 +104,48 @@ public class SellerDao extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+    
+    public Account_Detail getAccountDetailByAccountId(int accountId) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Account_Detail WHERE account_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, accountId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Account_Detail accountDetail = new Account_Detail();
+                accountDetail.setId(resultSet.getInt("id"));
+                accountDetail.setAccount_id(resultSet.getInt("account_id"));
+                accountDetail.setPhone_number(resultSet.getFloat("phone_number"));
+                accountDetail.setGender(resultSet.getBoolean("gender"));
+                accountDetail.setDob(resultSet.getDate("dob"));
+                accountDetail.setMember_code(resultSet.getString("member_code"));
+                accountDetail.setAddress(resultSet.getString("address"));
+                return accountDetail;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
