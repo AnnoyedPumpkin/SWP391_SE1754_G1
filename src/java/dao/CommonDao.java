@@ -11,10 +11,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import model.AccountDetailUM;
+import model.ProductVM;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -32,7 +36,7 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT a.Email, a.Password, a.Role_Id "
+            String sql = "SELECT a.Email, a.Password, a.Role_Id, a.Id "
                     + "FROM Account a "
                     + "WHERE a.Email = ?";
             preparedStatement = connection.prepareStatement(sql);
@@ -49,6 +53,7 @@ public class CommonDao extends DBContext {
                     foundAccount.setEmail(resultSet.getString("email"));
                     foundAccount.setPassword(hashedPassword);
                     foundAccount.setRole_Id(resultSet.getInt("Role_Id"));
+                    foundAccount.setId(resultSet.getInt("Id"));
                     return foundAccount;
                 } else {
                     return null;
@@ -288,20 +293,20 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT * FROM Account_Detail WHERE account_id = ?";
+            String sql = "SELECT * FROM Account_Detail WHERE Account_id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountId);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 Account_Detail accountDetail = new Account_Detail();
-                accountDetail.setId(resultSet.getInt("id"));
-                accountDetail.setAccount_id(resultSet.getInt("account_id"));
-                accountDetail.setPhone_number(resultSet.getFloat("phone_number"));
-                accountDetail.setGender(resultSet.getBoolean("gender"));
-                accountDetail.setDob(resultSet.getDate("dob"));
-                accountDetail.setMember_code(resultSet.getString("member_code"));
-                accountDetail.setAddress(resultSet.getString("address"));
+                accountDetail.setId(resultSet.getInt("Id"));
+                accountDetail.setUserName(resultSet.getString("Username"));
+                accountDetail.setAccount_id(resultSet.getInt("Account_Id"));
+                accountDetail.setPhone_number(resultSet.getString("Phone_Number"));
+                accountDetail.setGender(resultSet.getBoolean("Gender"));
+                accountDetail.setDob(resultSet.getDate("Dob"));
+                accountDetail.setAddress(resultSet.getString("Address"));
                 return accountDetail;
             } else {
                 return null;
@@ -324,5 +329,165 @@ public class CommonDao extends DBContext {
                 ex.printStackTrace();
             }
         }
+
     }
-}    
+
+    public int getTotalProduct() {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT COUNT(*) FROM dbo.Product";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    public List<ProductVM> getListProductPaging(int index) {
+        try {
+            List<ProductVM> listProduct = new ArrayList();
+            connection = this.getConnection();
+            String sql = "SELECT  p.Name, p.Create_on, p.Description, p.Price, im.Image "
+                    + "from dbo.Product p JOIN dbo.Image im ON im.Product_Id = p.Id  "
+                    + "Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, (index - 1) * 8);
+//            preparedStatement.setInt(1, accountId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductVM productVM = new ProductVM();
+                productVM.setImageLink(resultSet.getString("Image"));
+                productVM.setName(resultSet.getString("Name"));
+                productVM.setDescription(resultSet.getString("Description"));
+                productVM.setCreate_on(resultSet.getDate("Create_on"));
+                productVM.setPrice(resultSet.getDouble("Price"));
+                listProduct.add(productVM);
+            }
+            return listProduct;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public AccountDetailUM editProfile(AccountDetailUM accountDetailUM) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account_Detail SET Phone_Number = ?, "
+                    + "Gender = ?, "
+                    + "Dob = ?, "
+                    + "Address = ?, "
+                    + "Username = ? "
+                    + "WHERE Account_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, accountDetailUM.getPhone_number());
+            preparedStatement.setBoolean(2, accountDetailUM.isGender());
+            preparedStatement.setString(3, accountDetailUM.getDob());
+            preparedStatement.setString(4, accountDetailUM.getAddress());
+            preparedStatement.setString(5, accountDetailUM.getUserName());
+            preparedStatement.setInt(6, accountDetailUM.getAccount_id());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                sql = "Select * FROM Account_Detail ad JOIN  Account a ON ad.Account_Id = a.Id WHERE Account_Id = ?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, accountDetailUM.getAccount_id());
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    accountDetailUM = new AccountDetailUM();
+                    accountDetailUM.setAddress(resultSet.getString("Address"));
+                    accountDetailUM.setPhone_number(resultSet.getString("Phone_Number"));
+                    accountDetailUM.setDob(resultSet.getString("Dob"));
+                    accountDetailUM.setGender(resultSet.getBoolean("Gender"));
+                    accountDetailUM.setUserName(resultSet.getString("Username"));
+                    accountDetailUM.setEmail(resultSet.getString("Email"));
+
+                    return accountDetailUM;
+                }
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public int changePassword(String password, int accountId) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account SET Password = ? WHERE Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, accountId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return 0;
+    }
+}
