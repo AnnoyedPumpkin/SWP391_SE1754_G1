@@ -109,7 +109,7 @@ public class AuthentController extends HttpServlet {
                 }
                 response.addCookie(userC);
                 response.addCookie(passC);
-                response.sendRedirect("profile");
+                response.sendRedirect("home");
             } else {
                 request.setAttribute("err", "You don't have permission!");
                 request.getRequestDispatcher("views/common/login.jsp").forward(request, response);

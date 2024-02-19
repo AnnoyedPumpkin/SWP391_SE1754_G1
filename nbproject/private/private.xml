@@ -3,12 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/src/java/dao/CommonDao.java</file>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/src/java/control/AuthentController.java</file>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/src/java/entity/Account_Detail.java</file>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/web/views/common/profile.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/web/views/common/editprofile.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/Zalo%20Received%20Files/SWP391_SE1754_G1/src/java/control/ProfileController.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/control/ProfileController.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/dao/CommonDao.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/entity/Account_Detail.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/context/DBContext.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/entity/Cart_Detail.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/web/views/common/profile.jsp</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/web/views/common/homepage.jsp</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/web/views/common/editprofile.jsp</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/model/AccountDetailUM.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/control/HomeController.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/entity/Cart.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/entity/Account.java</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/web/views/common/forgotpassword.jsp</file>
+            <file>file:/C:/Users/Admin/Downloads/SWP391_SE1754_G1/src/java/control/AuthentController.java</file>
         </group>
     </open-files>
 </project-private>

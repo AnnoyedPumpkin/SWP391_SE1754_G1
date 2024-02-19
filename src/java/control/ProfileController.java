@@ -41,6 +41,7 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("accountDetail", accountDetail);
             request.setAttribute("username", accountDetail.getUserName());
             request.setAttribute("email", account.getEmail());
+            request.setAttribute("member_code", account.getMember_code());
 
             switch (action) {
                 case "profile":

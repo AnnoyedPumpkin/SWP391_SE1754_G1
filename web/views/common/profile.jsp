@@ -111,7 +111,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-3">
                             <div class="brand_logo">
-                                <a class="brand_link" href="index.html">
+                                <a class="brand_link" href="home">
                                     <img src="${pageContext.request.contextPath}/assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
                                 </a>
 
@@ -523,13 +523,11 @@
                                                     <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                 </div>
                                                 <div class="user_content">
-                                                    <h4 class="user_name">Jone Doe</h4>
-                                                    <span class="user_title">Seller</span>
+                                                    <h4 class="user_name">${username}</h4>
                                                 </div>
                                             </div>
                                             <ul class="settings_options ul_li_block clearfix">
                                                 <li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
-                                                <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
                                                 <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                                             </ul>
                                         </div>
@@ -853,13 +851,11 @@
                                 <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                             </div>
                             <div class="user_content">
-                                <h4 class="user_name">Jone Doe</h4>
-                                <span class="user_title">Seller</span>
+                                <h4 class="user_name">${username}</h4>
                             </div>
                         </div>
                         <ul class="settings_options ul_li_block clearfix">
-                            <li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
-                            <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                            <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
                             <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </div>
@@ -904,10 +900,11 @@
                                             <div class="mt-3">
                                                 <h4>${username}</h4>
                                                 <p class="text-secondary mb-1">${email}</p>
+                                                <p class="text-secondary mb-1">${member_code}</p>
                                             </div>
                                         </div>
                                         <hr class="my-4">
-                                        <form action="profile?action=changepass" method="POST">
+                                        <form action="profile?action=changePassword" method="POST">
                                             <div class="reg_form">
                                                 <h5 class="form_title text-uppercase text-center">Change Pass</h5><br>
                                                 <div class="form_item">
@@ -918,6 +915,9 @@
                                                 </div>
                                                 <div class="form_item">
                                                     <input type="password" name="newPassword2" placeholder="Confirm New Password">
+                                                </div>
+                                                <div style="color: greenyellow">
+                                                    ${message}
                                                 </div>
                                                 <div style = "color: red">
                                                     ${error1}
@@ -936,7 +936,7 @@
                                                 <h6 class="mb-0">Full Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.username}
+                                                ${accountDetail.userName}
                                             </div>
                                         </div>
 <!--                                        <hr>
@@ -960,10 +960,11 @@
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <h6 class="mb-0">gender</h6>
+                                                <h6 class="mb-0">Gender</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.gender}
+                                                ${accountDetail.gender == true ? 'Male' : 'Female'}
+                                                <!-- ${accountDetail.gender} -->
                                             </div>
                                         </div>
                                         <hr>
@@ -987,7 +988,7 @@
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <a class="btn btn-info " target="__blank" href="views/common/editprofile.jsp">Edit</a>
+                                                <a class="btn btn-info " href="profile?action=editProfile">Edit</a>
                                             </div>
                                         </div>
                                     </div>

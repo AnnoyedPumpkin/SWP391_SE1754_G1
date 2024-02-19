@@ -5,7 +5,7 @@
         <servlet-class>control.AuthentController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DashboardController</servlet-name>
+        <servlet-name>SellerDashboardController</servlet-name>
         <servlet-class>control.seller.DashboardController</servlet-class>
     </servlet>
     <servlet>
@@ -41,7 +41,7 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DashboardController</servlet-name>
+        <servlet-name>SellerDashboardController</servlet-name>
         <url-pattern>/seller/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
