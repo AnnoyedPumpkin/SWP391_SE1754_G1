@@ -6,10 +6,14 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Cart;
+import entity.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -106,8 +110,7 @@ public class CommonDao extends DBContext {
      * Methods description: Checks the existence of an account by email.
      *
      * @param Email - The email to be checked.
-     * @return true if the account with the specified email exists; otherwise,
-     * false.
+     * @return true if the account with the specified email exists; otherwise, false.
      */
     public boolean checkAccountExistByEmail(String Email) {
         try {
@@ -171,8 +174,7 @@ public class CommonDao extends DBContext {
      * Methods description: Updates the password for the specified account.
      *
      * @param newPassword - The new password to be set.
-     * @param accountId - The ID of the account for which the password should be
-     * updated.
+     * @param accountId - The ID of the account for which the password should be updated.
      */
     public void updatePasswordById(String newPassword, int accountId) {
         String query = "UPDATE Account Set password = ? Where Id = ?";
@@ -187,9 +189,8 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Add OTP Code for Account with the given Email, It
-     * also includes a scheduled task to automatically delete the OTP code after
-     * a specified delay in minutes.
+     * Methods description: Add OTP Code for Account with the given Email, It also includes a scheduled task to
+     * automatically delete the OTP code after a specified delay in minutes.
      *
      * @param code - The OTP Code to be add.
      * @param Email - The Email of the account for which the OTP Code added.
@@ -211,12 +212,11 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description: Schedule a task to delete the OTP Code associated
-     * with the given Email after a specified delay.
+     * Methods description: Schedule a task to delete the OTP Code associated with the given Email after a specified
+     * delay.
      *
      * @param Email - The email for which the OTP Code is to be deleted
-     * @param delayInMinutes - The delay in minutes before deleting the OTP
-     * Code.
+     * @param delayInMinutes - The delay in minutes before deleting the OTP Code.
      */
     public void scheduleTaskToDeleteOTP(String Email, int delayInMinutes) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -284,23 +284,43 @@ public class CommonDao extends DBContext {
         return otp.toString();
     }
 
+    public List<Cart> getProductListOfShoppingCart() {
+        List<Cart> CList = new ArrayList<>();
+        try {
+            String query = "SELECT ca.*, Account.AccName FROM Documents INNER JOIN Account ON Documents.AuthorID = Account.AccID";
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Cart c = new Cart(rs.getInt("id"), rs.getInt(""),rs.getInt(""),rs.getString(""));
+                CList.add(c);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return CList;
+    }
+    
+    
+    
 }
- class main{
-     public static void main(String[] args) {
-         CommonDao c = new CommonDao();
-         String digit1 = "1";
-         String digit2 = "2";
-         String digit3 = "3";
-         String digit4 = "2";
-         String digit5 = "4";
-         String digit6 = "1";
-         c.addOTPForAccountByEmail("123241", "hieulove0408@gmail.com");
+
+class main {
+
+    public static void main(String[] args) {
+        CommonDao c = new CommonDao();
+        String digit1 = "1";
+        String digit2 = "2";
+        String digit3 = "3";
+        String digit4 = "2";
+        String digit5 = "4";
+        String digit6 = "1";
+        c.addOTPForAccountByEmail("123241", "hieulove0408@gmail.com");
         String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
         String otpCheck = c.getOTPByEmail("hieulove0408@gmail.com");
-        if(otpInput.equals(otpCheck)){
+        if (otpInput.equals(otpCheck)) {
             System.out.println("1");
         } else {
             System.out.println("2");
         }
-     }
- }
+    }
+}

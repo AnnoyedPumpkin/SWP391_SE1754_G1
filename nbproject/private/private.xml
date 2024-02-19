@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Project_SWP_Backup/SWP391_SE1754_G1/web/views/common/forgotpassword.jsp</file>
-            <file>file:/F:/Project_SWP_Backup/SWP391_SE1754_G1/web/assets/css/selfmake-popup.css</file>
-            <file>file:/F:/Project_SWP_Backup/SWP391_SE1754_G1/src/java/control/ForgotPassword.java</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/web/views/common/checkoutstep3.jsp</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/web/views/common/checkoutstep1.jsp</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/web/views/common/checkoutstep2.jsp</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/src/java/control/Checkout.java</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/src/java/control/AuthentController.java</file>
+            <file>file:/F:/Project_SWP/SWP391_SE1754_G1/src/java/dao/CommonDao.java</file>
         </group>
     </open-files>
 </project-private>

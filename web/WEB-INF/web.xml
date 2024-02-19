@@ -24,6 +24,10 @@
         <servlet-name>ForgotPassword</servlet-name>
         <servlet-class>control.ForgotPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Checkout</servlet-name>
+        <servlet-class>control.Checkout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthentController</servlet-name>
         <url-pattern>/authen</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>ForgotPassword</servlet-name>
         <url-pattern>/ForgotPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Checkout</servlet-name>
+        <url-pattern>/Checkout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

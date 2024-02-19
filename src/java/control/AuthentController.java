@@ -98,6 +98,7 @@ public class AuthentController extends HttpServlet {
             if (account.getRole_Id() == 1) {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                session.setAttribute("isLoggedIn", true);
                 Cookie userC = new Cookie("userC", email);
                 Cookie passC = new Cookie("passC", password);
                 if (remember != null) {

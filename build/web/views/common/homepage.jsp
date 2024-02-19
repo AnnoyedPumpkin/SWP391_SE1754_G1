@@ -179,8 +179,7 @@
 					</ul>
 
 					<ul class="btns_group ul_li_block clearfix">
-						<li><a href="shop_cart.html">View Cart</a></li>
-						<li><a href="shop_checkout.html">Checkout</a></li>
+						<li><a href="${pageContext.request.contextPath}/Checkout"> View Checkout</a></li>
 					</ul>
 				</div>
 
