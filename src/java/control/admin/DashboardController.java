@@ -195,6 +195,7 @@ public class DashboardController extends HttpServlet {
 
     private void deleteColor(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("colorId"));
+        adminDAO.deleteColorIdInProductDetail(id);
         adminDAO.deleteColorById(id);
         request.setAttribute("msgcod", "Delete color successfully!");
     }
@@ -260,6 +261,7 @@ public class DashboardController extends HttpServlet {
 
     private void deleteCategory(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("categoryId"));
+        adminDAO.deleteCateIdInProductDetail(id);
         adminDAO.deleteCateById(id);
         request.setAttribute("msgcd", "Delete category successfully!");
     }
@@ -301,6 +303,7 @@ public class DashboardController extends HttpServlet {
 
     private void deleteBrand(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("brandId"));
+        adminDAO.deleteBrandIdInProductDetail(id);
         adminDAO.deleteBrandById(id);
         request.setAttribute("msgbd", "Delete brand successfully!");
     }
@@ -320,6 +323,7 @@ public class DashboardController extends HttpServlet {
 
     private void deleteGender(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("genderId"));
+        adminDAO.deleteGenderIdInProductDetail(id);
         adminDAO.deleteGenderById(id);
         request.setAttribute("msggd", "Delete gender successfully!");
     }
@@ -383,9 +387,9 @@ public class DashboardController extends HttpServlet {
 
     private void deleteSize(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("sizeId"));
+        adminDAO.deleteSizeIdInProductDetail(id);
         adminDAO.deleteSizeById(id);
         request.setAttribute("msgsd", "Delete size successfully!");
     }
-
    
 }

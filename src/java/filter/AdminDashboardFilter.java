@@ -122,7 +122,7 @@ public class AdminDashboardFilter implements Filter {
                 resp.sendRedirect(req.getServletContext().getContextPath() + "/admin/authen?action=login");
             }
         } else {
-            if (req.getRequestURI().equals(req.getContextPath() + "/admin/manageproduct")) {
+            if (account.getRole_Id() == Constant.ROLE_ADMIN && req.getRequestURI().equals(req.getContextPath() + "/admin/manageproduct")) {
                 chain.doFilter(request, response);
                 return;
             } else if (account.getRole_Id() == Constant.ROLE_ADMIN && !req.getRequestURI().equals(req.getContextPath() + "/admin/dashboard")) {

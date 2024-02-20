@@ -252,7 +252,7 @@
                                         </div>
                                         <hr>
                                         <p>${productForm.description}</p>
-                                        <p class="font-weight-bold" id="stockInfo"> <i class="feather icon-database mr-50 font-medium-2"></i>Stock: ${characterStock}</p>
+                                        <p class="font-weight-bold" id="stockInfo"> <i class="feather icon-database mr-50 font-medium-2"></i>Stock: ${productForm.stock}</p>
                                         <hr>
                                         <div class="form-group">
                                             <div class="d-flex align-items-center"> 
@@ -261,19 +261,19 @@
                                                     <ul class="list-inline mb-0">
                                                         <c:set var="ColorClass">
                                                             <c:choose>
-                                                                <c:when test="${productColors.color.toLowerCase() == 'black'}">
+                                                                <c:when test="${productForm.color.toLowerCase() == 'black'}">
                                                                     black
                                                                 </c:when>
-                                                                <c:when test="${productColors.color.toLowerCase() == 'white'}">
+                                                                <c:when test="${productForm.color.toLowerCase() == 'white'}">
                                                                     white
                                                                 </c:when>
-                                                                <c:when test="${productColors.color.toLowerCase() == 'red'}">
+                                                                <c:when test="${productForm.color.toLowerCase() == 'red'}">
                                                                     danger
                                                                 </c:when>
-                                                                <c:when test="${productColors.color.toLowerCase() == 'purple'}">
+                                                                <c:when test="${productForm.color.toLowerCase() == 'purple'}">
                                                                     primary
                                                                 </c:when>
-                                                                <c:when test="${productColors.color.toLowerCase() == 'yellow'}">
+                                                                <c:when test="${productForm.color.toLowerCase() == 'yellow'}">
                                                                     warning
                                                                 </c:when>
                                                             </c:choose>
@@ -293,7 +293,7 @@
                                                 <ul class="list-unstyled mb-0 mt-0 product-size">
                                                     <li class="d-inline-block">
                                                         <div class="size-option">
-                                                            <div class="size">${productSize.size}</div> 
+                                                            <div class="size">${productForm.size}</div> 
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -305,7 +305,7 @@
                                                 <ul class="list-unstyled mb-0 mt-0 product-brand">
                                                     <li class="d-inline-block">
                                                         <div class="size-option">
-                                                            <div class="brand">${productBrand.brand}</div>
+                                                            <div class="brand">${productForm.brand}</div>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -317,7 +317,7 @@
                                                 <ul class="list-unstyled mb-0 mt-0 product-category">
                                                     <li class="d-inline-block">
                                                         <div class="size-option">
-                                                            <div class="brand">${productCategory.category}</div>
+                                                            <div class="brand">${productForm.category}</div>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -329,7 +329,7 @@
                                                 <ul class="list-unstyled mb-0 mt-0 product-gender">
                                                     <li class="d-inline-block">
                                                         <div class="size-option">
-                                                            <div class="brand">${productGender.gender}</div>
+                                                            <div class="brand">${productForm.gender}</div>
                                                         </div>
                                                     </li>
                                                 </ul>
