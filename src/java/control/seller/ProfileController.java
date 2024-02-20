@@ -23,25 +23,39 @@ import jakarta.servlet.http.HttpSession;
 public class ProfileController extends HttpServlet {
 
     SellerDao sellerDao;
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String url = "";
         sellerDao = new SellerDao();
-        // Lấy thông tin tài khoản từ session
         HttpSession session = request.getSession(false); // Sử dụng tham số false để không tạo session mới nếu không tồn tại
+        String action = request.getParameter("action") == null ? "profile" : request.getParameter("action");
         if (session != null && session.getAttribute(Constant.SESSION_ACCOUNT) != null) {
+            // Lấy thông tin tài khoản từ session
             Account account = (Account) session.getAttribute(Constant.SESSION_ACCOUNT);
             // Gọi phương thức trong DAO để lấy chi tiết tài khoản dựa trên accountId
             Account_Detail accountDetail = sellerDao.getAccountDetailByAccountId(account.getId());
             // Đặt thuộc tính "accountDetail" vào request để hiển thị trên giao diện
             request.setAttribute("accountDetail", accountDetail);
-            // Chuyển hướng sang trang hiển thị thông tin cá nhân
-            request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
+            request.setAttribute("username", accountDetail.getUserName());
+            request.setAttribute("email", account.getEmail());
+            request.setAttribute("member_code", account.getMember_code());
+
+            switch (action) {
+                case "profile":
+                    // Chuyển hướng sang trang hiển thị thông tin cá nhân
+                    url = "views/common/sellerProfile.jsp";
+                    break;
+                case "editProfile":
+                    url = "views/common/sellerEditProfile.jsp";
+                    break;
+            }
         } else {
             // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.
-            response.sendRedirect("views/common/login.jsp");
+            url = "views/common/login.jsp";
         }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /**

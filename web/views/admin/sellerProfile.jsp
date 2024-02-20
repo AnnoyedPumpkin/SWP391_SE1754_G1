@@ -370,24 +370,35 @@
                                             <div class="col-12 col-sm-9 col-md-6 col-lg-5">
                                                 <table>
                                                     <tr>
-                                                        <td class="font-weight-bold">Username</td>
-                                                        <input type="text" class="form-control" value="${username}">
+                                                        <td class="font-weight-bold">Username:</td>
+                                                        <td>${username}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="font-weight-bold">Email</td>
-                                                        <input type="text" class="form-control" value="${email}">
+                                                        <td class="font-weight-bold">Email:</td>
+                                                        <td>${email}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Member Code:</td>
+                                                        <td>${member_code}</td>
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="col-12 col-md-12 col-lg-5">
                                                 <table class="ml-0 ml-sm-0 ml-lg-0">
                                                     <tr>
-                                                        <td class="font-weight-bold">Role</td>
-                                                        <td>admin</td>
+                                                        <td class="font-weight-bold">Phone Number:</td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="font-weight-bold">Company</td>
-                                                        <td>WinDon Technologies Pvt Ltd</td>
+                                                        <td class="font-weight-bold">Address</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="font-weight-bold">Date of Birth:</td>
+                                                        <td></td>
+                                                    </tr><tr>
+                                                        <td class="font-weight-bold">Gender</td>
+                                                        <td></td>
                                                     </tr>
                                                 </table>
                                             </div>

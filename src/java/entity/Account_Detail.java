@@ -25,5 +25,6 @@ public class Account_Detail {
     private Date dob;
     private String member_code;
     private String address;
+    private String username;
 
 }
