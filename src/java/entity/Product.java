@@ -21,4 +21,5 @@ public class Product {
     private Date create_on;
     private String description;
     private double price;
+    private String image_path;
 }

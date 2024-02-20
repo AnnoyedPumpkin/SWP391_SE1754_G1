@@ -11,13 +11,18 @@ import entity.Brand;
 import entity.Category;
 import entity.Color;
 import entity.Gender;
+import entity.Image;
 import entity.Product;
+import entity.Product_Detail;
+import entity.Product_Form;
 import entity.Size;
 import helper.BCrypt;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +43,9 @@ public class AdminDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT a.Email, a.Password, a.Role_Id "
+            String sql = "SELECT a.Email, a.Password, a.Role_Id, r.Role "
                     + "FROM Account a "
+                    + "JOIN Role r ON r.Id = a.Role_Id "
                     + "WHERE a.Email = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getEmail());
@@ -55,6 +61,7 @@ public class AdminDao extends DBContext {
                     foundAccount.setEmail(resultSet.getString("email"));
                     foundAccount.setPassword(hashedPassword);
                     foundAccount.setRole_Id(resultSet.getInt("Role_Id"));
+                    foundAccount.setRole(resultSet.getString("Role"));
                     return foundAccount;
                 } else {
                     return null;
@@ -778,6 +785,36 @@ public class AdminDao extends DBContext {
         return totalProduct;
     }
 
+    public int findTotalProducts(String keyword) {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id ";
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "WHERE p.Name LIKE ? ";
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+
     public int findTotalProducts(String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
         int totalProduct = 0;
 
@@ -865,14 +902,17 @@ public class AdminDao extends DBContext {
         return totalProduct;
     }
 
-    public List<Product> findByPage(int page) {
-        List<Product> productList = new ArrayList<>();
+    public List<Product_Form> findByPage(int page) {
+        List<Product_Form> productList = new ArrayList<>();
         try {
             connection = this.getConnection();
             String sql = "SELECT * FROM Product p "
                     + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
-                    + "JOIN Brand b ON pd.Brand_Id = b.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
                     + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
                     + "ORDER BY p.price OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
             preparedStatement = connection.prepareStatement(sql);
             int parameterIndex = 1;
@@ -880,13 +920,26 @@ public class AdminDao extends DBContext {
             preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Product p = new Product();
-                p.setId(resultSet.getInt("id"));
-                p.setName(resultSet.getString("Name"));
-                p.setCreate_on(resultSet.getDate("Create_on"));
-                p.setDescription(resultSet.getString("Description"));
-                p.setPrice(resultSet.getInt("Price"));
-                productList.add(p);
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -986,15 +1039,76 @@ public class AdminDao extends DBContext {
 //        }
 //        return productList;
 //    }
-
-    public List<Product> findByPage(int page, String sorted, String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
-        List<Product> productList = new ArrayList<>();
+    public List<Product_Form> findPageByKeyword(int page, String sorted, String keyword) {
+        List<Product_Form> productList = new ArrayList<>();
         try {
             connection = this.getConnection();
             String sql = "SELECT * FROM Product p "
                     + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
-                    + "JOIN Brand b ON pd.Brand_Id = b.id "
-                    + "JOIN Category cate ON pd.Category_Id = cate.id ";
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id ";
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "WHERE p.Name LIKE ? ";
+            }
+
+            sql += "ORDER BY CASE WHEN ? = 'desc' THEN p.price END DESC, "
+                    + "CASE WHEN ? = 'asc' THEN p.price END ASC "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
+    public List<Product_Form> findByPage(int page, String sorted, String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
+        List<Product_Form> productList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id ";
             if (brandID != null && !brandID.equals("null")) {
                 sql += "WHERE pd.Brand_Id = ? ";
             }
@@ -1072,13 +1186,26 @@ public class AdminDao extends DBContext {
 
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Product p = new Product();
-                p.setId(resultSet.getInt("id"));
-                p.setName(resultSet.getString("Name"));
-                p.setCreate_on(resultSet.getDate("Create_on"));
-                p.setDescription(resultSet.getString("Description"));
-                p.setPrice(resultSet.getInt("Price"));
-                productList.add(p);
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1109,4 +1236,451 @@ public class AdminDao extends DBContext {
         return brandCounts;
     }
 
+    public Product_Form findProductByID(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE p.Id = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                return pf;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int findStockByCharacter(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+        int stock = 0;
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE p.Id = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                stock = resultSet.getInt("Stock");
+            }
+            return stock;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Color getColorsForProduct(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT c.* FROM Product_Detail pd "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Color c = new Color();
+                c.setId(resultSet.getInt("Id"));
+                c.setColor(resultSet.getString("Color"));
+                return c;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Size getSizeForProduct(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT s.* FROM Product_Detail pd "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "WHERE pd.Product_Id = ?  AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Size s = new Size();
+                s.setId(resultSet.getInt("Id"));
+                s.setSize(resultSet.getString("Size"));
+                return s;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Brand getBrandForProduct(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT b.* FROM Product_Detail pd "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "WHERE pd.Product_Id = ?  AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Brand b = new Brand();
+                b.setId(resultSet.getInt("Id"));
+                b.setBrand(resultSet.getString("Brand"));
+                return b;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Category getCategoryForProduct(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT c.* FROM Product_Detail pd "
+                    + "JOIN Category c ON pd.Category_Id = c.Id "
+                    + "WHERE pd.Product_Id = ?  AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Category c = new Category();
+                c.setId(resultSet.getInt("Id"));
+                c.setCategory(resultSet.getString("Category"));
+                return c;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Gender getGenderForProduct(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT g.* FROM Product_Detail pd "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE pd.Product_Id = ?  AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productID);
+            preparedStatement.setString(2, colorID);
+            preparedStatement.setString(3, categoryID);
+            preparedStatement.setString(4, sizeID);
+            preparedStatement.setString(5, brandID);
+            preparedStatement.setString(6, genderID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Gender g = new Gender();
+                g.setId(resultSet.getInt("Id"));
+                g.setGender(resultSet.getString("Gender"));
+                return g;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean findProductExist(String productName, int colorID, int cateID, int sizeID, int brandID, int genderID) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE p.Name = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productName);
+            preparedStatement.setInt(2, colorID);
+            preparedStatement.setInt(3, cateID);
+            preparedStatement.setInt(4, sizeID);
+            preparedStatement.setInt(5, brandID);
+            preparedStatement.setInt(6, genderID);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean findExistProduct(String productName) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Product p "
+                    + "WHERE p.Name = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productName);
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void insertNewProduct(Product_Form productForm) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO Product (Name, Create_on, Description, Price, Image_path) VALUES (?, ?, ?, ?, ?)";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productForm.getName());
+            preparedStatement.setDate(2, (Date) productForm.getCreate_on());
+            preparedStatement.setString(3, productForm.getDescription());
+            preparedStatement.setDouble(4, productForm.getPrice());
+            preparedStatement.setString(5, productForm.getImage_path());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getProductIdByProductName(String productName) {
+        int productId = 0;
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT Id FROM Product WHERE Name = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productName);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    productId = resultSet.getInt("Id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productId;
+    }
+
+    public void insertProductDetail(Product_Detail productDetail) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO Product_Detail (Product_Id, Color_Id, Category_Id, Size_Id, Brand_Id, Stock, Gender_Id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, productDetail.getProduct_id());
+            preparedStatement.setInt(2, productDetail.getColor_id());
+            preparedStatement.setInt(3, productDetail.getCategory_id());
+            preparedStatement.setInt(4, productDetail.getSize_id());
+            preparedStatement.setInt(5, productDetail.getBrand_id());
+            preparedStatement.setInt(6, productDetail.getStock());
+            preparedStatement.setInt(7, productDetail.getGender_id());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Image> getImagesByProductID(String productID) {
+        List<Image> images = new ArrayList<>();
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Image WHERE Product_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productID);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Image image = Image.builder()
+                            .id(resultSet.getInt("Id"))
+                            .product_Id(resultSet.getInt("Product_Id"))
+                            .image(resultSet.getString("Image"))
+                            .build();
+
+                    images.add(image);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return images;
+    }
+
+    public void deleteProductDetailById(String idProduct, int idColor, int idCate, int idSize, int idBrand, int idGender) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "DELETE FROM Product_Detail WHERE Product_Id = ? AND Color_Id = ? AND Category_Id = ? AND Size_Id = ? AND Brand_Id = ? AND Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, idProduct);
+            preparedStatement.setInt(2, idColor);
+            preparedStatement.setInt(3, idCate);
+            preparedStatement.setInt(4, idSize);
+            preparedStatement.setInt(5, idBrand);
+            preparedStatement.setInt(6, idGender);
+            preparedStatement.executeUpdate();
+
+//            String deleteProductSql = "DELETE FROM Product WHERE Id = ?";
+//            preparedStatement = connection.prepareStatement(deleteProductSql);
+//            preparedStatement.setString(1, idProduct);
+//            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean findProductDetailExist(String idProduct, int idColor, int idCate, int idSize, int idBrand, int idGender) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Product_Detail pd "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, idProduct);
+            preparedStatement.setInt(2, idColor);
+            preparedStatement.setInt(3, idCate);
+            preparedStatement.setInt(4, idSize);
+            preparedStatement.setInt(5, idBrand);
+            preparedStatement.setInt(6, idGender);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Product_Detail> findProductDetail(String idProduct, int idColor, int idCate, int idSize, int idBrand, int idGender) {
+        List<Product_Detail> listPd = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Product_Detail pd "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, idProduct);
+            preparedStatement.setInt(2, idColor);
+            preparedStatement.setInt(3, idCate);
+            preparedStatement.setInt(4, idSize);
+            preparedStatement.setInt(5, idBrand);
+            preparedStatement.setInt(6, idGender);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Product_Detail pd = Product_Detail.builder()
+                        .id(resultSet.getInt("Id"))
+                        .product_id(resultSet.getInt("Product_Id"))
+                        .build();
+                listPd.add(pd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listPd;
+    }
+
+    public void deleteProductById(String idProduct) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "DELETE FROM Product WHERE Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            
+            preparedStatement.setString(1, idProduct);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -21,4 +21,5 @@ public class Account {
     private String password;
     private int verifyCode;
     private int role_Id;
+    private String role;
 }

@@ -22,12 +22,18 @@ public class Product_Form {
     private Date create_on;
     private String description;
     private double price;
+    private String image_path;
     private int product_id;
     private int color_id;
     private int category_id;
     private int size_id;
     private int brand_id;
-    private int discount_id;
-    private double stock;
-    private int gender_Id;
+    private int stock;
+    private int gender_id;
+    private String color;
+    private String category;
+    private String size;
+    private String brand;
+    private String gender;
+
 }
