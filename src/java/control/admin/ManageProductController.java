@@ -199,6 +199,87 @@ public class ManageProductController extends HttpServlet {
         return listPf;
     }
 
+    private void addProduct(HttpServletRequest request, HttpServletResponse response) {
+        String productName = request.getParameter("product_name");
+        String productDescription = request.getParameter("productDescription");
+        String productPriceRaw = request.getParameter("productPrice");
+        String colorIdRaw = request.getParameter("color");
+        String cateIdRaw = request.getParameter("cate");
+        String sizeIdRaw = request.getParameter("size");
+        String brandIdRaw = request.getParameter("brand");
+        String stockRaw = request.getParameter("stock");
+        String genderIdRaw = request.getParameter("gender");
+        String imagePath = "";
+        if (productPriceRaw == null || productPriceRaw.isEmpty() || colorIdRaw == null || colorIdRaw.isEmpty() || cateIdRaw == null || cateIdRaw.isEmpty() || brandIdRaw == null || brandIdRaw.isEmpty() || genderIdRaw == null || genderIdRaw.isEmpty()) {
+            request.setAttribute("errorap", "Error when creating new product!");
+            return;
+        }
+        double productPrice = Double.parseDouble(productPriceRaw);
+        int colorID = Integer.parseInt(colorIdRaw);
+        int cateID = Integer.parseInt(cateIdRaw);
+        int sizeID = Integer.parseInt(sizeIdRaw);
+        int brandID = Integer.parseInt(brandIdRaw);
+        int stock = Integer.parseInt(stockRaw);
+        int genderID = Integer.parseInt(genderIdRaw);
+        Date currentTimestamp = new Date(System.currentTimeMillis());
+        try {
+            Part part = request.getPart("image");
+            if (part != null && part.getSize() > 0) {
+                String path = request.getServletContext().getRealPath("/images");
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                File image = new File(dir, part.getSubmittedFileName());
+                part.write(image.getAbsolutePath());
+                imagePath = "/SWP391_SE1754_G1/images/" + image.getName();
+            } else {
+                request.setAttribute("errorap", "Error when creating new product!");
+                return;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            Product_Form productForm = Product_Form.builder()
+                    .name(productName)
+                    .create_on(currentTimestamp)
+                    .description(productDescription)
+                    .price(productPrice)
+                    .image_path(imagePath)
+                    .color_id(colorID)
+                    .category_id(cateID)
+                    .size_id(sizeID)
+                    .brand_id(brandID)
+                    .gender_id(genderID)
+                    .build();
+
+            boolean isExistProduct = adminDAO.findProductExist(productName, colorID, cateID, sizeID, brandID, genderID);
+            if (!isExistProduct) {
+                if (!adminDAO.findExistProduct(productName)) {
+                    adminDAO.insertNewProduct(productForm);
+                }
+                int productId = adminDAO.getProductIdByProductName(productName);
+                Product_Detail productDetail = Product_Detail.builder()
+                        .product_id(productId)
+                        .color_id(colorID)
+                        .category_id(cateID)
+                        .size_id(sizeID)
+                        .brand_id(brandID)
+                        .stock(stock)
+                        .gender_id(genderID)
+                        .build();
+                adminDAO.insertProductDetail(productDetail);
+                request.setAttribute("msgap", "Create new product successfully !!");
+            } else {
+                request.setAttribute("errorap", "Product exist already, please create other !!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorap", "Error when creating new product!");
+        }
+    }
+
     
 
 }
