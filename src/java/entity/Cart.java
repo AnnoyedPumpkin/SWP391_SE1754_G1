@@ -20,4 +20,15 @@ public class Cart {
     private int discount_id;
     private int account_id;
     private String address;
+    private String cart_code;
+
+    private Cart_Detail c_Det;
+    private Product_Detail p_Det;
+    private Product p;
+    private Color c;
+    private Size s;
+    private Category cate;
+    private Gender gen;
+    private Image ima;
+    
 }

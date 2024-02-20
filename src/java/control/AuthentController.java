@@ -90,7 +90,7 @@ public class AuthentController extends HttpServlet {
                 .password(password)
                 .build();
         account = commonDAO.checkExistOfAcc(account);
-
+        int accountId = commonDAO.getAccountIdByEmail(email);
         if (account == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
@@ -98,6 +98,7 @@ public class AuthentController extends HttpServlet {
             if (account.getRole_Id() == 1) {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                session.setAttribute("acc_id", accountId);
                 session.setAttribute("isLoggedIn", true);
                 Cookie userC = new Cookie("userC", email);
                 Cookie passC = new Cookie("passC", password);

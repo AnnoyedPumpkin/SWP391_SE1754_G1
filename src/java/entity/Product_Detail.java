@@ -23,6 +23,6 @@ public class Product_Detail {
     private int size_id;
     private int brand_id;
     private int discount_id;
-    private double stock;
+    private int stock;
     private int gender_Id;
 }

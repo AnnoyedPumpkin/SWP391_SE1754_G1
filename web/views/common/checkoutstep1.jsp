@@ -890,96 +890,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${cart_list_product}" var="clp">
+                                <c:forEach items="${shopping_cart_details}" var="p">
                                     <tr>
                                         <td>
                                             <div class="cart_product">
                                                 <div class="item_image">
-                                                    <img src="${pageContext.request.contextPath}/assets/images/cart/img_04.jpg" alt="image_not_found">
+                                                    <img src="${pageContext.request.contextPath}${p.ima.image}" alt="image_not_found">
                                                 </div>
                                                 <div class="item_content">
-                                                    <h4 class="item_title">Men's Polo T-shirt</h4>
-                                                    <span class="item_type">Clothes</span>
+                                                    <h4 class="item_title">${p.p.name}</h4>
+                                                    <span class="item_type">${p.cate.category}</span>
+                                                    Size: ${p.s.size} |
+                                                    Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
                                                 </div>
+
                                                 <button type="button" class="remove_btn">
                                                     <i class="fal fa-times"></i>
                                                 </button>
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="price_text">$69.00</span>
+                                            <span class="price_text unit_price">${p.p.price}$</span>
                                         </td>
                                         <td>
                                             <div class="quantity_input">
                                                 <form action="#">
-                                                    <span class="input_number_decrement">–</span>
-                                                    <input class="input_number" type="text" value="2">
-                                                    <span class="input_number_increment">+</span>
+                                                    <span class="input_number_decrement decrement">–</span>
+                                                    <input class="input_number input_quantity" type="text" value="2">
+                                                    <span class="input_number_increment increment">+</span>
                                                 </form>
                                             </div>
                                         </td>
-                                        <td><span class="total_price">$138.00</span></td>
+                                        <td><span class="total_price total_price_result"></span></td>
                                     </tr>
 
-                                    <tr>
-                                        <td>
-                                            <div class="cart_product">
-                                                <div class="item_image">
-                                                    <img src="${pageContext.request.contextPath}/assets/images/cart/img_05.jpg" alt="image_not_found">
-                                                </div>
-                                                <div class="item_content">
-                                                    <h4 class="item_title">Men's Polo T-shirt</h4>
-                                                    <span class="item_type">Clothes</span>
-                                                </div>
-                                                <button type="button" class="remove_btn">
-                                                    <i class="fal fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="price_text">$23.00</span>
-                                        </td>
-                                        <td>
-                                            <div class="quantity_input">
-                                                <form action="#">
-                                                    <span class="input_number_decrement">–</span>
-                                                    <input class="input_number" type="text" value="1">
-                                                    <span class="input_number_increment">+</span>
-                                                </form>
-                                            </div>
-                                        </td>
-                                        <td><span class="total_price">$23.00</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div class="cart_product">
-                                                <div class="item_image">
-                                                    <img src="${pageContext.request.contextPath}/assets/images/cart/img_06.jpg" alt="image_not_found">
-                                                </div>
-                                                <div class="item_content">
-                                                    <h4 class="item_title">Men's Polo T-shirt</h4>
-                                                    <span class="item_type">Clothes</span>
-                                                </div>
-                                                <button type="button" class="remove_btn">
-                                                    <i class="fal fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="price_text">$36.00</span>
-                                        </td>
-                                        <td>
-                                            <div class="quantity_input">
-                                                <form action="#">
-                                                    <span class="input_number_decrement">–</span>
-                                                    <input class="input_number" type="text" value="1">
-                                                    <span class="input_number_increment">+</span>
-                                                </form>
-                                            </div>
-                                        </td>
-                                        <td><span class="total_price">$36.00</span></td>
-                                    </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -1215,6 +1159,29 @@
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 
+        <script>
+            // Get the elements
+            var priceText = document.getElementsByName('unit_price');
+            var inputNumber = document.getElementByName('input_quantity');
+            var totalPrice = document.getElementByName('total_price_result');
+            var decrementButton = document.getElementByName('decrement');
+            var incrementButton = document.getElementByName('increment');
+
+            // Calculate total price initially
+            calculateTotalPrice();
+            
+            // Add event listener to input for dynamic updates
+            inputNumber.addEventListener('input', calculateTotalPrice);
+            inputNumber.addEventListener('change', calculateTotalPrice);
+               
+            // Function to calculate total price
+            function calculateTotalPrice() {
+                var price = parseFloat(priceText.textContent);
+                var quantity = parseInt(inputNumber.value);
+                var total = price * quantity;
+                totalPrice.textContent = total.toFixed(2);
+            }
+        </script>
 
     </body>
 </html>

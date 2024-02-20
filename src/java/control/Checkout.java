@@ -4,7 +4,10 @@
  */
 package control;
 
+import constant.Constant;
 import dao.CommonDao;
+import entity.Account;
+import entity.Cart;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,14 +31,16 @@ public class Checkout extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+        int accountId = (Integer) session.getAttribute("acc_id");
+
         if (isLoggedIn != null && isLoggedIn) {
-//            List<Product> p = commonDao.getProductOfCartList();
-//            request.setAttribute("cart_list_product", p);
+            List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
+            request.setAttribute("shopping_cart_details", p);
             request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
         }
-//        request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
+        //       request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
     }
 
     /**
@@ -49,6 +54,19 @@ public class Checkout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        switch (action) {
+            case "calculateTotalPrice":
+                int quantity = Integer.parseInt(request.getParameter("input_number"));
+                int pdid = Integer.parseInt(request.getParameter("pdid"));
+                commonDao.updateQuantity(quantity,pdid);
+                request.getRequestDispatcher("/Checkout").forward(request, response);
+                break;
+            case "sendCode":
+                
+            default:
+                throw new AssertionError();
+        }
     }
 
     @Override
