@@ -280,6 +280,25 @@ public class ManageProductController extends HttpServlet {
         }
     }
 
-    
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
+        String idProduct = request.getParameter("product_ID");
+        int idColor = Integer.parseInt(request.getParameter("color_ID"));
+        int idCate = Integer.parseInt(request.getParameter("category_ID"));
+        int idSize = Integer.parseInt(request.getParameter("size_ID"));
+        int idBrand = Integer.parseInt(request.getParameter("brand_ID"));
+        int idGender = Integer.parseInt(request.getParameter("gender_ID"));
+
+        adminDAO.deleteProductDetailById(idProduct, idColor, idCate, idSize, idBrand, idGender);
+
+        if (adminDAO.findProductDetailExist(idProduct, idColor, idCate, idSize, idBrand, idGender)) {
+            request.setAttribute("errdp", "Delete product error !!");
+        } else {
+            List<Product_Detail> listPd = adminDAO.findProductDetail(idProduct, idColor, idCate, idSize, idBrand, idGender);
+            if (listPd.size() == 0) {
+                adminDAO.deleteProductById(idProduct);
+            }
+            request.setAttribute("msgdp", "Delete product successfully !!");
+        }
+    }
 
 }
