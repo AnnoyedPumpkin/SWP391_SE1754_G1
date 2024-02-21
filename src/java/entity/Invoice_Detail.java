@@ -9,16 +9,18 @@ import lombok.Data;
 
 /**
  *
- * @author Win 10
+ * @author admin
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Cart {
+
+public class Invoice_Detail {
     private int id;
-    private int discount_id;
-    private int account_id;
-    private String address;
-    private String cartCode;
+    private int invoice_Id;
+    private int product_Id;
+    private int quantity;
+    private double price;
+    private double total_price;
 }

@@ -18,12 +18,13 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 public class Account_Detail {
-   private int id;
+    private int id;
     private int account_id;
-    private String phone_number;
+    private float phone_number;
     private boolean gender;
     private Date dob;
     private String member_code;
     private String address;
-    private String userName;
+    private String username;
+
 }
