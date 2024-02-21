@@ -30,5 +30,6 @@ public class Cart {
     private Category cate;
     private Gender gen;
     private Image ima;
+    private Discount dis;
     
 }

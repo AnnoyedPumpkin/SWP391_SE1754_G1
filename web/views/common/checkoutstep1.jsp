@@ -42,7 +42,16 @@
         <!-- custom - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/hieu.css">
-
+        <style>
+            .input_number::-webkit-inner-spin-button,
+            .input_number::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            .input_number {
+                -moz-appearance: textfield;
+            }
+        </style>
 
     </head>
 
@@ -872,7 +881,7 @@
             ================================================== -->
             <section class="cart_section sec_ptb_140 clearfix">
                 <div class="container">
-
+<form action="Checkout?action=proceedCheckout" method="post">
                     <ul class="checkout_step ul_li clearfix">
                         <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep1.jsp"><span>01.</span>View Shopping Cart</a></li>
                         <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
@@ -910,58 +919,68 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="price_text unit_price">${p.p.price}$</span>
+                                            <span class="price_text" name="pr">${p.p.price}VND</span>
                                         </td>
                                         <td>
                                             <div class="quantity_input">
-                                                <form action="#">
-                                                    <span class="input_number_decrement decrement">–</span>
-                                                    <input class="input_number input_quantity" type="text" value="2">
-                                                    <span class="input_number_increment increment">+</span>
+                                                <form">
+                                                    <span class="input_number_decrement_de ">–</span>
+                                                    <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="0" max="${p.p_Det.stock}">
+                                                    <span class="input_number_increment_in ">+</span>
+                                                    <input type="hidden" name="pro_det_id" value="${p.c_Det.product_detail_id}">
                                                 </form>
+                                                <span style="display: none;" class="stock_text">${p.p_Det.stock}</span>
+                                                <div class="remaining_stock">${p.p_Det.stock - p.c_Det.quantity} product left</div>
                                             </div>
                                         </td>
-                                        <td><span class="total_price total_price_result"></span></td>
+                                        <td><span class="total_price">${p.c_Det.quantity * p.p.price}VND</span></td>
                                     </tr>
-
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
-
+                    
                     <div class="coupon_wrap mb_50">
                         <div class="row justify-content-lg-between">
-                            <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                 <div class="coupon_form">
+                                    
                                     <div class="form_item mb-0">
-                                        <input type="text" class="coupon" placeholder="Coupon Code">
+                                        <select class="coupon">
+                                            <option value="0">Coupon: 0% Discount</option>
+                                            <c:forEach items="${disountList}" var="dis">
+                                            <option value="${dis.discount_percent}">Coupon: ${dis.discount_percent}% Discount</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
-                                    <button type="submit" class="custom_btn bg_danger text-uppercase">Apply Coupon</button>
+                                    
                                 </div>
                             </div>
 
-                            <!-- <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="cart_update_btn">
-                                            <button type="button" class="custom_btn bg_secondary text-uppercase">Update Cart</button>
-                                    </div>
-                            </div> -->
+                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form_item mb-0">
+                                    <button id="btnCouponApply" type="button" class="custom_btn bg_danger text-uppercase">Apply Coupon</button>
+                                </div>
+                            </div> 
                         </div>
                     </div>
 
                     <div class="row justify-content-lg-end">
                         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                             <div class="cart_pricing_table pt-0 text-uppercase" data-bg-color="#f2f3f5">
-                                <h3 class="table_title text-center" data-bg-color="#ededed">Cart Total</h3>
+                                                                <h3 class="table_title text-center" data-bg-color="#ededed">Cart Total</h3>
                                 <ul class="ul_li_block clearfix">
-                                    <li><span>Subtotal</span> <span>$197.99</span></li>
-                                    <li><span>Discount</span> <span>-$0</span></li>
-                                    <li><span>Total</span> <span>$197.99</span></li>
+                                    <li><span>Subtotal</span> <span id="total_price_sum"></span></li>
+                                    <li><span>Discount</span> <span id="discount_value"></span></li>
+                                    <li><span>Total</span> <span id="total_price_final"></span></li>
                                 </ul>
-                                <a href="shop_checkout_step2.html" class="custom_btn bg_success">Proceed to Checkout</a>
+                                <button class="custom_btn bg_success" type="submit">pc to Checkout</button>
+                                
+                                <!--<a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp" class="custom_btn bg_success">Proceed to Checkout</a>-->
                             </div>
                         </div>
                     </div>
-
+</form>
                 </div>
             </section>
             <!-- cart_section - end
@@ -1158,30 +1177,6 @@
 
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
-
-        <script>
-            // Get the elements
-            var priceText = document.getElementsByName('unit_price');
-            var inputNumber = document.getElementByName('input_quantity');
-            var totalPrice = document.getElementByName('total_price_result');
-            var decrementButton = document.getElementByName('decrement');
-            var incrementButton = document.getElementByName('increment');
-
-            // Calculate total price initially
-            calculateTotalPrice();
-            
-            // Add event listener to input for dynamic updates
-            inputNumber.addEventListener('input', calculateTotalPrice);
-            inputNumber.addEventListener('change', calculateTotalPrice);
-               
-            // Function to calculate total price
-            function calculateTotalPrice() {
-                var price = parseFloat(priceText.textContent);
-                var quantity = parseInt(inputNumber.value);
-                var total = price * quantity;
-                totalPrice.textContent = total.toFixed(2);
-            }
-        </script>
-
+        <script src="${pageContext.request.contextPath}/assets/js/hieu.js"></script>
     </body>
 </html>

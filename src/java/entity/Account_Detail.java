@@ -20,7 +20,7 @@ import lombok.Data;
 public class Account_Detail {
     private int id;
     private int account_id;
-    private float phone_number;
+    private String phone_number;
     private boolean gender;
     private Date dob;
     private String member_code;

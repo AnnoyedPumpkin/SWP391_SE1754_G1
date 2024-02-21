@@ -949,68 +949,68 @@
                         <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
                         <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
                     </ul>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="checkout_collapse_content">
-                                <div class="wrap_heade">
-                                    <p class="mb-0">
-                                        Returning customer? <a class="collapsed" data-toggle="collapse"
-                                                               href="#loginform_collapse" aria-expanded="false" role="button">Click here to
-                                            login</a>
-                                    </p>
+                    <c:if test="${sessionScope.account_information.getRole() != 1}">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout_collapse_content">
+                                    <div class="wrap_heade">
+                                        <p class="mb-0">
+                                            Returning customer? <a class="collapsed" data-toggle="collapse"
+                                                                   href="#loginform_collapse" aria-expanded="false" role="button">Click here to
+                                                login</a>
+                                        </p>
+                                    </div>
+                                    <div id="loginform_collapse" class="collapse_form_wrap collapse">
+                                        <div class="card-body">
+                                            <form action="#">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form_item">
+                                                            <input type="email" name="email" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form_item">
+                                                            <input type="password" name="password" placeholder="Password">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="login_button">
+                                                    <div class="checkbox_item">
+                                                        <label for="remember_checkbox"><input id="remember_checkbox"
+                                                                                              type="checkbox"> Remember me</label>
+                                                    </div>
+                                                    <button type="submit" class="custom_btn bg_default_red">Login Now</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="loginform_collapse" class="collapse_form_wrap collapse">
-                                    <div class="card-body">
-                                        <form action="#">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form_item">
-                                                        <input type="email" name="email" placeholder="Email">
-                                                    </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="checkout_collapse_content">
+                                    <div class="wrap_heade">
+                                        <p class="mb-0">
+                                            <i class="ti-info-alt"></i>
+                                            Have a coupon? <a class="collapsed" data-toggle="collapse" href="#coupon_collapse"
+                                                              aria-expanded="false">Click here to enter your code</a>
+                                        </p>
+                                    </div>
+                                    <div id="coupon_collapse" class="collapse_form_wrap collapse">
+                                        <div class="card-body">
+                                            <form action="#">
+                                                <div class="form_item">
+                                                    <input type="text" name="coupon" placeholder="Coupon Code">
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form_item">
-                                                        <input type="password" name="password" placeholder="Password">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="login_button">
-                                                <div class="checkbox_item">
-                                                    <label for="remember_checkbox"><input id="remember_checkbox"
-                                                                                          type="checkbox"> Remember me</label>
-                                                </div>
-                                                <button type="submit" class="custom_btn bg_default_red">Login Now</button>
-                                            </div>
-                                        </form>
+                                                <button type="submit" class="custom_btn bg_default_red">Apply coupon</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-6">
-                            <div class="checkout_collapse_content">
-                                <div class="wrap_heade">
-                                    <p class="mb-0">
-                                        <i class="ti-info-alt"></i>
-                                        Have a coupon? <a class="collapsed" data-toggle="collapse" href="#coupon_collapse"
-                                                          aria-expanded="false">Click here to enter your code</a>
-                                    </p>
-                                </div>
-                                <div id="coupon_collapse" class="collapse_form_wrap collapse">
-                                    <div class="card-body">
-                                        <form action="#">
-                                            <div class="form_item">
-                                                <input type="text" name="coupon" placeholder="Coupon Code">
-                                            </div>
-                                            <button type="submit" class="custom_btn bg_default_red">Apply coupon</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    </c:if>
                     <div class="billing_form mb_50">
                         <h3 class="form_title mb_30">Billing details</h3>
                         <form action="#">
@@ -1020,7 +1020,7 @@
 
                                 <div class="form_item">
                                     <span class="input_title">User Name<sup>*</sup></span>
-                                    <input type="text" name="username">
+                                    <input type="text" name="username" value="">
                                 </div>
                                 <div class="form_item">
                                     <span class="input_title">Address<sup>*</sup></span>

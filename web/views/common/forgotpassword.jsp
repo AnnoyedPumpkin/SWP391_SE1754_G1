@@ -888,7 +888,7 @@
                                         ${requestScope.successMes}
                                     </c:if>
                                 </div>
-                                <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
+                                <a class="forget_pass text-uppercase mb_30" href="${pageContext.request.contextPath}/authen">Back to Login Page</a>
                                 
                             </div>
                         </form>

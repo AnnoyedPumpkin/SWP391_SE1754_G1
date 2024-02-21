@@ -6,10 +6,12 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Account_Detail;
 import entity.Cart;
 import entity.Cart_Detail;
 import entity.Category;
 import entity.Color;
+import entity.Discount;
 import entity.Gender;
 import entity.Image;
 import entity.Product;
@@ -184,10 +186,11 @@ public class CommonDao extends DBContext {
      * @param accountId - The ID of the account for which the password should be updated.
      */
     public void updatePasswordById(String newPassword, int accountId) {
+        String password = bcryp.hashpw(newPassword, bcryp.gensalt());
         String query = "UPDATE Account Set password = ? Where Id = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(1, password);
             preparedStatement.setInt(2, accountId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -292,7 +295,65 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Method description:  Retrieves the details of shopping carts associated with a specific account ID.
+     *
+     * @return
+     */
+    public List<Discount> getDiscountList() {
+        List<Discount> DisList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String query = "Select * From Discount";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Discount dis = Discount.builder()
+                        .id(resultSet.getInt("Id"))
+                        .create_at(resultSet.getDate("Create_at"))
+                        .discount_percent(resultSet.getDouble("Discount_percent"))
+                        .status(resultSet.getInt("Status"))
+                        .build();
+                DisList.add(dis);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return DisList;
+    }
+
+    public Account getAccountInformationById(int accId) {
+        try {
+            connection = this.getConnection();
+            String query = "SELECT a.*, ad.*\n"
+                    + "FROM Account a LEFT JOIN Account_Detail ad ON a.Id=ad.Account_Id\n"
+                    + "WHERE a.Id=?";
+            preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.setInt(1, accId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Account_Detail account_detail = Account_Detail.builder()
+                        .id(resultSet.getInt("Account_Detail_Id"))
+                        .phone_number(resultSet.getString("Phone_Number"))
+                        .gender(resultSet.getBoolean("Gender"))
+                        .dob(resultSet.getDate("Dob"))
+                        .address(resultSet.getString("Address"))
+                        .build();
+                Account acc = Account.builder()
+                        .id(resultSet.getInt("Account_Id"))
+                        .email(resultSet.getString("Email"))
+                        .member_code(resultSet.getString("Member_Code"))
+                        .role_Id(resultSet.getInt("Role_Id"))
+                        .acc_det(account_detail)
+                        .build();
+                 return acc;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    /**
+     * Method description: Retrieves the details of shopping carts associated with a specific account ID.
      *
      * @param accId The ID of the account for which shopping cart details are to be retrieved.
      * @return A list of Cart objects containing the details of the shopping carts.
@@ -302,7 +363,7 @@ public class CommonDao extends DBContext {
         try {
             connection = this.getConnection();
             String query = "Select c.Id AS Cart_ID, c.Discount_Id AS Discount_Id_Of_Cart, c.CartCode, c.[Address], c.Account_Id, cd.Product_Detail_Id,cd.Quantity,p.[Name] AS Product_Name, p.Price, pd.Discount_Id AS Discount_Id_Of_Product, \n"
-                    + "pd.Stock, co.Color, s.Size, ca.Category, g.Gender, i.[Image] AS Image_Path\n"
+                    + "pd.Stock, co.Color, s.Size, ca.Category, g.Gender, i.[Image] AS Image_Path, dis.Discount_percent\n"
                     + "From Cart c JOIN Cart_Detail cd ON c.Id=cd.Cart_Id\n"
                     + "JOIN Product_Detail pd ON cd.Product_Detail_Id = pd.Id\n"
                     + "JOIN Product p ON p.Id = pd.Product_Id\n"
@@ -310,6 +371,7 @@ public class CommonDao extends DBContext {
                     + "JOIN Size s ON s.Id = pd.Size_Id\n"
                     + "JOIN Category ca ON ca.Id = pd.Category_Id\n"
                     + "JOIN Gender g ON g.Id = pd.Gender_Id\n"
+                    + "JOIN Discount dis ON dis.id = pd.Discount_Id\n"
                     + "LEFT JOIN [Image] i ON i.Product_Id = p.Id\n"
                     + "WHERE (c.CartCode IS NULL) AND (c.Account_Id = ?)";
             preparedStatement = connection.prepareStatement(query);
@@ -317,6 +379,9 @@ public class CommonDao extends DBContext {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                Discount discount = Discount.builder()
+                        .discount_percent(resultSet.getDouble("Discount_Percent"))
+                        .build();
                 Color color = Color.builder()
                         .color(resultSet.getString("Color"))
                         .build();
@@ -358,6 +423,7 @@ public class CommonDao extends DBContext {
                         .s(size)
                         .gen(gender)
                         .ima(image)
+                        .dis(discount)
                         .build();
                 CList.add(c);
             }
@@ -366,23 +432,26 @@ public class CommonDao extends DBContext {
         }
         return CList;
     }
+
     /**
-     * Methods description: 
-     * 
+     * Methods description:
+     *
      * @param quantity
-     * @param id 
+     * @param pro_det_id
      */
-    public void updateQuantity(int quantity, int id) {
-        String query = "UPDATE Cart_Detail Set quantity = ? Where id = ?";
+    public void updateQuantityByProductDetailId(int quantity, int pro_det_id) {
+        String query = "UPDATE Cart_Detail Set quantity = ? Where Product_Detail_Id = ?";
         try {
+            connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, quantity);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, pro_det_id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+
 }
 
 class main {

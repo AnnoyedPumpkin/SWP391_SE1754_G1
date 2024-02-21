@@ -8,6 +8,7 @@ import constant.Constant;
 import dao.CommonDao;
 import entity.Account;
 import entity.Cart;
+import entity.Discount;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,7 +36,9 @@ public class Checkout extends HttpServlet {
 
         if (isLoggedIn != null && isLoggedIn) {
             List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
-            request.setAttribute("shopping_cart_details", p);
+            session.setAttribute("shopping_cart_details", p);
+            List<Discount> dis = commonDao.getDiscountList();
+            session.setAttribute("disountList", dis);
             request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
@@ -56,14 +59,31 @@ public class Checkout extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
-            case "calculateTotalPrice":
-                int quantity = Integer.parseInt(request.getParameter("input_number"));
-                int pdid = Integer.parseInt(request.getParameter("pdid"));
-                commonDao.updateQuantity(quantity,pdid);
-                request.getRequestDispatcher("/Checkout").forward(request, response);
+            case "":
                 break;
-            case "sendCode":
-                
+            case "proceedCheckout":
+                String[] quantityStrings = request.getParameterValues("input_number");
+                String[] productDetailIdStrings = request.getParameterValues("pro_det_id");
+
+                int[] quantities = new int[quantityStrings.length];
+                for (int i = 0; i < quantityStrings.length; i++) {
+                    quantities[i] = Integer.parseInt(quantityStrings[i]);
+                }
+
+                int[] productDetailIds = new int[productDetailIdStrings.length];
+                for (int i = 0; i < productDetailIdStrings.length; i++) {
+                    productDetailIds[i] = Integer.parseInt(productDetailIdStrings[i]);
+                }
+
+                for (int i = 0; i < quantities.length; i++) {
+                    commonDao.updateQuantityByProductDetailId(quantities[i], productDetailIds[i]);
+                }
+                HttpSession session = request.getSession();
+                int accountId = (Integer) session.getAttribute("acc_id");
+                Account acc_infor = commonDao.getAccountInformationById(accountId);
+                session.setAttribute("account_information", acc_infor);
+                request.getRequestDispatcher("views/common/checkoutstep2.jsp").forward(request, response);
+                break;
             default:
                 throw new AssertionError();
         }

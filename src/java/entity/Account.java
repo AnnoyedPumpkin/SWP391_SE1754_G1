@@ -25,4 +25,6 @@ public class Account {
     private String member_code;
     private String verify_code;
     private int role_Id;
+    
+    private Account_Detail acc_det;
 }
