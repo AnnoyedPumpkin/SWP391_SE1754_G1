@@ -3,20 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/web/views/common/login.jsp</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/control/AuthentController.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/entity/Product.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/web/views/common/homepage.jsp</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/dao/PublicDao.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/constant/Constant.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/dao/CommonDao.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/control/users/HomeServlet.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/dao/ProductDAO.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/dao/AdminDao.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/control/ForgotPassword.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/entity/PageControl.java</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/web/index.html</file>
-            <file>file:/D:/FU%20Learning/SEM%205/SWP/SWP391_SE1754_G1-ductn/SWP391_SE1754_G1-ductn/src/java/entity/Account.java</file>
+            <file>file:/D:/FU%20Learning/SEM%205/clone/SWP391_SE1754_G1/src/java/control/ForgotPassword.java</file>
+            <file>file:/D:/FU%20Learning/SEM%205/clone/SWP391_SE1754_G1/web/views/common/homepage.jsp</file>
         </group>
     </open-files>
 </project-private>
