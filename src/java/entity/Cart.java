@@ -20,5 +20,4 @@ public class Cart {
     private int discount_id;
     private int account_id;
     private String address;
-    private String cartCode;
 }

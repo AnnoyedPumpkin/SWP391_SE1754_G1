@@ -492,13 +492,11 @@
                             <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
                         </div>
                         <div class="user_content">
-                            <h4 class="user_name">Jone Doe</h4>
-                            <span class="user_title">Seller</span>
+                            <h4 class="user_name">${username}</h4>
                         </div>
                     </div>
                     <ul class="settings_options ul_li_block clearfix">
-                        <li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
-                        <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                        <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
                         <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
@@ -540,7 +538,7 @@
                 <div class="carparts_filetr_bar">
                     <div class="row align-items-center justify-content-lg-between">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <h4 class="result_text">Showing 1 to 16 of 17 total</h4>
+                            <h4 class="result_text">New Products</h4>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="option_select d-flex align-items-center mb-0">
@@ -586,7 +584,7 @@
                                         <a href="#!">${p.name}</a>
                                     </h3>
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <span class="item_price"><strong>$ ${p.price}</strong> <del>$19.12</del></span>
+                                        <span class="item_price"><strong>VNÐ ${p.price}</strong></span>
                                         <ul class="item_color ul_li clearfix">
                                             <li><a href="#!" data-bg-color="#739f7f"></a></li>
                                             <li><a href="#!" data-bg-color="#eede86"></a></li>
