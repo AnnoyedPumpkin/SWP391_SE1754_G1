@@ -1,79 +1,150 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dao;
 
 import context.DBContext;
-import entity.Product;
+import entity.Account_Detail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Date;
+import model.CartCM;
+import org.mindrot.jbcrypt.BCrypt;
 
-public class ProductDAO extends DBContext {
+/**
+ *
+ * @author Admin
+ */
+public class ProductDao extends DBContext {
 
-    public List<Product> findContainsByName(String keyword) {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE name LIKE ?";
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            
-            preparedStatement.setString(1, "%" + keyword + "%");
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Product product = new Product();
-                    product.setId(resultSet.getInt("id"));
-                    product.setName(resultSet.getString("name"));
-                    product.setCreate_on(resultSet.getDate("create_on"));
-                    product.setDescription(resultSet.getString("description"));
-                    product.setPrice(resultSet.getDouble("price"));
-                    products.add(product);
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    CartCM cartCM = null;
+    BCrypt bcryp = new BCrypt();
+
+    public int checkUserAlreadyHaveCart(int userId) throws SQLException {
+        try {
+            connection = this.getConnection();
+            int cartId = 0;
+            String sql = "Select * FROM dbo.[Cart] Where Account_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                cartId = resultSet.getInt("Id");
+                return cartId;
+            } else {
+                System.out.println("Khong co ton tai account nay trogn cart");
+                return 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getProductQuantityInCartDetail(int productId, int cartId) {
+        try {
+            connection = this.getConnection();
+            int currentQuantity = 0;
+            String sql = "Select * FROM dbo.[Cart_Detail] Where Product_Id = ? AND Cart_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, productId);
+            preparedStatement.setInt(2, cartId);
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                currentQuantity = resultSet.getInt("Quantity");
+                System.out.println("Product Id" + productId + "Quantity" + currentQuantity);
+                return currentQuantity;
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot get table cartDetail by productId");
+        }
+        return 0;
+    }
+
+    // goi cai ham nay 
+    public int addProductToCart(int productId, int quantity, Account_Detail accountDetail, String address, String cartCode, int DiscountId) {
+        try {
+            connection = this.getConnection();
+            // check user da co cart chua.
+            int userId = accountDetail.getAccount_id();
+            System.out.println("UserId " + userId);
+            int newProductQuantity = 0;
+            Date currentDateTime = new Date();
+            int cartId = checkUserAlreadyHaveCart(userId);
+            System.out.println("Cart" + cartId);
+            if (cartId == 0) {
+                System.out.println("Cart khong co nen vao day tao cart");
+                // phai kiem tra o cho nay db co van de thiet ke. Viec insert vao bang phai dam bao data phai co o bang Discount;
+                String sql = "INSERT INTO dbo.[Cart] (Account_Id, Address, CartCode) VALUES (?, ?, ?, ?)";
+                preparedStatement = connection.prepareStatement(sql);
+                // Tao tam thoi. O day co the tao 1 discoundId default voi gia tri la discount la 0.
+                preparedStatement.setInt(1, userId);
+                preparedStatement.setString(2, address);
+                preparedStatement.setString(3, cartCode);
+                int affectedRow = preparedStatement.executeUpdate();
+                if (affectedRow > 0) {
+                    System.out.println("Create new Cart");
+                    // then set vao cart id
+                    sql = "Select * From dbo.[Cart] WHERE Account_Id = ?";
+                    preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setInt(1, userId);
+                    resultSet = preparedStatement.executeQuery();
+                    if(resultSet.next()) {
+                        cartId = resultSet.getInt("Id");
+                    } 
+                } else {
+                    System.out.println("Cannot create new cart");
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Error when finding products by name: " + e.getMessage());
-        }
-        return products;
-    }
+            // check product da co trong cart hay chua
+            int currentQuantity = getProductQuantityInCartDetail(productId, cartId);
+            if (currentQuantity == 0) {
+                // chua co thi insert vao
+                String sql = "INSERT INTO dbo.[Cart_Detail] (Product_Id, Create_at, Quantity, Cart_Id, Discount_Id) VALUES (?, ?, ?, ?, ?)";
+                preparedStatement = connection.prepareStatement(sql);
+                // Tao tam thoi. O day co the tao 1 discoundId default voi gia tri la discount la 0. 
+                preparedStatement.setInt(1, productId);
+                preparedStatement.setObject(2, LocalDateTime.now());
+                preparedStatement.setInt(3, quantity);
+                preparedStatement.setInt(4, cartId);   
+                preparedStatement.setInt(5, DiscountId);
 
-    public List<Product> findAll() {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM Product";
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                Product product = new Product();
-                product.setId(resultSet.getInt("id"));
-                product.setName(resultSet.getString("name"));
-                product.setCreate_on(resultSet.getDate("create_on"));
-                product.setDescription(resultSet.getString("description"));
-                product.setPrice(resultSet.getDouble("price"));
-                products.add(product);
+                int affectedRow = preparedStatement.executeUpdate();
+                if (affectedRow > 0) {
+                    return 1;
+                } else {
+                    System.out.println("Cannot insert into cartdetail with new product");
+                }
+            } else {
+                // co san trong db roi thi update quantity lai thoi/
+                currentQuantity += quantity;
+                String sql = "UPDATE dbo.[Cart_Detail] SET Create_at = ?, Quantity = ? WHERE Product_Id = ? ";
+                preparedStatement = connection.prepareStatement(sql);
+                // Tao tam thoi. O day co the tao 1 discoundId default voi gia tri la discount la 0. 
+                preparedStatement.setObject(1, LocalDateTime.now());
+                preparedStatement.setInt(2, currentQuantity);
+                preparedStatement.setInt(3, productId);
+                int affectedRow = preparedStatement.executeUpdate();
+                if (affectedRow > 0) {
+                    return 1;
+                } else {
+                    System.out.println("Cannot insert into cartdetail with product with new quantity");
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error when finding all products: " + e.getMessage());
+            //
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("addProductToCart " + e.getMessage());
         }
-        return products;
+        return 0;
     }
-
-    public boolean insert(Product product) {
-        String sql = "INSERT INTO Product (name, create_on, description, price) VALUES (?, ?, ?, ?)";
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDate(2, new java.sql.Date(product.getCreate_on().getTime()));
-            preparedStatement.setString(3, product.getDescription());
-            preparedStatement.setDouble(4, product.getPrice());
-
-            int affectedRows = preparedStatement.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            System.out.println("Error when inserting product: " + e.getMessage());
-            return false;
-        }
-    }
-
-    //... Any other methods you need
 }

@@ -1,3 +1,9 @@
+<%-- 
+    Document   : login
+    Created on : Jan 11, 2024, 12:32:33 AM
+    Author     : LENOVO
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <title>Forget Password Page</title>
+        <title>Profile</title>
         <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
@@ -36,12 +42,34 @@
         <!-- custom - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style type="text/css">
+            body{
+                background: #f7f7ff;
+                margin-top:20px;
+            }
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0 solid transparent;
+                border-radius: .25rem;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+            }
+            .me-2 {
+                margin-right: .5rem!important;
+            }
+        </style>
     </head>
 
 
     <body>
-
-
         <!-- backtotop - start -->
         <div id="thetop"></div>
         <div class="backtotop bg_default_red">
@@ -84,7 +112,7 @@
                         <div class="col-lg-3">
                             <div class="brand_logo">
                                 <a class="brand_link" href="index.html">
-                                    <img src="assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
+                                    <img src="${pageContext.request.contextPath}/assets/images/logo/logo_27_1x.png" srcset="assets/images/logo/logo_27_2x.png 2x" alt="logo_not_found">
                                 </a>
 
                                 <ul class="mh_action_btns ul_li clearfix">
@@ -116,7 +144,7 @@
                                                         <li>
                                                             <a href="home_carparts.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/carparts.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/carparts.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Car Parts</span>
                                                             </a>
@@ -124,7 +152,7 @@
                                                         <li>
                                                             <a href="home_classic_ecommerce.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/classic_ecommarce.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Classic Ecommerce</span>
                                                             </a>
@@ -132,7 +160,7 @@
                                                         <li>
                                                             <a href="home_creative_onelook.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/creative_onelook.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/creative_onelook.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Creative Onelook</span>
                                                             </a>
@@ -140,7 +168,7 @@
                                                         <li>
                                                             <a href="home_electronic.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/electronic.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/electronic.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Electronic</span>
                                                             </a>
@@ -148,7 +176,7 @@
                                                         <li>
                                                             <a href="home_fashion.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/fashion.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/fashion.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Fashion</span>
                                                             </a>
@@ -156,7 +184,7 @@
                                                         <li>
                                                             <a href="home_fashion_minimal.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/fashion_minimal.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/fashion_minimal.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Fashion Minimal</span>
                                                             </a>
@@ -164,7 +192,7 @@
                                                         <li>
                                                             <a href="home_furniture.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/furniture.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/furniture.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Furniture</span>
                                                             </a>
@@ -172,7 +200,7 @@
                                                         <li>
                                                             <a href="home_gadget.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/gadget.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/gadget.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Gadget</span>
                                                             </a>
@@ -180,7 +208,7 @@
                                                         <li>
                                                             <a href="home_lookbook_creative.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/lookbook_creative.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/lookbook_creative.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Lookbook Creative</span>
                                                             </a>
@@ -188,7 +216,7 @@
                                                         <li>
                                                             <a href="home_lookbook_slide.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/lookbook_slide.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/lookbook_slide.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Lookbook Slide</span>
                                                             </a>
@@ -196,7 +224,7 @@
                                                         <li>
                                                             <a href="home_medical.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/medical.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/medical.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Medical</span>
                                                             </a>
@@ -204,7 +232,7 @@
                                                         <li>
                                                             <a href="home_modern.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/modern.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/modern.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Modern</span>
                                                             </a>
@@ -212,7 +240,7 @@
                                                         <li>
                                                             <a href="home_modern_minimal.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/modern_minimal.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/modern_minimal.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Modern Minimal</span>
                                                             </a>
@@ -220,7 +248,7 @@
                                                         <li>
                                                             <a href="home_motorcycle.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/motorcycle.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/motorcycle.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Motorcycle</span>
                                                             </a>
@@ -228,7 +256,7 @@
                                                         <li>
                                                             <a href="home_parallax_shop.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/parallax_shop.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/parallax_shop.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Parallax Shop</span>
                                                             </a>
@@ -236,7 +264,7 @@
                                                         <li>
                                                             <a href="home_simple_shop.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/simple_shop.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/simple_shop.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Simple Shop</span>
                                                             </a>
@@ -244,7 +272,7 @@
                                                         <li>
                                                             <a href="home_single_story_black.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/single_story_black.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/single_story_black.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Single Story Black</span>
                                                             </a>
@@ -252,7 +280,7 @@
                                                         <li>
                                                             <a href="home_single_story_white.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/single_story_white.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/single_story_white.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Single Story White</span>
                                                             </a>
@@ -260,7 +288,7 @@
                                                         <li>
                                                             <a href="home_sports.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/sports.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/sports.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Sports Shop</span>
                                                             </a>
@@ -268,7 +296,7 @@
                                                         <li>
                                                             <a href="home_supermarket.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/supermarket.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/supermarket.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Supermarket</span>
                                                             </a>
@@ -276,7 +304,7 @@
                                                         <li>
                                                             <a href="home_watch.html">
                                                                 <span class="item_image">
-                                                                    <img src="assets/images/home_pages/watch.png" alt="image_not_found">
+                                                                    <img src="${pageContext.request.contextPath}/assets/images/home_pages/watch.png" alt="image_not_found">
                                                                 </span>
                                                                 <span class="item_title">Watch</span>
                                                             </a>
@@ -489,42 +517,24 @@
                                         <i class="fal fa-user"></i>
                                     </button>
                                     <div id="use_deropdown" class="collapse_dropdown collapse">
-                                        <div class="dropdown_content">
-                                            <div class="profile_info clearfix">
-                                                                                            <c:choose>
-                                                <c:when test="${acc != null}" >
+                                         <c:choose>
+                                                <c:when test="${user != null}" >
                                                     <div class="profile_info clearfix">
                                                         <div class="user_thumbnail">
                                                             <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                         </div>
-
                                                         <div class="user_content">
-                                                            <h4 class="user_name">${acc.userName}</h4>
-                                                            <span class="user_title">${acc.phone_number}</span>
+                                                            <h4 class="user_name">${user.userName}</h4>
+                                                            <span class="user_title">${user.phone_number}</span>
                                                         </div>
                                                     </div>
                                                 </c:when>
-                                                <c:otherwise>
-                                                    <div class="profile_info clearfix">
-                                                        <div class="user_thumbnail">
-                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                                                        </div>
-
-                                                        <div class="user_content">
-                                                            <h4 class="user_name">
-                                                                <a href="authen">Login</a>
-                                                            </h4>
-                                                        </div>
-                                                    </div>
-                                                </c:otherwise>
-
                                             </c:choose>
                                             <ul class="settings_options ul_li_block clearfix">
                                                 <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
                                                 <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
                                                 <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                                             </ul>
-                                        </div>
                                     </div>
                                 </li>
                                 <li>
@@ -580,7 +590,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -590,7 +600,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -630,7 +640,7 @@
 
                     <div class="msb_widget brand_logo text-center">
                         <a href="index.html">
-                            <img src="assets/images/logo/logo_25_1x.png" srcset="assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
+                            <img src="${pageContext.request.contextPath}/assets/images/logo/logo_25_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_25_2x.png 2x" alt="logo_not_found">
                         </a>
                     </div>
 
@@ -841,16 +851,36 @@
                     <div class="user_info">
                         <h3 class="title_text mb_30 text-uppercase"><i class="fas fa-user mr-2"></i> User Info</h3>
                         <div class="profile_info clearfix">
-                            <div class="user_thumbnail">
-                                <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                            </div>
-                            <div class="user_content">
-                                <h4 class="user_name">Jone Doe</h4>
-                                <span class="user_title">Seller</span>
-                            </div>
-                        </div>
-                        <ul class="settings_options ul_li_block clearfix">
-                            <li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
+                             <c:choose>
+                            <c:when test="$user != null}" >
+                                <div class="profile_info clearfix">
+                                    <div class="user_thumbnail">
+                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                    </div>
+
+                                    <div class="user_content">
+                                        <h4 class="user_name">${user.userName}</h4>
+                                        <span class="user_title">${user.phone_number}</span>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="profile_info clearfix">
+                                    <div class="user_thumbnail">
+                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                    </div>
+
+                                    <div class="user_content">
+                                        <h4 class="user_name">
+                                            <a href="authen">Login</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+
+                        </c:choose>
+                            <ul class="settings_options ul_li_block clearfix">
+                            <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
                             <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
                             <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
@@ -868,11 +898,11 @@
             <section class="breadcrumb_section text-white text-center text-uppercase d-flex align-items-end clearfix" data-background="assets/images/breadcrumb/bg_01.jpg">
                 <div class="overlay" data-bg-color="#1d1d1d"></div>
                 <div class="container">
-                    <h1 class="page_title text-white">Login Page</h1>
+                    <h1 class="page_title text-white">Profile</h1>
                     <ul class="breadcrumb_nav ul_li_center clearfix">
                         <li><a href="#!">Home</a></li>
                         <li>Pages</li>
-                        <li>Login</li>
+                        <li>Profile</li>
                     </ul>
                 </div>
             </section>
@@ -880,47 +910,153 @@
             ================================================== -->
 
 
-            <!-- forgot_password_section - start
+            <!-- register_section - start
             ================================================== -->
+
             <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
                 <div class="container">
-                    <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form id="forgotPasswordForm" action="ForgotPassword?action=getNewPassword" method="post">
-                            <div class="reg_form">
-                                <h2 class="form_title text-uppercase text-center">Get New Password</h2>
-                                <div style="color: red">
-                                    <c:if test="${not empty requestScope.errorMessage}">
-                                        ${requestScope.errorMessage}
-                                    </c:if>
+                    <div class="main-body">
+                        <div class="row">
+                            <div class="card">
+                                <div class="col-lg-12">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+                                            <div class="mt-3">
+                                                <h4>${username}</h4>
+                                                <p class="text-secondary mb-1">${email}</p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                        <form action="profile?action=changePassword" method="POST">
+                                            <div class="reg_form">
+                                                <h5 class="form_title text-uppercase text-center">Change Pass</h5><br>
+                                                <div class="form_item">
+                                                    <input type="password" name="password" placeholder="Old Password">
+                                                </div>
+                                                <div class="form_item">
+                                                    <input type="password" name="newPassword" placeholder="New Password">
+                                                </div>
+                                                <div class="form_item">
+                                                    <input type="password" name="newPassword2" placeholder="Confirm New Password">
+                                                </div>
+                                                <div style="color: greenyellow">
+                                                    ${message}
+                                                </div>
+                                                <div style = "color: red">
+                                                    ${error1}
+                                                </div>
+                                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50" style= margin-left: 30px>Change Pass</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="form_item">
-                                    <input id="contactInfo" type="email" name="contactInfo" placeholder="Enter your email">
-                                    <label for="contactInfo"><i class="fal fa-mailbox"></i></label>
-                                </div>
-                                <div class="form_item">
-                                    <input id="otpCode" type="text" name="password" placeholder="Enter OTP Code">
-                                    <label for="otpCode"><i class="fal fa-code"></i></label>
-                                </div>
-                                <div>
-                                    <c:if test="${not empty requestScope.newPassword}">
-                                        <input  id="np" type="hidden" value="${requestScope.newPassword}">   
-                                    </c:if>
-                                </div>
-                                <button type="button" onclick="sendOTP()" style="width: 46%" class="custom_btn bg_default_black text-uppercase btn_block mb_50">Send OTP Code</button>
-                                <button type="button" onclick="getNewPasswrod()" style="width: 47%" class="custom_btn bg_default_red text-uppercase mb_50">Get New Password</button>
-                                <div style="color: darkgreen">
-                                    <c:if test="${not empty requestScope.notificationMessage}">
-                                        ${requestScope.notificationMessage}
-                                    </c:if>
-                                </div>
-                                <a class="forget_pass text-uppercase mb_30" href="views/common/login.jsp">Back to Login Page</a>
                             </div>
-
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Full Name</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                ${accountDetail.userName}
+                                            </div>
+                                        </div>
+<!--                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Email</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6a657c4c667967617964226d60">[email&#160;protected]</a>
+                                            </div>
+                                        </div>-->
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Phone Number</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                ${accountDetail.phone_number}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Gender</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                ${accountDetail.gender == true ? 'Male' : 'Female'}
+                                                <!-- ${accountDetail.gender} -->
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">DOB</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                ${accountDetail.dob}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Address</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                ${accountDetail.address}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <a class="btn btn-info " href="profile?action=editProfile">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="d-flex align-items-center mb-3">Project Status</h5>
+                                                <p>Web Design</p>
+                                                <div class="progress mb-3" style="height: 5px">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p>Website Markup</p>
+                                                <div class="progress mb-3" style="height: 5px">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p>One Page</p>
+                                                <div class="progress mb-3" style="height: 5px">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p>Mobile Template</p>
+                                                <div class="progress mb-3" style="height: 5px">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p>Backend API</p>
+                                                <div class="progress" style="height: 5px">
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <script type="text/javascript"></script>
+                    </body>
                 </div>
             </section>
-            <!-- forgot_password_section - end
+            <!-- register_section - end
             ================================================== -->
 
 
@@ -939,7 +1075,7 @@
                             <div class="footer_widget df_about_area">
                                 <div class="brand_logo mb_30">
                                     <a href="index.html">
-                                        <img src="assets/images/logo/logo_28_1x.png" srcset="assets/images/logo/logo_28_2x.png 2x" alt="logo_not_found">
+                                        <img src="${pageContext.request.contextPath}/assets/images/logo/logo_28_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_28_2x.png 2x" alt="logo_not_found">
                                     </a>
                                 </div>
 
@@ -961,7 +1097,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_10.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_10.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -977,7 +1113,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_11.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_11.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1000,7 +1136,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_12.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_12.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1016,7 +1152,7 @@
                                     <li>
                                         <div class="small_product">
                                             <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_13.jpg" alt="image_not_found">
+                                                <img src="${pageContext.request.contextPath}/assets/images/shop/minimal/img_13.jpg" alt="image_not_found">
                                             </div>
                                             <div class="item_content">
                                                 <h3 class="item_title">
@@ -1079,7 +1215,6 @@
         <script src="${pageContext.request.contextPath}/assets/js/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <!-- mobile menu - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/mCustomScrollbar.js"></script>
@@ -1115,8 +1250,6 @@
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 
-        <!--Send OTP Code include-->
-        <script src="${pageContext.request.contextPath}/assets/js/sendOTP.js"></script>
 
     </body>
 </html>

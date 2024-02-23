@@ -4,21 +4,20 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
+
 /**
  *
- * @author Win 10
+ * @author admin
  */
+
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Product {
+
+public class Size {
     private int id;
-    private String name;
-    private Date create_on;
-    private String description;
-    private double price;
+    private String size;
 }

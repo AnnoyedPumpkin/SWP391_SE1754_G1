@@ -18,7 +18,7 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class Cart_Detail {
     private int id;
-    private int product_detail_id;
+    private int product_id;
     private Date create_at;
     private int quantity;
     private int cart_id;
