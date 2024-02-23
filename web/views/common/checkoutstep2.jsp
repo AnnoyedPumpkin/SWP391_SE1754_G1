@@ -4,6 +4,7 @@
     Author     : FPT-LAPTOP
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -949,7 +950,9 @@
                         <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
                         <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
                     </ul>
-                    <c:if test="${sessionScope.account_information.getRole() != 1}">
+                    
+                        <c:if test="${sessionScope.account_information.getRole_Id() != 1}">
+                        
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout_collapse_content">
@@ -1020,7 +1023,7 @@
 
                                 <div class="form_item">
                                     <span class="input_title">User Name<sup>*</sup></span>
-                                    <input type="text" name="username" value="">
+                                    <input type="text" name="username" value="${sessionScope.account_information.acc_det.phone_number}">
                                 </div>
                                 <div class="form_item">
                                     <span class="input_title">Address<sup>*</sup></span>

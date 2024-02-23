@@ -28,6 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.mindrot.jbcrypt.BCrypt;
+import java.net.*;
 
 /**
  *
@@ -203,19 +204,19 @@ public class CommonDao extends DBContext {
      * automatically delete the OTP code after a specified delay in minutes.
      *
      * @param code - The OTP Code to be add.
-     * @param Email - The Email of the account for which the OTP Code added.
+     * @param email - The Email of the account for which the OTP Code added.
      */
-    public void addOTPForAccountByEmail(String code, String Email) {
+    public void addOTPForAccountByEmail(String code, String email) {
         String query = "UPDATE Account Set Verify_Code = ? Where Email = ?";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, code);
-            preparedStatement.setString(2, Email);
+            preparedStatement.setString(2, email);
             preparedStatement.executeUpdate();
 
             //Schedule a task to delete the OTP associated with the given Email after a specified delay.
-            scheduleTaskToDeleteOTP(Email, 2);
+            scheduleTaskToDeleteOTP(email, 5);
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -323,11 +324,11 @@ public class CommonDao extends DBContext {
     public Account getAccountInformationById(int accId) {
         try {
             connection = this.getConnection();
-            String query = "SELECT a.*, ad.*\n"
+            String query = "SELECT a.*, ad.*, a.Id AS Account_Id, ad.Id AS Account_Detail_Id\n"
                     + "FROM Account a LEFT JOIN Account_Detail ad ON a.Id=ad.Account_Id\n"
                     + "WHERE a.Id=?";
             preparedStatement = connection.prepareStatement(query);
-                        preparedStatement.setInt(1, accId);
+            preparedStatement.setInt(1, accId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Account_Detail account_detail = Account_Detail.builder()
@@ -344,7 +345,7 @@ public class CommonDao extends DBContext {
                         .role_Id(resultSet.getInt("Role_Id"))
                         .acc_det(account_detail)
                         .build();
-                 return acc;
+                return acc;
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -362,18 +363,19 @@ public class CommonDao extends DBContext {
         List<Cart> CList = new ArrayList<>();
         try {
             connection = this.getConnection();
-            String query = "Select c.Id AS Cart_ID, c.Discount_Id AS Discount_Id_Of_Cart, c.CartCode, c.[Address], c.Account_Id, cd.Product_Detail_Id,cd.Quantity,p.[Name] AS Product_Name, p.Price, pd.Discount_Id AS Discount_Id_Of_Product, \n"
-                    + "pd.Stock, co.Color, s.Size, ca.Category, g.Gender, i.[Image] AS Image_Path, dis.Discount_percent\n"
+            String query = "Select c.Id AS Cart_ID, c.[Address],c.Account_Id, cd.Id AS Cart_Detail_Id,cd.Quantity,cd.Product_Id,\n"
+                    + "p.Id AS Product_Id,p.[Name] AS Product_Name,p.Price,pd.Id AS Product_Detail_Id,pd.Stock, \n"
+                    + "co.Color, s.Size, ca.Category, g.Gender, i.[Image] AS Image_Path,dis.Id AS Discount_Id_Of_Cart, dis.Discount_percent\n"
                     + "From Cart c JOIN Cart_Detail cd ON c.Id=cd.Cart_Id\n"
-                    + "JOIN Product_Detail pd ON cd.Product_Detail_Id = pd.Id\n"
-                    + "JOIN Product p ON p.Id = pd.Product_Id\n"
+                    + "JOIN Product p ON p.Id = cd.Product_Id\n"
+                    + "JOIN Product_Detail pd ON  pd.Product_Id = p.Id\n"
                     + "JOIN Color co ON co.Id = pd.Color_Id\n"
                     + "JOIN Size s ON s.Id = pd.Size_Id\n"
                     + "JOIN Category ca ON ca.Id = pd.Category_Id\n"
                     + "JOIN Gender g ON g.Id = pd.Gender_Id\n"
-                    + "JOIN Discount dis ON dis.id = pd.Discount_Id\n"
+                    + "JOIN Discount dis ON dis.id = c.Discount_Id\n"
                     + "LEFT JOIN [Image] i ON i.Product_Id = p.Id\n"
-                    + "WHERE (c.CartCode IS NULL) AND (c.Account_Id = ?)";
+                    + "Where (c.CartCode IS NULL) AND (c.Account_Id = ?)";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accId);
             resultSet = preparedStatement.executeQuery();
@@ -402,7 +404,6 @@ public class CommonDao extends DBContext {
                         .price(resultSet.getDouble("Price"))
                         .build();
                 Product_Detail productDetail = Product_Detail.builder()
-                        .discount_id(resultSet.getInt("Discount_Id_Of_Product"))
                         .stock(resultSet.getInt("Stock"))
                         .build();
                 Cart_Detail cartDetail = Cart_Detail.builder()
@@ -413,7 +414,6 @@ public class CommonDao extends DBContext {
                         .id(resultSet.getInt("Cart_ID"))
                         .discount_id(resultSet.getInt("Discount_Id_Of_Cart"))
                         .account_id(resultSet.getInt("Account_Id"))
-                        .cart_code(resultSet.getString("CartCode"))
                         .address(resultSet.getString("Address"))
                         .c_Det(cartDetail)
                         .p_Det(productDetail)
@@ -458,27 +458,47 @@ class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-        List<Cart> cartList = c.getShoppingCartDetailsByAccountId(6);
-        int count = 0;
-        for (Cart cart : cartList) {
-            System.out.println("Cart ID: " + cart.getId());
-            System.out.println("Discount ID of Cart: " + cart.getDiscount_id());
-            System.out.println("Account ID: " + cart.getAccount_id());
-            System.out.println("Cart Code: " + cart.getCart_code());
 
-            Product_Detail productDetail = cart.getP_Det();
-            System.out.println("Discount Id of Product: " + productDetail.getDiscount_id());
-            // Accessing CartDetail fields
+        List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
+
+        for (Cart cart : shoppingCartDetails) {
+            System.out.println("Cart ID: " + cart.getId());
+            System.out.println("Address: " + cart.getAddress());
+            System.out.println("Account ID: " + cart.getAccount_id());
+            System.out.println("Discount ID: " + cart.getDiscount_id());
+
             Cart_Detail cartDetail = cart.getC_Det();
-            System.out.println("Product Detail ID: " + cartDetail.getProduct_detail_id());
+            System.out.println("Cart Detail ID: " + cartDetail.getProduct_detail_id());
             System.out.println("Quantity: " + cartDetail.getQuantity());
 
-            Product p = cart.getP();
-            System.out.println("Product Name: " + p.getName());
-            System.out.println("Price: " + p.getPrice());
-            count++;
+            Product product = cart.getP();
+            System.out.println("Product ID: " + product.getId());
+            System.out.println("Product Name: " + product.getName());
+            System.out.println("Product Price: " + product.getPrice());
+
+            Product_Detail productDetail = cart.getP_Det();
+            System.out.println("Product Detail ID: " + productDetail.getId());
+            System.out.println("Stock: " + productDetail.getStock());
+
+            Color color = cart.getC();
+            System.out.println("Color: " + color.getColor());
+
+            Size size = cart.getS();
+            System.out.println("Size: " + size.getSize());
+
+            Category category = cart.getCate();
+            System.out.println("Category: " + category.getCategory());
+
+            Gender gender = cart.getGen();
+            System.out.println("Gender: " + gender.getGender());
+
+            Image image = cart.getIma();
+            System.out.println("Image Path: " + image.getImage());
+
+            Discount discount = cart.getDis();
+            System.out.println("Discount Percent: " + discount.getDiscount_percent());
+
+            System.out.println("----------------------------------------");
         }
-        System.out.println("-----------------------------------");
-        System.out.println(count);
     }
 }

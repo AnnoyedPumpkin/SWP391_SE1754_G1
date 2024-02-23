@@ -4,7 +4,6 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,19 +11,16 @@ import lombok.Data;
  *
  * @author admin
  */
-
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account_Detail {
-    private int id;
-    private int account_id;
-    private String phone_number;
-    private boolean gender;
-    private Date dob;
-    private String member_code;
-    private String address;
-    private String username;
 
+public class Invoice_Detail {
+    private int id;
+    private int invoice_Id;
+    private int product_Id;
+    private int quantity;
+    private double price;
+    private double total_price;
 }
