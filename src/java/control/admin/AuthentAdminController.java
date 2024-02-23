@@ -99,7 +99,7 @@ public class AuthentAdminController extends HttpServlet {
             if (account.getRole_Id() == 3) {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
-                response.sendRedirect("../views/admin/sellerDashboard.jsp");
+                response.sendRedirect("../seller/dashboard");
             } else {
                 request.setAttribute("err", "You don't have permission!");
                 request.getRequestDispatcher("../views/admin/login.jsp").forward(request, response);

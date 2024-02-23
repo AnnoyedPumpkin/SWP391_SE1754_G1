@@ -5,10 +5,6 @@
         <servlet-class>control.AuthentController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SellerDashboardController</servlet-name>
-        <servlet-class>control.seller.DashboardController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ForgotPassword</servlet-name>
         <servlet-class>control.ForgotPassword</servlet-class>
     </servlet>
@@ -26,7 +22,11 @@
     </servlet>
     <servlet>
         <servlet-name>SellerProfileController</servlet-name>
-        <servlet-class>control.seller.ProfileController</servlet-class>
+        <servlet-class>control.seller.SellerProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerDashboardController</servlet-name>
+        <servlet-class>control.seller.SellerDashboardController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthentController</servlet-name>
@@ -41,10 +41,6 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SellerDashboardController</servlet-name>
-        <url-pattern>/seller/dashboard</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
         <url-pattern>/admin/dashboard</url-pattern>
     </servlet-mapping>
@@ -54,7 +50,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SellerProfileController</servlet-name>
-        <url-pattern>/SellerProfileController</url-pattern>
+        <url-pattern>/sellerProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerDashboardController</servlet-name>
+        <url-pattern>/seller/dashboard</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

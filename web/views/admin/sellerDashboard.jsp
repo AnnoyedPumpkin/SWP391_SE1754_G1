@@ -1,7 +1,7 @@
 <%-- 
-    Document   : productCharacteristic
-    Created on : Jan 27, 2024, 1:42:33 PM
-    Author     : LENOVO
+    Document   : sellerDashboard
+    Created on : Feb 23, 2024, 6:07:36 PM
+    Author     : Win 10
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -346,7 +346,7 @@
                     </li>
                     <li class=" navigation-header"><span>pages</span>
                     </li>
-                    <li class=" nav-item"><a href="sellerProfile.jsp"><i class="feather icon-user"></i><span class="menu-title" data-i18n="Profile">Profile</span></a>
+                    <li class=" nav-item"><a href="../sellerProfile"><i class="feather icon-user"></i><span class="menu-title" data-i18n="Profile">Profile</span></a>
                     </li>
                     <li class=" nav-item"><a href="page-account-settings.html"><i class="feather icon-settings"></i><span class="menu-title" data-i18n="Account Settings">Account Settings</span></a>
                     </li>

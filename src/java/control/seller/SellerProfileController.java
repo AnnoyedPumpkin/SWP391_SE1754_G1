@@ -8,19 +8,19 @@ import constant.Constant;
 import dao.SellerDao;
 import entity.Account;
 import entity.Account_Detail;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
  * @author Win 10
  */
-public class ProfileController extends HttpServlet {
+public class SellerProfileController extends HttpServlet {
 
     SellerDao sellerDao;
 
@@ -30,7 +30,7 @@ public class ProfileController extends HttpServlet {
         String url = "";
         sellerDao = new SellerDao();
         HttpSession session = request.getSession(false); // Sử dụng tham số false để không tạo session mới nếu không tồn tại
-        String action = request.getParameter("action") == null ? "profile" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "sellerProfile" : request.getParameter("action");
         if (session != null && session.getAttribute(Constant.SESSION_ACCOUNT) != null) {
             // Lấy thông tin tài khoản từ session
             Account account = (Account) session.getAttribute(Constant.SESSION_ACCOUNT);
@@ -40,20 +40,19 @@ public class ProfileController extends HttpServlet {
             request.setAttribute("accountDetail", accountDetail);
             request.setAttribute("username", accountDetail.getUserName());
             request.setAttribute("email", account.getEmail());
-            request.setAttribute("member_code", account.getMember_code());
 
             switch (action) {
-                case "profile":
+                case "sellerProfile":
                     // Chuyển hướng sang trang hiển thị thông tin cá nhân
-                    url = "views/common/sellerProfile.jsp";
+                    url = "views/admin/sellerProfile.jsp";
                     break;
                 case "editProfile":
-                    url = "views/common/sellerEditProfile.jsp";
+                    url = "views/admin/editprofile.jsp";
                     break;
             }
         } else {
             // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.
-            url = "views/common/login.jsp";
+            url = "views/admin/login.jsp";
         }
         request.getRequestDispatcher(url).forward(request, response);
     }

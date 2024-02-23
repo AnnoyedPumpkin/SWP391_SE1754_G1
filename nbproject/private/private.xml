@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/Documents/University/Spring2024/SWP391/Code/SWP391_SE1754_G1/src/java/entity/Cart.java</file>
-            <file>file:/C:/Users/admin/Documents/University/Spring2024/SWP391/Code/SWP391_SE1754_G1/src/java/control/seller/ProfileController.java</file>
-            <file>file:/C:/Users/admin/Documents/University/Spring2024/SWP391/Code/SWP391_SE1754_G1/src/java/entity/Account.java</file>
-            <file>file:/C:/Users/admin/Documents/University/Spring2024/SWP391/Code/SWP391_SE1754_G1/src/java/dao/SellerDao.java</file>
-            <file>file:/C:/Users/admin/Documents/University/Spring2024/SWP391/Code/SWP391_SE1754_G1/src/java/entity/Cart_Detail.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/src/java/control/admin/AuthentAdminController.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/web/views/admin/sellerProfile.jsp</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/src/java/control/seller/SellerProfileController.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/web/views/admin/sellerDashboard.jsp</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/src/java/control/seller/DashboardController.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/src/java/dao/SellerDao.java</file>
+            <file>file:/C:/Users/Win%2010/Documents/University/Spring2024/SWP391_SE1754_G1/Code/SWP391_SE1754_G1/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>

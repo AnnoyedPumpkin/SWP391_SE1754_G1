@@ -111,20 +111,20 @@ public class SellerDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT * FROM Account_Detail WHERE account_id = ?";
+            String sql = "SELECT * FROM Account_Detail WHERE Account_id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountId);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 Account_Detail accountDetail = new Account_Detail();
-                accountDetail.setId(resultSet.getInt("id"));
-                accountDetail.setAccount_id(resultSet.getInt("account_id"));
-                accountDetail.setPhone_number(resultSet.getFloat("phone_number"));
-                accountDetail.setGender(resultSet.getBoolean("gender"));
-                accountDetail.setDob(resultSet.getDate("dob"));
-                accountDetail.setMember_code(resultSet.getString("member_code"));
-                accountDetail.setAddress(resultSet.getString("address"));
+                accountDetail.setId(resultSet.getInt("Id"));
+                accountDetail.setUserName(resultSet.getString("Username"));
+                accountDetail.setAccount_id(resultSet.getInt("Account_Id"));
+                accountDetail.setPhone_number(resultSet.getString("Phone_Number"));
+                accountDetail.setGender(resultSet.getBoolean("Gender"));
+                accountDetail.setDob(resultSet.getDate("Dob"));
+                accountDetail.setAddress(resultSet.getString("Address"));
                 return accountDetail;
             } else {
                 return null;
