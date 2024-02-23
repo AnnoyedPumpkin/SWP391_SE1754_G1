@@ -17,8 +17,8 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class Cart {
     private int id;
-    private int discount_id;
     private int account_id;
     private String address;
     private String cartCode;
+    private int discount_id;
 }
