@@ -950,9 +950,9 @@
                         <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
                         <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
                     </ul>
-                    
-                        <c:if test="${sessionScope.account_information.getRole_Id() != 1}">
-                        
+
+                    <c:if test="${sessionScope.account_information.getRole_Id() != 1}">
+
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout_collapse_content">
@@ -1014,221 +1014,198 @@
                             </div>
                         </div>
                     </c:if>
+                    <c:if test="${not empty requestScope.subtotal}">
+                        <p>Subtotal: ${requestScope.subtotal}</p>
+                    </c:if>
+                    <c:if test="${not empty requestScope.discount}">
+                        <p>Discount: ${requestScope.discount}</p>
+                    </c:if>
+                    <c:if test="${not empty requestScope.total}">
+                        <p>Total: ${requestScope.total}</p>
+                    </c:if>
                     <div class="billing_form mb_50">
                         <h3 class="form_title mb_30">Billing details</h3>
                         <form action="#">
                             <div class="form_wrap">
 
+                                <c:if test="${not empty account_information}">
 
+                                    <div class="form_item">
+                                        <span class="input_title">User Name<sup>*</sup></span>
 
-                                <div class="form_item">
-                                    <span class="input_title">User Name<sup>*</sup></span>
-                                    <input type="text" name="username" value="${sessionScope.account_information.acc_det.phone_number}">
-                                </div>
-                                <div class="form_item">
-                                    <span class="input_title">Address<sup>*</sup></span>
-                                    <input type="text" name="address">
-                                </div>
+                                        <input type="text" name="username" value="${account_information.getAcc_det().getUsername()}">
 
-                                <!-- <div class="option_select">
+                                    </div>
+                                    <div class="form_item">
                                         <span class="input_title">Address<sup>*</sup></span>
-                                        <select name="address">
-                                                <option value="USA" selected>Vietnam</option>
-                                                <option value="USA">Thai Lan</option>
-                                                <option value="USA">Campuchis</option>
-                                                <option value="USA">Lao</option>
-                                        </select>
-                                </div> -->
+                                        <input type="text" name="address" value="${account_information.getAcc_det().getAddress()}">
+                                    </div>
+
+                                    <!-- <div class="option_select">
+                                            <span class="input_title">Address<sup>*</sup></span>
+                                            <select name="address">
+                                                    <option value="USA" selected>Vietnam</option>
+                                                    <option value="USA">Thai Lan</option>
+                                                    <option value="USA">Campuchis</option>
+                                                    <option value="USA">Lao</option>
+                                            </select>
+                                    </div> -->
 
 
-                                <div class="form_item">
-                                    <span class="input_title">Postcode / Zip<sup>*</sup></span>
-                                    <input type="text" name="postcode">
+                                    <!--                                    <div class="form_item">
+                                                                            <span class="input_title">Postcode / Zip<sup>*</sup></span>
+                                                                            <input type="text" name="postcode">
+                                                                        </div>-->
+
+                                    <div class="form_item">
+                                        <span class="input_title">Phone<sup>*</sup></span>
+                                        <input type="tel" name="phone" value="${account_information.getAcc_det().getPhone_number()}" style="width: max-content">
+                                    </div>
+
+                                    <div class="form_item">
+                                        <span class="input_title">Email Address<sup>*</sup></span>
+                                        <input type="email" name="email" value="${account_information.getEmail()}">
+                                    </div>
+
+                                    <div class="form_item mb-0">
+                                        <span class="input_title">Order notes<sup>*</sup></span>
+                                        <textarea name="note"
+                                                  placeholder="Note about your order, eg. special notes fordelivery."></textarea>
+                                    </div>
+
                                 </div>
+                            </form>
+                        </div>
 
-                                <div class="form_item">
-                                    <span class="input_title">Phone<sup>*</sup></span>
-                                    <input type="tel" name="phone">
-                                </div>
+                        <div class="billing_form">
+                            <h3 class="form_title mb_30">Your order</h3>
+                            <form action="#">
+                                <div class="form_wrap">
 
-                                <div class="form_item">
-                                    <span class="input_title">Email Address<sup>*</sup></span>
-                                    <input type="email" name="email">
-                                </div>
-
-                                <div class="form_item mb-0">
-                                    <span class="input_title">Order notes<sup>*</sup></span>
-                                    <textarea name="note"
-                                              placeholder="Note about your order, eg. special notes fordelivery."></textarea>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="billing_form">
-                        <h3 class="form_title mb_30">Your order</h3>
-                        <form action="#">
-                            <div class="form_wrap">
-
-                                <div class="checkout_table">
-                                    <table class="table text-center mb_50">
-                                        <thead class="text-uppercase text-uppercase">
-                                            <tr>
-                                                <th>Product Name</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="cart_product">
-                                                        <div class="item_image">
-                                                            <img src="${pageContext.request.contextPath}/assets/images/cart/img_04.jpg" alt="image_not_found">
-                                                        </div>
-                                                        <div class="item_content">
-                                                            <h4 class="item_title mb-0">Top Curabitur Lectus</h4>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="price_text">$69.00</span>
-                                                </td>
-                                                <td>
-                                                    <span class="quantity_text">2</span>
-                                                </td>
-                                                <td><span class="total_price">$138.00</span></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <div class="cart_product">
-                                                        <div class="item_image">
-                                                            <img src="${pageContext.request.contextPath}/assets/images/cart/img_04.jpg" alt="image_not_found">
-                                                        </div>
-                                                        <div class="item_content">
-                                                            <h4 class="item_title mb-0">Dress Lobortis Laculis</h4>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="price_text">$69.00</span>
-                                                </td>
-                                                <td>
-                                                    <span class="quantity_text">2</span>
-                                                </td>
-                                                <td><span class="total_price">$138.00</span></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <div class="cart_product">
-                                                        <div class="item_image">
-                                                            <img src="${pageContext.request.contextPath}/assets/images/cart/img_04.jpg" alt="image_not_found">
-                                                        </div>
-                                                        <div class="item_content">
-                                                            <h4 class="item_title mb-0">Boot Curabitur Lectus</h4>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="price_text">$69.00</span>
-                                                </td>
-                                                <td>
-                                                    <span class="quantity_text">2</span>
-                                                </td>
-                                                <td><span class="total_price">$138.00</span></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <span class="subtotal_text">Subtotal</span>
-                                                </td>
-                                                <td><span class="total_price">$414.00</span></td>
-                                            </tr>
-
-                                            <!-- <tr>
+                                    <div class="checkout_table">
+                                        <table class="table text-center mb_50">
+                                            <thead class="text-uppercase text-uppercase">
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${shopping_cart_details}" var="p">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="cart_product">
+                                                                <div class="item_image">
+                                                                    <img src="${pageContext.request.contextPath}${p.ima.image}" alt="image_not_found">
+                                                                </div>
+                                                                <div class="item_content">
+                                                                    <h4 class="item_title mb-0">${p.p.name}</h4>
+                                                                    <span class="item_type">${p.cate.category}</span>
+                                                                    Size: ${p.s.size} |
+                                                                    Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span class="price_text" name="pr">${p.p.price}VND</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="quantity_text">${p.c_Det.quantity}</span>
+                                                        </td>
+                                                        <td><span class="total_price">${p.c_Det.quantity * p.p.price}VND</span></td>
+                                                    </tr>
+                                                </c:forEach>
+                                                <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td>
-                                                            <span class="subtotal_text">Shipping</span>
+                                                        <span class="subtotal_text">Subtotal</span>
                                                     </td>
+                                                    <td><span class="total_price">$414.00</span></td>
+                                                </tr>
+                                            
+                                                <tr>
                                                     <td class="text-left">
-                                                            <div class="checkbox_item mb_15">
-                                                                    <label for="shipping_checkbox"><input id="shipping_checkbox"
-                                                                                    type="checkbox" checked> Free Shipping</label>
-                                                            </div>
-                                                            <div class="checkbox_item mb_15">
-                                                                    <label for="flatrate_checkbox"><input id="flatrate_checkbox"
-                                                                                    type="checkbox"> Flat rate: $15.00</label>
-                                                            </div>
-                                                            <div class="checkbox_item">
-                                                                    <label for="localpickup_checkbox"><input id="localpickup_checkbox"
-                                                                                    type="checkbox"> Local Pickup: $8.00</label>
-                                                            </div>
+                                                        <span class="subtotal_text">TOTAL</span>
                                                     </td>
-                                            </tr> -->
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <span class="total_price">$135.00</span>
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                                <span class="subtotal_text">Shipping</span>
+                                                        </td>
+                                                        <td class="text-left">
+                                                                <div class="checkbox_item mb_15">
+                                                                        <label for="shipping_checkbox"><input id="shipping_checkbox"
+                                                                                        type="checkbox" checked> Free Shipping</label>
+                                                                </div>
+                                                                <div class="checkbox_item mb_15">
+                                                                        <label for="flatrate_checkbox"><input id="flatrate_checkbox"
+                                                                                        type="checkbox"> Flat rate: $15.00</label>
+                                                                </div>
+                                                                <div class="checkbox_item">
+                                                                        <label for="localpickup_checkbox"><input id="localpickup_checkbox"
+                                                                                        type="checkbox"> Local Pickup: $8.00</label>
+                                                                </div>
+                                                        </td>
+                                                </tr> -->
 
-                                            <tr>
-                                                <td class="text-left">
-                                                    <span class="subtotal_text">TOTAL</span>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <span class="total_price">$135.00</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                    <!-- <div class="billing_payment_mathod">
+                                            <ul class="ul_li_block clearfix">
+                                                    <li>
+                                                            <div class="checkbox_item mb_15 pl-0">
+                                                                    <label for="bank_transfer_checkbox"><input id="bank_transfer_checkbox"
+                                                                                    type="checkbox" checked> Direct Bank Transfer</label>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                                    Make your payment directly into our bank account. Please use your Order ID
+                                                                    as the payment reference. Your order will not be shipped until the funds
+                                                                    have cleared in our account.
+                                                            </p>
+                                                    </li>
+    
+                                                    <li>
+                                                            <div class="checkbox_item mb-0 pl-0">
+                                                                    <label for="check_payments"><input id="check_payments" type="checkbox">Check
+                                                                            Payments</label>
+                                                            </div>
+                                                    </li>
+                                                    <li>
+                                                            <div class="checkbox_item mb-0 pl-0">
+                                                                    <label for="cash_delivery"><input id="cash_delivery" type="checkbox"> Cash
+                                                                            On Delivery</label>
+                                                            </div>
+                                                    </li>
+                                                    <li>
+                                                            <div class="checkbox_item mb-0 pl-0">
+                                                                    <label for="paypal_checkbox"><input id="paypal_checkbox" type="checkbox">
+                                                                            Paypal <a href="#!"><img class="paypal_image"
+                                                                                            src="${pageContext.request.contextPath}/assets/images/payment_methods_03.png"
+                                                                                            alt="image_not_found"></a></label>
+                                                            </div>
+                                                    </li>
+                                            </ul>
+                                            <button type="submit" class="custom_btn bg_default_red">PLACE ORDER</button>
+                                    </div> -->
+                                    <button type="submit" class="custom_btn bg_default_red">PLACE ORDER</button>
                                 </div>
-
-                                <!-- <div class="billing_payment_mathod">
-                                        <ul class="ul_li_block clearfix">
-                                                <li>
-                                                        <div class="checkbox_item mb_15 pl-0">
-                                                                <label for="bank_transfer_checkbox"><input id="bank_transfer_checkbox"
-                                                                                type="checkbox" checked> Direct Bank Transfer</label>
-                                                        </div>
-                                                        <p class="mb-0">
-                                                                Make your payment directly into our bank account. Please use your Order ID
-                                                                as the payment reference. Your order will not be shipped until the funds
-                                                                have cleared in our account.
-                                                        </p>
-                                                </li>
-
-                                                <li>
-                                                        <div class="checkbox_item mb-0 pl-0">
-                                                                <label for="check_payments"><input id="check_payments" type="checkbox">Check
-                                                                        Payments</label>
-                                                        </div>
-                                                </li>
-                                                <li>
-                                                        <div class="checkbox_item mb-0 pl-0">
-                                                                <label for="cash_delivery"><input id="cash_delivery" type="checkbox"> Cash
-                                                                        On Delivery</label>
-                                                        </div>
-                                                </li>
-                                                <li>
-                                                        <div class="checkbox_item mb-0 pl-0">
-                                                                <label for="paypal_checkbox"><input id="paypal_checkbox" type="checkbox">
-                                                                        Paypal <a href="#!"><img class="paypal_image"
-                                                                                        src="${pageContext.request.contextPath}/assets/images/payment_methods_03.png"
-                                                                                        alt="image_not_found"></a></label>
-                                                        </div>
-                                                </li>
-                                        </ul>
-                                        <button type="submit" class="custom_btn bg_default_red">PLACE ORDER</button>
-                                </div> -->
-                                <button type="submit" class="custom_btn bg_default_red">PLACE ORDER</button>
-                            </div>
-                        </form>
-                    </div>
-
+                            </form>
+                        </div>
+                    </c:if>
                 </div>
             </section>
             <!-- checkout_section - end

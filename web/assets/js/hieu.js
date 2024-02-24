@@ -130,3 +130,70 @@ document.addEventListener('DOMContentLoaded', function () {
         finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('cartForm'); // Assuming your form has the ID 'cartForm'
+
+    // Function to send data to servlet
+    function sendDataToServlet(data) {
+        // Create a new FormData object
+        const formData = new FormData();
+
+        // Append the data to FormData object
+        for (const key in data) {
+            formData.append(key, data[key]);
+        }
+
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+
+        // Configure the request
+        xhr.open('POST', 'YourServletURL', true);
+
+        // Set up the onload function
+        xhr.onload = function () {
+            // Check if the request was successful
+            if (xhr.status >= 200 && xhr.status < 300) {
+                // Request was successful, handle response if needed
+                console.log('Data sent successfully!');
+            } else {
+                // Request failed
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        // Send the request
+        xhr.send(formData);
+    }
+
+    // Function to get values and send to servlet
+    function sendValuesToServlet() {
+        const totalSumElement = document.getElementById('total_price_sum');
+        const discountValueElement = document.getElementById('discount_value');
+        const finalTotalElement = document.getElementById('total_price_final');
+
+        // Extract text content from elements
+        const totalSum = totalSumElement.innerText.trim();
+        const discountValue = discountValueElement.innerText.trim();
+        const finalTotal = finalTotalElement.innerText.trim();
+
+        // Prepare data to send
+        const data = {
+            totalSum: totalSum,
+            discountValue: discountValue,
+            finalTotal: finalTotal
+        };
+
+        // Send data to servlet
+        sendDataToServlet(data);
+    }
+
+    // Attach event listener to the form submission
+    form.addEventListener('submit', function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Send values to servlet
+        sendValuesToServlet();
+    });
+});

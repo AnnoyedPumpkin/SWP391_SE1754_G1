@@ -321,12 +321,13 @@ public class CommonDao extends DBContext {
         return DisList;
     }
 
-    public Account getAccountInformationById(int accId) {
+    public Account getAccountInformationByAccountId(int accId) {
         try {
             connection = this.getConnection();
-            String query = "SELECT a.*, ad.*, a.Id AS Account_Id, ad.Id AS Account_Detail_Id\n"
-                    + "FROM Account a LEFT JOIN Account_Detail ad ON a.Id=ad.Account_Id\n"
-                    + "WHERE a.Id=?";
+            String query = "SELECT a.Id AS Account_Id, a.Email, a.Member_Code, a.Role_Id, \n"
+                    + "ad.Id AS Account_Detail_Id, ad.[Address],ad.Dob,ad.Gender,ad.Phone_Number,ad.Username\n"
+                    + "                    FROM Account a LEFT JOIN Account_Detail ad ON a.Id=ad.Account_Id\n"
+                    + "                    WHERE a.Id=?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accId);
             resultSet = preparedStatement.executeQuery();
@@ -337,6 +338,7 @@ public class CommonDao extends DBContext {
                         .gender(resultSet.getBoolean("Gender"))
                         .dob(resultSet.getDate("Dob"))
                         .address(resultSet.getString("Address"))
+                        .username(resultSet.getString("Username"))
                         .build();
                 Account acc = Account.builder()
                         .id(resultSet.getInt("Account_Id"))
@@ -404,10 +406,11 @@ public class CommonDao extends DBContext {
                         .price(resultSet.getDouble("Price"))
                         .build();
                 Product_Detail productDetail = Product_Detail.builder()
+                        .id(resultSet.getInt("Product_Detail_Id"))
                         .stock(resultSet.getInt("Stock"))
                         .build();
                 Cart_Detail cartDetail = Cart_Detail.builder()
-                        .product_detail_id(resultSet.getInt("Product_Detail_Id"))
+                        .product_detail_id(resultSet.getInt("Product_Id"))
                         .quantity(resultSet.getInt("Quantity"))
                         .build();
                 Cart c = Cart.builder()
@@ -437,15 +440,15 @@ public class CommonDao extends DBContext {
      * Methods description:
      *
      * @param quantity
-     * @param pro_det_id
+     * @param id
      */
-    public void updateQuantityByProductDetailId(int quantity, int pro_det_id) {
-        String query = "UPDATE Cart_Detail Set quantity = ? Where Product_Detail_Id = ?";
+    public void updateQuantityByProductDetailId(int quantity, int id) {
+        String query = "UPDATE Cart_Detail Set quantity = ? Where Product_Id = ?";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, quantity);
-            preparedStatement.setInt(2, pro_det_id);
+            preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

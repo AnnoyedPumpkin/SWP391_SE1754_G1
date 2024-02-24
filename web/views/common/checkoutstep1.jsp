@@ -881,106 +881,105 @@
             ================================================== -->
             <section class="cart_section sec_ptb_140 clearfix">
                 <div class="container">
-<form action="Checkout?action=proceedCheckout" method="post">
-                    <ul class="checkout_step ul_li clearfix">
-                        <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep1.jsp"><span>01.</span>View Shopping Cart</a></li>
-                        <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
-                        <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
-                    </ul>
+                    <form id="cartForm" action="Checkout?action=proceedCheckout" method="post">
+                        <ul class="checkout_step ul_li clearfix">
+                            <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep1.jsp"><span>01.</span>View Shopping Cart</a></li>
+                            <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
+                            <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
+                        </ul>
 
-                    <div class="cart_table mb_50">
-                        <table class="table">
-                            <thead class="text-uppercase bg-white border-bottom">
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Unit Price</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${shopping_cart_details}" var="p">
+                        <div class="cart_table mb_50">
+                            <table class="table">
+                                <thead class="text-uppercase bg-white border-bottom">
                                     <tr>
-                                        <td>
-                                            <div class="cart_product">
-                                                <div class="item_image">
-                                                    <img src="${pageContext.request.contextPath}${p.ima.image}" alt="image_not_found">
-                                                </div>
-                                                <div class="item_content">
-                                                    <h4 class="item_title">${p.p.name}</h4>
-                                                    <span class="item_type">${p.cate.category}</span>
-                                                    Size: ${p.s.size} |
-                                                    Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
-                                                </div>
-
-                                                <button type="button" class="remove_btn">
-                                                    <i class="fal fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="price_text" name="pr">${p.p.price}VND</span>
-                                        </td>
-                                        <td>
-                                            <div class="quantity_input">
-                                                <form">
-                                                    <span class="input_number_decrement_de ">–</span>
-                                                    <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="0" max="${p.p_Det.stock}">
-                                                    <span class="input_number_increment_in ">+</span>
-                                                    <input type="hidden" name="pro_det_id" value="${p.c_Det.product_detail_id}">
-                                                </form>
-                                                <span style="display: none;" class="stock_text">${p.p_Det.stock}</span>
-                                                <div class="remaining_stock">${p.p_Det.stock - p.c_Det.quantity} product left</div>
-                                            </div>
-                                        </td>
-                                        <td><span class="total_price">${p.c_Det.quantity * p.p.price}VND</span></td>
+                                        <th>Product</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
                                     </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="coupon_wrap mb_50">
-                        <div class="row justify-content-lg-between">
-                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                                <div class="coupon_form">
-                                    
-                                    <div class="form_item mb-0">
-                                        <select class="coupon">
-                                            <option value="0">Coupon: 0% Discount</option>
-                                            <c:forEach items="${disountList}" var="dis">
-                                            <option value="${dis.discount_percent}">Coupon: ${dis.discount_percent}% Discount</option>
-                                            </c:forEach>
-                                        </select>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${shopping_cart_details}" var="p">
+                                        <tr>
+                                            <td>
+                                                <div class="cart_product">
+                                                    <div class="item_image">
+                                                        <img src="${pageContext.request.contextPath}${p.ima.image}" alt="image_not_found">
+                                                    </div>
+                                                    <div class="item_content">
+                                                        <h4 class="item_title">${p.p.name}</h4>
+                                                        <span class="item_type">${p.cate.category}</span>
+                                                        Size: ${p.s.size} |
+                                                        Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
+                                                    </div>
+
+                                                    <button type="button" class="remove_btn">
+                                                        <i class="fal fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="price_text" name="pr">${p.p.price}VND</span>
+                                            </td>
+                                            <td>
+                                                <div class="quantity_input">
+                                                    <form">
+                                                        <span class="input_number_decrement_de ">–</span>
+                                                        <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="0" max="${p.p_Det.stock}">
+                                                        <span class="input_number_increment_in ">+</span>
+                                                        <input type="hidden" name="pro_det_id" value="${p.c_Det.product_detail_id}">
+                                                    </form>
+                                                    <span style="display: none;" class="stock_text">${p.p_Det.stock}</span>
+                                                    <div class="remaining_stock">${p.p_Det.stock - p.c_Det.quantity} product left</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="total_price">${p.c_Det.quantity * p.p.price}VND</span></td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="coupon_wrap mb_50">
+                            <div class="row justify-content-lg-between">
+                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="coupon_form">
+
+                                        <div class="form_item mb-0">
+                                            <select class="coupon">
+                                                <option value="0">Coupon: 0% Discount</option>
+                                                <c:forEach items="${disountList}" var="dis">
+                                                    <option value="${dis.discount_percent}">Coupon: ${dis.discount_percent}% Discount</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+
                                     </div>
-                                    
                                 </div>
-                            </div>
 
-                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                <div class="form_item mb-0">
-                                    <button id="btnCouponApply" type="button" class="custom_btn bg_danger text-uppercase">Apply Coupon</button>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-lg-end">
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                            <div class="cart_pricing_table pt-0 text-uppercase" data-bg-color="#f2f3f5">
-                                                                <h3 class="table_title text-center" data-bg-color="#ededed">Cart Total</h3>
-                                <ul class="ul_li_block clearfix">
-                                    <li><span>Subtotal</span> <span id="total_price_sum"></span></li>
-                                    <li><span>Discount</span> <span id="discount_value"></span></li>
-                                    <li><span>Total</span> <span id="total_price_final"></span></li>
-                                </ul>
-                                <button class="custom_btn bg_success" type="submit">pc to Checkout</button>
-                                
-                                <!--<a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp" class="custom_btn bg_success">Proceed to Checkout</a>-->
+                                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form_item mb-0">
+                                        <button id="btnCouponApply" type="button" class="custom_btn bg_danger text-uppercase">Apply Coupon</button>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
-                    </div>
-</form>
+
+                        <div class="row justify-content-lg-end">
+                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <div class="cart_pricing_table pt-0 text-uppercase" data-bg-color="#f2f3f5">
+                                    <h3 class="table_title text-center" data-bg-color="#ededed">Cart Total</h3>
+                                    <ul class="ul_li_block clearfix">
+                                        <li><span>Subtotal</span> <span id="total_price_sum"></span></li>
+                                        <li><span>Discount</span> <span id="discount_value"></span></li>
+                                        <li><span>Total</span> <span id="total_price_final"></span></li>
+                                    </ul>
+
+                                    <button class="custom_btn bg_success" type="submit">Proceed to Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </section>
             <!-- cart_section - end

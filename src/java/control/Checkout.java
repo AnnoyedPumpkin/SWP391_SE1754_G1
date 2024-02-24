@@ -65,7 +65,9 @@ public class Checkout extends HttpServlet {
             case "proceedCheckout":
                 String[] quantityStrings = request.getParameterValues("input_number");
                 String[] productDetailIdStrings = request.getParameterValues("pro_det_id");
-
+                String subtotal = request.getParameter("subtotal");
+                String discount = request.getParameter("discount");
+                String total = request.getParameter("total_price_sum");
                 int[] quantities = new int[quantityStrings.length];
                 for (int i = 0; i < quantityStrings.length; i++) {
                     quantities[i] = Integer.parseInt(quantityStrings[i]);
@@ -81,7 +83,9 @@ public class Checkout extends HttpServlet {
                 }
                 HttpSession session = request.getSession();
                 int accountId = (Integer) session.getAttribute("acc_id");
-                Account acc_infor = commonDao.getAccountInformationById(accountId);
+                Account acc_infor = commonDao.getAccountInformationByAccountId(accountId);
+                List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
+                session.setAttribute("shopping_cart_details", p);
                 session.setAttribute("account_information", acc_infor);
                 request.getRequestDispatcher("views/common/checkoutstep2.jsp").forward(request, response);
                 break;
