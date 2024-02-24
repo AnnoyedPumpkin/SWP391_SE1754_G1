@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.AccountDetailUM;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -147,5 +148,107 @@ public class SellerDao extends DBContext {
                 ex.printStackTrace();
             }
         }
+    }
+    
+    /**
+     * Method description: Edit user profile
+     * 
+     * @param accountDetailUM - account to be update
+     * @return 
+     */
+    public AccountDetailUM editProfile(AccountDetailUM accountDetailUM) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account_Detail SET Phone_Number = ?, "
+                    + "Gender = ?, "
+                    + "Dob = ?, "
+                    + "Address = ?, "
+                    + "Username = ? "
+                    + "WHERE Account_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, accountDetailUM.getPhone_number());
+            preparedStatement.setBoolean(2, accountDetailUM.isGender());
+            preparedStatement.setString(3, accountDetailUM.getDob());
+            preparedStatement.setString(4, accountDetailUM.getAddress());
+            preparedStatement.setString(5, accountDetailUM.getUserName());
+            preparedStatement.setInt(6, accountDetailUM.getAccount_id());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                sql = "Select * FROM Account_Detail ad JOIN  Account a ON ad.Account_Id = a.Id WHERE Account_Id = ?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, accountDetailUM.getAccount_id());
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    accountDetailUM = new AccountDetailUM();
+                    accountDetailUM.setAddress(resultSet.getString("Address"));
+                    accountDetailUM.setPhone_number(resultSet.getString("Phone_Number"));
+                    accountDetailUM.setDob(resultSet.getString("Dob"));
+                    accountDetailUM.setGender(resultSet.getBoolean("Gender"));
+                    accountDetailUM.setUserName(resultSet.getString("Username"));
+                    accountDetailUM.setEmail(resultSet.getString("Email"));
+
+                    return accountDetailUM;
+                }
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Method description: Change seller password
+     * 
+     * @param password - Password that seller wanna change
+     * @param accountId - accountId seller
+     * @return 
+     */
+    public int changePassword(String password, int accountId) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account SET Password = ? WHERE Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, accountId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return 0;
     }
 }
