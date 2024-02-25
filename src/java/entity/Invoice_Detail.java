@@ -4,22 +4,23 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 
 /**
  *
- * @author Win 10
+ * @author admin
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Cart_Detail {
+
+public class Invoice_Detail {
     private int id;
-    private int product_id;
-    private Date create_at;
+    private int invoice_Id;
+    private int product_Id;
     private int quantity;
-    private int cart_id;
+    private double price;
+    private double total_price;
 }

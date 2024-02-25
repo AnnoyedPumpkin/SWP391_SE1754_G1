@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entity;
+package model;
 
 import java.util.Date;
 import lombok.Builder;
@@ -10,16 +10,21 @@ import lombok.Data;
 
 /**
  *
- * @author Win 10
+ * @author Admin
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Cart_Detail {
-    private int id;
-    private int product_id;
-    private Date create_at;
+public class CartCM {
+    private String cartId;
+    private String productDetailId;
+    private String productId;
+    private Date createAt;
     private int quantity;
-    private int cart_id;
+    private String address;
+    private String cartCode;
+    private int discountID;
+    private int accoundId;
+            
 }

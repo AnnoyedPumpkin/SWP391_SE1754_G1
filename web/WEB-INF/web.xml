@@ -28,6 +28,14 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>control.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductController</servlet-name>
+        <servlet-class>control.ProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>control.OrderController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthentController</servlet-name>
         <url-pattern>/authen</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductController</servlet-name>
+        <url-pattern>/product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

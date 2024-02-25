@@ -365,7 +365,7 @@ public class CommonDao extends DBContext {
         try {
             List<ProductVM> listProduct = new ArrayList();
             connection = this.getConnection();
-            String sql = "SELECT  p.Name, p.Create_on, p.Description, p.Price, im.Image "
+            String sql = "SELECT  p.Id, p.Name, p.Create_on, p.Description, p.Price, im.Image "
                     + "from dbo.Product p JOIN dbo.Image im ON im.Product_Id = p.Id  "
                     + "Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
             preparedStatement = connection.prepareStatement(sql);
@@ -379,6 +379,7 @@ public class CommonDao extends DBContext {
                 productVM.setDescription(resultSet.getString("Description"));
                 productVM.setCreate_on(resultSet.getDate("Create_on"));
                 productVM.setPrice(resultSet.getDouble("Price"));
+                productVM.setId(resultSet.getInt("Id"));
                 listProduct.add(productVM);
             }
             return listProduct;
