@@ -491,16 +491,36 @@
                                     <div id="use_deropdown" class="collapse_dropdown collapse">
                                         <div class="dropdown_content">
                                             <div class="profile_info clearfix">
-                                                <div class="user_thumbnail">
-                                                    <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                                                </div>
-                                                <div class="user_content">
-                                                    <h4 class="user_name">Jone Doe</h4>
-                                                    <span class="user_title">Seller</span>
-                                                </div>
-                                            </div>
+                                                                                            <c:choose>
+                                                <c:when test="${acc != null}" >
+                                                    <div class="profile_info clearfix">
+                                                        <div class="user_thumbnail">
+                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                        </div>
+
+                                                        <div class="user_content">
+                                                            <h4 class="user_name">${acc.userName}</h4>
+                                                            <span class="user_title">${acc.phone_number}</span>
+                                                        </div>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="profile_info clearfix">
+                                                        <div class="user_thumbnail">
+                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                        </div>
+
+                                                        <div class="user_content">
+                                                            <h4 class="user_name">
+                                                                <a href="authen">Login</a>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </c:otherwise>
+
+                                            </c:choose>
                                             <ul class="settings_options ul_li_block clearfix">
-                                                <li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
+                                                <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
                                                 <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
                                                 <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                                             </ul>

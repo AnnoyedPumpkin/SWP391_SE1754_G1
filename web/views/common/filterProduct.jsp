@@ -10,33 +10,33 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
         <title>Fashion Minimal Shop - Neoncart HTML5 Template</title>
-        <link rel="shortcut icon" href="assets/images/logo/favourite_icon_01.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- icon - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/fontawesome.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/fontawesome.css">
 
         <!-- animation - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/animate.css">
 
         <!-- nice select - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/nice-select.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/nice-select.css">
 
         <!-- carousel - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick-theme.css">
 
         <!-- popup images & videos - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/magnific-popup.css">
 
         <!-- jquery ui - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/jquery-ui.css">
 
         <!-- custom - css include -->
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <style>
             .paged-content {
                 width: 100%;
@@ -44,8 +44,8 @@
                 display: flex;
             }
             .active-paged {
-                  background-color: #fd7e14 !important;
-                font-weight: bold;
+                background-color: #fd7e14 !important;
+                    font-weight: bold;
             }
 
         </style>
@@ -107,8 +107,8 @@
                         <div class="col-lg-4">
                             <div class="brand_logo text-center">
                                 <a class="brand_link" href="home">
-                                    <img src="assets/images/logo/logo_20_1x.png"
-                                         srcset="assets/images/logo/logo_20_2x.png 2x" alt="logo_not_found">
+                                    <img src="${pageContext.request.contextPath}/assets/images/logo/logo_20_1x.png"
+                                         srcset="${pageContext.request.contextPath}/assets/images/logo/logo_20_2x.png 2x" alt="logo_not_found">
                                 </a>
 
                                 <ul class="mh_action_btns ul_li clearfix">
@@ -152,23 +152,23 @@
                                                 <c:when test="${user != null}" >
                                                     <div class="profile_info clearfix">
                                                         <div class="user_thumbnail">
-                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                            <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                         </div>
 
                                                         <div class="user_content">
                                                             <h4 class="user_name">${user.userName}</h4>
-                                                            <span class="user_title">${email}</span>
+                                                            <span class="user_title">${user.phone_number}</span>
                                                         </div>
                                                     </div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="profile_info clearfix">
                                                         <div class="user_thumbnail">
-                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                            <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                         </div>
                                                         <div class="user_content">
                                                             <h4 class="user_name">
-                                                                <a href="authen">Login</a>
+                                                                <a href="${pageContext.request.contextPath}/authen">Login</a>
                                                             </h4>
                                                         </div>
                                                     </div>
@@ -177,7 +177,8 @@
                                             </c:choose>
                                             <ul class="settings_options ul_li_block clearfix">
                                                 <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
-                                                <li><a data-toggle="modal" data-target="#logoutModal" href="#"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
+                                                <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                                                <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -229,7 +230,7 @@
                     <ul class="cart_items_list ul_li_block mb_30 clearfix">
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -239,7 +240,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -249,7 +250,7 @@
                         </li>
                         <li>
                             <div class="item_image">
-                                <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
+                                <img src="${pageContext.request.contextPath}/assets/images/cart/img_01.jpg" alt="image_not_found">
                             </div>
                             <div class="item_content">
                                 <h4 class="item_title">Yellow Blouse</h4>
@@ -289,7 +290,7 @@
 
                     <div class="msb_widget brand_logo text-center">
                         <a href="index.html">
-                            <img src="assets/images/logo/logo_25_1x.png" srcset="assets/images/logo/logo_25_2x.png 2x"
+                            <img src="${pageContext.request.contextPath}/assets/images/logo/logo_25_1x.png" srcset="${pageContext.request.contextPath}/assets/images/logo/logo_25_2x.png 2x"
                                  alt="logo_not_found">
                         </a>
                     </div>
@@ -522,7 +523,7 @@
                         <!--                        <h3 class="title_text mb_30 text-uppercase"><i class="fas fa-user me-2"></i> User Info</h3>
                                                 <div class="profile_info clearfix">
                                                     <div class="user_thumbnail">
-                                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                                        <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                     </div>
                                                     <div class="user_content">
                                                         <h4 class="user_name">Jone Doe</h4>
@@ -534,24 +535,24 @@
                             <c:when test="${user != null}" >
                                 <div class="profile_info clearfix">
                                     <div class="user_thumbnail">
-                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                        <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                     </div>
 
                                     <div class="user_content">
                                         <h4 class="user_name">${user.userName}</h4>
-                                        <span class="user_title">${email}</span>
+                                        <span class="user_title">${user.phone_number}</span>
                                     </div>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <div class="profile_info clearfix">
                                     <div class="user_thumbnail">
-                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                        <img src="${pageContext.request.contextPath}/assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                     </div>
 
                                     <div class="user_content">
                                         <h4 class="user_name">
-                                            <a href="authen">Login</a>
+                                            <a href="${pageContext.request.contextPath}/authen">Login</a>
                                         </h4>
                                     </div>
                                 </div>
@@ -560,7 +561,8 @@
                         </c:choose>
                         <ul class="settings_options ul_li_block clearfix">
                             <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
-                            <li><a data-toggle="modal" data-target="#logoutModal" href="#"><i class="fal fa-sign-out-alt"></i> Logout</a></li>                      
+                            <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                            <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -574,7 +576,7 @@
             <!-- breadcrumb_section - start
                 ================================================== -->
             <section class="breadcrumb_section minimal_fashion_breadcrumb text-center d-flex align-items-center clearfix"
-                     data-background="assets/images/breadcrumb/bg_10.jpg">
+                     data-background="${pageContext.request.contextPath}/assets/images/breadcrumb/bg_10.jpg">
                 <div class="container">
                     <h1 class="medical_page_title mb_15">Products Page</h1>
                 </div>
@@ -601,7 +603,7 @@
                     <div class="carparts_filetr_bar">
                         <div class="row align-items-center justify-content-lg-between">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <h4 class="result_text">News</h4>
+                                <h4 class="result_text">Showing 1 to 16 of 17 total</h4>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="option_select d-flex align-items-center mb-0">
@@ -629,37 +631,37 @@
                                         <select name="colorId" style="display: none;">
                                             <option value = "">Nothing</option>
                                             <c:forEach items="${color}" var="i">
-                                             <option value="${i.id}"  ${colorId == i.id ? "selected" : ""}> ${i.color}</option>
+                                                <option value="${i.id}"  ${colorId == i.id ? "selected" : ""}> ${i.color}</option>
                                             </c:forEach>
                                         </select>
 
                                         <span class="option_title text-uppercase">Category:</span>
-                                         <select  name="categoryId" style="display: none;">
+                                        <select  name="categoryId" style="display: none;">
                                             <option value = "" data-display="Nothing">Nothing</option>
                                             <c:forEach items="${category}" var="i">
-                                             <option value="${i.id}" ${categoryId == i.id ? "selected" : ""}> ${i.category} </option>
+                                                <option value="${i.id}" ${categoryId == i.id ? "selected" : ""}> ${i.category} </option>
                                             </c:forEach>
                                         </select>
                                         <span class="option_title text-uppercase">Brand:</span>
-                                           <select name="brandId" style="display: none;">
+                                        <select name="brandId" style="display: none;">
                                             <option value = "" data-display="Nothing">Nothing</option>
                                             <c:forEach items="${brand}" var="i">
-                                             <option value="${i.id}" ${brandId == i.id ? "selected" : ""}> ${i.brand}</option>
+                                                <option value="${i.id}" ${brandId == i.id ? "selected" : ""}> ${i.brand}</option>
                                             </c:forEach>
                                         </select>
                                         <span class="option_title text-uppercase">Gender:</span>
-                                           <select name="genderId" style="display: none;">
+                                        <select name="genderId" style="display: none;">
                                             <option value = "" data-display="Nothing">Nothing</option>
                                             <c:forEach items="${gender}" var="i">
-                                             <option value="${i.id}" ${genderId == i.id ? "selected" : ""}> ${i.gender}</option>
+                                                <option value="${i.id}" ${genderId == i.id ? "selected" : ""}> ${i.gender}</option>
                                             </c:forEach>
                                         </select>
 
                                         <span class="option_title text-uppercase">Size:</span>
-                                          <select name="sizeId" style="display: none;">
+                                        <select name="sizeId" style="display: none;">
                                             <option value = "" data-display="Nothing">Nothing</option>
                                             <c:forEach items="${size}" var="i">
-                                             <option value="${i.id}" ${sizeId == i.id ? "selected" : ""}> ${i.size}</option>
+                                                <option value="${i.id}" ${sizeId == i.id ? "selected" : ""}> ${i.size}</option>
                                             </c:forEach>
                                         </select>
                                         <button type="submit" class="btn btn-success">Filter</button>
@@ -673,13 +675,13 @@
                         <c:forEach items="${listProduct}" var="p">
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="fashion_minimal_product">
-                                    <ul class="product_label ul_li clearfix">
+                                    <ul class="product_label ul_li clearfix">                                        
                                         <li data-bg-color="#82ca9c">NEW</li>
                                     </ul>
                                     <div class="item_image">
                                         <a class="image_wrap" href="#!">
                                             <img src="${p.imageLink}" alt="image_not_found">
-                                        </a>                        
+                                        </a>
                                         <a class="addto_wishlist tooltips" data-placement="top" title="Add To Wishlist"
                                            href="#!"><i class="fal fa-heart"></i></a>
                                         <ul class="product_action_btns ul_li_center clearfix">
@@ -696,7 +698,7 @@
                                             <a href="#!">${p.name}</a>
                                         </h3>
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <span class="item_price"><strong>VND ${p.price}</strong> <!--<del>$19.12</del>  --></span>
+                                            <span class="item_price"><strong>VND ${p.price}</strong> <!--<del>$19.12</del>--></span>
                                             <ul class="item_color ul_li clearfix">
                                                 <li><a href="#!" data-bg-color="#739f7f"></a></li>
                                                 <li><a href="#!" data-bg-color="#eede86"></a></li>
@@ -720,12 +722,13 @@
                                     </c:when>
                                     <c:otherwise>
                                         <li class="page-item">
-                                            <a href="home?index=${pageSelected -1}" class="page-link">Previous</a>
+                                            <a href="${pageContext.request.contextPath}/product?action=filter&index=${pageSelected -1}" class="page-link">Previous</a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
                                 <c:forEach begin="1" end="${endPage}" var="i">
-                                    <li class="page-item"><a class="${pageSelected == i ? "page-link active-paged" : "page-link"}" href="home?index=${i}">${i}</a></li>
+                                    <li class="page-item"><a class="${pageSelected == i ? "page-link active-paged" : "page-link"}" 
+                                                             href="${pageContext.request.contextPath}/product?action=filter&index=${i}">${i}</a></li>
                                     </c:forEach>
 
                                 <c:choose>
@@ -736,7 +739,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <li class="page-item">
-                                            <a href="home?index=${pageSelected  + 1}" class="page-link">Next</a>
+                                            <a href="${pageContext.request.contextPath}/product?action=filter&index=${pageSelected  + 1}" class="page-link">Next</a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
@@ -747,9 +750,11 @@
                 </div>
             </section>
             <!-- product_section - end
-                ================================================== -->   
+                ================================================== -->
 
 
+            <!-- newsletter_section - start
+                ================================================== -->          
         </main>
         <!-- main body - end
             ================================================== -->
@@ -758,7 +763,7 @@
         <!-- footer_section - start
             ================================================== -->
         <footer class="footer_section fashion_minimal_footer clearfix" data-bg-color="#222222">
-            <div class="backtotop" data-background="assets/images/shape_01.png">
+            <div class="backtotop" data-background="${pageContext.request.contextPath}/assets/images/shape_01.png">
                 <a href="#" class="scroll">
                     <i class="far fa-arrow-up"></i>
                 </a>
@@ -772,8 +777,8 @@
                             <div class="footer_widget footer_about">
                                 <div class="brand_logo mb_30">
                                     <a href="#!">
-                                        <img src="assets/images/logo/logo_21_1x.png"
-                                             srcset="assets/images/logo/logo_21_2x.png 2x" alt="logo_not_found">
+                                        <img src="${pageContext.request.contextPath}/assets/images/logo/logo_21_1x.png"
+                                             srcset="${pageContext.request.contextPath}/assets/images/logo/logo_21_2x.png 2x" alt="logo_not_found">
                                     </a>
                                 </div>
                                 <p class="mb-0">
@@ -861,44 +866,44 @@
 
 
         <!-- fraimwork - jquery include -->
-        <script src="assets/js/jquery-3.5.1.min.js"></script>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/jquery-3.5.1.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 
         <!-- mobile menu - jquery include -->
-        <script src="assets/js/mCustomScrollbar.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/mCustomScrollbar.js"></script>
 
         <!-- google map - jquery include -->
         <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
-        <script src="assets/js/gmaps.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/gmaps.min.js"></script>
 
         <!-- animation - jquery include -->
-        <script src="assets/js/parallaxie.js"></script>
-        <script src="assets/js/wow.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/parallaxie.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/wow.min.js"></script>
 
         <!-- nice select - jquery include -->
-        <script src="assets/js/nice-select.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/nice-select.min.js"></script>
 
         <!-- carousel - jquery include -->
-        <script src="assets/js/slick.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/slick.min.js"></script>
 
         <!-- countdown timer - jquery include -->
-        <script src="assets/js/countdown.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/countdown.js"></script>
 
         <!-- popup images & videos - jquery include -->
-        <script src="assets/js/magnific-popup.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/magnific-popup.min.js"></script>
 
         <!-- filtering & masonry layout - jquery include -->
-        <script src="assets/js/isotope.pkgd.min.js"></script>
-        <script src="assets/js/masonry.pkgd.min.js"></script>
-        <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/isotope.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/masonry.pkgd.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/imagesloaded.pkgd.min.js"></script>
 
         <!-- jquery ui - jquery include -->
-        <script src="assets/js/jquery-ui.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/jquery-ui.js"></script>
 
         <!-- custom - jquery include -->
-        <script src="assets/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 
 
         <!-- product quick view - start -->
@@ -909,7 +914,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="item_image">
-                        <img src="assets/images/shop/fashion_minimal/img_07.jpg" alt="image_not_found">
+                        <img src="${pageContext.request.contextPath}/assets/images/shop/fashion_minimal/img_07.jpg" alt="image_not_found">
                     </div>
                     <div class="item_content">
                         <h2 class="item_title mb_15">Digital Infrared Thermometer</h2>
@@ -963,7 +968,7 @@
         </div>
         <!-- product quick view - end -->
         <!-- shop_section - end ================================================== -->
-        <jsp:include page="../common/logOutModal.jsp"></jsp:include> 
+
     </body>
 
 </html>
