@@ -1,3 +1,10 @@
+<%-- 
+    Document   : editSellerProfile
+    Created on : Feb 25, 2024, 4:52:29 PM
+    Author     : Win 10
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
     <!-- BEGIN: Head-->
@@ -9,13 +16,16 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>User View - Vuexy - Bootstrap HTML admin template</title>
+        <title>User Edit - Vuexy - Bootstrap HTML admin template</title>
         <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/apple-icon-120.png">
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
 
         <!-- BEGIN: Vendor CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/plugins/forms/validation/form-validation.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/forms/select/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/pickers/pickadate/pickadate.css">
         <!-- END: Vendor CSS-->
 
         <!-- BEGIN: Theme CSS-->
@@ -106,7 +116,7 @@
                                         </a><a class="cart-item" href="app-ecommerce-details.html">
                                             <div class="media">
                                                 <div class="media-left d-flex justify-content-center align-items-center"><img class="mt-1 pl-50" src="${pageContext.request.contextPath}/app-assets/images/pages/eCommerce/dell-inspirion.jpg" width="100" alt="Cart Item"></div>
-                                                <div class="media-body"><span class="item-title text-truncate text-bold-500 d-block mb-50">Apple - Macbook® (Latest Model) - 12" Display - Intel Core M5 - 8GB Memory - 512GB Flash Storage - Space Gray</span><span class="item-desc font-small-2 text-truncate d-block"> MacBook delivers a full-size experience in the lightest and most compact Mac notebook ever. With a full-size keyboard, force-sensing trackpad, 12-inch Retina display,1 sixth-generation Intel Core M processor, multifunctional USB-C port, and now up to 10 hours of battery life,2 MacBook features big thinking in an impossibly compact form.</span>
+                                                <div class="media-body"><span class="item-title text-truncate text-bold-500 d-block mb-50">Apple - MacbookÂ® (Latest Model) - 12" Display - Intel Core M5 - 8GB Memory - 512GB Flash Storage - Space Gray</span><span class="item-desc font-small-2 text-truncate d-block"> MacBook delivers a full-size experience in the lightest and most compact Mac notebook ever. With a full-size keyboard, force-sensing trackpad, 12-inch Retina display,1 sixth-generation Intel Core M processor, multifunctional USB-C port, and now up to 10 hours of battery life,2 MacBook features big thinking in an impossibly compact form.</span>
                                                     <div class="d-flex justify-content-between align-items-center mt-1"><span class="align-middle d-block">1 x $1599.99</span><i class="remove-cart-item feather icon-x danger font-medium-1"></i></div>
                                                 </div>
                                             </div>
@@ -198,7 +208,7 @@
                                     <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">John Doe</span><span class="user-status">Available</span></div><span><img class="round" src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
-                                    <div class="dropdown-divider"></div><a class="dropdown-item" data-toggle="modal" data-target="#logoutModalAdmin" href="#"><i class="feather icon-power"></i> Logout</a>
+                                    <div class="dropdown-divider"></div><a class="dropdown-item" href="auth-login.html"><i class="feather icon-power"></i> Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -326,7 +336,7 @@
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
-                            <li><a href="profile?action=editProfile"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Edit">Edit</span></a>
+                            <li><a href="app-user-edit.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Edit">Edit</span></a>
                             </li>
                         </ul>
                     </li>
@@ -341,7 +351,7 @@
                 </ul>
             </div>
         </div>
-        <!-- END: Main Menu-->   
+        <!-- END: Main Menu-->
 
         <!-- BEGIN: Content-->
         <div class="app-content content">
@@ -351,112 +361,318 @@
                 <div class="content-header row">
                 </div>
                 <div class="content-body">
-                    <!-- page users view start -->
-                    <section class="page-users-view">
-                        <div class="row">
-                            <!-- account start -->
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title">Account</div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="users-view-image">
-                                                <img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-12.jpg" class="users-avatar-shadow w-100 rounded mb-2 pr-2 ml-1" alt="avatar">
+                    <!-- users edit start -->
+                    <section class="users-edit">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs mb-3" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab" href="#account" aria-controls="account" role="tab" aria-selected="true">
+                                                <i class="feather icon-user mr-25"></i><span class="d-none d-sm-block">Account</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link d-flex align-items-center" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
+                                                <i class="feather icon-info mr-25"></i><span class="d-none d-sm-block">Information</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link d-flex align-items-center" id="social-tab" data-toggle="tab" href="#social" aria-controls="social" role="tab" aria-selected="false">
+                                                <i class="feather icon-share-2 mr-25"></i><span class="d-none d-sm-block">Social</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                                            <!-- users edit media object start -->
+                                            <div class="media mb-2">
+                                                <a class="mr-2 my-25" href="#">
+                                                    <img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-18.jpg" alt="users avatar" class="users-avatar-shadow rounded" height="90" width="90">
+                                                </a>
+                                                <div class="media-body mt-50">
+                                                    <h4 class="media-heading">Angelo Sashington</h4>
+                                                    <div class="col-12 d-flex mt-1 px-0">
+                                                        <a href="#" class="btn btn-primary d-none d-sm-block mr-75">Change</a>
+                                                        <a href="#" class="btn btn-primary d-block d-sm-none mr-75"><i class="feather icon-edit-1"></i></a>
+                                                        <a href="#" class="btn btn-outline-danger d-none d-sm-block">Remove</a>
+                                                        <a href="#" class="btn btn-outline-danger d-block d-sm-none"><i class="feather icon-trash-2"></i></a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
-                                                <table>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Username:</td>
-                                                        <td>${username}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Email:</td>
-                                                        <td>${email}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Member Code:</td>
-                                                        <td>${member_code}</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-12 col-md-12 col-lg-5">
-                                                <table class="ml-0 ml-sm-0 ml-lg-0">
-                                                    <tr>
-                                                        <td class="font-weight-bold">Phone Number:</td>
-                                                        <td>${accountDetail.phone_number}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Address</td>
-                                                        <td>${accountDetail.address}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">Date of Birth:</td>
-                                                        <td>${accountDetail.dob}</td>
-                                                    </tr><tr>
-                                                        <td class="font-weight-bold">Gender</td>
-                                                        <td>${accountDetail.gender == true ? 'Male' : 'Female'}</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-12">
-                                                <a href="sellerProfile?action=editProfile" class="btn btn-primary mr-1"><i class="feather icon-edit-1"></i> Edit</a>
-                                                <button class="btn btn-outline-danger"><i class="feather icon-trash-2"></i> Delete</button>
-                                            </div>
+                                            <!-- users edit media object ends -->
+                                            <!-- users edit account form start -->
+                                            <form action="sellerProfile?action=updateProfile" method="POST">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Username</label>
+                                                                <input type="text" class="form-control" name="userName" placeholder="Username" value="${accountDetail.userName.trim()}" required data-validation-required-message="This username field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>E-mail</label>
+                                                                <input type="email" class="form-control" name="email" placeholder="Email" value="${email}" required data-validation-required-message="This email field is required">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Phone Number</label>
+                                                            <input type="text" class="form-control" name="phone" value="${accountDetail.phone_number}" placeholder="Phone Number">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Address</label>
+                                                            <input type="text" class="form-control" name="address" value="${accountDetail.address}" placeholder="Address">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>DOB</label>
+                                                            <input type="date" name="date" class="form-control"
+                                                                   value="${accountDetail.dob}">
+                                                        </div>
+                                                    </div>                                              
+                                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                                                        <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                                            Changes</button>
+                                                        <button type="reset" class="btn btn-outline-warning">Reset</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!-- users edit account form ends -->
+                                        </div>
+                                        <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
+                                            <!-- users edit Info form start -->
+                                            <form novalidate>
+                                                <div class="row mt-1">
+                                                    <div class="col-12 col-sm-6">
+                                                        <h5 class="mb-1"><i class="feather icon-user mr-25"></i>Personal Information</h5>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <div class="controls">
+                                                                        <label>Birth date</label>
+                                                                        <input type="text" class="form-control birthdate-picker" required placeholder="Birth date" data-validation-required-message="This birthdate field is required">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Mobile</label>
+                                                                <input type="text" class="form-control" value="&#43;6595895857" placeholder="Mobile number here..." data-validation-required-message="This mobile number is required">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Website</label>
+                                                                <input type="text" class="form-control" required placeholder="Website here..." value="https://rowboat.com/insititious/Angelo" data-validation-required-message="This Website field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Languages</label>
+                                                            <select class="form-control" id="users-language-select2" multiple="multiple">
+                                                                <option value="English" selected>English</option>
+                                                                <option value="Spanish">Spanish</option>
+                                                                <option value="French">French</option>
+                                                                <option value="Russian">Russian</option>
+                                                                <option value="German">German</option>
+                                                                <option value="Arabic" selected>Arabic</option>
+                                                                <option value="Sanskrit">Sanskrit</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Gender</label>
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="vs-radio-con">
+                                                                            <input type="radio" name="vueradio" checked value="false">
+                                                                            <span class="vs-radio">
+                                                                                <span class="vs-radio--border"></span>
+                                                                                <span class="vs-radio--circle"></span>
+                                                                            </span>
+                                                                            Male
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="vs-radio-con">
+                                                                            <input type="radio" name="vueradio" value="false">
+                                                                            <span class="vs-radio">
+                                                                                <span class="vs-radio--border"></span>
+                                                                                <span class="vs-radio--circle"></span>
+                                                                            </span>
+                                                                            Female
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="vs-radio-con">
+                                                                            <input type="radio" name="vueradio" value="false">
+                                                                            <span class="vs-radio">
+                                                                                <span class="vs-radio--border"></span>
+                                                                                <span class="vs-radio--circle"></span>
+                                                                            </span>
+                                                                            Other
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Contact Options</label>
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" checked name="customCheck1" id="customCheck1">
+                                                                            <label class="custom-control-label" for="customCheck1">Email</label>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" checked name="customCheck2" id="customCheck2">
+                                                                            <label class="custom-control-label" for="customCheck2">Message</label>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+                                                                <li class="d-inline-block mr-2">
+                                                                    <fieldset>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" name="customCheck3" id="customCheck3">
+                                                                            <label class="custom-control-label" for="customCheck3">Phone</label>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <h5 class="mb-1 mt-2 mt-sm-0"><i class="feather icon-map-pin mr-25"></i>Address</h5>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Address Line 1</label>
+                                                                <input type="text" class="form-control" value="A-65, Belvedere Streets" required placeholder="Address Line 1" data-validation-required-message="This Address field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Address Line 2</label>
+                                                                <input type="text" class="form-control" required placeholder="Address Line 2" data-validation-required-message="This Address field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Postcode</label>
+                                                                <input type="text" class="form-control" required placeholder="postcode" value="1868" data-validation-required-message="This Postcode field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>City</label>
+                                                                <input type="text" class="form-control" required value="New York" data-validation-required-message="This Time Zone field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>State</label>
+                                                                <input type="text" class="form-control" required value="New York" data-validation-required-message="This Time Zone field is required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="controls">
+                                                                <label>Country</label>
+                                                                <input type="text" class="form-control" required value="United Kingdom" data-validation-required-message="This Time Zone field is required">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                                                        <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                                            Changes</button>
+                                                        <button type="reset" class="btn btn-outline-warning">Reset</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!-- users edit Info form ends -->
+                                        </div>
+                                        <div class="tab-pane" id="social" aria-labelledby="social-tab" role="tabpanel">
+                                            <!-- users edit socail form start -->
+                                            <form novalidate>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+
+                                                        <fieldset>
+                                                            <label>Twitter</label>
+                                                            <div class="input-group mb-75">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text feather icon-twitter" id="basic-addon3"></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" value="https://www.twitter.com/adoptionism744" placeholder="https://www.twitter.com/" aria-describedby="basic-addon3">
+                                                            </div>
+
+                                                            <label>Facebook</label>
+                                                            <div class="input-group mb-75">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text feather icon-facebook" id="basic-addon4"></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" value="https://www.facebook.com/adoptionism664" placeholder="https://www.facebook.com/" aria-describedby="basic-addon4">
+                                                            </div>
+                                                            <label>Instagram</label>
+                                                            <div class="input-group mb-75">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text feather icon-instagram" id="basic-addon5"></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" value="https://www.instagram.com/adopt-ionism744" placeholder="https://www.instagram.com/" aria-describedby="basic-addon5">
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <label>Github</label>
+                                                        <div class="input-group mb-75">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text feather icon-github" id="basic-addon9"></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" value="https://www.github.com/madop818" placeholder="https://www.github.com/" aria-describedby="basic-addon9">
+                                                        </div>
+                                                        <label>Codepen</label>
+                                                        <div class="input-group mb-75">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text feather icon-codepen" id="basic-addon12"></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" value="https://www.codepen.com/adoptism243" placeholder="https://www.codepen.com/" aria-describedby="basic-addon12">
+                                                        </div>
+                                                        <label>Slack</label>
+                                                        <div class="input-group mb-75">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text feather icon-slack" id="basic-addon11"></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" value="@adoptionism744" placeholder="https://www.slack.com/" aria-describedby="basic-addon11">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                                                        <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                                            Changes</button>
+                                                        <button type="reset" class="btn btn-outline-warning">Reset</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!-- users edit socail form ends -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- account end -->
-                            <!-- Change password start -->
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header border-bottom mx-2 px-0">
-                                        <h6 class="border-bottom py-1 mb-0 font-medium-2"><i class="feather icon-lock mr-50 "></i>Change Password
-                                        </h6>
-                                    </div>
-                                    <div class="card-body px-75">
-                                        <form action="sellerProfile?action=changePassword" method="POST">
-                                            <div class="row">
-                                                <div class="col-12 col-sm-6">
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <label>Old Password</label>
-                                                            <input type="password" name="password" placeholder="Old Password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <label>New Password</label>
-                                                            <input type="password" name="newPassword" placeholder="New Password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <label>Confirm New Password</label>
-                                                            <input type="password" name="newPassword2" placeholder="Confirm New Password">
-                                                        </div>
-                                                    </div>
-                                                    <div style="color: greenyellow">
-                                                        ${message}
-                                                    </div>
-                                                    <div style = "color: red">
-                                                        ${error1}
-                                                    </div>
-                                                </div>                                       
-                                                <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
-                                                    <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Change Password</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Change password end -->
                         </div>
                     </section>
-                    <!-- page users view end -->
+                    <!-- users edit ends -->
 
                 </div>
             </div>
@@ -480,6 +696,10 @@
         <!-- BEGIN Vendor JS-->
 
         <!-- BEGIN: Page Vendor JS-->
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
         <!-- END: Page Vendor JS-->
 
         <!-- BEGIN: Theme JS-->
@@ -490,6 +710,7 @@
 
         <!-- BEGIN: Page JS-->
         <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/app-user.js"></script>
+        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/navs/navs.js"></script>
         <!-- END: Page JS-->
 
     </body>

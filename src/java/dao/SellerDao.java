@@ -4,9 +4,17 @@
  */
 package dao;
 
+import constant.Constant;
 import context.DBContext;
 import entity.Account;
 import entity.Account_Detail;
+import entity.Brand;
+import entity.Category;
+import entity.Color;
+import entity.Gender;
+import entity.Image;
+import entity.Product_Form;
+import entity.Size;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.AccountDetailUM;
+import model.ProductVM;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -250,5 +259,651 @@ public class SellerDao extends DBContext {
             }
         }
         return 0;
+    }
+    
+    public List<Color> findAllColor() {
+        List<Color> listC = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Color c ORDER BY c.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Color color = new Color();
+                color.setId(resultSet.getInt("Id"));
+                color.setColor(resultSet.getString("Color"));
+                listC.add(color);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listC;
+    }
+
+    public List<Brand> findAllBrand() {
+        List<Brand> listB = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Brand b ORDER BY b.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Brand brand = new Brand();
+                brand.setId(resultSet.getInt("Id"));
+                brand.setBrand(resultSet.getString("Brand"));
+                listB.add(brand);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listB;
+    }
+
+    public List<Gender> findAllGender() {
+        List<Gender> listG = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Gender g ORDER BY g.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Gender gender = new Gender();
+                gender.setId(resultSet.getInt("Id"));
+                gender.setGender(resultSet.getString("Gender"));
+                listG.add(gender);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listG;
+    }
+
+    public List<Category> findAllCategory() {
+        List<Category> listC = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Category c ORDER BY c.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setId(resultSet.getInt("Id"));
+                category.setCategory(resultSet.getString("Category"));
+                listC.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listC;
+    }
+    
+    public List<Size> findAllSize() {
+        List<Size> listS = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Size s ORDER BY s.id";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Size size = new Size();
+                size.setId(resultSet.getInt("Id"));
+                size.setSize(resultSet.getString("Size"));
+                listS.add(size);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listS;
+    }
+    
+    public List<Brand> countProductsByBrand() {
+        List<Brand> brandCounts = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT b.Brand, b.id, COUNT(*) AS Count "
+                    + "FROM Product_Detail pd "
+                    + "INNER JOIN Brand b ON pd.brand_id = b.id "
+                    + "GROUP BY b.Brand, b.id";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Brand b = new Brand();
+                b.setId(resultSet.getInt("Id"));
+                b.setBrand(resultSet.getString("Brand"));
+                b.setCountEachBrand(resultSet.getInt("Count"));
+                brandCounts.add(b);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return brandCounts;
+    }
+    
+    /**
+     * Method description: Paging for product
+     * 
+     * @param index
+     * @return 
+     */
+    public List<ProductVM> getListProductPaging(int index) {
+        try {
+            List<ProductVM> listProduct = new ArrayList();
+            connection = this.getConnection();
+            String sql = "SELECT  p.Id, p.Name, p.Create_on, p.Description, p.Price, im.Image "
+                    + "from dbo.Product p JOIN dbo.Image im ON im.Product_Id = p.Id  "
+                    + "Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, (index - 1) * 8);
+//            preparedStatement.setInt(1, accountId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductVM productVM = new ProductVM();
+                productVM.setImageLink(resultSet.getString("Image"));
+                productVM.setName(resultSet.getString("Name"));
+                productVM.setDescription(resultSet.getString("Description"));
+                productVM.setCreate_on(resultSet.getDate("Create_on"));
+                productVM.setPrice(resultSet.getDouble("Price"));
+                productVM.setId(resultSet.getInt("Id"));
+                listProduct.add(productVM);
+            }
+            return listProduct;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Method description: Find product by ID
+     * 
+     * @param productID: Product ID
+     * @param colorID: Color ID
+     * @param categoryID: Category ID
+     * @param sizeID: Size ID
+     * @param brandID: Brand ID
+     * @param genderID: Gender ID
+     * @return 
+     */
+    public Product_Form findProductByID(String productID, String colorID, String categoryID, String sizeID, String brandID, String genderID) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "LEFT JOIN Color c ON pd.Color_Id = c.Id "
+                    + "LEFT JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "LEFT JOIN Size s ON pd.Size_Id = s.Id "
+                    + "LEFT JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "LEFT JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE p.Id = ? ";
+            if (brandID != null && !brandID.equals("null")) {
+                sql += "AND pd.Brand_Id = ? ";
+            }
+            if (categoryID != null && !categoryID.equals("null")) {
+                sql += "AND pd.Category_Id = ? ";
+            }
+            if (colorID != null && !colorID.equals("null") && !colorID.equals("0")) {
+                sql += "AND pd.Color_Id = ? ";
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                sql += "AND pd.Size_Id = ? ";
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                sql += "AND pd.Gender_Id = ? ";
+
+            }
+
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (productID != null && !productID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, productID);
+            }
+            if (brandID != null && !brandID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, brandID);
+            }
+            if (categoryID != null && !categoryID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, categoryID);
+            }
+            if (colorID != null && !colorID.equals("null") && !colorID.equals("0")) {
+                preparedStatement.setString(parameterIndex++, colorID);
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, sizeID);
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderID);
+            }
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                return pf;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public List<Image> getImagesByProductID(String productID) {
+        List<Image> images = new ArrayList<>();
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Image WHERE Product_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productID);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Image image = Image.builder()
+                            .id(resultSet.getInt("Id"))
+                            .product_Id(resultSet.getInt("Product_Id"))
+                            .image(resultSet.getString("Image"))
+                            .build();
+
+                    images.add(image);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return images;
+    }
+    
+    public int findTotalProducts() {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+    
+    public int findTotalProducts(String keyword) {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id ";
+
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "WHERE p.Name LIKE ? ";
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+    
+    public int findTotalProducts(String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
+        int totalProduct = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id ";
+            if (brandID != null && !brandID.equals("null")) {
+                sql += "WHERE pd.Brand_Id = ? ";
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Category_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Category_Id = ? ";
+                }
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Color_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Color_Id = ? ";
+                }
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Size_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Size_Id = ? ";
+                }
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Gender_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Gender_Id = ? ";
+                }
+            }
+            if (priceRange == null || priceRange.isEmpty()) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN 0 AND 1000000 ";
+                } else {
+                    sql += "WHERE p.price BETWEEN 0 AND 1000000 ";
+                }
+            } else {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN ? AND ? ";
+                } else {
+                    sql += "WHERE p.price BETWEEN ? AND ? ";
+                }
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (brandID != null && !brandID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, brandID);
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, cateID);
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, colorID);
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, sizeID);
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderID);
+            }
+            if (priceRange != null && !priceRange.isEmpty()) {
+                preparedStatement.setString(parameterIndex++, minPrice);
+                preparedStatement.setString(parameterIndex++, maxPrice);
+            }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProduct = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProduct;
+    }
+    
+    public List<Product_Form> findPageByKeyword(int page, String sorted, String keyword) {
+        List<Product_Form> productList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "LEFT JOIN Color c ON pd.Color_Id = c.Id "
+                    + "LEFT JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "LEFT JOIN Size s ON pd.Size_Id = s.Id "
+                    + "LEFT JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "LEFT JOIN Gender g ON pd.Gender_Id = g.Id ";
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "WHERE p.Name LIKE ? ";
+            }
+
+            sql += "ORDER BY CASE WHEN ? = 'desc' THEN p.price END DESC, "
+                    + "CASE WHEN ? = 'asc' THEN p.price END ASC "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    
+    public List<Product_Form> findByPage(int page, String sorted, String brandID, String cateID, String priceRange, String minPrice, String maxPrice, String colorID, String sizeID, String genderID) {
+        List<Product_Form> productList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id ";
+            if (brandID != null && !brandID.equals("null")) {
+                sql += "WHERE pd.Brand_Id = ? ";
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Category_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Category_Id = ? ";
+                }
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Color_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Color_Id = ? ";
+                }
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Size_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Size_Id = ? ";
+                }
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND pd.Gender_Id = ? ";
+                } else {
+                    sql += "WHERE pd.Gender_Id = ? ";
+                }
+            }
+            if (priceRange == null || priceRange.isEmpty()) {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN 0 AND 1000000 ";
+                } else {
+                    sql += "WHERE p.price BETWEEN 0 AND 1000000 ";
+                }
+            } else {
+                if (sql.contains("WHERE")) {
+                    sql += "AND p.price BETWEEN ? AND ? ";
+                } else {
+                    sql += "WHERE p.price BETWEEN ? AND ? ";
+                }
+            }
+            sql += "ORDER BY CASE WHEN ? = 'desc' THEN p.price END DESC, "
+                    + "CASE WHEN ? = 'asc' THEN p.price END ASC "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (brandID != null && !brandID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, brandID);
+            }
+            if (cateID != null && !cateID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, cateID);
+            }
+            if (colorID != null && !colorID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, colorID);
+            }
+            if (sizeID != null && !sizeID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, sizeID);
+            }
+            if (genderID != null && !genderID.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderID);
+            }
+            if (priceRange != null && !priceRange.isEmpty()) {
+                preparedStatement.setString(parameterIndex++, minPrice);
+                preparedStatement.setString(parameterIndex++, maxPrice);
+            }
+
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setString(parameterIndex++, sorted);
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    
+    public List<Product_Form> findByPage(int page) {
+        List<Product_Form> productList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "LEFT JOIN Color c ON pd.Color_Id = c.Id "
+                    + "LEFT JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "LEFT JOIN Size s ON pd.Size_Id = s.Id "
+                    + "LEFT JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "LEFT JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "ORDER BY p.price OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product_Form pf = new Product_Form();
+                pf.setId(resultSet.getInt("id"));
+                pf.setName(resultSet.getString("Name"));
+                pf.setCreate_on(resultSet.getDate("Create_on"));
+                pf.setDescription(resultSet.getString("Description"));
+                pf.setPrice(resultSet.getDouble("Price"));
+                pf.setImage_path(resultSet.getString("Image_path"));
+                pf.setProduct_id(resultSet.getInt("Product_Id"));
+                pf.setColor_id(resultSet.getInt("Color_Id"));
+                pf.setCategory_id(resultSet.getInt("Category_Id"));
+                pf.setSize_id(resultSet.getInt("Size_Id"));
+                pf.setBrand_id(resultSet.getInt("Brand_Id"));
+                pf.setStock(resultSet.getInt("Stock"));
+                pf.setGender_id(resultSet.getInt("Gender_Id"));
+                pf.setColor(resultSet.getString("Color"));
+                pf.setCategory(resultSet.getString("Category"));
+                pf.setSize(resultSet.getString("Size"));
+                pf.setBrand(resultSet.getString("Brand"));
+                pf.setGender(resultSet.getString("Gender"));
+                productList.add(pf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 }

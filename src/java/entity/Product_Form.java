@@ -22,6 +22,7 @@ public class Product_Form {
     private Date create_on;
     private String description;
     private double price;
+    private String image_path;
     private int product_id;
     private int color_id;
     private int category_id;
@@ -34,5 +35,4 @@ public class Product_Form {
     private String size;
     private String brand;
     private String gender;
-
 }

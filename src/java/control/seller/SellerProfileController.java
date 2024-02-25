@@ -43,16 +43,24 @@ public class SellerProfileController extends HttpServlet {
             request.setAttribute("accountDetail", accountDetail);
             request.setAttribute("username", accountDetail.getUserName());
             request.setAttribute("email", account.getEmail());
-
-            switch (action) {
-                case "sellerProfile":
-                    // Chuyển hướng sang trang hiển thị thông tin cá nhân
-                    url = "views/admin/sellerProfile.jsp";
-                    break;
-                case "editProfile":
-                    url = "views/admin/editSellerprofile.jsp";
-                    break;
+            request.setAttribute("member_code", account.getMember_code());
+            if (accountDetail != null) {
+                request.setAttribute("accountDetail", accountDetail);
+                request.setAttribute("username", accountDetail.getUserName());
+                request.setAttribute("email", account.getEmail());
+                switch (action) {
+                    case "sellerProfile":
+                        // Chuyển hướng sang trang hiển thị thông tin cá nhân
+                        url = "views/admin/sellerProfile.jsp";
+                        break;
+                    case "editProfile":
+                        url = "views/admin/editSellerProfile.jsp";
+                        break;
+                }
+            } else {
+                System.out.println("Error cannot get account detail in profile controller");
             }
+
         } else {
             // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.
             url = "views/admin/login.jsp";
@@ -84,7 +92,6 @@ public class SellerProfileController extends HttpServlet {
         }
     }
 
-    
     private void updateProfile(HttpServletRequest request, HttpServletResponse response) {
         try {
             sellerDao = new SellerDao();
@@ -118,7 +125,7 @@ public class SellerProfileController extends HttpServlet {
                 // Đặt thuộc tính "accountDetail" vào request để hiển thị trên giao diện
                 request.setAttribute("accountDetail", accountDetailUM);
                 // Chuyển hướng sang trang hiển thị thông tin cá nhân
-                request.getRequestDispatcher("views/common/profile.jsp").forward(request, response);
+                request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,12 +155,12 @@ public class SellerProfileController extends HttpServlet {
                 if (account != null) {
                     if (!newpassword.matches(Constant.PASSWORD_REGEX)) {
                         request.setAttribute("error1", "Mật khẩu phải chứa ít nhất 8 kí tự (1 số, 1 chữ in hoa, 1 kí tự đặc biệt(trừ khoảng trắng)");
-                        request.getRequestDispatcher("views/common/profile.jsp").forward(request, response);
+                        request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
                     } else {
                         // Kiểm tra xem mật khẩu và mật khẩu nhập lại có giống nhau không
                         if (!newpassword.equals(passwordConfirm)) {
                             request.setAttribute("error1", "Mật khẩu phải giống nhau");
-                            request.getRequestDispatcher("views/common/profile.jsp").forward(request, response);
+                            request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
                             return; // Kết thúc phương thức để không thực hiện các bước tiếp theo nếu mật khẩu không khớp
                         }
                         BCrypt bcryp = new BCrypt();
@@ -161,19 +168,20 @@ public class SellerProfileController extends HttpServlet {
                         int result = sellerDao.changePassword(passwordBcryp, account.getId());
                         if (result > 0) {
                             request.setAttribute("message", "Thay doi mat khau thanh cong");
-                            request.getRequestDispatcher("views/common/profile.jsp").forward(request, response);
+                            request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
                             return;
                         }
                     }
                 } else {
                     request.setAttribute("error1", "Mật khẩu khong dung");
-                    request.getRequestDispatcher("views/common/profile.jsp").forward(request, response);
+                    request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *
