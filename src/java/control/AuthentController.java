@@ -54,7 +54,7 @@ public class AuthentController extends HttpServlet {
                 break;
             case "logout":
                 logout(request, response);
-                url = "home";
+                url = "views/common/login.jsp";
                 break;
             default:
                 url = "views/common/login.jsp";

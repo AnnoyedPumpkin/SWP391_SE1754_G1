@@ -7,6 +7,7 @@ package control;
 import constant.Constant;
 import dao.CommonDao;
 import dao.OrderDao;
+import dao.ProductDao;
 import entity.Account;
 import entity.Account_Detail;
 import jakarta.servlet.ServletException;
@@ -15,18 +16,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import model.InvoiceDetailVM;
+import model.InvoiceVM;
 
-
-
+/**
+ *
+ * @author Admin
+ */
 public class OrderController extends HttpServlet {
+
     CommonDao commonDAO;
+    ProductDao productDAO;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-           String url = "";
+        String url = "";
         commonDAO = new CommonDao();
         HttpSession session = request.getSession(false); // Sử dụng tham số false để không tạo session mới nếu không tồn tại
-        String action = request.getParameter("action") == null ? "order" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         if (session != null && session.getAttribute(Constant.SESSION_ACCOUNT) != null) {
             // Lấy thông tin tài khoản từ session
             Account account = (Account) session.getAttribute(Constant.SESSION_ACCOUNT);
@@ -38,15 +47,13 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("username", accountDetail.getUserName());
                 request.setAttribute("email", account.getEmail());
                 switch (action) {
-                    case "order":
-                        // Chuyển hướng sang trang hiển thị thông tin cá nhân
-//                        viewOrderHistory(request, response);
+                    case "invoiceHistory":
+                        getListInvoiceHistory(request, response, accountDetail);
                         break;
-                    case "viewOrderDetail":
-//                        viewOrderDetail(request, response);
+                    case "invoiceDetail":
+                        getListInvoiceDetailBuyOrderId(request, response);
                         break;
                 }
-
             } else {
                 System.out.println("Error cannot get account detail in profile controller");
             }
@@ -54,7 +61,6 @@ public class OrderController extends HttpServlet {
             // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.
             url = "views/common/login.jsp";
         }
-        request.getRequestDispatcher(url).forward(request, response);
     }
 
     @Override
@@ -67,77 +73,68 @@ public class OrderController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-//    private void viewOrderHistory(HttpServletRequest request, HttpServletResponse response) {
-//         HttpSession session = request.getSession(false);
-//            String indexPage = request.getParameter("index");
-//            if(indexPage == null) {
-//                indexPage = "1";
-//            }
-//            int index = Integer.parseInt(indexPage);
-//        try {
-//            if (session != null) {
-//                Account account = (Account) session.getAttribute("account");
-//                int userId = account.getId();
-//                OrderDao dao = new OrderDao();
-//                int count = dao.getOrderHistoryCount(userId);
-//                if (count > 0) {
-//                    List<Invoice> Orders = dao.getOrderHistory(userId, index);
-//                    int lastPage = count / 4;
-//                    if (count % 4 != 0) {
-//                        lastPage++;
-//                    }
-//                    request.setAttribute("lastPage", lastPage);
-//                    request.setAttribute("OrdersList", Orders);
-//                    request.getRequestDispatcher("historyOrder.jsp").forward(request, response);
-//                } else {
-//                    String msg = "Ban chua co don hang";
-//                    request.setAttribute("errorMsg", msg);
-//                    request.getRequestDispatcher("profile.jsp").forward(request, response);
-//                }
-//                       
-//            } else {
-//                response.sendRedirect("login.jsp");
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response) {
-//        HttpSession session = request.getSession(false);
-//        String orderId = request.getParameter("orderId");
-//        String indexPage = request.getParameter("index");
-//        if (indexPage == null) {
-//            indexPage = "1";
-//        }
-//        int index = Integer.parseInt(indexPage);
-//        if (orderId != null) {
-//            try {
-//                int order_id = Integer.parseInt(orderId);
-//                if (session != null) {
-//                    Account account = (Account) session.getAttribute("account");
-//                    int userId = account.getId();
-//                    OrderDetailDAO dao = new OrderDetailDAO();
-//                    int count = dao.getOrderDetailCount(order_id);
-//                    if (count > 0) {
-//                        List<OrderDetail> OrderDetails = dao.getOrderDetailList(order_id, index);
-//                        int lastPage = count / 4;
-//                        if (count % 4 != 0) {
-//                            lastPage++;
-//                        }
-//                        request.setAttribute("orderId", orderId);
-//                        request.setAttribute("lastPage", lastPage);
-//                        request.setAttribute("OrderDetailList", OrderDetails);
-//                        request.getRequestDispatcher("orderDetail.jsp").forward(request, response);
-//                    }
-//                } else {
-//                    response.sendRedirect("login.jsp");
-//                }
-//
-//        }catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//    }
+    private void getListInvoiceHistory(HttpServletRequest request, HttpServletResponse response, Account_Detail accountDetail) {
+        try {
+            String indexPage = request.getParameter("index");
+            if (indexPage == null) {
+                indexPage = "1";
+            }
+            int index = Integer.parseInt(indexPage);
+            String url = "";
+            OrderDao orderDao = new OrderDao();
+            int count = orderDao.getUserInvoiceTotal(accountDetail.getAccount_id());
+            int endPage = count / 5;
+            if (count % 5 != 0) {
+                endPage++;
+            }
+            List<InvoiceVM> listInvoices = orderDao.getUserInvoiceHistory(accountDetail.getAccount_id(), index);
+            if (!listInvoices.isEmpty() || listInvoices.size() > 0) {
+                request.setAttribute("list", listInvoices);
+                request.setAttribute("endPage", endPage);
+                request.setAttribute("pageSelected", indexPage);
+                url = "views/common/orderHistory.jsp";
+            } else {
+                System.out.println("Error");
+                request.setAttribute("msg", "Ban chua co don hang nao tren he thong");
+                url = "profile";
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getListInvoiceDetailBuyOrderId(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String indexPage = request.getParameter("index");
+            String invoiceIdS = request.getParameter("invoiceId");
+            if (indexPage == null) {
+                indexPage = "1";
+            }
+            int index = Integer.parseInt(indexPage);
+            int invoiceId = Integer.parseInt(invoiceIdS);
+            String url = "";
+            
+              OrderDao orderDao = new OrderDao();
+            int count = orderDao.getUserInvoiceDetailTotal(invoiceId);
+            int endPage = count / 5;
+            if (count % 5 != 0) {
+                endPage++;
+            }
+            List<InvoiceDetailVM> listInvoicesDetail = orderDao.getListInvoiceDetailById(invoiceId, index);
+            if (!listInvoicesDetail.isEmpty() || listInvoicesDetail.size() > 0) {
+                request.setAttribute("list", listInvoicesDetail);
+                request.setAttribute("endPage", endPage);
+                request.setAttribute("pageSelected", indexPage);
+                request.setAttribute("invoiceId", invoiceId);
+                url = "views/common/orderDetail.jsp";
+            } else {
+                url = "profile";
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

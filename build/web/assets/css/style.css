@@ -30435,3 +30435,9 @@ textarea {
 .contact-info .social-networks ul li a:hover {
   color: #FE980F;
 }
+
+
+.paged-content {
+    width: 100%;
+    justify-content: center;
+}

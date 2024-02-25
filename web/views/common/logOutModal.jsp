@@ -1,7 +1,7 @@
 <%-- 
     Document   : logOutModal
-    Created on : Oct 31, 2023, 8:40:04 PM
-    Author     : LENOVO
+    Created on : Feb 25, 2024, 10:40:03 AM
+    Author     : Huu Huy
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

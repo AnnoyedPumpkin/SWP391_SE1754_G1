@@ -517,24 +517,24 @@
                                         <i class="fal fa-user"></i>
                                     </button>
                                     <div id="use_deropdown" class="collapse_dropdown collapse">
-                                         <c:choose>
-                                                <c:when test="${user != null}" >
-                                                    <div class="profile_info clearfix">
-                                                        <div class="user_thumbnail">
-                                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                                                        </div>
-                                                        <div class="user_content">
-                                                            <h4 class="user_name">${user.userName}</h4>
-                                                            <span class="user_title">${user.phone_number}</span>
-                                                        </div>
+                                        <c:choose>
+                                            <c:when test="${user != null}" >
+                                                <div class="profile_info clearfix">
+                                                    <div class="user_thumbnail">
+                                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
                                                     </div>
-                                                </c:when>
-                                            </c:choose>
-                                            <ul class="settings_options ul_li_block clearfix">
-                                                <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
-                                                <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-                                                <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
-                                            </ul>
+                                                    <div class="user_content">
+                                                        <h4 class="user_name">${user.userName}</h4>
+                                                        <span class="user_title">${user.phone_number}</span>
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
+                                        <ul class="settings_options ul_li_block clearfix">
+                                            <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
+                                            <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                                            <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
+                                        </ul>
                                     </div>
                                 </li>
                                 <li>
@@ -851,197 +851,200 @@
                     <div class="user_info">
                         <h3 class="title_text mb_30 text-uppercase"><i class="fas fa-user mr-2"></i> User Info</h3>
                         <div class="profile_info clearfix">
-                             <c:choose>
-                            <c:when test="$user != null}" >
-                                <div class="profile_info clearfix">
-                                    <div class="user_thumbnail">
-                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                                    </div>
+                            <c:choose>
+                                <c:when test="$user != null}" >
+                                    <div class="profile_info clearfix">
+                                        <div class="user_thumbnail">
+                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                        </div>
 
-                                    <div class="user_content">
-                                        <h4 class="user_name">${user.userName}</h4>
-                                        <span class="user_title">${user.phone_number}</span>
+                                        <div class="user_content">
+                                            <h4 class="user_name">${user.userName}</h4>
+                                            <span class="user_title">${user.phone_number}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="profile_info clearfix">
-                                    <div class="user_thumbnail">
-                                        <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
-                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="profile_info clearfix">
+                                        <div class="user_thumbnail">
+                                            <img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
+                                        </div>
 
-                                    <div class="user_content">
-                                        <h4 class="user_name">
-                                            <a href="authen">Login</a>
-                                        </h4>
+                                        <div class="user_content">
+                                            <h4 class="user_name">
+                                                <a href="authen">Login</a>
+                                            </h4>
+                                        </div>
                                     </div>
-                                </div>
-                            </c:otherwise>
+                                </c:otherwise>
 
-                        </c:choose>
+                            </c:choose>
                             <ul class="settings_options ul_li_block clearfix">
-                            <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
-                            <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-                            <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
+                                <li><a href="profile"><i class="fal fa-user-circle"></i> Profile</a></li>
+                                <li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
+                                <li><a href="#!"><i class="fal fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="overlay"></div>
+                </div>
+                <!-- sidebar mobile menu & sidebar cart - end
+                ================================================== -->
+
+
+                <!-- breadcrumb_section - start
+                ================================================== -->
+                <section class="breadcrumb_section text-white text-center text-uppercase d-flex align-items-end clearfix" data-background="assets/images/breadcrumb/bg_01.jpg">
+                    <div class="overlay" data-bg-color="#1d1d1d"></div>
+                    <div class="container">
+                        <h1 class="page_title text-white">Profile</h1>
+                        <ul class="breadcrumb_nav ul_li_center clearfix">
+                            <li><a href="#!">Home</a></li>
+                            <li>Pages</li>
+                            <li>Profile</li>
                         </ul>
                     </div>
-                </div>
-
-                <div class="overlay"></div>
-            </div>
-            <!-- sidebar mobile menu & sidebar cart - end
-            ================================================== -->
+                </section>
+                <!-- breadcrumb_section - end
+                ================================================== -->
 
 
-            <!-- breadcrumb_section - start
-            ================================================== -->
-            <section class="breadcrumb_section text-white text-center text-uppercase d-flex align-items-end clearfix" data-background="assets/images/breadcrumb/bg_01.jpg">
-                <div class="overlay" data-bg-color="#1d1d1d"></div>
-                <div class="container">
-                    <h1 class="page_title text-white">Profile</h1>
-                    <ul class="breadcrumb_nav ul_li_center clearfix">
-                        <li><a href="#!">Home</a></li>
-                        <li>Pages</li>
-                        <li>Profile</li>
-                    </ul>
-                </div>
-            </section>
-            <!-- breadcrumb_section - end
-            ================================================== -->
+                <!-- register_section - start
+                ================================================== -->
 
-
-            <!-- register_section - start
-            ================================================== -->
-
-            <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
-                <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
-                <div class="container">
-                    <div class="main-body">
-                        <div class="row">
-                            <div class="card">
-                                <div class="col-lg-12">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-column align-items-center text-center">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
-                                            <div class="mt-3">
-                                                <h4>${username}</h4>
-                                                <p class="text-secondary mb-1">${email}</p>
-                                            </div>
-                                        </div>
-                                        <hr class="my-4">
-                                        <form action="profile?action=changePassword" method="POST">
-                                            <div class="reg_form">
-                                                <h5 class="form_title text-uppercase text-center">Change Pass</h5><br>
-                                                <div class="form_item">
-                                                    <input type="password" name="password" placeholder="Old Password">
-                                                </div>
-                                                <div class="form_item">
-                                                    <input type="password" name="newPassword" placeholder="New Password">
-                                                </div>
-                                                <div class="form_item">
-                                                    <input type="password" name="newPassword2" placeholder="Confirm New Password">
-                                                </div>
-                                                <div style="color: greenyellow">
-                                                    ${message}
-                                                </div>
-                                                <div style = "color: red">
-                                                    ${error1}
-                                                </div>
-                                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50" style= margin-left: 30px>Change Pass</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
+                <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
+                    <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
+                    <div class="container">
+                        <div class="main-body">
+                            <div class="row">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Full Name</h6>
+                                    <div class="col-lg-12">
+                                        <div class="card-body">
+                                            <div class="d-flex flex-column align-items-center text-center">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+                                                <div class="mt-3">
+                                                    <h4>${username}</h4>
+                                                    <p class="text-secondary mb-1">${email}</p>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.userName}
-                                            </div>
-                                        </div>
-<!--                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Email</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6a657c4c667967617964226d60">[email&#160;protected]</a>
-                                            </div>
-                                        </div>-->
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Phone Number</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.phone_number}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Gender</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.gender == true ? 'Male' : 'Female'}
-                                                <!-- ${accountDetail.gender} -->
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">DOB</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.dob}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Address</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                ${accountDetail.address}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <a class="btn btn-info " href="profile?action=editProfile">Edit</a>
-                                            </div>
+                                            <hr class="my-4">
+                                            <form action="profile?action=changePassword" method="POST">
+                                                <div class="reg_form">
+                                                    <h5 class="form_title text-uppercase text-center">Change Pass</h5><br>
+                                                    <div class="form_item">
+                                                        <input type="password" name="password" placeholder="Old Password">
+                                                    </div>
+                                                    <div class="form_item">
+                                                        <input type="password" name="newPassword" placeholder="New Password">
+                                                    </div>
+                                                    <div class="form_item">
+                                                        <input type="password" name="newPassword2" placeholder="Confirm New Password">
+                                                    </div>
+                                                    <div style="color: greenyellow">
+                                                        ${message}
+                                                    </div>
+                                                    <div style = "color: red">
+                                                        ${error1}
+                                                    </div>
+                                                    <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50" style= margin-left: 30px>Change Pass</button>
+                                                </div>
+                                            </form>
+                                            <button type="submit" class="custom_btn bg_success text-uppercase mb_50" style= margin-left: 30px>
+                                                <a href="order?action=invoiceHistory">Order History</a></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="d-flex align-items-center mb-3">Project Status</h5>
-                                                <p>Web Design</p>
-                                                <div class="progress mb-3" style="height: 5px">
-                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Full Name</h6>
                                                 </div>
-                                                <p>Website Markup</p>
-                                                <div class="progress mb-3" style="height: 5px">
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    ${accountDetail.userName}
                                                 </div>
-                                                <p>One Page</p>
-                                                <div class="progress mb-3" style="height: 5px">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <!--                                        <hr>
+                                                                                    <div class="row">
+                                                                                        <div class="col-sm-3">
+                                                                                            <h6 class="mb-0">Email</h6>
+                                                                                        </div>
+                                                                                        <div class="col-sm-9 text-secondary">
+                                                                                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6a657c4c667967617964226d60">[email&#160;protected]</a>
+                                                                                        </div>
+                                                                                    </div>-->
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Phone Number</h6>
                                                 </div>
-                                                <p>Mobile Template</p>
-                                                <div class="progress mb-3" style="height: 5px">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    ${accountDetail.phone_number}
                                                 </div>
-                                                <p>Backend API</p>
-                                                <div class="progress" style="height: 5px">
-                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Gender</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    ${accountDetail.gender == true ? 'Male' : 'Female'}
+                                                    <!-- ${accountDetail.gender} -->
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">DOB</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    ${accountDetail.dob}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Address</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    ${accountDetail.address}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <a class="btn btn-info " href="profile?action=editProfile">Edit</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="d-flex align-items-center mb-3">Project Status</h5>
+                                                    <p>Web Design</p>
+                                                    <div class="progress mb-3" style="height: 5px">
+                                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <p>Website Markup</p>
+                                                    <div class="progress mb-3" style="height: 5px">
+                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <p>One Page</p>
+                                                    <div class="progress mb-3" style="height: 5px">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <p>Mobile Template</p>
+                                                    <div class="progress mb-3" style="height: 5px">
+                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <p>Backend API</p>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1049,15 +1052,14 @@
                                 </div>
                             </div>
                         </div>
+                        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+                        <script type="text/javascript"></script>
+                        </body>
                     </div>
-                    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-                    <script type="text/javascript"></script>
-                    </body>
-                </div>
-            </section>
-            <!-- register_section - end
-            ================================================== -->
+                </section>
+                <!-- register_section - end
+                ================================================== -->
 
 
         </main>

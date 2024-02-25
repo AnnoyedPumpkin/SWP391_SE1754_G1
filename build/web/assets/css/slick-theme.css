@@ -152,3 +152,8 @@
     opacity: 1;
     color: black;
 }
+
+
+.fixed-header {
+    position: fixed;
+}

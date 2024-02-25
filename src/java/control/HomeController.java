@@ -5,6 +5,12 @@
 package control;
 
 import dao.CommonDao;
+import dao.ProductDao;
+import entity.Brand;
+import entity.Category;
+import entity.Color;
+import entity.Gender;
+import entity.Size;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -34,14 +40,27 @@ public class HomeController extends HttpServlet {
                 break;
             default:
                 CommonDao dao = new CommonDao();
+                ProductDao productDao = new ProductDao();
                 int count = dao.getTotalProduct();
                 int endPage = count / 8;
                 if (count % 8 != 0) {
                     endPage++;
                 }
                 List<ProductVM> listProduct = dao.getListProductPaging(index);
-                request.setAttribute("endPage", endPage);
-                request.setAttribute("listProduct", listProduct);               
+                List<Gender> listGender = productDao.getGender();
+                List<Category> listCategory = productDao.getCategory();
+                List<Color> listColor = productDao.getColor();
+                List<Brand> listBrand = productDao.getBrand();
+                List<Size> listSize = productDao.getSize();
+
+                request.setAttribute("gender", listGender);
+                request.setAttribute("category", listCategory);
+                request.setAttribute("color", listColor);
+                request.setAttribute("brand", listBrand);
+                request.setAttribute("size", listSize);
+                request.setAttribute("endPage", endPage);            
+
+                request.setAttribute("listProduct", listProduct);
                 request.setAttribute("pageSelected", indexPage);
                 url = "views/common/homepage.jsp";
                 break;

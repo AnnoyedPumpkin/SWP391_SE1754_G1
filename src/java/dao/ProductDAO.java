@@ -6,13 +6,21 @@ package dao;
 
 import context.DBContext;
 import entity.Account_Detail;
+import entity.Brand;
+import entity.Category;
+import entity.Color;
+import entity.Gender;
+import entity.Size;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import model.CartCM;
+import model.ProductVM;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -98,9 +106,9 @@ public class ProductDao extends DBContext {
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setInt(1, userId);
                     resultSet = preparedStatement.executeQuery();
-                    if(resultSet.next()) {
+                    if (resultSet.next()) {
                         cartId = resultSet.getInt("Id");
-                    } 
+                    }
                 } else {
                     System.out.println("Cannot create new cart");
                 }
@@ -115,7 +123,7 @@ public class ProductDao extends DBContext {
                 preparedStatement.setInt(1, productId);
                 preparedStatement.setObject(2, LocalDateTime.now());
                 preparedStatement.setInt(3, quantity);
-                preparedStatement.setInt(4, cartId);   
+                preparedStatement.setInt(4, cartId);
                 preparedStatement.setInt(5, DiscountId);
 
                 int affectedRow = preparedStatement.executeUpdate();
@@ -146,5 +154,578 @@ public class ProductDao extends DBContext {
             System.out.println("addProductToCart " + e.getMessage());
         }
         return 0;
+    }
+
+    public List<Gender> getGender() {
+        try {
+            connection = this.getConnection();
+            List<Gender> listGender = new ArrayList();
+            String sql = "Select * FROM dbo.[Gender]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Gender gender = new Gender();
+                gender.setGender(resultSet.getString("Gender"));
+                gender.setId(resultSet.getInt("Id"));
+                listGender.add(gender);
+            }
+            return listGender;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Category> getCategory() {
+        try {
+            connection = this.getConnection();
+            List<Category> listGender = new ArrayList();
+            String sql = "Select * FROM dbo.[Category]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategory(resultSet.getString("Category"));
+                category.setId(resultSet.getInt("Id"));
+                listGender.add(category);
+            }
+            return listGender;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Color> getColor() {
+        try {
+            connection = this.getConnection();
+            List<Color> listGender = new ArrayList();
+            String sql = "Select * FROM dbo.[Color]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Color gender = new Color();
+                gender.setColor(resultSet.getString("Color"));
+                gender.setId(resultSet.getInt("Id"));
+                listGender.add(gender);
+            }
+            return listGender;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Brand> getBrand() {
+        try {
+            connection = this.getConnection();
+            List<Brand> listGender = new ArrayList();
+            String sql = "Select * FROM dbo.[Brand]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Brand gender = new Brand();
+                gender.setBrand(resultSet.getString("Brand"));
+                gender.setId(resultSet.getInt("Id"));
+                listGender.add(gender);
+            }
+            return listGender;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Size> getSize() {
+        try {
+            connection = this.getConnection();
+            List<Size> listGender = new ArrayList();
+            String sql = "Select * FROM dbo.[Size]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Size gender = new Size();
+                gender.setSize(resultSet.getString("Size"));
+                gender.setId(resultSet.getInt("Id"));
+                listGender.add(gender);
+            }
+            return listGender;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ProductVM> getListProductFilterTotal(String colorId, String categoryId, String brandId, String sizeId, String genderId) {
+        try {
+            List<ProductVM> listProduct = new ArrayList();
+            System.out.println("color: " + colorId.isEmpty() + "-Cate: " + categoryId.isEmpty() + "-Brand: "
+                    + brandId.isEmpty() + "-Gender: " + genderId.isEmpty() + "-size: " + sizeId.isEmpty());
+            connection = this.getConnection();
+            String sql = "SELECT  p.Id, p.Name, p.Create_on, p.Description, p.Price, im.Image "
+                    + "from dbo.Product p JOIN dbo.Image im ON im.Product_Id = p.Id JOIN dbo.[Product_Detail] pd ON p.Id = pd.Product_Id ";
+            preparedStatement = connection.prepareStatement(sql);
+
+            if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND pd.Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, sizeId);
+                preparedStatement.setString(5, genderId);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, genderId);
+            } else // 4 options.
+            if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? AND pd.Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, sizeId);
+            } else if (!categoryId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Size_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setString(3, genderId);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, genderId);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+            } else if (!colorId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Size_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setString(3, genderId);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, genderId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, genderId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, sizeId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty()) {
+                System.out.println("Vao day la dung roi cua color voi category");
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+            } else if (!colorId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, sizeId);
+            } else if (!colorId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, genderId);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+            } else if (!categoryId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, sizeId);
+            } else if (!categoryId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, genderId);
+            } else if (!brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? AND pd.Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+                preparedStatement.setString(2, sizeId);
+            } else if (!brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+                preparedStatement.setString(2, genderId);
+            } else if (!sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, sizeId);
+                preparedStatement.setString(2, genderId);
+            } else if (!colorId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+            } else if (!categoryId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+            } else if (!brandId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+            } else if (!sizeId.isEmpty()) {
+                sql += " WHERE pd.Size_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, sizeId);
+            } else if (!genderId.isEmpty()) {
+                sql += " WHERE pd.Gender_Id = ? Order By Create_on Desc";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1,  genderId );
+            }
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductVM productVM = new ProductVM();
+                productVM.setImageLink(resultSet.getString("Image"));
+                productVM.setName(resultSet.getString("Name"));
+                productVM.setDescription(resultSet.getString("Description"));
+                productVM.setCreate_on(resultSet.getDate("Create_on"));
+                productVM.setPrice(resultSet.getDouble("Price"));
+                productVM.setId(resultSet.getInt("Id"));
+                listProduct.add(productVM);
+            }
+            return listProduct;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public List<ProductVM> getListProductPaging(int index, String colorId, String categoryId, String brandId, String sizeId, String genderId) {
+        try {
+            List<ProductVM> listProduct = new ArrayList();
+            connection = this.getConnection();
+            String sql = "SELECT  p.Id, p.Name, p.Create_on, p.Description, p.Price, im.Image "
+                    + "from dbo.Product p JOIN dbo.Image im ON im.Product_Id = p.Id JOIN dbo.[Product_Detail] pd ON p.Id = pd.Product_Id ";
+            preparedStatement = connection.prepareStatement(sql);
+            if (colorId.isEmpty() && categoryId.isEmpty() && brandId.isEmpty() && sizeId.isEmpty() && genderId.isEmpty()) {
+                sql += " Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, (index - 1) * 8);
+            }
+
+            if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND pd.Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, sizeId);
+                preparedStatement.setString(5, genderId);
+                preparedStatement.setInt(6, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+                preparedStatement.setInt(5, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+                preparedStatement.setInt(5, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setString(4, genderId);
+                preparedStatement.setInt(5, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, genderId);
+                preparedStatement.setInt(5, (index - 1) * 8);
+            } else // 4 options.
+            if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? AND pd.Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setString(4, sizeId);
+                preparedStatement.setInt(5, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Size_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setString(3, genderId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, genderId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Size_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setString(3, genderId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setString(3, genderId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, genderId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, sizeId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? "
+                        + "AND Brand_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY ";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setString(3, brandId);
+                preparedStatement.setInt(4, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !categoryId.isEmpty()) {
+                System.out.println("Vao day la dung roi cua color voi category");
+                sql += " WHERE pd.Color_Id = ? AND pd.Category_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, categoryId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Brand_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!colorId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setString(2, genderId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !brandId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Brand_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, brandId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!categoryId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setString(2, genderId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!brandId.isEmpty() && !sizeId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? AND pd.Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+                preparedStatement.setString(2, sizeId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!brandId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+                preparedStatement.setString(2, genderId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!sizeId.isEmpty() && !genderId.isEmpty()) {
+                sql += " WHERE pd.Size_Id = ? AND pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, sizeId);
+                preparedStatement.setString(2, genderId);
+                preparedStatement.setInt(3, (index - 1) * 8);
+            } else if (!colorId.isEmpty()) {
+                sql += " WHERE pd.Color_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, colorId);
+                preparedStatement.setInt(2, (index - 1) * 8);
+            } else if (!categoryId.isEmpty()) {
+                sql += " WHERE pd.Category_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, categoryId);
+                preparedStatement.setInt(2, (index - 1) * 8);
+            } else if (!brandId.isEmpty()) {
+                sql += " WHERE pd.Brand_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, brandId);
+                preparedStatement.setInt(2, (index - 1) * 8);
+            } else if (!sizeId.isEmpty()) {
+                sql += " WHERE pd.Size_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, sizeId);
+                preparedStatement.setInt(2, (index - 1) * 8);
+            } else if (!genderId.isEmpty()) {
+                sql += " WHERE pd.Gender_Id = ? Order By Create_on Desc OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, genderId);
+                preparedStatement.setInt(2, (index - 1) * 8);
+            }
+//            preparedStatement.setInt(1, accountId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductVM productVM = new ProductVM();
+                productVM.setImageLink(resultSet.getString("Image"));
+                productVM.setName(resultSet.getString("Name"));
+                productVM.setDescription(resultSet.getString("Description"));
+                productVM.setCreate_on(resultSet.getDate("Create_on"));
+                productVM.setPrice(resultSet.getDouble("Price"));
+                productVM.setId(resultSet.getInt("Id"));
+                listProduct.add(productVM);
+            }
+            return listProduct;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
