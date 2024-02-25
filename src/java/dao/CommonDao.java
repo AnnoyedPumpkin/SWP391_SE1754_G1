@@ -252,7 +252,17 @@ public class CommonDao extends DBContext {
         preparedStatement.setString(1, Email);
         preparedStatement.executeUpdate();
     }
-
+    public void deleteProductInCartDetailByProductId(int productId){ 
+        try {
+            String query = "DELETE FROM Cart_Detail WHERE Product_Id = ?"; 
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, productId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
     /**
      * Method description: Generates a random password with 8 characters.
      *

@@ -1014,15 +1014,7 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${not empty requestScope.subtotal}">
-                        <p>Subtotal: ${requestScope.subtotal}</p>
-                    </c:if>
-                    <c:if test="${not empty requestScope.discount}">
-                        <p>Discount: ${requestScope.discount}</p>
-                    </c:if>
-                    <c:if test="${not empty requestScope.total}">
-                        <p>Total: ${requestScope.total}</p>
-                    </c:if>
+
                     <div class="billing_form mb_50">
                         <h3 class="form_title mb_30">Billing details</h3>
                         <form action="#">
@@ -1079,7 +1071,7 @@
 
                         <div class="billing_form">
                             <h3 class="form_title mb_30">Your order</h3>
-                            <form action="#">
+                            <form action="Checkout?action=placeOrder" method="post">
                                 <div class="form_wrap">
 
                                     <div class="checkout_table">
@@ -1123,9 +1115,24 @@
                                                     <td>
                                                         <span class="subtotal_text">Subtotal</span>
                                                     </td>
-                                                    <td><span class="total_price">$414.00</span></td>
+                                                    <td>
+                                                        <c:if test="${not empty requestScope.subtotal}">
+                                                            <span class="total_price">${requestScope.subtotal}VND</span>
+                                                        </c:if>
+                                                    </td>
                                                 </tr>
-                                            
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <span class="discount_text">Discount</span>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${not empty requestScope.discount}">
+                                                            <span class="total_price">${requestScope.discount}%</span>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td class="text-left">
                                                         <span class="subtotal_text">TOTAL</span>
@@ -1133,7 +1140,9 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td>
-                                                        <span class="total_price">$135.00</span>
+                                                        <c:if test="${not empty requestScope.total}">
+                                                        <span class="total_price">${requestScope.total}VND</span>
+                                                        </c:if>
                                                     </td>
                                                 </tr>
                                                 <!-- <tr>

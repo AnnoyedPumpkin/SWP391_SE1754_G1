@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const decrementButtons = document.querySelectorAll('.input_number_decrement_de');
     const totalPrices = document.querySelectorAll('.total_price');
     const couponOption = document.querySelector('.coupon');
-    
+
     let totalPriceSum = 0;
-    
+
     quantityInputs.forEach(function (input) {
         input.addEventListener('input', function () {
             updateTotalPrice(this);
@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function updateTotalPrice(input) {
+
         const row = input.closest('tr');
         const priceText = row.querySelector('.price_text').innerText;
         const price = parseFloat(priceText.substring(0, priceText.length - 1));
@@ -69,7 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const finalTotal = totalPriceSum - (totalPriceSum * discountValue / 100);
         const finalTotalElement = document.getElementById('total_price_final');
         finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+
+        const tps_textCont = document.getElementById("total_price_sum").textContent;
+        const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
+        document.getElementById("tps_value_input").value = tps_textCont_float;
+
+        const dvi_textCont = document.getElementById("discount_value").textContent;
+        const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
+        document.getElementById("dis_value_input").value = dvi_textCont_float;
+
+        const tpf_textCont = document.getElementById("total_price_final").textContent;
+        const tpf_textCont_float = parseFloat(tpf_textCont.substring(0, tpf_textCont.length - 3));
+        document.getElementById("tpf_value_input").value = tpf_textCont_float;
     }
+
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -105,6 +119,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const finalTotal = totalPriceSum - (totalPriceSum * discountValue / 100);
     const finalTotalElement = document.getElementById('total_price_final');
     finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+    
+    const tps_textCont = document.getElementById("total_price_sum").textContent;
+        const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
+        document.getElementById("tps_value_input").value = tps_textCont_float;
+
+        const dvi_textCont = document.getElementById("discount_value").textContent;
+        const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
+        document.getElementById("dis_value_input").value = dvi_textCont_float;
+
+        const tpf_textCont = document.getElementById("total_price_final").textContent;
+        const tpf_textCont_float = parseFloat(tpf_textCont.substring(0, tpf_textCont.length - 3));
+        document.getElementById("tpf_value_input").value = tpf_textCont_float;
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -128,72 +154,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const finalTotalElement = document.getElementById('total_price_final');
         finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+        
+        const tps_textCont = document.getElementById("total_price_sum").textContent;
+        document.getElementById("tps_value_input").value = tps_textCont;
+
+        const dvi_textCont = document.getElementById("discount_value").textContent;
+        const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
+        document.getElementById("dis_value_input").value = dvi_textCont_float;
+        
+        const tpf_textCont = document.getElementById("total_price_final").textContent;
+        document.getElementById("tpf_value_input").value = tpf_textCont;
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('cartForm'); // Assuming your form has the ID 'cartForm'
-
-    // Function to send data to servlet
-    function sendDataToServlet(data) {
-        // Create a new FormData object
-        const formData = new FormData();
-
-        // Append the data to FormData object
-        for (const key in data) {
-            formData.append(key, data[key]);
-        }
-
-        // Create a new XMLHttpRequest object
-        const xhr = new XMLHttpRequest();
-
-        // Configure the request
-        xhr.open('POST', 'YourServletURL', true);
-
-        // Set up the onload function
-        xhr.onload = function () {
-            // Check if the request was successful
-            if (xhr.status >= 200 && xhr.status < 300) {
-                // Request was successful, handle response if needed
-                console.log('Data sent successfully!');
-            } else {
-                // Request failed
-                console.error('Request failed with status:', xhr.status);
-            }
-        };
-
-        // Send the request
-        xhr.send(formData);
+function submitForm() {
+        document.getElementById("deleteProductForm").submit();
     }
-
-    // Function to get values and send to servlet
-    function sendValuesToServlet() {
-        const totalSumElement = document.getElementById('total_price_sum');
-        const discountValueElement = document.getElementById('discount_value');
-        const finalTotalElement = document.getElementById('total_price_final');
-
-        // Extract text content from elements
-        const totalSum = totalSumElement.innerText.trim();
-        const discountValue = discountValueElement.innerText.trim();
-        const finalTotal = finalTotalElement.innerText.trim();
-
-        // Prepare data to send
-        const data = {
-            totalSum: totalSum,
-            discountValue: discountValue,
-            finalTotal: finalTotal
-        };
-
-        // Send data to servlet
-        sendDataToServlet(data);
-    }
-
-    // Attach event listener to the form submission
-    form.addEventListener('submit', function (event) {
-        // Prevent the default form submission
-        event.preventDefault();
-
-        // Send values to servlet
-        sendValuesToServlet();
-    });
-});

@@ -912,10 +912,12 @@
                                                         Size: ${p.s.size} |
                                                         Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
                                                     </div>
-
-                                                    <button type="button" class="remove_btn">
+                                                    <form id="deleteProductForm" action="Checkout?action=deleteProduct" method="post">
+                                                    <button onclick="submitForm();" type="button" class="remove_btn">
+                                                        <input type="hidden" name="p_id" value="${p.c_Det.product_detail_id}">
                                                         <i class="fal fa-times"></i>
                                                     </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                             <td>
@@ -974,7 +976,9 @@
                                         <li><span>Discount</span> <span id="discount_value"></span></li>
                                         <li><span>Total</span> <span id="total_price_final"></span></li>
                                     </ul>
-
+                                    <input type="hidden" id="tps_value_input" name="tps_va_in">
+                                    <input type="hidden" id="dis_value_input" name="dis_va_in">
+                                    <input type="hidden" id="tpf_value_input" name="tpf_va_in">
                                     <button class="custom_btn bg_success" type="submit">Proceed to Checkout</button>
                                 </div>
                             </div>
