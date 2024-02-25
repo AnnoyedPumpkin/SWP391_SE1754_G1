@@ -179,7 +179,24 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            
+            case "add-discount":
+                addDiscount(request, response);
+                listD = adminDAO.findAllDiscount();
+                session.setAttribute("listD", listD);
+                url = "../views/admin/manageDiscount.jsp";
+                break;
+            case "delete-discount":
+                deleteDiscount(request, response);
+                listD = adminDAO.findAllDiscount();
+                session.setAttribute("listD", listD);
+                url = "../views/admin/manageDiscount.jsp";
+                break;
+            case "edit-discount":
+                editDiscount(request, response);
+                listD = adminDAO.findAllDiscount();
+                session.setAttribute("listD", listD);
+                url = "../views/admin/manageDiscount.jsp";
+                break;
             default:
                 throw new AssertionError();
         }
