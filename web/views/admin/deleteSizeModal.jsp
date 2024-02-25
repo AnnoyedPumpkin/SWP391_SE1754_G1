@@ -39,4 +39,8 @@
     if (msg) {
         alert("Success: " + msg);
     }
+    var errorsd = "${errorsd}";
+    if (errorsd) {
+        alert("Error: " + errorsd);
+    }
 </script>

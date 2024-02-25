@@ -18,6 +18,6 @@ import lombok.Data;
 public class Discount {
     private int id;
     private Date create_at;
-    private double discount_percent;
+    private int discount_percent;
     private int status;
 }

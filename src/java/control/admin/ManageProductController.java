@@ -21,16 +21,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -72,6 +74,32 @@ public class ManageProductController extends HttpServlet {
                 session.setAttribute("productForm", productForm);
                 session.setAttribute("listImages", listImages);
                 request.getRequestDispatcher("/views/admin/productDetails.jsp").forward(request, response);
+                break;
+            case "update-product":
+                String productIdToUpdate = request.getParameter("productID");
+                String colorIDToUpdate = request.getParameter("colorID");
+                String categoryIDToUpdate = request.getParameter("categoryID");
+                String sizeIDToUpdate = request.getParameter("sizeID");
+                String brandIDToUpdate = request.getParameter("brandID");
+                String genderIDToUpdate = request.getParameter("genderID");
+                productForm = adminDAO.findProductByID(productIdToUpdate, colorIDToUpdate, categoryIDToUpdate, sizeIDToUpdate, brandIDToUpdate, genderIDToUpdate);
+                listImages = adminDAO.getImagesByProductID(productIdToUpdate);
+                session.setAttribute("productForm", productForm);
+                session.setAttribute("listImages", listImages);
+                session.setAttribute("listB", listB);
+                session.setAttribute("listCate", listCate);
+                session.setAttribute("listC", listC);
+                session.setAttribute("listS", listS);
+                session.setAttribute("listG", listG);
+                request.getRequestDispatcher("/views/admin/editProduct.jsp").forward(request, response);
+                break;
+            case "delete-images-product":
+                String productIdToDeleteImage = request.getParameter("imagesID");
+                String imagePathToDelete = request.getParameter("imagePath");
+                adminDAO.deleteImagesProduct(productIdToDeleteImage, imagePathToDelete);
+                listImages = adminDAO.getImagesByProductID(productIdToDeleteImage);
+                session.setAttribute("listImages", listImages);
+                request.getRequestDispatcher("/views/admin/editProduct.jsp").forward(request, response);
                 break;
             default:
                 session.setAttribute("listB", listB);
@@ -127,11 +155,14 @@ public class ManageProductController extends HttpServlet {
                 request.setAttribute("brandCounts", brandCounts);
                 url = "/views/admin/manageProduct.jsp";
                 break;
+            case "edit-product":
+                editProduct(request, response);
+                url = "/views/admin/productDetails.jsp";
+                break;
             default:
                 throw new AssertionError();
         }
         request.getRequestDispatcher(url).forward(request, response);
-
     }
 
     private List<Product_Form> pagination(HttpServletRequest request, Pagination pagination) {
@@ -221,11 +252,10 @@ public class ManageProductController extends HttpServlet {
                 File image = new File(dir, part.getSubmittedFileName());
                 part.write(image.getAbsolutePath());
                 imagePath = "/SWP391_SE1754_G1/images/" + image.getName();
-            } else {
-                request.setAttribute("errorap", "Error when creating new product!");
-                return;
             }
         } catch (Exception e) {
+            request.setAttribute("errorap", "Error when creating new product!");
+            return;
         }
         try {
             Product_Form productForm = Product_Form.builder()
@@ -240,7 +270,6 @@ public class ManageProductController extends HttpServlet {
                     .brand_id(brandID)
                     .gender_id(genderID)
                     .build();
-
             boolean isExistProduct = adminDAO.findProductExist(productName, colorID, cateID, sizeID, brandID, genderID);
             if (!isExistProduct) {
                 if (!adminDAO.findExistProduct(productName)) {
@@ -289,4 +318,128 @@ public class ManageProductController extends HttpServlet {
         }
     }
 
+    private void editProduct(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        String productIdRaw = request.getParameter("product_id");
+        String productName = request.getParameter("product_name");
+        String productDescription = request.getParameter("productDescription");
+        String productPriceRaw = request.getParameter("productPrice");
+        String colorIdOldRaw = request.getParameter("color_id");
+        String cateIdOldRaw = request.getParameter("cate_id");
+        String sizeIdOldRaw = request.getParameter("size_id");
+        String brandIdOldRaw = request.getParameter("brand_id");
+        String genderIdOldRaw = request.getParameter("gender_id");
+        String colorIdRaw = request.getParameter("color");
+        String cateIdRaw = request.getParameter("cate");
+        String sizeIdRaw = request.getParameter("size");
+        String brandIdRaw = request.getParameter("brand");
+        String stockRaw = request.getParameter("stock");
+        String genderIdRaw = request.getParameter("gender");
+        String imagePathLayout = "";
+        String imagesPath = "";
+        List<String> imagePaths;
+        if (productIdRaw == null || productIdRaw.isEmpty() || productPriceRaw == null || productPriceRaw.isEmpty() || colorIdRaw == null || colorIdRaw.isEmpty() || cateIdRaw == null || cateIdRaw.isEmpty() || brandIdRaw == null || brandIdRaw.isEmpty() || genderIdRaw == null || genderIdRaw.isEmpty()) {
+            request.setAttribute("errorup", "Error when updating product!");
+            return;
+        }
+        int colorIdOld = Integer.parseInt(colorIdOldRaw);
+        int cateIdOld = Integer.parseInt(cateIdOldRaw);
+        int sizeIdOld = Integer.parseInt(sizeIdOldRaw);
+        int brandIdOld = Integer.parseInt(brandIdOldRaw);
+        int genderIdOld = Integer.parseInt(genderIdOldRaw);
+        int productID = Integer.parseInt(productIdRaw);
+        double productPrice = Double.parseDouble(productPriceRaw);
+        int colorID = Integer.parseInt(colorIdRaw);
+        int cateID = Integer.parseInt(cateIdRaw);
+        int sizeID = Integer.parseInt(sizeIdRaw);
+        int brandID = Integer.parseInt(brandIdRaw);
+        int stock = Integer.parseInt(stockRaw);
+        int genderID = Integer.parseInt(genderIdRaw);
+
+        try {
+            Part part = request.getPart("image_layout");
+            if (part != null && part.getSize() > 0) {
+                String path = request.getServletContext().getRealPath("/images");
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                if (part.getSubmittedFileName() != null && part.getSize() > 0 && part.getName().equals("image_layout")) {
+                    File image = new File(dir, part.getSubmittedFileName());
+                    part.write(image.getAbsolutePath());
+                    imagePathLayout = "/SWP391_SE1754_G1/images/" + image.getName();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorup", "Error when update product!");
+            return;
+        }
+        try {
+            Collection<Part> parts = request.getParts();
+            imagePaths = new ArrayList<>();
+
+            String uploadPath = request.getServletContext().getRealPath("/images");
+            File dir = new File(uploadPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            for (Part part : parts) {
+                if (part.getSubmittedFileName() != null && part.getSize() > 0 && part.getName().equals("list_image")) {
+                    File image = new File(dir, part.getSubmittedFileName());
+                    part.write(image.getAbsolutePath());
+                    imagesPath = "/SWP391_SE1754_G1/images/" + image.getName();
+                    imagePaths.add(imagesPath);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorup", "Error when updating product!");
+            return;
+        }
+        Product_Form productForm1 = Product_Form.builder()
+                .id(productID)
+                .name(productName)
+                .description(productDescription)
+                .price(productPrice)
+                .image_path(imagePathLayout)
+                .color_id(colorID)
+                .category_id(cateID)
+                .size_id(sizeID)
+                .brand_id(brandID)
+                .stock(stock)
+                .gender_id(genderID)
+                .build();
+        boolean isExistProduct = adminDAO.findExistProduct(productForm1);
+        if (!isExistProduct) {
+            adminDAO.updateProductDetail(productForm1, colorIdOld, cateIdOld, sizeIdOld, genderIdOld, brandIdOld);
+            adminDAO.updateProduct(productForm1);
+            request.setAttribute("msgup", "Update product successfully !!");
+        } else {
+            request.setAttribute("errorup", "Product exist already!");
+        }
+        if (imagePathLayout != null && !imagePathLayout.isEmpty()) {
+            adminDAO.updateProductImageLayout(productForm1);
+            request.setAttribute("msgup", "Images product layout update successfully !!");
+        }
+        String imagePathString = String.join(",", imagePaths);
+        if (imagePathString != null && !imagePathString.isEmpty()) {
+            Image image = Image.builder()
+                    .product_Id(productID)
+                    .image(imagePathString)
+                    .build();
+            int size = adminDAO.getSizeByProductID(productID);
+            if (imagePaths.size() + size <= 6) {
+                adminDAO.deleteImagesExistAlready(image);
+                adminDAO.saveImage(image);
+                request.setAttribute("msgup", "Images product update successfully !!");
+            } else {
+                request.setAttribute("errorup", "Maximum of 6 images allowed.");
+            }
+        }
+        Product_Form productForm = adminDAO.findProductByID(productIdRaw, colorIdRaw, cateIdRaw, sizeIdRaw, brandIdRaw, genderIdRaw);
+        List<Image> listImages = adminDAO.getImagesByProductID(productIdRaw);
+        session.setAttribute("productForm", productForm);
+        session.setAttribute("listImages", listImages);
+    }
 }

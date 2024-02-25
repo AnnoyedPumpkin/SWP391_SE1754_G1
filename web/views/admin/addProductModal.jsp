@@ -125,7 +125,6 @@
         let productDescription = $('#productdescriptionInput').val();
         let productPrice = $('#productpriceInput').val();
         let stock = $('#stockInput').val();
-
         // Remove existing error messages
         $('.error').html('');
 
@@ -133,7 +132,7 @@
             $('#productnameError').html('Product Name cannot be blank');
         } else if (productName.value.length < 3) {
             $('#productnameError').html('Product Name must be at least 3 characters long.');
-        } else if (!/^[A-Za-z\s]+$/.test(productName.value)) {
+        } else if (!/^[A-Za-z\s\u0080-\uFFFF]+$/.test(productName.value)) {
             $('#productnameError').html('Product Name must contain only letters');
         }
 
@@ -141,7 +140,7 @@
             $('#productdescriptionError').html('Product Description cannot be blank');
         } else if (productDescription.value.length < 10) {
             $('#productdescriptionError').html('Product Description must be at least 10 characters long.');
-        } else if (!/^[A-Za-z0-9\s]+$/.test(productDescription.value)) {
+        } else if (!/^[A-Za-z0-9\s\u0080-\uFFFF]+$/.test(productDescription.value)) {
             $('#productdescriptionError').html('Product Description must contain only letters and numbers');
         }
 
@@ -153,7 +152,7 @@
         
         if (stock === '') {
             $('#stockError').html('Stock cannot be blank');
-        } else if (!/^[0-9]+$/.test(stock.value) || parseFloat(stock) < 0) {
+        } else if (!/^[0-9]+$/.test(stock.value) || parseInt(stock) < 0) {
             $('#stockError').html('Stock must contain only numbers');
         }
 

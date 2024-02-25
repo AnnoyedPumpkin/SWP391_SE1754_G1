@@ -72,6 +72,44 @@
                 height: 100%;
                 object-fit: cover;
             }
+            #previewImagesContainer {
+                position: relative;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                max-width: 100%;
+                max-height: 300px;
+                overflow: auto;
+            }
+
+            .imageContainer {
+                position: relative;
+                overflow: hidden;
+                max-width: 100px;
+                max-height: 100px;
+            }
+
+            .imageContainer img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            .deleteButton {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(255, 0, 0, 0.5);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+                cursor: pointer;
+                z-index: 1;
+            }
         </style>
     </head>
     <!-- END: Head-->
@@ -162,6 +200,8 @@
                             </li>
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
                             </li>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Discount</span></a>
+                            </li>
                             <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
@@ -230,7 +270,7 @@
                                                 <option value="asc">Lowest</option>
                                                 <option value="desc">Highest</option>
                                             </select>
-                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addProductModal">Add Product</button>
                                         </div>
                                     </div>
                                 </div>
@@ -288,8 +328,11 @@
                                                 <!--                                                <p class="item-company">By <span class="company-name">Google</span></p>-->
                                             </div>
                                             <div>
-                                                <p class="item-descriptionn" style="display: inline-block; margin-right: 10px;">
+                                                <p class="item-size" style="display: inline-block; margin-right: 10px;">
                                                     Size: ${pf.size}
+                                                </p>
+                                                <p class="item-color" style="display: inline-block; margin-right: 10px;">
+                                                    Gender: ${pf.gender}
                                                 </p>
                                                 <p class="item-color" style="display: inline-block; margin-right: 10px;">
                                                     Color:
@@ -298,14 +341,11 @@
                                             </div>
                                         </div>
                                         <div class="item-options text-center">
-                                            <a class="btn btn-primary btn-equal-size view mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
-                                                <i class="feather icon-eye"></i> <span>View</span>
-                                            </a>
-                                            <button class="btn btn-success btn-equal-size wishlist mb-2 mb-md-0 flex-fill">
-                                                <i class="feather icon-edit"></i> <span>Update</span>
-                                            </button>
+                                            <a class="btn btn-primary btn-equal-size view-options mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
+                                                <i class="feather icon-eye"></i> <span style="color: black">View</span>
+                                            </a>                                           
                                             <button class="btn btn-danger btn-equal-size delete mb-2 mb-md-0 flex-fill" data-toggle="modal" data-target="#deleteProductModal" title="Delete Product" onclick="deleteProductModal('${pf.id}', '${pf.color_id}', '${pf.category_id}', '${pf.size_id}', '${pf.brand_id}', '${pf.gender_id}')">
-                                                <i class=" feather icon-trash "></i>  <span>Delete</span>
+                                                <i class=" feather icon-trash "></i>  <span style="color: black">Delete</span>
                                             </button>
                                         </div>
                                     </div>

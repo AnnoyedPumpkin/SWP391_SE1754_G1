@@ -179,59 +179,61 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
-                        <div class="form-group breadcrum-right">
-                            <div class="dropdown">
-                                <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings"></i></button>
-                                <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Chat</a><a class="dropdown-item" href="#">Email</a><a class="dropdown-item" href="#">Calendar</a></div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="content-body">
                     <!-- app ecommerce details start -->
                     <section class="app-ecommerce-details">
                         <div class="card">
                             <div class="card-body">
+                                <div class="form-group breadcrum-right">
+                                    <a style="float:right" class="btn btn-success btn-equal-size view-options mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/admin/manageproduct?page=update-product&productID=${productForm.id}&colorID=${productForm.color_id}&categoryID=${productForm.category_id}&sizeID=${productForm.size_id}&brandID=${productForm.brand_id}&genderID=${productForm.gender_id}">
+                                        <i class="feather icon-edit"></i> <span style="color: black">Update</span>
+                                    </a> 
+                                </div>
                                 <div class="row mb-5 mt-2">
                                     <div class="col-12 col-md-5 d-flex flex-column align-items-center justify-content-center mb-2 mb-md-0">
                                         <!-- Product Images Carousel -->
                                         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
                                             <c:choose>
-                                                <c:when test="${productForm.image_path == null && empty listImages}">
+                                                <c:when test="${not empty productForm.image_path and not empty listImages}">
                                                     <div class="carousel-inner">
                                                         <div class="carousel-item active">
-                                                            <img src="${pageContext.request.contextPath}/app-assets/images/imageNotFound.jpg" class="d-block w-100" alt="Default Image">
+                                                            <img src="${productForm.image_path}" class="d-block w-100" alt="Default Image">
                                                         </div>
+                                                        <c:forEach var="image" items="${listImages}" varStatus="loop">
+                                                            <div class="carousel-item">
+                                                                <img class="d-block w-100" src="${image.image}" alt="Slide ${loop.index + 1}">
+                                                            </div>
+                                                        </c:forEach>
+                                                        <ol class="carousel-indicators">
+                                                            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                                                                <c:forEach var="image" items="${listImages}" varStatus="loop">
+                                                                <li data-target="#carouselIndicators" data-slide-to="${loop.index + 1}"></li>
+                                                                </c:forEach>
+                                                        </ol>
                                                     </div>
-                                                    <ol class="carousel-indicators">
-                                                        <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-                                                    </ol>
                                                 </c:when>
-                                                <c:when test="${productForm.image_path != null && empty listImages}">
+                                                <c:when test="${empty listImages}">
                                                     <div class="carousel-inner">
                                                         <div class="carousel-item active">
                                                             <img src="${productForm.image_path}" class="d-block w-100" alt="Default Image">
                                                         </div>
                                                     </div>
+                                                </c:when>
+                                                <c:when test="${empty productForm.image_path}">
+                                                    <c:forEach var="image" items="${listImages}" varStatus="loop">
+                                                        <div class="carousel-item">
+                                                            <img class="d-block w-100" src="${image.image}" alt="Slide ${loop.index + 1}">
+                                                        </div>
+                                                    </c:forEach>
                                                     <ol class="carousel-indicators">
                                                         <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-                                                    </ol>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="carousel-inner">
-                                                        <c:forEach var="image" items="${listImages}" varStatus="loop">
-                                                            <div class="carousel-item ${loop.first ? 'active' : ''}">
-                                                                <img class="d-block w-100" src="${image.image}" alt="Slide ${loop.index + 1}">
-                                                            </div>
-                                                        </c:forEach>
-                                                    </div>
-                                                    <ol class="carousel-indicators">
-                                                        <c:forEach var="image" items="${listImages}" varStatus="loop">
-                                                            <li data-target="#carouselIndicators" data-slide-to="${loop.index}" class="${loop.first ? 'active' : ''}"></li>
+                                                            <c:forEach var="image" items="${listImages}" varStatus="loop">
+                                                            <li data-target="#carouselIndicators" data-slide-to="${loop.index + 1}"></li>
                                                             </c:forEach>
                                                     </ol>
-                                                </c:otherwise>
+                                                </c:when>
                                             </c:choose>
                                             <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -392,7 +394,19 @@
 
         <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
 
-    </body>
-    <!-- END: Body-->
+        </body>
+        <!-- END: Body-->
+        <<script>
 
+                var errorup = "${errorup}";
+                if (errorup) {
+                    alert("Error: " + errorup);
+                }
+
+                var msgup = "${msgup}";
+                if (msgup) {
+                    alert("Success: " + msgup);
+                }
+
+    </script>
 </html>

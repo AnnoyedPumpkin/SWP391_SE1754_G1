@@ -1,6 +1,6 @@
 <%-- 
-    Document   : productCharacteristic
-    Created on : Jan 27, 2024, 1:42:33 PM
+    Document   : manageDiscount
+    Created on : Feb 21, 2024, 1:50:26 PM
     Author     : LENOVO
 --%>
 
@@ -17,7 +17,7 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>Product Details - Admin</title>
+        <title>Manage Discount - Admin</title>
         <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/apple-icon-120.png">
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
@@ -209,9 +209,9 @@
                         <ul class="menu-content">
                             <li><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Discount</span></a>
+                            <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Discounts">Manage Discount</span></a>
                             </li>
                             <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
@@ -248,12 +248,10 @@
                     <div class="content-header-left col-md-9 col-12 mb-2">
                         <div class="row breadcrumbs-top">
                             <div class="col-12">
-                                <h2 class="content-header-title float-left mb-0">Details</h2>
+                                <h2 class="content-header-title float-left mb-0">Manage Discount</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/dashboard">Home</a>
-                                        </li>
-                                        <li class="breadcrumb-item active">Details
+                                        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/dashboard/manage-discount">List Discount</a>
                                         </li>
                                     </ol>
                                 </div>
@@ -270,35 +268,46 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h4 class="card-title mb-0">Colors</h4>
                                         <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addColorModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Color
+                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addDiscountModal">
+                                                <i class="fas fa-plus mr-2"></i> Add Discount
                                             </button>
                                         </div>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body mb-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10" id="colorTable">
+                                                <table class="table table-bordered table-striped col-10" id="discountTable">
                                                     <thead>
                                                         <tr>
                                                             <th class="col-4">ID</th>
-                                                            <th class="col-4">Color</th>
+                                                            <th class="col-4">Discount Percent</th>
+                                                            <th class="col-4">Create On</th>
+                                                            <th class="col-4">Status</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <c:forEach items="${listC}" var="c">
+                                                        <c:forEach items="${listD}" var="d">
                                                             <tr>
-                                                                <td>${c.id}</td>
-                                                                <td>${c.color}</td>
+                                                                <td>${d.id}</td>
+                                                                <td>${d.discount_percent}</td>
+                                                                <td>${d.create_at}</td>
+                                                                <c:choose>
+                                                                    <c:when test="${d.status == 1}">
+                                                                        <td style="color:green">Active</td>
+                                                                    </c:when>
+                                                                    <c:when test="${d.status == 0}">
+                                                                        <td style="color:red">Inactive</td>
+                                                                    </c:when>
+                                                                </c:choose>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editColorModal" title="Edit Color"
-                                                                       onclick="editColorModal(`${c.id}`, `${c.color}`)">
+                                                                       data-toggle="modal" data-target="#editDiscountModal" title="Edit Discount"
+                                                                       onclick="editDiscountModal(`${d.id}`, `${d.discount_percent}`, `${d.status}`)">
                                                                     </i>
                                                                     <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteColorModal" title="Delete Color"
-                                                                       onclick="deleteColorModal(`${c.id}`)">
+                                                                       data-toggle="modal" data-target="#deleteDiscountModal" title="Delete Discount"
+                                                                       onclick="deleteDiscountModal(`${d.id}`)">
                                                                     </i>
                                                                 </td>
                                                             </tr>
@@ -312,215 +321,7 @@
                             </div>
                         </div>
                     </section>
-                    <!-- list color end -->
-
-                    <!-- list brand start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Brands</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addBrandModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Brands
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="brandTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Brand</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listB}" var="b">
-                                                            <tr>
-                                                                <td>${b.id}</td>
-                                                                <td>${b.brand}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editBrandModal" title="Edit Brand"
-                                                                       onclick="editBrandModal(`${b.id}`, `${b.brand}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteBrandModal" title="Delete Brand"
-                                                                       onclick="deleteBrandModal(`${b.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- list brand end -->
-
-                    <!-- list category start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Category</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addCategoryModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Category
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="cateTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Category</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listCate}" var="cate">
-                                                            <tr>
-                                                                <td>${cate.id}</td>
-                                                                <td>${cate.category}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editCategoryModal" title="Edit Category"
-                                                                       onclick="editCategoryModal(`${cate.id}`, `${cate.category}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteCategoryModal" title="Delete Category"
-                                                                       onclick="deleteCategoryModal(`${cate.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- list category end -->
-
-                    <!-- list gender start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Gender</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addGenderModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Gender
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="genderTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Gender</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listG}" var="g">
-                                                            <tr>
-                                                                <td>${g.id}</td>
-                                                                <td>${g.gender}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editGenderModal" title="Edit Gender"
-                                                                       onclick="editGenderModal(`${g.id}`, `${g.gender}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteGenderModal" title="Delete Gender"
-                                                                       onclick="deleteGenderModal(`${g.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- list gender end -->
-
-                    <!-- list size start -->
-                    <section id="backcolor-gradient">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card background-color">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title mb-0">Size</h4>
-                                        <div class="breadcrumb-item ml-2 mb-2">
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addSizeModal">
-                                                <i class="fas fa-plus mr-2"></i> Add Size
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="sizeTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-4">ID</th>
-                                                            <th class="col-4">Size</th>
-                                                            <th class="col-4">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach items="${listS}" var="s">
-                                                            <tr>
-                                                                <td>${s.id}</td>
-                                                                <td>${s.size}</td>
-                                                                <td>
-                                                                    <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
-                                                                       data-toggle="modal" data-target="#editSizeModal" title="Edit Size"
-                                                                       onclick="editSizeModal(`${s.id}`, `${s.size}`)">
-                                                                    </i>
-                                                                    <i class="fa fa-trash fa-2x px-2 py-2 rounded text-danger"
-                                                                       data-toggle="modal" data-target="#deleteSizeModal" title="Delete Size"
-                                                                       onclick="deleteSizeModal(`${s.id}`)">
-                                                                    </i>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- list size end -->
+                    <!-- list discount end -->
                 </div>
             </div>
         </div>
@@ -538,21 +339,10 @@
         <!-- END: Footer-->
 
         <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
-        <jsp:include page="../admin/addColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editColorModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteCategoryModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteBrandModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editGenderModal.jsp"></jsp:include>
-        <jsp:include page="../admin/addSizeModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editSizeModal.jsp"></jsp:include>
-        <jsp:include page="../admin/deleteSizeModal.jsp"></jsp:include>
+        <jsp:include page="../admin/addDiscountModal.jsp"></jsp:include>
+        <jsp:include page="../admin/deleteDiscountModal.jsp"></jsp:include>
+        <jsp:include page="../admin/editDiscountModal.jsp"></jsp:include>
+
 
 
             <!-- BEGIN: Vendor JS-->
@@ -577,19 +367,7 @@
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
         <script>
-                new DataTable('#colorTable', {
-                    pagingType: 'full_numbers'
-                });
-                new DataTable('#brandTable', {
-                    pagingType: 'full_numbers'
-                });
-                new DataTable('#cateTable', {
-                    pagingType: 'full_numbers'
-                });
-                new DataTable('#genderTable', {
-                    pagingType: 'full_numbers'
-                });
-                new DataTable('#sizeTable', {
+                new DataTable('#discountTable', {
                     pagingType: 'full_numbers'
                 });
         </script>
@@ -597,3 +375,4 @@
     <!-- END: Body-->
 
 </html>
+

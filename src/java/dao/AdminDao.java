@@ -10,6 +10,7 @@ import entity.Account;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
+import entity.Discount;
 import entity.Gender;
 import entity.Image;
 import entity.Product;
@@ -390,7 +391,7 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public void deleteCateIdInProductDetail(int cateId) {
         try {
             Connection connection = getConnection();
@@ -547,7 +548,7 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public boolean findGenderExist(String gender) {
         try {
             connection = this.getConnection();
@@ -634,7 +635,7 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public void editGender(Gender g, String oldGenderName) {
         try {
             connection = this.getConnection();
@@ -753,10 +754,8 @@ public class AdminDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT * "
-                    + "FROM Size "
-                    + "WHERE id = ? "
-                    + "AND size = ?";
+            String sql = "SELECT * FROM Size "
+                    + "WHERE id = ? AND size = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, oldSizeName);
@@ -818,7 +817,7 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public List<Product> findAllProducts() {
         List<Product> listP = new ArrayList<>();
         try {
@@ -1624,4 +1623,324 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
     }
+
+    public List<Discount> findAllDiscount() {
+        List<Discount> listD = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Discount d";
+            preparedStatement = connection.prepareStatement(sql);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Discount d = new Discount();
+                d.setId(resultSet.getInt("Id"));
+                d.setCreate_at(resultSet.getDate("Create_at"));
+                d.setDiscount_percent(resultSet.getInt("Discount_percent"));
+                d.setStatus(resultSet.getInt("Status"));
+                listD.add(d);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listD;
+    }
+
+    public List<Image> getImagesToEditByProductID(String productId) {
+        List<Image> images = new ArrayList<>();
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Image WHERE Product_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productId);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Image image = Image.builder()
+                            .id(resultSet.getInt("Id"))
+                            .product_Id(resultSet.getInt("Product_Id"))
+                            .image(resultSet.getString("Image"))
+                            .build();
+
+                    images.add(image);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return images;
+    }
+
+    public void saveImage(Image image) {
+        try {
+            connection = this.getConnection();
+            String[] individualPaths = image.getImage().split(",");
+            for (String path : individualPaths) {
+                String sql = "INSERT INTO Image (Product_Id, Image) VALUES (?, ?)";
+
+                preparedStatement = connection.prepareStatement(sql);
+
+                preparedStatement.setInt(1, image.getProduct_Id());
+                preparedStatement.setString(2, path.trim());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean findExistProduct(Product_Form productForm) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Product p "
+                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id "
+                    + "JOIN Color c ON pd.Color_Id = c.Id "
+                    + "JOIN Category cate ON pd.Category_Id = cate.id "
+                    + "JOIN Size s ON pd.Size_Id = s.Id "
+                    + "JOIN Brand b ON pd.Brand_Id = b.Id "
+                    + "JOIN Gender g ON pd.Gender_Id = g.Id "
+                    + "WHERE p.Name = ? AND pd.Color_Id = ? AND pd.Category_Id = ? AND pd.Size_Id = ? AND pd.Brand_Id = ? AND pd.Gender_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, productForm.getName());
+            preparedStatement.setInt(2, productForm.getColor_id());
+            preparedStatement.setInt(3, productForm.getCategory_id());
+            preparedStatement.setInt(4, productForm.getSize_id());
+            preparedStatement.setInt(5, productForm.getBrand_id());
+            preparedStatement.setInt(6, productForm.getGender_id());
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void updateProductDetail(Product_Form productForm, int colorIdOld, int cateIdOld, int sizeIdOld, int genderIdOld, int brandIdOld) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Product_Detail SET Color_Id = ?, Category_Id = ?, Size_Id = ?, Brand_Id = ?, Stock = ?, Gender_Id = ? "
+                    + "WHERE Product_Id = ? AND Color_Id = ? AND Category_Id = ? "
+                    + "AND Size_Id = ? AND Brand_Id = ? AND Gender_Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, productForm.getColor_id());
+            preparedStatement.setInt(2, productForm.getCategory_id());
+            preparedStatement.setInt(3, productForm.getSize_id());
+            preparedStatement.setInt(4, productForm.getBrand_id());
+            preparedStatement.setInt(5, productForm.getStock());
+            preparedStatement.setInt(6, productForm.getGender_id());
+            preparedStatement.setInt(7, productForm.getId());
+            preparedStatement.setInt(8, colorIdOld);
+            preparedStatement.setInt(9, cateIdOld);
+            preparedStatement.setInt(10, sizeIdOld);
+            preparedStatement.setInt(11, brandIdOld);
+            preparedStatement.setInt(12, genderIdOld);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProduct(Product_Form productForm) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Product SET Name = ?, Description = ?, Price = ? WHERE Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productForm.getName());
+            preparedStatement.setString(2, productForm.getDescription());
+            preparedStatement.setDouble(3, productForm.getPrice());
+            preparedStatement.setInt(4, productForm.getId());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProductImageLayout(Product_Form productForm) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Product SET Image_path = ? WHERE id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productForm.getImage_path());
+            preparedStatement.setInt(2, productForm.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteImagesExistAlready(Image image) {
+        try {
+            connection = this.getConnection();
+            String[] individualPaths = image.getImage().split(",");
+            for (String path : individualPaths) {
+                String sql = "DELETE FROM Image WHERE Product_Id = ? AND Image IN (?)";
+
+                preparedStatement = connection.prepareStatement(sql);
+
+                preparedStatement.setInt(1, image.getProduct_Id());
+                preparedStatement.setString(2, path.trim());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getSizeByProductID(int productID) {
+        int count = 0;
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT COUNT(*) FROM Image WHERE Product_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, productID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public void deleteImagesProduct(String productIdToDeleteImage, String imagePathToDelete) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "DELETE FROM Image WHERE Product_Id = ? AND Image = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productIdToDeleteImage);
+            preparedStatement.setString(2, imagePathToDelete);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean findDiscountExist(int discountData) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Discount WHERE Discount_percent = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, discountData);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void addDiscount(Discount discount) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO Discount (Create_at, Discount_percent, Status) VALUES (?, ?, ?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setDate(1, (Date) discount.getCreate_at());
+            preparedStatement.setInt(2, discount.getDiscount_percent());
+            preparedStatement.setInt(3, discount.getStatus());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDiscountById(int id) {
+        try {
+            Connection connection = getConnection();
+
+            String sql = "DELETE FROM Discount WHERE Id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean findDiscountExistByIdAndDiscount(int id, int discountPercent) {
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Discount WHERE Discount_percent = ? OR Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, discountPercent);
+            preparedStatement.setInt(2, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean findDiscountByOldDiscountAndId(int id, int oldDiscount) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Discount "
+                    + "WHERE id = ? AND Discount_percent = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, oldDiscount);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void editDiscount(Discount discount, int oldDiscount) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Discount "
+                    + "SET Discount_percent = ? "
+                    + "WHERE Discount_percent = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, discount.getDiscount_percent());
+            preparedStatement.setInt(2, oldDiscount);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

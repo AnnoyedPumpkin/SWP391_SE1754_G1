@@ -9,22 +9,24 @@ import dao.AdminDao;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
+import entity.Discount;
 import entity.Gender;
 import entity.Pagination;
 import entity.Product;
 import entity.Size;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,6 +47,7 @@ public class DashboardController extends HttpServlet {
         List<Gender> listG;
         List<Category> listCate;
         List<Size> listS;
+        List<Discount> listD;
         String page = request.getParameter("page") == null ? "" : request.getParameter("page");
         String url = "";
         switch (page) {
@@ -61,9 +64,11 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "view-products":
+            case "manage-discount":
+                listD = adminDAO.findAllDiscount();
+                session.setAttribute("listD", listD);
+                url = "../views/admin/manageDiscount.jsp";
                 break;
-            
             default:
                 url = "../views/admin/dashboard.jsp";
                 break;
@@ -80,6 +85,7 @@ public class DashboardController extends HttpServlet {
         List<Category> listCate;
         List<Gender> listG;
         List<Size> listS;
+        List<Discount> listD;
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         String url = "";
         switch (action) {
@@ -173,6 +179,7 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
+            
             default:
                 throw new AssertionError();
         }
@@ -182,6 +189,11 @@ public class DashboardController extends HttpServlet {
     private void addColor(HttpServletRequest request, HttpServletResponse response) {
         adminDAO = new AdminDao();
         String color = request.getParameter("color");
+
+        if (color == null || color.isEmpty()) {
+            request.setAttribute("errorcoa", "Create color error!");
+            return;
+        }
 
         boolean colorExist = adminDAO.findColorExist(color);
 
@@ -194,16 +206,32 @@ public class DashboardController extends HttpServlet {
     }
 
     private void deleteColor(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("colorId"));
+        String idToDelete = request.getParameter("colorId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errorcod", "Delete color error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
+
         adminDAO.deleteColorIdInProductDetail(id);
         adminDAO.deleteColorById(id);
         request.setAttribute("msgcod", "Delete color successfully!");
     }
 
     private void editColor(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("colorIdToUpdate"));
+        String idToEdit = request.getParameter("colorIdToUpdate");
         String color = request.getParameter("colorToUpdate");
         String oldColorName = request.getParameter("oldNameColor");
+
+        if (idToEdit == null || idToEdit.isEmpty() || color == null || color.isEmpty() || oldColorName == null || oldColorName.isEmpty()) {
+            request.setAttribute("errorcoe", "Edit color error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToEdit);
+
         Color c = Color.builder()
                 .id(id)
                 .color(color)
@@ -227,6 +255,11 @@ public class DashboardController extends HttpServlet {
     private void addCategory(HttpServletRequest request, HttpServletResponse response) {
         String category = request.getParameter("cate");
 
+        if (category == null || category.isEmpty()) {
+            request.setAttribute("errorca", "Create category error!");
+            return;
+        }
+
         boolean cateExist = adminDAO.findCateExist(category);
 
         if (!cateExist) {
@@ -238,9 +271,16 @@ public class DashboardController extends HttpServlet {
     }
 
     private void editCategory(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("categoryIdToUpdate"));
+        String idToEdit = request.getParameter("categoryIdToUpdate");
         String cate = request.getParameter("categoryToUpdate");
         String oldCategoryName = request.getParameter("oldNameCategory");
+
+        if (idToEdit == null || idToEdit.isEmpty() || cate == null || cate.isEmpty() || oldCategoryName == null || oldCategoryName.isEmpty()) {
+            request.setAttribute("errorce", "Edit brand error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToEdit);
         Category c = Category.builder()
                 .id(id)
                 .category(cate)
@@ -260,7 +300,15 @@ public class DashboardController extends HttpServlet {
     }
 
     private void deleteCategory(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("categoryId"));
+        String idToDelete = request.getParameter("categoryId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errorcd", "Delete gender error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
+
         adminDAO.deleteCateIdInProductDetail(id);
         adminDAO.deleteCateById(id);
         request.setAttribute("msgcd", "Delete category successfully!");
@@ -268,6 +316,11 @@ public class DashboardController extends HttpServlet {
 
     private void addBrand(HttpServletRequest request, HttpServletResponse response) {
         String brand = request.getParameter("brand");
+
+        if (brand == null || brand.isEmpty()) {
+            request.setAttribute("errorba", "Create brand error!");
+            return;
+        }
 
         boolean cateExist = adminDAO.findBrandExist(brand);
 
@@ -280,9 +333,16 @@ public class DashboardController extends HttpServlet {
     }
 
     private void editBrand(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("brandIdToUpdate"));
+        String idToEdit = request.getParameter("brandIdToUpdate");
         String brand = request.getParameter("brandToUpdate");
         String oldBrandName = request.getParameter("oldBrandName");
+
+        if (idToEdit == null || idToEdit.isEmpty() || brand == null || brand.isEmpty() || oldBrandName == null || oldBrandName.isEmpty()) {
+            request.setAttribute("errorbe", "Edit brand error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToEdit);
         Brand b = Brand.builder()
                 .id(id)
                 .brand(brand)
@@ -302,7 +362,15 @@ public class DashboardController extends HttpServlet {
     }
 
     private void deleteBrand(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("brandId"));
+        String idToDelete = request.getParameter("brandId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errorbd", "Delete gender error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
+
         adminDAO.deleteBrandIdInProductDetail(id);
         adminDAO.deleteBrandById(id);
         request.setAttribute("msgbd", "Delete brand successfully!");
@@ -310,6 +378,11 @@ public class DashboardController extends HttpServlet {
 
     private void addGender(HttpServletRequest request, HttpServletResponse response) {
         String gender = request.getParameter("gender");
+
+        if (gender == null || gender.isEmpty()) {
+            request.setAttribute("errorga", "Create gender error!");
+            return;
+        }
 
         boolean genderExist = adminDAO.findGenderExist(gender);
 
@@ -322,16 +395,32 @@ public class DashboardController extends HttpServlet {
     }
 
     private void deleteGender(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("genderId"));
+        String idToDelete = request.getParameter("genderId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errorgd", "Delete gender error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
+
         adminDAO.deleteGenderIdInProductDetail(id);
         adminDAO.deleteGenderById(id);
         request.setAttribute("msggd", "Delete gender successfully!");
     }
 
     private void editGender(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("genderIdToUpdate"));
+        String idToUpdate = request.getParameter("genderIdToUpdate");
         String gender = request.getParameter("genderToUpdate");
         String oldGenderName = request.getParameter("oldGenderName");
+
+        if (idToUpdate == null || idToUpdate.isEmpty() || gender == null || gender.isEmpty() || oldGenderName == null || oldGenderName.isEmpty()) {
+            request.setAttribute("errorge", "Edit gender error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToUpdate);
+
         Gender g = Gender.builder()
                 .id(id)
                 .gender(gender)
@@ -353,6 +442,11 @@ public class DashboardController extends HttpServlet {
     private void addSize(HttpServletRequest request, HttpServletResponse response) {
         String size = request.getParameter("size");
 
+        if (size == null || size.isEmpty()) {
+            request.setAttribute("errorsa", "Create size error!");
+            return;
+        }
+
         boolean sizeExist = adminDAO.findSizeExist(size);
 
         if (!sizeExist) {
@@ -364,9 +458,15 @@ public class DashboardController extends HttpServlet {
     }
 
     private void editSize(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("sizeIdToUpdate"));
+        String idToEdit = request.getParameter("sizeIdToUpdate");
         String size = request.getParameter("sizeToUpdate");
         String oldSizeName = request.getParameter("oldSizeName");
+
+        if (idToEdit == null || idToEdit.isEmpty() || size == null || size.isEmpty() || oldSizeName == null || oldSizeName.isEmpty()) {
+            request.setAttribute("errorse", "Edit size error!");
+            return;
+        }
+        int id = Integer.parseInt(idToEdit);
         Size s = Size.builder()
                 .id(id)
                 .size(size)
@@ -386,10 +486,86 @@ public class DashboardController extends HttpServlet {
     }
 
     private void deleteSize(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("sizeId"));
+        String idToDelete = request.getParameter("sizeId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errorsd", "Delete size error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
         adminDAO.deleteSizeIdInProductDetail(id);
         adminDAO.deleteSizeById(id);
         request.setAttribute("msgsd", "Delete size successfully!");
     }
-   
+
+    private void addDiscount(HttpServletRequest request, HttpServletResponse response) {
+        String discountRaw = request.getParameter("discount");
+        Date currentTimestamp = new Date(System.currentTimeMillis());
+        String statusRaw = request.getParameter("status");
+        if (discountRaw == null || discountRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty()) {
+            request.setAttribute("errorad", "Create discount error!");
+            return;
+        }
+        int discountData = Integer.parseInt(discountRaw);
+        int status = Integer.parseInt(statusRaw);
+        boolean discountExist = adminDAO.findDiscountExist(discountData);
+        Discount discount = Discount.builder()
+                .create_at(currentTimestamp)
+                .discount_percent(discountData)
+                .status(status)
+                .build();
+        if (!discountExist) {
+            adminDAO.addDiscount(discount);
+            request.setAttribute("msgad", "Create new discount success!");
+        } else {
+            request.setAttribute("errorad", "This discount is exist already, please create other discount!");
+        }
+    }
+
+    private void deleteDiscount(HttpServletRequest request, HttpServletResponse response) {
+        String idToDelete = request.getParameter("discountId");
+
+        if (idToDelete == null || idToDelete.isEmpty()) {
+            request.setAttribute("errordd", "Delete discount error!");
+            return;
+        }
+
+        int id = Integer.parseInt(idToDelete);
+        adminDAO.deleteDiscountById(id);
+        request.setAttribute("msgdd", "Delete discount successfully!");
+    }
+
+    private void editDiscount(HttpServletRequest request, HttpServletResponse response) {
+        String idToEdit = request.getParameter("discountIdToUpdate");
+        String oldDiscountRaw = request.getParameter("oldDiscount");
+        String discountPercentRaw = request.getParameter("discountPercentToUpdate");
+        String statusRaw= request.getParameter("status");
+
+        if (idToEdit == null || idToEdit.isEmpty() || discountPercentRaw == null || discountPercentRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty() || oldDiscountRaw == null || oldDiscountRaw.isEmpty()) {
+            request.setAttribute("errored", "Edit discount error!");
+            return;
+        }
+        int id = Integer.parseInt(idToEdit);
+        int discountPercent = Integer.parseInt(discountPercentRaw);
+        int oldDiscount = Integer.parseInt(oldDiscountRaw);
+        int status = Integer.parseInt(statusRaw);
+        Discount discount = Discount.builder()
+                .discount_percent(discountPercent)
+                .status(status)
+                .build();
+        boolean discountExist = adminDAO.findDiscountExistByIdAndDiscount(id, discountPercent);
+        if (adminDAO.findDiscountByOldDiscountAndId(id, oldDiscount)) {
+            adminDAO.editDiscount(discount, oldDiscount);
+            request.setAttribute("msged", "Edit discount successfully !!");
+        } else {
+            if (!discountExist) {
+                adminDAO.editDiscount(discount, oldDiscount);
+                request.setAttribute("msged", "Edit discount successfully !!");
+            } else {
+                request.setAttribute("errored", "This discount exist already, please edit different from remaining gender !!");
+            }
+        }
+    }
+
 }
