@@ -157,7 +157,7 @@
 
                                                         <div class="user_content">
                                                             <h4 class="user_name">${user.userName}</h4>
-                                                            <span class="user_title">${user.phone_number}</span>
+                                                            <span class="user_title">${email}</span>
                                                         </div>
                                                     </div>
                                                 </c:when>
@@ -539,7 +539,7 @@
 
                                     <div class="user_content">
                                         <h4 class="user_name">${user.userName}</h4>
-                                        <span class="user_title">${user.phone_number}</span>
+                                        <span class="user_title">${email}</span>
                                     </div>
                                 </div>
                             </c:when>

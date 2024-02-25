@@ -4,8 +4,11 @@
  */
 package control;
 
+import constant.Constant;
 import dao.CommonDao;
 import dao.ProductDao;
+import entity.Account;
+import entity.Account_Detail;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
@@ -16,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.ProductVM;
 
@@ -24,10 +28,25 @@ import model.ProductVM;
  * @author LENOVO
  */
 public class HomeController extends HttpServlet {
-
+    CommonDao commonDAO;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        commonDAO = new CommonDao();
+        HttpSession session = request.getSession(false); // Sử dụng tham số false để không tạo session mới nếu không tồn tại
+        String action = request.getParameter("action") == null ? "profile" : request.getParameter("action");
+        if (session != null && session.getAttribute(Constant.SESSION_ACCOUNT) != null) {
+            // Lấy thông tin tài khoản từ session
+            Account account = (Account) session.getAttribute(Constant.SESSION_ACCOUNT);
+            // Gọi phương thức trong DAO để lấy chi tiết tài khoản dựa trên accountId
+            Account_Detail accountDetail = commonDAO.getAccountDetailByAccountId(account.getId());
+            // Đặt thuộc tính "accountDetail" vào request để hiển thị trên giao diện
+            if (accountDetail != null) {
+                request.setAttribute("accountDetail", accountDetail);
+                request.setAttribute("username", accountDetail.getUserName());
+                request.setAttribute("email", account.getEmail());
+            }
+        }
         String url = "";
         String indexPage = request.getParameter("index");
         if (indexPage == null) {

@@ -112,13 +112,22 @@ public class ProductController extends HttpServlet {
             String brandId = request.getParameter("brandId");
             String genderId = request.getParameter("genderId");
             String sizeId = request.getParameter("sizeId");
-
+            
+            //handle for page product list filter
+            if (colorId == null && categoryId == null && brandId == null && genderId == null && sizeId == null) {
+                colorId = "";
+                categoryId = "";
+                brandId = "";
+                genderId = "";
+                sizeId = "";
+            }
+            
             List<Gender> listGender = productDao.getGender();
             List<Category> listCategory = productDao.getCategory();
             List<Color> listColor = productDao.getColor();
             List<Brand> listBrand = productDao.getBrand();
             List<Size> listSize = productDao.getSize();
-
+            
             request.setAttribute("gender", listGender);
             request.setAttribute("category", listCategory);
             request.setAttribute("color", listColor);
