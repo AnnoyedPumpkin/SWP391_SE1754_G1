@@ -24,7 +24,6 @@ import org.mindrot.jbcrypt.BCrypt;
 public class ProfileController extends HttpServlet {
 
     CommonDao commonDAO;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,19 +37,22 @@ public class ProfileController extends HttpServlet {
             // Gọi phương thức trong DAO để lấy chi tiết tài khoản dựa trên accountId
             Account_Detail accountDetail = commonDAO.getAccountDetailByAccountId(account.getId());
             // Đặt thuộc tính "accountDetail" vào request để hiển thị trên giao diện
-            request.setAttribute("accountDetail", accountDetail);
-            request.setAttribute("username", accountDetail.getUserName());
-            request.setAttribute("email", account.getEmail());
-            request.setAttribute("member_code", account.getMember_code());
+            if (accountDetail != null) {
+                request.setAttribute("accountDetail", accountDetail);
+                request.setAttribute("username", accountDetail.getUserName());
+                request.setAttribute("email", account.getEmail());
+                switch (action) {
+                    case "profile":
+                        // Chuyển hướng sang trang hiển thị thông tin cá nhân
+                        url = "views/common/profile.jsp";
+                        break;
+                    case "editProfile":
+                        url = "views/common/editprofile.jsp";
+                        break;
+                }
 
-            switch (action) {
-                case "profile":
-                    // Chuyển hướng sang trang hiển thị thông tin cá nhân
-                    url = "views/common/profile.jsp";
-                    break;
-                case "editProfile":
-                    url = "views/common/editprofile.jsp";
-                    break;
+            } else {
+                System.out.println("Error cannot get account detail in profile controller");
             }
         } else {
             // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.

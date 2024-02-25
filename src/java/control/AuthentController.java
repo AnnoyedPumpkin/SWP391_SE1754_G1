@@ -7,6 +7,7 @@ package control;
 import constant.Constant;
 import dao.CommonDao;
 import entity.Account;
+import entity.Account_Detail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,7 +24,6 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author LENOVO
  */
-
 public class AuthentController extends HttpServlet {
 
     CommonDao commonDAO;
@@ -54,7 +54,7 @@ public class AuthentController extends HttpServlet {
                 break;
             case "logout":
                 logout(request, response);
-                url = "home";
+                url = "views/common/login.jsp";
                 break;
             default:
                 url = "views/common/login.jsp";
@@ -97,7 +97,10 @@ public class AuthentController extends HttpServlet {
         } else {
             if (account.getRole_Id() == 1) {
                 HttpSession session = request.getSession();
+                Account_Detail acc = commonDAO.getAccountDetailByAccountId(account.getId());
                 session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                session.setAttribute(Constant.SESSION_USER, acc);
+
                 Cookie userC = new Cookie("userC", email);
                 Cookie passC = new Cookie("passC", password);
                 if (remember != null) {
@@ -122,7 +125,7 @@ public class AuthentController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
-        
+
         if (!email.matches(Constant.EMAIL_REGEX)) {
             request.setAttribute("error", "Email không hợp lệ");
             request.getRequestDispatcher("views/common/signup.jsp").forward(request, response);

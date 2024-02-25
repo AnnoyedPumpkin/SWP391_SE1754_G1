@@ -6,8 +6,14 @@ package control;
 
 import constant.Constant;
 import dao.CommonDao;
+import dao.ProductDao;
 import entity.Account;
 import entity.Account_Detail;
+import entity.Brand;
+import entity.Category;
+import entity.Color;
+import entity.Gender;
+import entity.Size;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -22,9 +28,8 @@ import model.ProductVM;
  * @author LENOVO
  */
 public class HomeController extends HttpServlet {
-
     CommonDao commonDAO;
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,15 +43,12 @@ public class HomeController extends HttpServlet {
             // Gọi phương thức trong DAO để lấy chi tiết tài khoản dựa trên accountId
             Account_Detail accountDetail = commonDAO.getAccountDetailByAccountId(account.getId());
             // Đặt thuộc tính "accountDetail" vào request để hiển thị trên giao diện
-            request.setAttribute("accountDetail", accountDetail);
-            request.setAttribute("username", accountDetail.getUserName());
-            request.setAttribute("email", account.getEmail());
-            request.setAttribute("member_code", account.getMember_code());
-        }else {
-            // Nếu không có session hoặc không có thông tin tài khoản trong session, có thể chuyển hướng người dùng đến trang đăng nhập hoặc xử lý một cách phù hợp.
-            url = "views/common/login.jsp";
+            if (accountDetail != null) {
+                request.setAttribute("accountDetail", accountDetail);
+                request.setAttribute("username", accountDetail.getUserName());
+                request.setAttribute("email", account.getEmail());
+            }
         }
-
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
             indexPage = "1";
@@ -58,13 +60,26 @@ public class HomeController extends HttpServlet {
                 break;
             default:
                 CommonDao dao = new CommonDao();
+                ProductDao productDao = new ProductDao();
                 int count = dao.getTotalProduct();
                 int endPage = count / 8;
                 if (count % 8 != 0) {
                     endPage++;
                 }
                 List<ProductVM> listProduct = dao.getListProductPaging(index);
-                request.setAttribute("endPage", endPage);
+                List<Gender> listGender = productDao.getGender();
+                List<Category> listCategory = productDao.getCategory();
+                List<Color> listColor = productDao.getColor();
+                List<Brand> listBrand = productDao.getBrand();
+                List<Size> listSize = productDao.getSize();
+
+                request.setAttribute("gender", listGender);
+                request.setAttribute("category", listCategory);
+                request.setAttribute("color", listColor);
+                request.setAttribute("brand", listBrand);
+                request.setAttribute("size", listSize);
+                request.setAttribute("endPage", endPage);            
+
                 request.setAttribute("listProduct", listProduct);
                 request.setAttribute("pageSelected", indexPage);
                 url = "views/common/homepage.jsp";
@@ -72,6 +87,7 @@ public class HomeController extends HttpServlet {
         }
         request.getRequestDispatcher(url).forward(request, response);
     }
+    
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
