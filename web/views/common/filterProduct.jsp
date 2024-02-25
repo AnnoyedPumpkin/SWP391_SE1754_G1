@@ -675,15 +675,13 @@
                         <c:forEach items="${listProduct}" var="p">
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="fashion_minimal_product">
-                                    <ul class="product_label ul_li clearfix">
-                                        <li data-bg-color="#fb5d5d">-20%</li>
+                                    <ul class="product_label ul_li clearfix">                                        
                                         <li data-bg-color="#82ca9c">NEW</li>
                                     </ul>
                                     <div class="item_image">
                                         <a class="image_wrap" href="#!">
                                             <img src="${p.imageLink}" alt="image_not_found">
                                         </a>
-                                        <span class="coming_soon text-uppercase">Coming Soon</span>
                                         <a class="addto_wishlist tooltips" data-placement="top" title="Add To Wishlist"
                                            href="#!"><i class="fal fa-heart"></i></a>
                                         <ul class="product_action_btns ul_li_center clearfix">
@@ -700,7 +698,7 @@
                                             <a href="#!">${p.name}</a>
                                         </h3>
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <span class="item_price"><strong>$ ${p.price}</strong> <del>$19.12</del></span>
+                                            <span class="item_price"><strong>VND ${p.price}</strong> <!--<del>$19.12</del>--></span>
                                             <ul class="item_color ul_li clearfix">
                                                 <li><a href="#!" data-bg-color="#739f7f"></a></li>
                                                 <li><a href="#!" data-bg-color="#eede86"></a></li>
@@ -756,97 +754,7 @@
 
 
             <!-- newsletter_section - start
-                ================================================== -->
-
-
-
-            <!-- brand_section - start
-                ================================================== -->
-            <div class="brand_section sec_ptb_100 clearfix">
-                <div class="container-fluid prl_100">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-10">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_31.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_32.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_33.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_34.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_35.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_36.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_32.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_34.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_31.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_36.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_35.png" alt="image_not_found">
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
-                                    <a class="brand_item" href="#!">
-                                        <img src="${pageContext.request.contextPath}/assets/images/brands/img_33.png" alt="image_not_found">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- brand_section - end
-                ================================================== -->
-
-
+                ================================================== -->          
         </main>
         <!-- main body - end
             ================================================== -->

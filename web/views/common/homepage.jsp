@@ -674,14 +674,12 @@
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="fashion_minimal_product">
                                     <ul class="product_label ul_li clearfix">
-                                        <li data-bg-color="#fb5d5d">-20%</li>
                                         <li data-bg-color="#82ca9c">NEW</li>
                                     </ul>
                                     <div class="item_image">
                                         <a class="image_wrap" href="#!">
                                             <img src="${p.imageLink}" alt="image_not_found">
-                                        </a>
-                                        <span class="coming_soon text-uppercase">Coming Soon</span>
+                                        </a>                        
                                         <a class="addto_wishlist tooltips" data-placement="top" title="Add To Wishlist"
                                            href="#!"><i class="fal fa-heart"></i></a>
                                         <ul class="product_action_btns ul_li_center clearfix">
@@ -698,7 +696,7 @@
                                             <a href="#!">${p.name}</a>
                                         </h3>
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <span class="item_price"><strong>$ ${p.price}</strong> <del>$19.12</del></span>
+                                            <span class="item_price"><strong>VND ${p.price}</strong> <!--<del>$19.12</del>  --></span>
                                             <ul class="item_color ul_li clearfix">
                                                 <li><a href="#!" data-bg-color="#739f7f"></a></li>
                                                 <li><a href="#!" data-bg-color="#eede86"></a></li>

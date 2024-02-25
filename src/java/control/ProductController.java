@@ -77,6 +77,7 @@ public class ProductController extends HttpServlet {
                 productDAO = new ProductDao();
                 // handle cho nay de gui them address vao.
                 // Address va Cart Code.
+                
                 // Cho nay se phai handle viec truyen vao tham so address, cartcode, va discoundId de truyen vao ham.
                 int result = productDAO.addProductToCart(productId, 1, accountDetail, "Dia chi test", "CARTCODE", 1);
                 if (result > 0) {
@@ -123,6 +124,8 @@ public class ProductController extends HttpServlet {
             request.setAttribute("color", listColor);
             request.setAttribute("brand", listBrand);
             request.setAttribute("size", listSize);
+            
+            
             List<ProductVM> listProductFitlerTotal = productDao.getListProductFilterTotal(colorId, categoryId, brandId, sizeId, genderId);
             if (listProductFitlerTotal.size() > 0) {
                 int count = listProductFitlerTotal.size();

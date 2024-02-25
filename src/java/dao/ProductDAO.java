@@ -4,6 +4,7 @@
  */
 package dao;
 
+import constant.Constant;
 import context.DBContext;
 import entity.Account_Detail;
 import entity.Brand;
@@ -92,12 +93,13 @@ public class ProductDao extends DBContext {
             if (cartId == 0) {
                 System.out.println("Cart khong co nen vao day tao cart");
                 // phai kiem tra o cho nay db co van de thiet ke. Viec insert vao bang phai dam bao data phai co o bang Discount;
-                String sql = "INSERT INTO dbo.[Cart] (Account_Id, Address, CartCode) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO dbo.[Cart] (Account_Id, Address, CartCode, Discount_Id) VALUES (?, ?, ?, ?)";
                 preparedStatement = connection.prepareStatement(sql);
                 // Tao tam thoi. O day co the tao 1 discoundId default voi gia tri la discount la 0.
                 preparedStatement.setInt(1, userId);
                 preparedStatement.setString(2, address);
                 preparedStatement.setString(3, cartCode);
+                preparedStatement.setInt(4, DiscountId);
                 int affectedRow = preparedStatement.executeUpdate();
                 if (affectedRow > 0) {
                     System.out.println("Create new Cart");
@@ -117,14 +119,13 @@ public class ProductDao extends DBContext {
             int currentQuantity = getProductQuantityInCartDetail(productId, cartId);
             if (currentQuantity == 0) {
                 // chua co thi insert vao
-                String sql = "INSERT INTO dbo.[Cart_Detail] (Product_Id, Create_at, Quantity, Cart_Id, Discount_Id) VALUES (?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO dbo.[Cart_Detail] (Product_Id, Create_at, Quantity, Cart_Id) VALUES (?, ?, ?, ?)";
                 preparedStatement = connection.prepareStatement(sql);
                 // Tao tam thoi. O day co the tao 1 discoundId default voi gia tri la discount la 0. 
                 preparedStatement.setInt(1, productId);
                 preparedStatement.setObject(2, LocalDateTime.now());
                 preparedStatement.setInt(3, quantity);
                 preparedStatement.setInt(4, cartId);
-                preparedStatement.setInt(5, DiscountId);
 
                 int affectedRow = preparedStatement.executeUpdate();
                 if (affectedRow > 0) {
@@ -727,5 +728,5 @@ public class ProductDao extends DBContext {
                 ex.printStackTrace();
             }
         }
-    }
+    }    
 }
