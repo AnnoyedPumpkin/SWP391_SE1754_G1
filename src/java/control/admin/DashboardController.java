@@ -21,12 +21,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -254,17 +254,11 @@ public class DashboardController extends HttpServlet {
                 .color(color)
                 .build();
         boolean colorExist = adminDAO.findColorExistByIdAndColor(id, color);
-
-        if (adminDAO.findColorByOldColorAndId(id, oldColorName)) {
+        if (!colorExist) {
             adminDAO.editColor(c, oldColorName);
             request.setAttribute("msgcoe", "Edit color successfully !!");
         } else {
-            if (!colorExist) {
-                adminDAO.editColor(c, oldColorName);
-                request.setAttribute("msgcoe", "Edit color successfully !!");
-            } else {
-                request.setAttribute("errorcoe", "This color exist already, please edit different from remaining color !!");
-            }
+            request.setAttribute("errorcoe", "This color exist already, please edit different from remaining color !!");
         }
 
     }
@@ -303,16 +297,12 @@ public class DashboardController extends HttpServlet {
                 .category(cate)
                 .build();
         boolean cateExist = adminDAO.findCateExistByIdAndCate(id, cate);
-        if (adminDAO.findCateByOldCateAndId(id, oldCategoryName)) {
+
+        if (!cateExist) {
             adminDAO.editCate(c, oldCategoryName);
             request.setAttribute("msgce", "Edit category successfully !!");
         } else {
-            if (!cateExist) {
-                adminDAO.editCate(c, oldCategoryName);
-                request.setAttribute("msgce", "Edit category successfully !!");
-            } else {
-                request.setAttribute("errorce", "This category exist already, please edit different from remaining category !!");
-            }
+            request.setAttribute("errorce", "This category exist already, please edit different from remaining category !!");
         }
     }
 
@@ -365,16 +355,12 @@ public class DashboardController extends HttpServlet {
                 .brand(brand)
                 .build();
         boolean brandExist = adminDAO.findBrandExistByBrandAndId(id, brand);
-        if (adminDAO.findBrandByOldBrandAndId(id, oldBrandName)) {
+
+        if (!brandExist) {
             adminDAO.editBrand(b, oldBrandName);
-            request.setAttribute("msgge", "Edit gender successfully !!");
+            request.setAttribute("msgbe", "Edit brand successfully !!");
         } else {
-            if (!brandExist) {
-                adminDAO.editBrand(b, oldBrandName);
-                request.setAttribute("msgbe", "Edit brand successfully !!");
-            } else {
-                request.setAttribute("errorbe", "This brand exist already, please edit different from remaining brand !!");
-            }
+            request.setAttribute("errorbe", "This brand exist already, please edit different from remaining brand !!");
         }
     }
 
@@ -443,16 +429,12 @@ public class DashboardController extends HttpServlet {
                 .gender(gender)
                 .build();
         boolean genderExist = adminDAO.findGenderExistByIdAndGender(id, gender);
-        if (adminDAO.findGenderByOldGenderAndId(id, oldGenderName)) {
+
+        if (!genderExist) {
             adminDAO.editGender(g, oldGenderName);
             request.setAttribute("msgge", "Edit gender successfully !!");
         } else {
-            if (!genderExist) {
-                adminDAO.editGender(g, oldGenderName);
-                request.setAttribute("msgge", "Edit gender successfully !!");
-            } else {
-                request.setAttribute("errorge", "This gender exist already, please edit different from remaining gender !!");
-            }
+            request.setAttribute("errorge", "This gender exist already, please edit different from remaining gender !!");
         }
     }
 
@@ -489,16 +471,12 @@ public class DashboardController extends HttpServlet {
                 .size(size)
                 .build();
         boolean genderExist = adminDAO.findSizeExistByIdAndSize(id, size);
-        if (adminDAO.findSizeByOldSizeAndId(id, oldSizeName)) {
+
+        if (!genderExist) {
             adminDAO.editSize(s, oldSizeName);
             request.setAttribute("msgse", "Edit size successfully !!");
         } else {
-            if (!genderExist) {
-                adminDAO.editSize(s, oldSizeName);
-                request.setAttribute("msgse", "Edit size successfully !!");
-            } else {
-                request.setAttribute("errorse", "This size exist already, please edit different from remaining gender !!");
-            }
+            request.setAttribute("errorse", "This size exist already, please edit different from remaining gender !!");
         }
     }
 
@@ -557,7 +535,7 @@ public class DashboardController extends HttpServlet {
         String idToEdit = request.getParameter("discountIdToUpdate");
         String oldDiscountRaw = request.getParameter("oldDiscount");
         String discountPercentRaw = request.getParameter("discountPercentToUpdate");
-        String statusRaw= request.getParameter("status");
+        String statusRaw = request.getParameter("status");
 
         if (idToEdit == null || idToEdit.isEmpty() || discountPercentRaw == null || discountPercentRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty() || oldDiscountRaw == null || oldDiscountRaw.isEmpty()) {
             request.setAttribute("errored", "Edit discount error!");
@@ -572,16 +550,12 @@ public class DashboardController extends HttpServlet {
                 .status(status)
                 .build();
         boolean discountExist = adminDAO.findDiscountExistByIdAndDiscount(id, discountPercent);
-        if (adminDAO.findDiscountByOldDiscountAndId(id, oldDiscount)) {
+
+        if (!discountExist) {
             adminDAO.editDiscount(discount, oldDiscount);
             request.setAttribute("msged", "Edit discount successfully !!");
         } else {
-            if (!discountExist) {
-                adminDAO.editDiscount(discount, oldDiscount);
-                request.setAttribute("msged", "Edit discount successfully !!");
-            } else {
-                request.setAttribute("errored", "This discount exist already, please edit different from remaining gender !!");
-            }
+            request.setAttribute("errored", "This discount exist already, please edit different from remaining gender !!");
         }
     }
 

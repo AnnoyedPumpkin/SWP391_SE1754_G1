@@ -3,22 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/HomeController.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/dao/AdminDao.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Discount.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/AuthentController.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/addColorModal.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/dashboard.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/DashboardController.java</file>
             <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/ManageProductController.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/editProduct.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/manageProduct.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Gender.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Product.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/manageDiscount.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/editCategoryModal.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/AuthentAdminController.java</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/logOutModal.jsp</file>
             <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/productDetails.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/productCharacteristic.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/manageProduct.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -179,31 +179,10 @@ public class AdminDao extends DBContext {
     public boolean findColorExistByIdAndColor(int id, String color) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Color WHERE Color = ? OR Id = ?";
+            String sql = "SELECT * FROM Color WHERE Color = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, color);
             preparedStatement.setInt(2, id);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean findColorByOldColorAndId(int id, String oldColorName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Color "
-                    + "WHERE id = ? "
-                    + "AND color = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, oldColorName);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -274,10 +253,11 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Color "
                     + "SET Color = ? "
-                    + "WHERE Color = ?";
+                    + "WHERE Id = ? AND Color = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, c.getColor());
-            preparedStatement.setString(2, oldColorName);
+            preparedStatement.setInt(2, c.getId());
+            preparedStatement.setString(3, oldColorName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -303,7 +283,7 @@ public class AdminDao extends DBContext {
     public boolean findCateExistByIdAndCate(int id, String cate) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Gender WHERE Gender = ? OR Id = ?";
+            String sql = "SELECT * FROM Category WHERE Category = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, cate);
             preparedStatement.setInt(2, id);
@@ -317,46 +297,20 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public boolean findCateByOldCateAndId(int id, String oldCateName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Category g "
-                    + "WHERE id = ? "
-                    + "AND category = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, oldCateName);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public int addCategory(String category) {
+    public void addCategory(String category) {
         try {
             connection = this.getConnection();
             String sql = "INSERT INTO Category (Category) VALUES (?)";
 
-            // Create a PreparedStatement with the SQL query
+          
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, category);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
-            // Close the PreparedStatement when you're done
-            preparedStatement.close();
-
-            return rowsAffected;
         } catch (SQLException e) {
             e.printStackTrace();
-            return -1;
         }
     }
 
@@ -366,10 +320,11 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Category "
                     + "SET Category = ? "
-                    + "WHERE Category = ?";
+                    + "WHERE Id = ? AND Category = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, c.getCategory());
-            preparedStatement.setString(2, oldCategoryName);
+            preparedStatement.setInt(2, c.getId());
+            preparedStatement.setString(3, oldCategoryName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -449,31 +404,10 @@ public class AdminDao extends DBContext {
     public boolean findBrandExistByBrandAndId(int id, String gender) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Brand WHERE Brand = ? OR Id = ?";
+            String sql = "SELECT * FROM Brand WHERE Brand = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, gender);
             preparedStatement.setInt(2, id);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean findBrandByOldBrandAndId(int id, String oldBrandName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Brand b "
-                    + "WHERE id = ? "
-                    + "AND brand = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, oldBrandName);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -506,10 +440,11 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Brand "
                     + "SET brand = ? "
-                    + "WHERE brand = ?";
+                    + "WHERE Id = ? AND brand = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, b.getBrand());
-            preparedStatement.setString(2, oldBrandName);
+            preparedStatement.setInt(2, b.getId());
+            preparedStatement.setString(3, oldBrandName);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -568,7 +503,7 @@ public class AdminDao extends DBContext {
     public boolean findGenderExistByIdAndGender(int id, String gender) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Gender WHERE Gender = ? OR Id = ?";
+            String sql = "SELECT * FROM Gender WHERE Gender = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, gender);
             preparedStatement.setInt(2, id);
@@ -642,35 +577,15 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Gender "
                     + "SET gender = ? "
-                    + "WHERE gender = ?";
+                    + "WHERE Id = ? AND gender = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, g.getGender());
-            preparedStatement.setString(2, oldGenderName);
+            preparedStatement.setInt(2, g.getId());
+            preparedStatement.setString(3, oldGenderName);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public boolean findGenderByOldGenderAndId(int id, String oldGenderName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * "
-                    + "FROM Gender g "
-                    + "WHERE id = ? "
-                    + "AND gender = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, oldGenderName);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -736,29 +651,10 @@ public class AdminDao extends DBContext {
     public boolean findSizeExistByIdAndSize(int id, String size) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Size WHERE Size = ? OR Id = ?";
+            String sql = "SELECT * FROM Size WHERE Size = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, size);
             preparedStatement.setInt(2, id);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean findSizeByOldSizeAndId(int id, String oldSizeName) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * FROM Size "
-                    + "WHERE id = ? AND size = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, oldSizeName);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -775,10 +671,11 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Size "
                     + "SET size = ? "
-                    + "WHERE size = ?";
+                    + "WHERE Id = ? AND size = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, s.getSize());
-            preparedStatement.setString(2, oldSizeName);
+            preparedStatement.setInt(2, s.getId());
+            preparedStatement.setString(3, oldSizeName);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -1893,29 +1790,10 @@ public class AdminDao extends DBContext {
     public boolean findDiscountExistByIdAndDiscount(int id, int discountPercent) {
         try {
             connection = this.getConnection();
-            String sql = "SELECT * FROM Discount WHERE Discount_percent = ? OR Id = ?";
+            String sql = "SELECT * FROM Discount WHERE Discount_percent = ? AND Id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, discountPercent);
             preparedStatement.setInt(2, id);
-
-            resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean findDiscountByOldDiscountAndId(int id, int oldDiscount) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT * FROM Discount "
-                    + "WHERE id = ? AND Discount_percent = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, oldDiscount);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -1932,10 +1810,11 @@ public class AdminDao extends DBContext {
 
             String sql = "UPDATE Discount "
                     + "SET Discount_percent = ? "
-                    + "WHERE Discount_percent = ?";
+                    + "WHERE Id = ? AND Discount_percent = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, discount.getDiscount_percent());
-            preparedStatement.setInt(2, oldDiscount);
+            preparedStatement.setInt(2, discount.getId());
+            preparedStatement.setInt(3, oldDiscount);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

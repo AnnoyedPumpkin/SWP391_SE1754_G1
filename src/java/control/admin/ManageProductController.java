@@ -25,14 +25,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -176,7 +176,7 @@ public class ManageProductController extends HttpServlet {
         }
         int totalProducts = 0;
         List<Product_Form> listPf = null;
-        String action = request.getParameter("action") == null ? "defaultFindAll" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "default" : request.getParameter("action");
         switch (action) {
             case "search-products":
                 sorted = request.getParameter("sort");
@@ -358,21 +358,19 @@ public class ManageProductController extends HttpServlet {
 
         try {
             Part part = request.getPart("image_layout");
-            if (part != null && part.getSize() > 0) {
-                String path = request.getServletContext().getRealPath("/images");
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                if (part.getSubmittedFileName() != null && part.getSize() > 0 && part.getName().equals("image_layout")) {
-                    File image = new File(dir, part.getSubmittedFileName());
-                    part.write(image.getAbsolutePath());
-                    imagePathLayout = "/SWP391_SE1754_G1/images/" + image.getName();
-                }
+            String path = request.getServletContext().getRealPath("/images");
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            if (part.getSubmittedFileName() != null && part.getSize() > 0 && part.getName().equals("image_layout")) {
+                File image = new File(dir, part.getSubmittedFileName());
+                part.write(image.getAbsolutePath());
+                imagePathLayout = "/SWP391_SE1754_G1/images/" + image.getName();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorup", "Error when update product!");
+            request.setAttribute("errorup", "Error when update product image layout!");
             return;
         }
         try {
@@ -394,7 +392,7 @@ public class ManageProductController extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorup", "Error when updating product!");
+            request.setAttribute("errorup", "Error when updating product images!");
             return;
         }
         Product_Form productForm1 = Product_Form.builder()
