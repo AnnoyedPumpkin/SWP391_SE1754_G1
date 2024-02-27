@@ -69,12 +69,16 @@ public class ForgotPassword extends HttpServlet {
         int accountID = commonDao.getAccountIdByEmail(email);
         String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
         String otpCheck = commonDao.getOTPByEmail(email);
-
+        
+        String serverName = request.getServerName();
+        int serverPort = request.getServerPort();
+        String localhostAddress = "http://" + serverName + ":" + serverPort;
+        
         if (otpCheck != null && otpInput.equals(otpCheck)) {
             String newPassword = commonDao.generateRandomPassword();
             commonDao.updatePasswordById(newPassword, accountID);
             String MsgSend = gethtmlTemplate(newPassword);
-            sendMsgEmail(email, MsgSend);
+            sendMsgEmail(email, MsgSend, localhostAddress);
             request.setAttribute("email", email);
             request.setAttribute("successMes", "Your new password was sent to yout email, please check it.");
             request.getRequestDispatcher("views/common/forgotpassword.jsp").forward(request, response);
@@ -93,10 +97,10 @@ public class ForgotPassword extends HttpServlet {
         String otp = commonDao.generateRandomOTP();
         commonDao.addOTPForAccountByEmail(otp, email);
         String MsgSend = gethtmlTemplate(otp);
-        sendMsgEmail(email, MsgSend);
+        sendMsgEmail(email, MsgSend, localhostAddress);
     }
 
-    private void sendMsgEmail(String toEmail, String msg) {
+    private void sendMsgEmail(String toEmail, String msg, String localhostAddress) {
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.user", FROM_EMAIL);

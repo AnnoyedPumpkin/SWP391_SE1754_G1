@@ -28,7 +28,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.mindrot.jbcrypt.BCrypt;
-import java.net.*;
 
 /**
  *
@@ -119,15 +118,15 @@ public class CommonDao extends DBContext {
     /**
      * Methods description: Checks the existence of an account by email.
      *
-     * @param Email - The email to be checked.
+     * @param email - The email to be checked.
      * @return true if the account with the specified email exists; otherwise, false.
      */
-    public boolean checkAccountExistByEmail(String Email) {
+    public boolean checkAccountExistByEmail(String email) {
         try {
             connection = this.getConnection();
             String query = "SELECT * FROM Account WHERE Email=?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, Email);
+            preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return true;
@@ -162,14 +161,14 @@ public class CommonDao extends DBContext {
     /**
      * Methods description: Checks the existence of OTP Code by email.
      *
-     * @param Email - The email of account to be checked.
+     * @param email - The email of account to be checked.
      * @return true if the OTP Code matched; otherwise, false.
      */
-    public String getOTPByEmail(String Email) {
+    public String getOTPByEmail(String email) {
         try {
             String query = "SELECT Verify_Code FROM Account WHERE Email=?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, Email);
+            preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getString("Verify_Code");
@@ -226,14 +225,14 @@ public class CommonDao extends DBContext {
      * Methods description: Schedule a task to delete the OTP Code associated with the given Email after a specified
      * delay.
      *
-     * @param Email - The email for which the OTP Code is to be deleted
+     * @param email - The email for which the OTP Code is to be deleted
      * @param delayInMinutes - The delay in minutes before deleting the OTP Code.
      */
-    public void scheduleTaskToDeleteOTP(String Email, int delayInMinutes) {
+    public void scheduleTaskToDeleteOTP(String email, int delayInMinutes) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
             try {
-                deleteOTPByEmail(Email);
+                deleteOTPByEmail(email);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -243,13 +242,13 @@ public class CommonDao extends DBContext {
     /**
      * Methods description: Delete OTP Code associated with the given Email.
      *
-     * @param Email - The email for which the OTP Code is to be deleted.
+     * @param email - The email for which the OTP Code is to be deleted.
      * @throws SQLException - If a database access error occurs.
      */
-    public void deleteOTPByEmail(String Email) throws SQLException {
+    public void deleteOTPByEmail(String email) throws SQLException {
         String deleteQuery = "UPDATE Account SET Verify_Code  = NULL WHERE Email = ?";
         preparedStatement = connection.prepareStatement(deleteQuery);
-        preparedStatement.setString(1, Email);
+        preparedStatement.setString(1, email);
         preparedStatement.executeUpdate();
     }
     public void deleteProductInCartDetailByProductId(int productId){ 
@@ -306,14 +305,14 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     *
-     * @return
+     * Method description: Retrieves a list of active discounts.
+     * @return List of active discounts.
      */
-    public List<Discount> getDiscountList() {
+    public List<Discount> getActiveDiscountList() {
         List<Discount> DisList = new ArrayList<>();
         try {
             connection = this.getConnection();
-            String query = "Select * From Discount";
+            String query = "Select * From Discount Where [Status] = 1";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -330,7 +329,11 @@ public class CommonDao extends DBContext {
         }
         return DisList;
     }
-
+    /**
+     * Method description: Retrieves account information based on the provided account ID.
+     * @param accId - The ID of the account to retrieve information for.
+     * @return Account information associated with the provided account ID.
+     */
     public Account getAccountInformationByAccountId(int accId) {
         try {
             connection = this.getConnection();
@@ -420,7 +423,7 @@ public class CommonDao extends DBContext {
                         .stock(resultSet.getInt("Stock"))
                         .build();
                 Cart_Detail cartDetail = Cart_Detail.builder()
-                        .product_detail_id(resultSet.getInt("Product_Id"))
+                        .product_id(resultSet.getInt("Product_Id"))
                         .quantity(resultSet.getInt("Quantity"))
                         .build();
                 Cart c = Cart.builder()
@@ -447,10 +450,10 @@ public class CommonDao extends DBContext {
     }
 
     /**
-     * Methods description:
+     * Methods description: Updates the quantity of a product in the cart detail based on the product ID.
      *
-     * @param quantity
-     * @param id
+     * @param quantity - The new quantity of the product.
+     * @param id - The product ID to identify the product in the cart.
      */
     public void updateQuantityByProductDetailId(int quantity, int id) {
         String query = "UPDATE Cart_Detail Set quantity = ? Where Product_Id = ?";
@@ -464,7 +467,7 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
     }
-
+    
 }
 
 class main {
@@ -481,7 +484,7 @@ class main {
             System.out.println("Discount ID: " + cart.getDiscount_id());
 
             Cart_Detail cartDetail = cart.getC_Det();
-            System.out.println("Cart Detail ID: " + cartDetail.getProduct_detail_id());
+            System.out.println("Cart Detail ID: " + cartDetail.getProduct_id());
             System.out.println("Quantity: " + cartDetail.getQuantity());
 
             Product product = cart.getP();

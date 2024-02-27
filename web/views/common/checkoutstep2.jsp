@@ -946,7 +946,7 @@
                 <div class="container">
 
                     <ul class="checkout_step ul_li clearfix">
-                        <li class="activated"><a href="${pageContext.request.contextPath}/views/common/checkoutstep1.jsp"><span>01.</span>View Shopping Cart</a></li>
+                        <li class="activated"><a style="cursor: default;" href="${pageContext.request.contextPath}/views/common/checkoutstep1.jsp"><span>01.</span>View Shopping Cart</a></li>
                         <li class="active"><a href="${pageContext.request.contextPath}/views/common/checkoutstep2.jsp"><span>02.</span> Checkout</a></li>
                         <li><a href="${pageContext.request.contextPath}/views/common/checkoutstep3.jsp"><span>03.</span> Order Completed</a></li>
                     </ul>
@@ -1081,7 +1081,7 @@
                                                     <th>Product Name</th>
                                                     <th>Unit Price</th>
                                                     <th>Quantity</th>
-                                                    <th>Total</th>
+                                                    <th>Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

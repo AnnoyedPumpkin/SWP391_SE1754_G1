@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = parseFloat(priceText.substring(0, priceText.length - 1));
         const quantity = parseFloat(input.value);
         const totalPrice = price * quantity;
-        row.querySelector('.total_price').innerText = totalPrice.toFixed(2) + 'VND';
+        row.querySelector('.total_price').innerText = totalPrice.toFixed(1) + 'VND';
 
         const stockText = row.querySelector('.stock_text').innerText;
         const stock = parseInt(stockText);
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Display the total sum
         const totalSumElement = document.getElementById('total_price_sum');
-        totalSumElement.innerText = totalPriceSum.toFixed(2) + 'VND';
+        totalSumElement.innerText = totalPriceSum.toFixed(1) + 'VND';
 
         // Parse the discount value
         const couponOptionValue = couponOption.value;
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Calculate the final total
         const finalTotal = totalPriceSum - (totalPriceSum * discountValue / 100);
         const finalTotalElement = document.getElementById('total_price_final');
-        finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+        finalTotalElement.innerText = finalTotal.toFixed(1) + 'VND';
 
         const tps_textCont = document.getElementById("total_price_sum").textContent;
         const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Display the total sum
     const totalSumElement = document.getElementById('total_price_sum');
-    totalSumElement.innerText = totalPriceSum.toFixed(2) + 'VND';
+    totalSumElement.innerText = totalPriceSum.toFixed(1) + 'VND';
 
     // Parse the discount value
     const couponOptionValue = couponOption.value;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Calculate the final total
     const finalTotal = totalPriceSum - (totalPriceSum * discountValue / 100);
     const finalTotalElement = document.getElementById('total_price_final');
-    finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+    finalTotalElement.innerText = finalTotal.toFixed(1) + 'VND';
     
     const tps_textCont = document.getElementById("total_price_sum").textContent;
         const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const finalTotal = totalPriceSum - (totalPriceSum * couponOptionValue / 100);
 
         const finalTotalElement = document.getElementById('total_price_final');
-        finalTotalElement.innerText = finalTotal.toFixed(2) + 'VND';
+        finalTotalElement.innerText = finalTotal.toFixed(1) + 'VND';
         
         const tps_textCont = document.getElementById("total_price_sum").textContent;
         document.getElementById("tps_value_input").value = tps_textCont;
@@ -168,5 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function submitForm() {
-        document.getElementById("deleteProductForm").submit();
+    if (confirm("Are you sure you want to delete this product?")) {
+            document.getElementById("deleteProductForm").submit();
+        }
     }

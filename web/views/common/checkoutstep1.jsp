@@ -914,7 +914,7 @@
                                                     </div>
                                                     <form id="deleteProductForm" action="Checkout?action=deleteProduct" method="post">
                                                     <button onclick="submitForm();" type="button" class="remove_btn">
-                                                        <input type="hidden" name="p_id" value="${p.c_Det.product_detail_id}">
+                                                        <input type="hidden" name="p_id" value="${p.c_Det.product_id}">
                                                         <i class="fal fa-times"></i>
                                                     </button>
                                                     </form>
@@ -929,7 +929,7 @@
                                                         <span class="input_number_decrement_de ">–</span>
                                                         <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="0" max="${p.p_Det.stock}">
                                                         <span class="input_number_increment_in ">+</span>
-                                                        <input type="hidden" name="pro_det_id" value="${p.c_Det.product_detail_id}">
+                                                        <input type="hidden" name="pro_det_id" value="${p.c_Det.product_id}">
                                                     </form>
                                                     <span style="display: none;" class="stock_text">${p.p_Det.stock}</span>
                                                     <div class="remaining_stock">${p.p_Det.stock - p.c_Det.quantity} product left</div>

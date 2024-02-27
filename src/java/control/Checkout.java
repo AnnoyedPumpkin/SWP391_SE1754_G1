@@ -38,7 +38,7 @@ public class Checkout extends HttpServlet {
         if (isLoggedIn != null && isLoggedIn) {
             List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
             session.setAttribute("shopping_cart_details", p);
-            List<Discount> dis = commonDao.getDiscountList();
+            List<Discount> dis = commonDao.getActiveDiscountList();
             session.setAttribute("disountList", dis);
             request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
         } else {
@@ -63,6 +63,7 @@ public class Checkout extends HttpServlet {
         int accountId = (Integer) session.getAttribute("acc_id");
         switch (action) {
             case "placeOrder":
+                
                 request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
                 break;
             case "deleteProduct":
@@ -105,10 +106,5 @@ public class Checkout extends HttpServlet {
                 throw new AssertionError();
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
