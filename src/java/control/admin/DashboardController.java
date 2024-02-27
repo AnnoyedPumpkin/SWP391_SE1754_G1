@@ -546,10 +546,11 @@ public class DashboardController extends HttpServlet {
         int oldDiscount = Integer.parseInt(oldDiscountRaw);
         int status = Integer.parseInt(statusRaw);
         Discount discount = Discount.builder()
+                .id(id)
                 .discount_percent(discountPercent)
                 .status(status)
                 .build();
-        boolean discountExist = adminDAO.findDiscountExistByIdAndDiscount(id, discountPercent);
+        boolean discountExist = adminDAO.findDiscountExistByDiscount(discountPercent);
 
         if (!discountExist) {
             adminDAO.editDiscount(discount, oldDiscount);

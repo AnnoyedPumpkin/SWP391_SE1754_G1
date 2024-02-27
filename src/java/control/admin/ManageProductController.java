@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -187,11 +188,12 @@ public class ManageProductController extends HttpServlet {
                 break;
             case "filter-products":
                 sorted = request.getParameter("sort");
-                String brandID = request.getParameter("brand-filter");
-                String cateID = request.getParameter("category-filter");
-                String colorID = request.getParameter("colors-filter");
-                String sizeID = request.getParameter("size-filter");
-                String genderID = request.getParameter("gender-filter");
+                String[] brandID = request.getParameterValues("brand-filter");
+                String[] cateID = request.getParameterValues("category-filter");
+                String[] colorID = request.getParameterValues("colors-filter");
+                String[] sizeID = request.getParameterValues("size-filter");
+                String[] genderID = request.getParameterValues("gender-filter");
+
                 String priceRange = request.getParameter("price-range");
                 String minPrice = "",
                  maxPrice = "";
@@ -202,7 +204,41 @@ public class ManageProductController extends HttpServlet {
                 }
                 totalProducts = adminDAO.findTotalProducts(brandID, cateID, priceRange, minPrice, maxPrice, colorID, sizeID, genderID);
                 listPf = adminDAO.findByPage(page, sorted, brandID, cateID, priceRange, minPrice, maxPrice, colorID, sizeID, genderID);
-                pagination.setUrlPattern("manageproduct?action=filter-products" + "&" + "sort=" + sorted + "&" + "price-range=" + priceRange + "&" + "category-filter=" + cateID + "&" + "brand-filter=" + brandID + "&" + "colors-filter" + colorID + "&" + "size-filter" + sizeID + "&" + "gender-filter" + genderID + "&");
+
+                StringBuilder url = new StringBuilder("manageproduct?action=filter-products");
+                if (sorted != null && !sorted.isEmpty()) {
+                    url.append("&sort=").append(sorted);
+                }
+                if (priceRange != null && !priceRange.isEmpty()) {
+                    url.append("&price-range=").append(priceRange);
+                }
+                if (cateID != null && cateID.length > 0) {
+                    for (String category : cateID) {
+                        url.append("&category-filter=").append(category);
+                    }
+                }
+                if (brandID != null && brandID.length > 0) {
+                    for (String brand : brandID) {
+                        url.append("&category-filter=").append(brand);
+                    }
+                }
+                if (colorID != null && colorID.length > 0) {
+                    for (String color : colorID) {
+                        url.append("&category-filter=").append(color);
+                    }
+                }
+                if (sizeID != null && sizeID.length > 0) {
+                    for (String size : sizeID) {
+                        url.append("&category-filter=").append(size);
+                    }
+                }
+                if (genderID != null && genderID.length > 0) {
+                    for (String gender : genderID) {
+                        url.append("&category-filter=").append(gender);
+                    }
+                }
+                url.append("&");
+                pagination.setUrlPattern(url.toString());
                 break;
             default:
                 totalProducts = adminDAO.findTotalProducts();
@@ -270,7 +306,7 @@ public class ManageProductController extends HttpServlet {
                     .brand_id(brandID)
                     .gender_id(genderID)
                     .build();
-            boolean isExistProduct = adminDAO.findProductExist(productName, colorID, cateID, sizeID, brandID, genderID);
+            boolean isExistProduct = adminDAO.findProductAndProductDetailExist(productName, colorID, cateID, sizeID, brandID, genderID);
             if (!isExistProduct) {
                 if (!adminDAO.findExistProduct(productName)) {
                     adminDAO.insertNewProduct(productForm);
@@ -310,10 +346,7 @@ public class ManageProductController extends HttpServlet {
         if (adminDAO.findProductDetailExist(idProduct, idColor, idCate, idSize, idBrand, idGender)) {
             request.setAttribute("errdp", "Delete product error !!");
         } else {
-            List<Product_Detail> listPd = adminDAO.findProductDetail(idProduct, idColor, idCate, idSize, idBrand, idGender);
-            if (listPd.size() == 0) {
-                adminDAO.deleteProductById(idProduct);
-            }
+            adminDAO.deleteProductById(idProduct);
             request.setAttribute("msgdp", "Delete product successfully !!");
         }
     }
@@ -426,7 +459,7 @@ public class ManageProductController extends HttpServlet {
                     .product_Id(productID)
                     .image(imagePathString)
                     .build();
-            int size = adminDAO.getSizeByProductID(productID);
+            int size = adminDAO.countByProductID(productID);
             if (imagePaths.size() + size <= 6) {
                 adminDAO.deleteImagesExistAlready(image);
                 adminDAO.saveImage(image);

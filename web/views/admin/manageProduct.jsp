@@ -487,11 +487,10 @@
                                             <ul class="list-unstyled categories-list">
                                                 <c:forEach items="${listCate}" var="cate">
                                                     <li>
-                                                        <span class="vs-radio-con vs-radio-primary py-25">
-                                                            <input type="radio" name="category-filter" value="${cate.id}">
-                                                            <span class="vs-radio">
-                                                                <span class="vs-radio--border"></span>
-                                                                <span class="vs-radio--circle"></span>
+                                                        <span class="vs-checkbox-con vs-checkbox-primary py-25">
+                                                            <input type="checkbox" name="category-filter" value="${cate.id}">
+                                                            <span class="vs-checkbox">
+                                                                <span class="vs-checkbox--check"></span>
                                                             </span>
                                                             <span class="ml-50">${cate.category}</span>
                                                         </span>
@@ -510,11 +509,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${brandCounts}" var="bc">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="brand-filter" value="${bc.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="brand-filter" value="${bc.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${bc.brand}</span>
                                                             </span>
@@ -535,11 +533,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listC}" var="c">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="colors-filter" value="${c.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="colors-filter" value="${c.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${c.color}</span>
                                                             </span>
@@ -559,11 +556,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listS}" var="s">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="size-filter" value="${s.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="size-filter" value="${s.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${s.size}</span>
                                                             </span>
@@ -583,11 +579,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listG}" var="g">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="gender-filter" value="${g.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="gender-filter" value="${g.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${g.gender}</span>
                                                             </span>

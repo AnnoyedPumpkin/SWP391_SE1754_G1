@@ -3,11 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/DashboardController.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Discount.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/entity/Account.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteSizeModal.jsp</file>
             <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/ManageProductController.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteColorModal.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/manageProduct.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteBrandModal.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteProductModal.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/DashboardController.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/src/java/control/admin/AuthentAdminController.java</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteDiscountModal.jsp</file>
             <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/productDetails.jsp</file>
             <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/productCharacteristic.jsp</file>
-            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/manageProduct.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteGenderModal.jsp</file>
+            <file>file:/D:/SWP391_SE1754_G1-hanv/web/views/admin/deleteCategoryModal.jsp</file>
         </group>
     </open-files>
 </project-private>
