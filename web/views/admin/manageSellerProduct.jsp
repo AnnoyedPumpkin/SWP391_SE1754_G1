@@ -17,7 +17,7 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>Manage Product - Admin</title>
+        <title>Manage Product - Seller</title>
         <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/apple-icon-120.png">
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
@@ -150,7 +150,7 @@
                 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                     <li class=" nav-item"><a href="index.html"><i class="feather icon-home"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge badge-warning badge-pill float-right mr-2">1</span></a>
                         <ul class="menu-content">
-                            <li class=""><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
+                            <li class=""><a href="${pageContext.request.contextPath}/seller/dashboard"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
                             </li>
                         </ul>
                     </li>
@@ -158,9 +158,9 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-shopping-bag"></i><span class="menu-title" data-i18n="Ecommerce">Product</span></a>
                         <ul class="menu-content">
-                            <li class="active"><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
+                            <li class="active"><a href="${pageContext.request.contextPath}/seller/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/seller/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
                             </li>
                             <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
@@ -233,7 +233,7 @@
                         <!-- background Overlay when sidebar is shown  ends-->
 
                         <!-- Ecommerce Search Bar Starts -->
-                        <form action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
+                        <form action="${pageContext.request.contextPath}/seller/manageproduct" method="GET">
                             <section id="ecommerce-searchbar">
                                 <div class="row mt-1">
                                     <div class="col-sm-12">
@@ -257,7 +257,7 @@
                                 <div class="card ecommerce-card">
                                     <div class="card-content">
                                         <div class="item-img text-center">
-                                            <a href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
+                                            <a href="${pageContext.request.contextPath}/seller/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
                                                 <img class="img-fluid" src="${pf.image_path}" alt="img-placeholder">
                                             </a>
                                         </div>
@@ -275,7 +275,7 @@
                                                 </div>
                                             </div>
                                             <div class="item-name">
-                                                <a href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">${pf.name}</a>
+                                                <a href="${pageContext.request.contextPath}/seller/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">${pf.name}</a>
                                                 <!--                                                <p class="item-company">By <span class="company-name">Google</span></p>-->
                                             </div>
                                             <div>
@@ -289,14 +289,11 @@
                                             </div>
                                         </div>
                                         <div class="item-options text-center">
-                                            <a class="btn btn-primary btn-equal-size view mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
+                                            <a class="btn btn-primary btn-equal-size view mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/seller/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
                                                 <i class="feather icon-eye"></i> <span>View</span>
                                             </a>
                                             <button class="btn btn-success btn-equal-size wishlist mb-2 mb-md-0 flex-fill">
                                                 <i class="feather icon-edit"></i> <span>Update</span>
-                                            </button>
-                                            <button class="btn btn-danger btn-equal-size delete mb-2 mb-md-0 flex-fill" data-toggle="modal" data-target="#deleteProductModal" title="Delete Product" onclick="deleteProductModal('${pf.id}', '${pf.color_id}', '${pf.category_id}', '${pf.size_id}', '${pf.brand_id}', '${pf.gender_id}')">
-                                                <i class=" feather icon-trash "></i>  <span>Delete</span>
                                             </button>
                                         </div>
                                     </div>
@@ -356,7 +353,7 @@
                 <div class="sidebar-detached sidebar-left">
                     <div class="sidebar">
                         <!-- Ecommerce Sidebar Starts -->
-                        <form id="filter-form2" action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
+                        <form id="filter-form2" action="${pageContext.request.contextPath}/seller/manageproduct" method="GET">
                             <input type="hidden" name="action" value="filter-products">
                             <input type="hidden" name="sort" id="sortHidden2">
                             <div class="sidebar-shop" id="ecommerce-sidebar-toggler">

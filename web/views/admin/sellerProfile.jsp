@@ -423,19 +423,19 @@
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label>Old Password</label>
-                                                            <input type="password" name="password" placeholder="Old Password">
+                                                            <input type="password" class="form-control" name="password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label>New Password</label>
-                                                            <input type="password" name="newPassword" placeholder="New Password">
+                                                            <input type="password" class="form-control" name="newPassword">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label>Confirm New Password</label>
-                                                            <input type="password" name="newPassword2" placeholder="Confirm New Password">
+                                                            <input type="password" class="form-control" name="newPassword2">
                                                         </div>
                                                     </div>
                                                     <div style="color: greenyellow">
@@ -445,7 +445,7 @@
                                                         ${error1}
                                                     </div>
                                                 </div>                                       
-                                                <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-start mt-1">
                                                     <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Change Password</button>
                                                 </div>
                                             </div>

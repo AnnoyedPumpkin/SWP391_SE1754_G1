@@ -560,8 +560,7 @@ public class SellerDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT COUNT(*) FROM Product p "
-                    + "JOIN Product_Detail pd ON pd.Product_Id = p.id";
+            String sql = "SELECT COUNT(*) FROM dbo.Product";
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 

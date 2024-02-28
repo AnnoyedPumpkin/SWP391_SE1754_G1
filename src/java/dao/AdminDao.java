@@ -32,7 +32,7 @@ public class AdminDao extends DBContext {
         try {
             connection = this.getConnection();
 
-            String sql = "SELECT a.Email, a.Password, a.Role_Id, a.Id "
+            String sql = "SELECT a.Email, a.Password, a.Role_Id, a.Id, a.Member_Code "
                     + "FROM Account a "
                     + "WHERE a.Email = ?";
             preparedStatement = connection.prepareStatement(sql);
@@ -50,6 +50,7 @@ public class AdminDao extends DBContext {
                     foundAccount.setPassword(hashedPassword);
                     foundAccount.setRole_Id(resultSet.getInt("Role_Id"));
                     foundAccount.setId(resultSet.getInt("Id"));
+                    foundAccount.setMember_code(resultSet.getString("member_code"));
                     return foundAccount;
                 } else {
                     return null;

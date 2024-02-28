@@ -146,13 +146,9 @@ public class SellerProfileController extends HttpServlet {
                 String password = request.getParameter("password");
                 String newpassword = request.getParameter("newPassword");
                 String passwordConfirm = request.getParameter("newPassword2");
-                account = Account.builder()
-                        .email(account.getEmail())
-                        .password(password)
-                        .build();
-                account = sellerDao.checkExistOfSeller(account);
                 // check nguoi dung da nhap dung mat khau.
                 if (account != null) {
+                    //Check validate cua mat khau
                     if (!newpassword.matches(Constant.PASSWORD_REGEX)) {
                         request.setAttribute("error1", "Mật khẩu phải chứa ít nhất 8 kí tự (1 số, 1 chữ in hoa, 1 kí tự đặc biệt(trừ khoảng trắng)");
                         request.getRequestDispatcher("views/admin/sellerProfile.jsp").forward(request, response);
