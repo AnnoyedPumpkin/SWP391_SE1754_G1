@@ -1023,7 +1023,7 @@
                                 <c:if test="${not empty account_information}">
 
                                     <div class="form_item">
-                                        <span class="input_title">User Name<sup>*</sup></span>
+                                        <span class="input_title">Recipient's name<sup>*</sup></span>
 
                                         <input type="text" name="username" value="${account_information.getAcc_det().getUsername()}">
 
@@ -1050,7 +1050,7 @@
                                                                         </div>-->
 
                                     <div class="form_item">
-                                        <span class="input_title">Phone<sup>*</sup></span>
+                                        <span class="input_title">Contact number<sup>*</sup></span>
                                         <input type="tel" name="phone" value="${account_information.getAcc_det().getPhone_number()}" style="width: max-content">
                                     </div>
 

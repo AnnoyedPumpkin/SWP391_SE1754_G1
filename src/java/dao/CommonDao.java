@@ -251,9 +251,10 @@ public class CommonDao extends DBContext {
         preparedStatement.setString(1, email);
         preparedStatement.executeUpdate();
     }
-    public void deleteProductInCartDetailByProductId(int productId){ 
+
+    public void deleteProductInCartDetailByProductId(int productId) {
         try {
-            String query = "DELETE FROM Cart_Detail WHERE Product_Id = ?"; 
+            String query = "DELETE FROM Cart_Detail WHERE Product_Id = ?";
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, productId);
@@ -262,6 +263,7 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
     }
+
     /**
      * Method description: Generates a random password with 8 characters.
      *
@@ -305,7 +307,32 @@ public class CommonDao extends DBContext {
     }
 
     /**
+     * Method description: Generates a random Cart code with 12 characters.
+     *
+     * @return A character array representing the randomly generated Cart Code.
+     */
+    public String generateRandomCartCode() {
+        String capitalChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String smallChars = "abcdefghijklmnopqrstuvwxyz";
+
+        String values = capitalChars + smallChars;
+
+        Random random = new Random();
+
+        StringBuilder password = new StringBuilder(14);
+
+        for (int i = 0; i < 12; i++) {
+            password.append(values.charAt(random.nextInt(values.length())));
+        }
+        password.insert(4, '-');
+        password.insert(9, '-');
+
+        return password.toString();
+    }
+
+    /**
      * Method description: Retrieves a list of active discounts.
+     *
      * @return List of active discounts.
      */
     public List<Discount> getActiveDiscountList() {
@@ -329,8 +356,10 @@ public class CommonDao extends DBContext {
         }
         return DisList;
     }
+
     /**
      * Method description: Retrieves account information based on the provided account ID.
+     *
      * @param accId - The ID of the account to retrieve information for.
      * @return Account information associated with the provided account ID.
      */
@@ -467,54 +496,13 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
     }
-    
+
 }
 
 class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-
-        List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
-
-        for (Cart cart : shoppingCartDetails) {
-            System.out.println("Cart ID: " + cart.getId());
-            System.out.println("Address: " + cart.getAddress());
-            System.out.println("Account ID: " + cart.getAccount_id());
-            System.out.println("Discount ID: " + cart.getDiscount_id());
-
-            Cart_Detail cartDetail = cart.getC_Det();
-            System.out.println("Cart Detail ID: " + cartDetail.getProduct_id());
-            System.out.println("Quantity: " + cartDetail.getQuantity());
-
-            Product product = cart.getP();
-            System.out.println("Product ID: " + product.getId());
-            System.out.println("Product Name: " + product.getName());
-            System.out.println("Product Price: " + product.getPrice());
-
-            Product_Detail productDetail = cart.getP_Det();
-            System.out.println("Product Detail ID: " + productDetail.getId());
-            System.out.println("Stock: " + productDetail.getStock());
-
-            Color color = cart.getC();
-            System.out.println("Color: " + color.getColor());
-
-            Size size = cart.getS();
-            System.out.println("Size: " + size.getSize());
-
-            Category category = cart.getCate();
-            System.out.println("Category: " + category.getCategory());
-
-            Gender gender = cart.getGen();
-            System.out.println("Gender: " + gender.getGender());
-
-            Image image = cart.getIma();
-            System.out.println("Image Path: " + image.getImage());
-
-            Discount discount = cart.getDis();
-            System.out.println("Discount Percent: " + discount.getDiscount_percent());
-
-            System.out.println("----------------------------------------");
-        }
+        System.out.println(c.generateRandomCartCode());
     }
 }
