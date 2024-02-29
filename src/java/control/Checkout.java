@@ -33,16 +33,18 @@ public class Checkout extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-        int accountId = (Integer) session.getAttribute("acc_id");
-
+        
         if (isLoggedIn != null && isLoggedIn) {
+            int accountId = (Integer) session.getAttribute("acc_id");
+             Account acc_infor = commonDao.getAccountInformationByAccountId(accountId);
+             session.setAttribute("account_information", acc_infor);
             List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
             session.setAttribute("shopping_cart_details", p);
             List<Discount> dis = commonDao.getActiveDiscountList();
             session.setAttribute("disountList", dis);
             request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
+            request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
         }
         //       request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
     }
@@ -93,10 +95,10 @@ public class Checkout extends HttpServlet {
                     commonDao.updateQuantityByProductDetailId(quantities[i], productDetailIds[i]);
                 }
 
-                Account acc_infor = commonDao.getAccountInformationByAccountId(accountId);
+               
                 List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
                 session.setAttribute("shopping_cart_details", p);
-                session.setAttribute("account_information", acc_infor);
+                
                 request.setAttribute("subtotal", subtotal);
                 request.setAttribute("discount", discount);
                 request.setAttribute("total", total);

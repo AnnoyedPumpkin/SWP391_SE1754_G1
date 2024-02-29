@@ -42,6 +42,8 @@
         <!-- custom - css include -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/hieu.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        
         <style>
             .input_number::-webkit-inner-spin-button,
             .input_number::-webkit-outer-spin-button {
@@ -909,14 +911,14 @@
                                                     <div class="item_content">
                                                         <h4 class="item_title">${p.p.name}</h4>
                                                         <span class="item_type">${p.cate.category}</span>
-                                                        Size: ${p.s.size} |
-                                                        Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block;"></div>
+                                                        Size: ${p.s.size}
+                                                        | Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block; border-radius: 15px;"></div>
                                                     </div>
                                                     <form id="deleteProductForm" action="Checkout?action=deleteProduct" method="post">
-                                                    <button onclick="submitForm();" type="button" class="remove_btn">
-                                                        <input type="hidden" name="p_id" value="${p.c_Det.product_id}">
-                                                        <i class="fal fa-times"></i>
-                                                    </button>
+                                                        <button onclick="confirmDeleteForm();" type="button" class="remove_btn">
+                                                            <input type="hidden" name="p_id" value="${p.c_Det.product_id}">
+                                                            <i class="fal fa-times"></i>
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>
@@ -927,7 +929,7 @@
                                                 <div class="quantity_input">
                                                     <form">
                                                         <span class="input_number_decrement_de ">–</span>
-                                                        <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="0" max="${p.p_Det.stock}">
+                                                        <input class="input_number" name="input_number" type="number" value="${p.c_Det.quantity}" step="1" min="1" max="${p.p_Det.stock}">
                                                         <span class="input_number_increment_in ">+</span>
                                                         <input type="hidden" name="pro_det_id" value="${p.c_Det.product_id}">
                                                     </form>
@@ -941,7 +943,16 @@
                                 </tbody>
                             </table>
                         </div>
-
+                        <c:if test="${empty shopping_cart_details}">
+                            <div class="order_complete_alart text-center" style="padding: 20px;">
+                                <h2><img style="max-width: 20%" src="${pageContext.request.contextPath}/assets/images/Hieuimagetest/npic.jpg" alt="thumbnail_not_found"><strong>There are no products in the cart yet.</strong></h2>
+                            </div>
+                        </c:if>
+                        <c:if test="${sessionScope.account_information.getRole_Id() != 1}">
+                            <div class="text-center" style="padding-bottom: 20px;">
+                                <h4>You haven't logged in yet. Login to your user account by <a href="authen">clicking here</a>. If you don't already have one, <a href='authen?action=register'>sign up here</a>.</h4>
+                            </div>
+                        </c:if>
                         <div class="coupon_wrap mb_50">
                             <div class="row justify-content-lg-between">
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -1181,5 +1192,6 @@
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/hieu.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     </body>
 </html>

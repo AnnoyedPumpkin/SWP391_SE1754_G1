@@ -119,18 +119,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const finalTotal = totalPriceSum - (totalPriceSum * discountValue / 100);
     const finalTotalElement = document.getElementById('total_price_final');
     finalTotalElement.innerText = finalTotal.toFixed(1) + 'VND';
-    
+
     const tps_textCont = document.getElementById("total_price_sum").textContent;
-        const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
-        document.getElementById("tps_value_input").value = tps_textCont_float;
+    const tps_textCont_float = parseFloat(tps_textCont.substring(0, tps_textCont.length - 3));
+    document.getElementById("tps_value_input").value = tps_textCont_float;
 
-        const dvi_textCont = document.getElementById("discount_value").textContent;
-        const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
-        document.getElementById("dis_value_input").value = dvi_textCont_float;
+    const dvi_textCont = document.getElementById("discount_value").textContent;
+    const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
+    document.getElementById("dis_value_input").value = dvi_textCont_float;
 
-        const tpf_textCont = document.getElementById("total_price_final").textContent;
-        const tpf_textCont_float = parseFloat(tpf_textCont.substring(0, tpf_textCont.length - 3));
-        document.getElementById("tpf_value_input").value = tpf_textCont_float;
+    const tpf_textCont = document.getElementById("total_price_final").textContent;
+    const tpf_textCont_float = parseFloat(tpf_textCont.substring(0, tpf_textCont.length - 3));
+    document.getElementById("tpf_value_input").value = tpf_textCont_float;
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -154,21 +154,56 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const finalTotalElement = document.getElementById('total_price_final');
         finalTotalElement.innerText = finalTotal.toFixed(1) + 'VND';
-        
+
         const tps_textCont = document.getElementById("total_price_sum").textContent;
         document.getElementById("tps_value_input").value = tps_textCont;
 
         const dvi_textCont = document.getElementById("discount_value").textContent;
         const dvi_textCont_float = parseFloat(dvi_textCont.substring(0, dvi_textCont.length - 1));
         document.getElementById("dis_value_input").value = dvi_textCont_float;
-        
+
         const tpf_textCont = document.getElementById("total_price_final").textContent;
         document.getElementById("tpf_value_input").value = tpf_textCont;
     }
 });
 
-function submitForm() {
-    if (confirm("Are you sure you want to delete this product?")) {
-            document.getElementById("deleteProductForm").submit();
+function confirmDeleteForm() {
+    toastr.options = {
+        "closeButton": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "0", // Set timeOut to 0 to make the toast sticky until action is taken
+        "extendedTimeOut": "0", // Set extendedTimeOut to 0 to make the toast sticky until action is taken
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.warning('<span>Close after: </span><span class="countdown-circle">10s</span>\n\
+                    <div>\n\
+                    Are you sure you want to remove this product?\n\
+                    </div>\n\
+                    <button type="button" class="btn-yes btn btn-light btn-block">Confirm</button></div>'
+                    , 'Confirmation', {
+        "closeButton": false,
+        "positionClass": "toast-top-center",    
+        "progressBar": false,
+        "onclick": function () {
         }
-    }
+    });
+    var countdown = 10;
+    setInterval(function() {
+         countdown--;
+         document.querySelector('.countdown-circle').innerText = countdown + 's';
+    },1000);
+    document.querySelector('.btn-yes').addEventListener('click', function () {
+        document.getElementById("deleteProductForm").submit();
+    });
+    
+    setTimeout(function() {
+        toastr.clear();
+    }, 10000);
+}

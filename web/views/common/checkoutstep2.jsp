@@ -1070,7 +1070,7 @@
                         </div>
 
                         <div class="billing_form">
-                            <h3 class="form_title mb_30">Your order</h3>
+                            <h3 class="form_title mb_30">Review your order</h3>
                             <form action="Checkout?action=placeOrder" method="post">
                                 <div class="form_wrap">
 
