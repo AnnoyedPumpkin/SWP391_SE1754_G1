@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.net.*;
+import java.util.Date;
 
 /**
  *
@@ -33,11 +34,11 @@ public class Checkout extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-        
+
         if (isLoggedIn != null && isLoggedIn) {
             int accountId = (Integer) session.getAttribute("acc_id");
-             Account acc_infor = commonDao.getAccountInformationByAccountId(accountId);
-             session.setAttribute("account_information", acc_infor);
+            Account acc_infor = commonDao.getAccountInformationByAccountId(accountId);
+            session.setAttribute("account_information", acc_infor);
             List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
             session.setAttribute("shopping_cart_details", p);
             List<Discount> dis = commonDao.getActiveDiscountList();
@@ -65,7 +66,14 @@ public class Checkout extends HttpServlet {
         int accountId = (Integer) session.getAttribute("acc_id");
         switch (action) {
             case "placeOrder":
-                
+                Date currentDate = new Date();
+                java.sql.Date invoiceDate = new java.sql.Date(currentDate.getTime());
+                Double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+                String address = request.getParameter("hiddenDeliveryAddress");
+                String cartCode = commonDao.generateRandomCartCode();
+                commonDao.addCartCodeForCartByAccountId(cartCode, accountId);
+                commonDao.addInvoice(accountId, invoiceDate, totalPrice, cartCode, address);
+                request.setAttribute("add", address);
                 request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
                 break;
             case "deleteProduct":
@@ -78,9 +86,9 @@ public class Checkout extends HttpServlet {
             case "proceedCheckout":
                 String[] quantityStrings = request.getParameterValues("input_number");
                 String[] productDetailIdStrings = request.getParameterValues("pro_det_id");
-                String subtotal = request.getParameter("tps_va_in");
-                String discount = request.getParameter("dis_va_in");
-                String total = request.getParameter("tpf_va_in");
+                Double subtotal = Double.parseDouble(request.getParameter("tps_va_in"));
+                Double discount = Double.parseDouble(request.getParameter("dis_va_in"));
+                Double total = Double.parseDouble(request.getParameter("tpf_va_in"));
                 int[] quantities = new int[quantityStrings.length];
                 for (int i = 0; i < quantityStrings.length; i++) {
                     quantities[i] = Integer.parseInt(quantityStrings[i]);
@@ -95,10 +103,9 @@ public class Checkout extends HttpServlet {
                     commonDao.updateQuantityByProductDetailId(quantities[i], productDetailIds[i]);
                 }
 
-               
                 List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
                 session.setAttribute("shopping_cart_details", p);
-                
+
                 request.setAttribute("subtotal", subtotal);
                 request.setAttribute("discount", discount);
                 request.setAttribute("total", total);

@@ -1019,7 +1019,6 @@
                         <h3 class="form_title mb_30">Billing details</h3>
                         <form action="#">
                             <div class="form_wrap">
-
                                 <c:if test="${not empty account_information}">
 
                                     <div class="form_item">
@@ -1029,10 +1028,10 @@
 
                                     </div>
                                     <div class="form_item">
-                                        <span class="input_title">Address<sup>*</sup></span>
-                                        <input type="text" name="address" value="${account_information.getAcc_det().getAddress()}">
+                                        <span class="input_title">Delivery address<sup>*</sup></span>
+                                        <input type="text" name="deliveryAddress" value="${account_information.getAcc_det().getAddress()}">
                                     </div>
-
+                                        
                                     <!-- <div class="option_select">
                                             <span class="input_title">Address<sup>*</sup></span>
                                             <select name="address">
@@ -1064,7 +1063,6 @@
                                         <textarea name="note"
                                                   placeholder="Note about your order, eg. special notes fordelivery."></textarea>
                                     </div>
-
                                 </div>
                             </form>
                         </div>
@@ -1073,7 +1071,7 @@
                             <h3 class="form_title mb_30">Review your order</h3>
                             <form action="Checkout?action=placeOrder" method="post">
                                 <div class="form_wrap">
-
+                                    <input type="hidden" id="hiddenDeliveryAddress" name="hiddenDeliveryAddress" value="${account_information.getAcc_det().getAddress()}">
                                     <div class="checkout_table">
                                         <table class="table text-center mb_50">
                                             <thead class="text-uppercase text-uppercase">
@@ -1141,7 +1139,8 @@
                                                     <td></td>
                                                     <td>
                                                         <c:if test="${not empty requestScope.total}">
-                                                        <span class="total_price">${requestScope.total}VND</span>
+                                                            <span class="total_price">${requestScope.total}VND</span>
+                                                            <input name="totalPrice" type="hidden" value="${requestScope.total}">
                                                         </c:if>
                                                     </td>
                                                 </tr>
@@ -1412,7 +1411,14 @@
 
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
+        <script>
+        const deliveryAddressInput = document.getElementsByName('deliveryAddress')[0];
+        const hiddenDeliveryAddressInput = document.getElementById('hiddenDeliveryAddress');
 
+        deliveryAddressInput.addEventListener('input', function () {
+            hiddenDeliveryAddressInput.value = this.value;
+        });
+    </script>
     </body>
 
 </html>

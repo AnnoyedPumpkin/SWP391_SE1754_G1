@@ -18,6 +18,7 @@ import entity.Product;
 import entity.Product_Detail;
 import entity.Size;
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -497,12 +498,54 @@ public class CommonDao extends DBContext {
         }
     }
 
+    /**
+     * Methods description: Add Cart code for Cart with the given Id.
+     *
+     * @param cartCode - The Cart code to be add.
+     * @param id - The id of the cart for which the Cart code added.
+     */
+    public void addCartCodeForCartByAccountId(String cartCode, int id) {
+        String query = "UPDATE Cart Set CartCode = ? Where Id = ?";
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, cartCode);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address) {
+        String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Status_Id ) \n"
+                + "  VALUES (?,?,?,?,?,1)";
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, accId);
+            preparedStatement.setDate(2, (java.sql.Date) invoiceDate);
+            preparedStatement.setDouble(3, totalPrice);
+            preparedStatement.setString(4, cartCode);
+            preparedStatement.setString(5, address);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
 
 class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
+//        java.sql.Date invoiceDate = java.sql.Date.valueOf("2000-01-01");
+//        c.addInvoice(15, invoiceDate, 15.00, "abc-abc", "Vietnam");
+
+//        Date currentDate = new Date();
+//        java.sql.Date invoiceDate = new java.sql.Date(currentDate.getTime());
+//        System.out.println(invoiceDate);
+
         System.out.println(c.generateRandomCartCode());
     }
 }
