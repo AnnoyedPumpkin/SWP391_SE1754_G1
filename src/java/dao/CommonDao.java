@@ -533,19 +533,45 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
     }
+
+    public int getInvoiceIdByCartCode(String cartCode) {
+        String query = "SELECT * FROM Invoice WHERE CartCode=?";
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, cartCode);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return -1;
+    }
+
+    public void addInvoiceDetail(int Invoice_Id, int Product_Id, int Quantity, double Price, double TotalPrice) {
+        String query = "  INSERT INTO Invoice_Detail (Invoice_Id, Product_Id, Quantity, Price, TotalPrice ) \n"
+                + "  VALUES (?,?,?,?,?)";
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, Invoice_Id);
+            preparedStatement.setInt(2, Product_Id);
+            preparedStatement.setInt(3, Quantity);
+            preparedStatement.setDouble(4, Price);
+            preparedStatement.setDouble(5, TotalPrice);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
 
 class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-//        java.sql.Date invoiceDate = java.sql.Date.valueOf("2000-01-01");
-//        c.addInvoice(15, invoiceDate, 15.00, "abc-abc", "Vietnam");
-
-//        Date currentDate = new Date();
-//        java.sql.Date invoiceDate = new java.sql.Date(currentDate.getTime());
-//        System.out.println(invoiceDate);
-
-        System.out.println(c.generateRandomCartCode());
+        c.addInvoiceDetail(10, 3, 3, 10.000, 10.000);
     }
 }
