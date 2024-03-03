@@ -70,15 +70,15 @@ public class ForgotPassword extends HttpServlet {
         String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
         String otpCheck = commonDao.getOTPByEmail(email);
         
-        String serverName = request.getServerName();
-        int serverPort = request.getServerPort();
-        String localhostAddress = "http://" + serverName + ":" + serverPort;
+//        String serverName = request.getServerName();
+//        int serverPort = request.getServerPort();
+//        String localhostAddress = "http://" + serverName + ":" + serverPort;
         
         if (otpCheck != null && otpInput.equals(otpCheck)) {
             String newPassword = commonDao.generateRandomPassword();
             commonDao.updatePasswordById(newPassword, accountID);
             String MsgSend = gethtmlTemplate(newPassword);
-            sendMsgEmail(email, MsgSend, localhostAddress);
+            sendMsgEmail(email, MsgSend,"Your Account Password");
             request.setAttribute("email", email);
             request.setAttribute("successMes", "Your new password was sent to yout email, please check it.");
             request.getRequestDispatcher("views/common/forgotpassword.jsp").forward(request, response);
@@ -91,16 +91,16 @@ public class ForgotPassword extends HttpServlet {
     }
 
     private void sendCode(HttpServletRequest request, HttpServletResponse response, String email) throws ServletException, IOException {
-        String serverName = request.getServerName();
-        int serverPort = request.getServerPort();
-        String localhostAddress = "http://" + serverName + ":" + serverPort;
+//        String serverName = request.getServerName();
+//        int serverPort = request.getServerPort();
+        //String localhostAddress = "http://" + serverName + ":" + serverPort;
         String otp = commonDao.generateRandomOTP();
         commonDao.addOTPForAccountByEmail(otp, email);
         String MsgSend = gethtmlTemplate(otp);
-        sendMsgEmail(email, MsgSend, localhostAddress);
+        sendMsgEmail(email, MsgSend, "Your OTP Code");
     }
 
-    private void sendMsgEmail(String toEmail, String msg, String localhostAddress) {
+    private void sendMsgEmail(String toEmail, String msg, String subject) {
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.user", FROM_EMAIL);
@@ -115,7 +115,7 @@ public class ForgotPassword extends HttpServlet {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROM_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            message.setSubject("Your OTP Code");
+            message.setSubject(subject);
             //message.setText(msg);
 
             String htmlContent = msg;

@@ -1079,7 +1079,7 @@
                                                     <th>Product Name</th>
                                                     <th>Unit Price</th>
                                                     <th>Quantity</th>
-                                                    <th>Price</th>
+                                                    <th>Total Price/Product</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1105,6 +1105,12 @@
                                                             <span class="quantity_text">${p.c_Det.quantity}</span>
                                                         </td>
                                                         <td><span class="total_price">${p.c_Det.quantity * p.p.price}VND</span></td>
+                                                <input type="hidden" value="${p.c_Det.quantity}" name="quantity_per_product">
+                                                <input type="hidden" value="${p.p.price}" name="unit_price">
+                                                <input type="hidden" value="${p.c_Det.quantity * p.p.price}" name="total_price_per_product">
+                                                <input type="hidden" value="${p.p_Det.stock - p.c_Det.quantity}" name="remaining_stock">
+                                                <input type="hidden" name="product_id" value="${p.c_Det.product_id}">
+                                                <input type="hidden" name="cart_id" value="${p.id}">
                                                     </tr>
                                                 </c:forEach>
                                                 <tr>

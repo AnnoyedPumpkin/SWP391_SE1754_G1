@@ -66,6 +66,21 @@ public class Checkout extends HttpServlet {
         int accountId = (Integer) session.getAttribute("acc_id");
         switch (action) {
             case "placeOrder":
+                //Update stock in product detail by product id.
+                String[] remainingStockStrings = request.getParameterValues("remaining_stock");
+                String[] productIdStrings = request.getParameterValues("product_id");
+                int[] remainingStock = new int[remainingStockStrings.length];
+                for (int i = 0; i < remainingStockStrings.length; i++) {
+                    remainingStock[i] = Integer.parseInt(remainingStockStrings[i]);
+                }
+                int[] productId = new int[productIdStrings.length];
+                for (int i = 0; i < productIdStrings.length; i++) {
+                    productId[i] = Integer.parseInt(productIdStrings[i]);
+                }
+                for (int i = 0; i < remainingStock.length; i++) {
+                    commonDao.updateProductDetailStock(remainingStock[i], productId[i]);
+                }
+                //Add invoice and add cart code in Cart.
                 Date currentDate = new Date();
                 java.sql.Date invoiceDate = new java.sql.Date(currentDate.getTime());
                 Double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
@@ -73,8 +88,30 @@ public class Checkout extends HttpServlet {
                 String cartCode = commonDao.generateRandomCartCode();
                 commonDao.addCartCodeForCartByAccountId(cartCode, accountId);
                 commonDao.addInvoice(accountId, invoiceDate, totalPrice, cartCode, address);
-                commonDao.getInvoiceIdByCartCode(cartCode);
-                request.setAttribute("add", address);
+                int invoiceId = commonDao.getInvoiceIdByCartCode(cartCode);
+                //Add invoice detail.
+                String[] unitPriceStrings = request.getParameterValues("unit_price");
+                String[] totalPricePerProductStrings = request.getParameterValues("total_price_per_product");
+                String[] quantityStrings2 = request.getParameterValues("quantity_per_product");
+                double[] unitPrice = new double[unitPriceStrings.length];
+                for (int i = 0; i < unitPriceStrings.length; i++) {
+                    unitPrice[i] = Double.parseDouble(unitPriceStrings[i]);
+                }
+                double[] totalPricePerProduct = new double[totalPricePerProductStrings.length];
+                for (int i = 0; i < totalPricePerProductStrings.length; i++) {
+                    totalPricePerProduct[i] = Double.parseDouble(totalPricePerProductStrings[i]);
+                }
+                int[] quantities2 = new int[quantityStrings2.length];
+                for (int i = 0; i < quantityStrings2.length; i++) {
+                    quantities2[i] = Integer.parseInt(quantityStrings2[i]);
+                }
+                for (int i = 0; i < productIdStrings.length; i++) {
+                    commonDao.addInvoiceDetail(invoiceId, productId[i], quantities2[i], unitPrice[i], totalPricePerProduct[i]);
+                }
+                //Delete Cart and CartDetail.
+                int cartId = Integer.parseInt(request.getParameter("cart_id"));
+//                commonDao.deleteCartDetailByCartId(cartId);
+//                commonDao.deleteCartById(cartId);
                 request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
                 break;
             case "deleteProduct":
@@ -94,19 +131,15 @@ public class Checkout extends HttpServlet {
                 for (int i = 0; i < quantityStrings.length; i++) {
                     quantities[i] = Integer.parseInt(quantityStrings[i]);
                 }
-
                 int[] productDetailIds = new int[productDetailIdStrings.length];
                 for (int i = 0; i < productDetailIdStrings.length; i++) {
                     productDetailIds[i] = Integer.parseInt(productDetailIdStrings[i]);
                 }
-
                 for (int i = 0; i < quantities.length; i++) {
-                    commonDao.updateQuantityByProductDetailId(quantities[i], productDetailIds[i]);
+                    commonDao.updateQuantityByProductId(quantities[i], productDetailIds[i]);
                 }
-
                 List<Cart> p = commonDao.getShoppingCartDetailsByAccountId(accountId);
                 session.setAttribute("shopping_cart_details", p);
-
                 request.setAttribute("subtotal", subtotal);
                 request.setAttribute("discount", discount);
                 request.setAttribute("total", total);
@@ -319,5 +352,4 @@ public class Checkout extends HttpServlet {
                 + "</html>";
         return htmlContent;
     }
-
 }

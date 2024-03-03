@@ -253,6 +253,10 @@ public class CommonDao extends DBContext {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     *
+     * @param productId
+     */
     public void deleteProductInCartDetailByProductId(int productId) {
         try {
             String query = "DELETE FROM Cart_Detail WHERE Product_Id = ?";
@@ -277,15 +281,11 @@ public class CommonDao extends DBContext {
         String symbols = "!@#$%^&*?)";
 
         String values = capitalChars + smallChars + numbers + symbols;
-
         Random random = new Random();
-
         StringBuilder password = new StringBuilder(8);
-
         for (int i = 0; i < 8; i++) {
             password.append(values.charAt(random.nextInt(values.length())));
         }
-
         return password.toString();
     }
 
@@ -303,7 +303,6 @@ public class CommonDao extends DBContext {
         for (int i = 0; i < otpLength; i++) {
             otp.append(digits.charAt(random.nextInt(digits.length())));
         }
-
         return otp.toString();
     }
 
@@ -317,17 +316,13 @@ public class CommonDao extends DBContext {
         String smallChars = "abcdefghijklmnopqrstuvwxyz";
 
         String values = capitalChars + smallChars;
-
         Random random = new Random();
-
         StringBuilder password = new StringBuilder(14);
-
         for (int i = 0; i < 12; i++) {
             password.append(values.charAt(random.nextInt(values.length())));
         }
         password.insert(4, '-');
         password.insert(9, '-');
-
         return password.toString();
     }
 
@@ -483,15 +478,15 @@ public class CommonDao extends DBContext {
      * Methods description: Updates the quantity of a product in the cart detail based on the product ID.
      *
      * @param quantity - The new quantity of the product.
-     * @param id - The product ID to identify the product in the cart.
+     * @param productId - The product ID to identify the product in the cart.
      */
-    public void updateQuantityByProductDetailId(int quantity, int id) {
+    public void updateQuantityByProductId(int quantity, int productId) {
         String query = "UPDATE Cart_Detail Set quantity = ? Where Product_Id = ?";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, quantity);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, productId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -517,6 +512,14 @@ public class CommonDao extends DBContext {
         }
     }
 
+    /**
+     *
+     * @param accId
+     * @param invoiceDate
+     * @param totalPrice
+     * @param cartCode
+     * @param address
+     */
     public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address) {
         String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Status_Id ) \n"
                 + "  VALUES (?,?,?,?,?,1)";
@@ -534,6 +537,11 @@ public class CommonDao extends DBContext {
         }
     }
 
+    /**
+     *
+     * @param cartCode
+     * @return
+     */
     public int getInvoiceIdByCartCode(String cartCode) {
         String query = "SELECT * FROM Invoice WHERE CartCode=?";
         try {
@@ -550,17 +558,67 @@ public class CommonDao extends DBContext {
         return -1;
     }
 
-    public void addInvoiceDetail(int Invoice_Id, int Product_Id, int Quantity, double Price, double TotalPrice) {
+    /**
+     *
+     * @param invoiceId
+     * @param productId
+     * @param quantity
+     * @param unitPrice
+     * @param totalPricePerProduct
+     */
+    public void addInvoiceDetail(int invoiceId, int productId, int quantity, double unitPrice, double totalPricePerProduct) {
         String query = "  INSERT INTO Invoice_Detail (Invoice_Id, Product_Id, Quantity, Price, TotalPrice ) \n"
                 + "  VALUES (?,?,?,?,?)";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, Invoice_Id);
-            preparedStatement.setInt(2, Product_Id);
-            preparedStatement.setInt(3, Quantity);
-            preparedStatement.setDouble(4, Price);
-            preparedStatement.setDouble(5, TotalPrice);
+            preparedStatement.setInt(1, invoiceId);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.setInt(3, quantity);
+            preparedStatement.setDouble(4, unitPrice);
+            preparedStatement.setDouble(5, totalPricePerProduct);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteCartDetailByCartId(int cartId) {
+        try {
+            String query = "DELETE FROM Cart_Detail WHERE Cart_Id = ?";
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, cartId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteCartById(int Id) {
+        try {
+            String query = "DELETE FROM Cart WHERE Id = ?";
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, Id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
+     *
+     * @param stock
+     * @param productId
+     */
+    public void updateProductDetailStock(int stock, int productId) {
+        String query = "UPDATE Product_Detail Set Stock = ? Where Product_Id = ?";
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, stock);
+            preparedStatement.setInt(2, productId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -572,6 +630,28 @@ class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-        c.addInvoiceDetail(10, 3, 3, 10.000, 10.000);
+        List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
+
+        // Iterate through the list and print each element
+        for (Cart cart : shoppingCartDetails) {
+            System.out.println("Cart ID: " + cart.getId());
+            System.out.println("Address: " + cart.getAddress());
+            System.out.println("Account ID: " + cart.getAccount_id());
+            System.out.println("Cart Detail ID: " + cart.getC_Det().getId());
+            System.out.println("Product ID: " + cart.getC_Det().getProduct_id());
+            System.out.println("Quantity: " + cart.getC_Det().getQuantity());
+            System.out.println("Product Name: " + cart.getP().getName());
+            System.out.println("Price: " + cart.getP().getPrice());
+            System.out.println("Product Detail ID: " + cart.getP_Det().getId());
+            System.out.println("Stock: " + cart.getP_Det().getStock());
+            System.out.println("Color: " + cart.getC().getColor());
+            System.out.println("Size: " + cart.getS().getSize());
+            System.out.println("Category: " + cart.getCate().getCategory());
+            System.out.println("Gender: " + cart.getGen().getGender());
+            System.out.println("Image Path: " + cart.getIma().getImage());
+            System.out.println("Discount ID: " + cart.getDis().getId());
+            System.out.println("Discount Percent: " + cart.getDis().getDiscount_percent());
+            System.out.println("-------------------------------------------------------------");
+        }
     }
 }
