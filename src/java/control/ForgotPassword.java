@@ -5,25 +5,19 @@
 package control;
 
 import dao.CommonDao;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+
+import EmailSender.EmailSender;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Properties;
 
 public class ForgotPassword extends HttpServlet {
 
     CommonDao commonDao = new CommonDao();
-    private final String FROM_EMAIL = "clothingshoponlineg1se1754@gmail.com";
-    private final String EMAIL_PASSWORD = "pizwgjrviipmttyx";
+    EmailSender emailSender = new EmailSender();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,16 +63,15 @@ public class ForgotPassword extends HttpServlet {
         int accountID = commonDao.getAccountIdByEmail(email);
         String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
         String otpCheck = commonDao.getOTPByEmail(email);
-        
+
 //        String serverName = request.getServerName();
 //        int serverPort = request.getServerPort();
 //        String localhostAddress = "http://" + serverName + ":" + serverPort;
-        
         if (otpCheck != null && otpInput.equals(otpCheck)) {
             String newPassword = commonDao.generateRandomPassword();
             commonDao.updatePasswordById(newPassword, accountID);
-            String MsgSend = gethtmlTemplate(newPassword);
-            sendMsgEmail(email, MsgSend,"Your Account Password");
+            String MsgSend = htmlTemplate(newPassword);
+            emailSender.sendMsgEmail(email, MsgSend, "Your Account Password");
             request.setAttribute("email", email);
             request.setAttribute("successMes", "Your new password was sent to yout email, please check it.");
             request.getRequestDispatcher("views/common/forgotpassword.jsp").forward(request, response);
@@ -96,41 +89,11 @@ public class ForgotPassword extends HttpServlet {
         //String localhostAddress = "http://" + serverName + ":" + serverPort;
         String otp = commonDao.generateRandomOTP();
         commonDao.addOTPForAccountByEmail(otp, email);
-        String MsgSend = gethtmlTemplate(otp);
-        sendMsgEmail(email, MsgSend, "Your OTP Code");
+        String MsgSend = htmlTemplate(otp);
+        emailSender.sendMsgEmail(email, MsgSend, "Your OTP Code");
     }
 
-    private void sendMsgEmail(String toEmail, String msg, String subject) {
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.user", FROM_EMAIL);
-        props.put("mail.smtp.password", EMAIL_PASSWORD);
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-
-        Session session = Session.getDefaultInstance(props);
-
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(FROM_EMAIL));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            message.setSubject(subject);
-            //message.setText(msg);
-
-            String htmlContent = msg;
-            message.setContent(htmlContent, "text/html");
-            Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", FROM_EMAIL, EMAIL_PASSWORD);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String gethtmlTemplate(String MSG) {
+    private String htmlTemplate(String MSG) {
         String htmlContect = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
                 + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n"
                 + "\n"
@@ -446,7 +409,7 @@ public class ForgotPassword extends HttpServlet {
                 + "                            <td style=\"overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;\" align=\"left\">\n"
                 + "\n"
                 + "                              <div style=\"font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;\">\n"
-                + "                                <p style=\"line-height: 160%;\"><strong><span style=\"font-size: 40px; line-height: 64px; color: #000000;\"><span style=\"background-color: #c2e0f4; line-height: 22.4px;\">"+MSG+"</span></span></strong></p>\n"
+                + "                                <p style=\"line-height: 160%;\"><strong><span style=\"font-size: 40px; line-height: 64px; color: #000000;\"><span style=\"background-color: #c2e0f4; line-height: 22.4px;\">" + MSG + "</span></span></strong></p>\n"
                 + "                              </div>\n"
                 + "\n"
                 + "                            </td>\n"

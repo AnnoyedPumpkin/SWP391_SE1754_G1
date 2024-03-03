@@ -150,7 +150,7 @@ public class Checkout extends HttpServlet {
         }
     }
 
-    private String gethtmlTemplate() {
+    private String invoiceHTML() {
         String htmlContent = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n"
                 + "    <head>\n"
