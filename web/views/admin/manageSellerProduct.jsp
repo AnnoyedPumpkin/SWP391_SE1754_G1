@@ -166,9 +166,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
+                    <li class=" nav-item"><a href="#"><i class="feather icon-file"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
                         <ul class="menu-content">
-                            <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="views/admin/invoiceList.jsp"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
@@ -289,7 +289,7 @@
                                             </div>
                                         </div>
                                         <div class="item-options text-center">
-                                            <a class="btn btn-primary btn-equal-size view mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/seller/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
+                                            <a class="btn btn-primary btn-equal-size view mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/seller/manageProduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
                                                 <i class="feather icon-eye"></i> <span>View</span>
                                             </a>
                                             <button class="btn btn-success btn-equal-size wishlist mb-2 mb-md-0 flex-fill">
@@ -353,7 +353,7 @@
                 <div class="sidebar-detached sidebar-left">
                     <div class="sidebar">
                         <!-- Ecommerce Sidebar Starts -->
-                        <form id="filter-form2" action="${pageContext.request.contextPath}/seller/manageproduct" method="GET">
+                        <form id="filter-form2" action="${pageContext.request.contextPath}/seller/manageProduct" method="GET">
                             <input type="hidden" name="action" value="filter-products">
                             <input type="hidden" name="sort" id="sortHidden2">
                             <div class="sidebar-shop" id="ecommerce-sidebar-toggler">
@@ -390,7 +390,7 @@
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
                                                         </span>
-                                                        <span class="ml-50" value="">&lt;=$50</span>
+                                                        <span class="ml-50">&lt;=$50</span>
                                                     </span>
                                                 </li>
                                                 <li>
@@ -400,7 +400,7 @@
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
                                                         </span>
-                                                        <span class="ml-50" value="">$50 - $100</span>
+                                                        <span class="ml-50">$50 - $100</span>
                                                     </span>
                                                 </li>
                                                 <li>
@@ -410,7 +410,7 @@
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
                                                         </span>
-                                                        <span class="ml-50" value="">$100 - $300</span>
+                                                        <span class="ml-50">$100 - $300</span>
                                                     </span>
                                                 </li>
                                                 <li>
@@ -420,7 +420,7 @@
                                                             <span class="vs-radio--border"></span>
                                                             <span class="vs-radio--circle"></span>
                                                         </span>
-                                                        <span class="ml-50" value="">&gt;= $300</span>
+                                                        <span class="ml-50">&gt;= $300</span>
                                                     </span>
                                                 </li>
                                             </ul>
@@ -435,11 +435,10 @@
                                             <ul class="list-unstyled categories-list">
                                                 <c:forEach items="${listCate}" var="cate">
                                                     <li>
-                                                        <span class="vs-radio-con vs-radio-primary py-25">
-                                                            <input type="radio" name="category-filter" value="${cate.id}">
-                                                            <span class="vs-radio">
-                                                                <span class="vs-radio--border"></span>
-                                                                <span class="vs-radio--circle"></span>
+                                                        <span class="vs-checkbox-con vs-checkbox-primary py-25">
+                                                            <input type="checkbox" name="category-filter" value="${cate.id}">
+                                                            <span class="vs-checkbox">
+                                                                <span class="vs-checkbox--check"></span>
                                                             </span>
                                                             <span class="ml-50">${cate.category}</span>
                                                         </span>
@@ -458,11 +457,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${brandCounts}" var="bc">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="brand-filter" value="${bc.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="brand-filter" value="${bc.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${bc.brand}</span>
                                                             </span>
@@ -483,11 +481,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listC}" var="c">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="colors-filter" value="${c.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="colors-filter" value="${c.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${c.color}</span>
                                                             </span>
@@ -507,11 +504,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listS}" var="s">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="size-filter" value="${s.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="size-filter" value="${s.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${s.size}</span>
                                                             </span>
@@ -531,11 +527,10 @@
                                                 <ul class="list-unstyled">
                                                     <c:forEach items="${listG}" var="g">
                                                         <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-radio-con vs-radio-primary">
-                                                                <input type="radio" name="gender-filter" value="${g.id}">
-                                                                <span class="vs-radio">
-                                                                    <span class="vs-radio--border"></span>
-                                                                    <span class="vs-radio--circle"></span>
+                                                            <span class="vs-checkbox-con vs-checkbox-primary">
+                                                                <input type="checkbox" name="gender-filter" value="${g.id}">
+                                                                <span class="vs-checkbox">
+                                                                    <span class="vs-checkbox--check"></span>
                                                                 </span>
                                                                 <span class="">${g.gender}</span>
                                                             </span>

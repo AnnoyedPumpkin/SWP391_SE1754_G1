@@ -119,22 +119,23 @@ public class SellerManageProductController extends HttpServlet {
         }
         int totalProducts = 0;
         List<Product_Form> listPf = null;
-        String action = request.getParameter("action") == null ? "defaultFindAll" : request.getParameter("action");
+        String action = request.getParameter("action") == null ? "default" : request.getParameter("action");
         switch (action) {
             case "search-products":
                 sorted = request.getParameter("sort");
                 String keyword = request.getParameter("keyword");
                 totalProducts = sellerDao.findTotalProducts(keyword);
                 listPf = sellerDao.findPageByKeyword(page, sorted, keyword);
-                pagination.setUrlPattern("manageproduct?action=search-products" + "&" + "sort=" + sorted + "&" + "keyword=" + keyword + "&");
+                pagination.setUrlPattern("manageProduct?action=search-products" + "&" + "sort=" + sorted + "&" + "keyword=" + keyword + "&");
                 break;
             case "filter-products":
                 sorted = request.getParameter("sort");
-                String brandID = request.getParameter("brand-filter");
-                String cateID = request.getParameter("category-filter");
-                String colorID = request.getParameter("colors-filter");
-                String sizeID = request.getParameter("size-filter");
-                String genderID = request.getParameter("gender-filter");
+                String[] brandID = request.getParameterValues("brand-filter");
+                String[] cateID = request.getParameterValues("category-filter");
+                String[] colorID = request.getParameterValues("colors-filter");
+                String[] sizeID = request.getParameterValues("size-filter");
+                String[] genderID = request.getParameterValues("gender-filter");
+
                 String priceRange = request.getParameter("price-range");
                 String minPrice = "",
                  maxPrice = "";
@@ -143,14 +144,49 @@ public class SellerManageProductController extends HttpServlet {
                     minPrice = range[0];
                     maxPrice = range[1];
                 }
+                
                 totalProducts = sellerDao.findTotalProducts(brandID, cateID, priceRange, minPrice, maxPrice, colorID, sizeID, genderID);
                 listPf = sellerDao.findByPage(page, sorted, brandID, cateID, priceRange, minPrice, maxPrice, colorID, sizeID, genderID);
-                pagination.setUrlPattern("manageproduct?action=filter-products" + "&" + "sort=" + sorted + "&" + "price-range=" + priceRange + "&" + "category-filter=" + cateID + "&" + "brand-filter=" + brandID + "&" + "colors-filter" + colorID + "&" + "size-filter" + sizeID + "&" + "gender-filter" + genderID + "&");
+
+                StringBuilder url = new StringBuilder("manageProduct?action=filter-products");
+                if (sorted != null && !sorted.isEmpty()) {
+                    url.append("&sort=").append(sorted);
+                }
+                if (priceRange != null && !priceRange.isEmpty()) {
+                    url.append("&price-range=").append(priceRange);
+                }
+                if (cateID != null && cateID.length > 0) {
+                    for (String category : cateID) {
+                        url.append("&category-filter=").append(category);
+                    }
+                }
+                if (brandID != null && brandID.length > 0) {
+                    for (String brand : brandID) {
+                        url.append("&brand-filter=").append(brand);
+                    }
+                }
+                if (colorID != null && colorID.length > 0) {
+                    for (String color : colorID) {
+                        url.append("&colors-filter=").append(color);
+                    }
+                }
+                if (sizeID != null && sizeID.length > 0) {
+                    for (String size : sizeID) {
+                        url.append("&size-filter=").append(size);
+                    }
+                }
+                if (genderID != null && genderID.length > 0) {
+                    for (String gender : genderID) {
+                        url.append("&gender-filter=").append(gender);
+                    }
+                }
+                url.append("&");
+                pagination.setUrlPattern(url.toString());
                 break;
             default:
                 totalProducts = sellerDao.findTotalProducts();
                 listPf = sellerDao.findByPage(page);
-                pagination.setUrlPattern("manageproduct?");
+                pagination.setUrlPattern("manageProduct?");
         }
         int totalPage = (totalProducts % Constant.RECORD_PER_PAGE) == 0
                 ? (totalProducts / Constant.RECORD_PER_PAGE)
