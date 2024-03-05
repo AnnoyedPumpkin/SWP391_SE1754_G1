@@ -158,7 +158,7 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-shopping-bag"></i><span class="menu-title" data-i18n="Ecommerce">Product</span></a>
                         <ul class="menu-content">
-                            <li class="active"><a href="${pageContext.request.contextPath}/seller/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
+                            <li class="active"><a href="${pageContext.request.contextPath}/seller/manageInvoice"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/seller/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
                             </li>
@@ -168,7 +168,7 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-file"></i><span class="menu-title" data-i18n="Invoice">Invoice</span></a>
                         <ul class="menu-content">
-                            <li><a href="views/admin/invoiceList.jsp"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="${pageContext.request.contextPath}/seller/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>

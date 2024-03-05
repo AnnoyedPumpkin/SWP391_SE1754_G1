@@ -32,6 +32,10 @@
         <servlet-name>SellerManageProductController</servlet-name>
         <servlet-class>control.seller.SellerManageProductController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SellerManageInvoiceController</servlet-name>
+        <servlet-class>control.seller.SellerManageInvoiceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthentController</servlet-name>
         <url-pattern>/authen</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>SellerManageProductController</servlet-name>
         <url-pattern>/seller/manageProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerManageInvoiceController</servlet-name>
+        <url-pattern>/seller/manageInvoice</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

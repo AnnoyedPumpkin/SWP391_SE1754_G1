@@ -13,6 +13,8 @@ import entity.Category;
 import entity.Color;
 import entity.Gender;
 import entity.Image;
+import entity.Invoice;
+import entity.Invoice_Form;
 import entity.Product_Form;
 import entity.Size;
 import java.sql.Connection;
@@ -890,7 +892,7 @@ public class SellerDao extends DBContext {
             }
 
             sql.append("ORDER BY CASE WHEN ? = 'desc' THEN p.price END DESC, CASE WHEN ? = 'asc' THEN p.price END ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
-            
+
             preparedStatement = connection.prepareStatement(sql.toString());
             int parameterIndex = 1;
 
@@ -1002,5 +1004,160 @@ public class SellerDao extends DBContext {
             e.printStackTrace();
         }
         return productList;
+    }
+
+    public List<Invoice_Form> findTotalInvoice() {
+        List<Invoice_Form> listIf = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "Select i.ID, i.CartCode, i.Invoice_Date, ad.Username, a.Email, i.[address], i.Total_Price, ist.[Status] "
+                    + "from Invoice i left join Account a on i.Account_Id = a.ID "
+                    + "left join Account_Detail ad on a.ID = ad.Account_ID "
+                    + "left join Invoice_Status ist on i.[Status_Id] = ist.ID";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Invoice_Form invoiceForm = new Invoice_Form();
+                invoiceForm.setId(resultSet.getInt("ID"));
+                invoiceForm.setCartCode(resultSet.getInt("CartCode"));
+                invoiceForm.setInvoice_Date(resultSet.getDate("Invoice_Date"));
+                invoiceForm.setUsername(resultSet.getString("Username"));
+                invoiceForm.setEmail(resultSet.getString("Email"));
+                invoiceForm.setAddress(resultSet.getString("address"));
+                invoiceForm.setTotalPrice(resultSet.getDouble("Total_Price"));
+                invoiceForm.setStatus(resultSet.getString("Status"));
+                listIf.add(invoiceForm);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return listIf;
+    }
+
+    public int countTotalInvoice() {
+        int totalInvoice = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT Count (*) FROM [Invoice]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalInvoice = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalInvoice;
+    }
+
+    public List<Invoice_Form> getListInvoiceDetailByID(int invoiceID) {
+        List<Invoice_Form> listIf = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "Select i.ID, i.CartCode, p.Name, id.Quantity, id.TotalPrice, i.Invoice_Date, ad.Username, a.Email, i.[address], i.Total_Price \n"
+                    + "  from Invoice i join Account a on i.Account_Id = a.ID \n"
+                    + "  join Invoice_Detail id on i.ID = id.Invoice_Id\n"
+                    + "  join Product p on id.product_Id = p.id\n"
+                    + "  join Account_Detail ad on a.ID = ad.Account_ID \n"
+                    + "  Where i.ID = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,invoiceID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Invoice_Form invoiceForm = new Invoice_Form();
+                invoiceForm.setId(resultSet.getInt("ID"));
+                invoiceForm.setCartCode(resultSet.getInt("CartCode"));
+                invoiceForm.setInvoice_Date(resultSet.getDate("Invoice_Date"));
+                invoiceForm.setUsername(resultSet.getString("Username"));
+                invoiceForm.setEmail(resultSet.getString("Email"));
+                invoiceForm.setAddress(resultSet.getString("address"));
+                invoiceForm.setTotalPrice(resultSet.getDouble("Total_Price"));
+                invoiceForm.setProductName(resultSet.getString("Name"));
+                invoiceForm.setProductPrice(resultSet.getDouble("TotalPrice"));
+                invoiceForm.setProductQuantity(resultSet.getInt("Quantity"));
+                listIf.add(invoiceForm);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return listIf;
+    }
+    
+    public Invoice_Form getInvoiceDetailByID(int invoiceID) {
+        try {
+            connection = this.getConnection();
+            String sql = "Select i.ID, i.CartCode, p.Name, id.Quantity, id.TotalPrice, i.Invoice_Date, ad.Username, a.Email, i.[address], i.Total_Price, ad.Phone_Number \n"
+                    + "  from Invoice i join Account a on i.Account_Id = a.ID \n"
+                    + "  join Invoice_Detail id on i.ID = id.Invoice_Id\n"
+                    + "  join Product p on id.product_Id = p.id\n"
+                    + "  join Account_Detail ad on a.ID = ad.Account_ID \n"
+                    + "  Where i.ID = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,invoiceID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Invoice_Form invoiceForm = new Invoice_Form();
+                invoiceForm.setId(resultSet.getInt("ID"));
+                invoiceForm.setCartCode(resultSet.getInt("CartCode"));
+                invoiceForm.setInvoice_Date(resultSet.getDate("Invoice_Date"));
+                invoiceForm.setUsername(resultSet.getString("Username"));
+                invoiceForm.setEmail(resultSet.getString("Email"));
+                invoiceForm.setAddress(resultSet.getString("address"));
+                invoiceForm.setTotalPrice(resultSet.getDouble("Total_Price"));
+                invoiceForm.setProductName(resultSet.getString("Name"));
+                invoiceForm.setProductPrice(resultSet.getDouble("TotalPrice"));
+                invoiceForm.setProductQuantity(resultSet.getInt("Quantity"));
+                invoiceForm.setPhoneNumber(resultSet.getString("Phone_Number"));
+                return invoiceForm;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
     }
 }
