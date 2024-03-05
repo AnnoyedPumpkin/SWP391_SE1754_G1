@@ -432,7 +432,7 @@
                                                 </c:choose>
                                             </td>
                                             <td class="product-action">
-                                                <span class="action-edit"><a href="seller/manageInvoice?page=view-invoice-details&invoiceID=${If.id}"><i class="feather icon-eye"></i></a></span>
+                                                <span class="action-edit"><a href="manageInvoice?page=view-invoice-details&invoiceID=${If.id}"><i class="feather icon-eye"></i></a></span>
                                                 <span class="action-edit"><i class="feather icon-edit"></i></span>
                                                 <span class="action-delete"><i class="feather icon-trash"></i></span>
                                             </td>
