@@ -1031,7 +1031,7 @@
                                         <span class="input_title">Delivery address<sup>*</sup></span>
                                         <input type="text" name="deliveryAddress" value="${account_information.getAcc_det().getAddress()}">
                                     </div>
-                                        
+
                                     <!-- <div class="option_select">
                                             <span class="input_title">Address<sup>*</sup></span>
                                             <select name="address">
@@ -1111,66 +1111,67 @@
                                                 <input type="hidden" value="${p.p_Det.stock - p.c_Det.quantity}" name="remaining_stock">
                                                 <input type="hidden" name="product_id" value="${p.c_Det.product_id}">
                                                 <input type="hidden" name="cart_id" value="${p.id}">
-                                                    </tr>
-                                                </c:forEach>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <span class="subtotal_text">Subtotal</span>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${not empty requestScope.subtotal}">
-                                                            <span class="total_price">${requestScope.subtotal}VND</span>
-                                                        </c:if>
-                                                    </td>
                                                 </tr>
-                                                <tr>
+                                            </c:forEach>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <span class="subtotal_text">Subtotal</span>
+                                                </td>
+                                                <td>
+                                                    <c:if test="${not empty requestScope.subtotal}">
+                                                        <span class="total_price">${requestScope.subtotal}VND</span>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <span class="discount_text">Discount</span>
+                                                </td>
+                                                <td>
+                                                    <c:if test="${not empty requestScope.discount}">
+                                                        <span class="total_price">${requestScope.discount}%</span>
+                                                        <input name="discountPercent" type="hidden" value="${requestScope.discount}">
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span class="subtotal_text">TOTAL</span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <c:if test="${not empty requestScope.total}">
+                                                        <span class="total_price">${requestScope.total}VND</span>
+                                                        <input name="totalPrice" type="hidden" value="${requestScope.total}">
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td>
-                                                        <span class="discount_text">Discount</span>
+                                                            <span class="subtotal_text">Shipping</span>
                                                     </td>
-                                                    <td>
-                                                        <c:if test="${not empty requestScope.discount}">
-                                                            <span class="total_price">${requestScope.discount}%</span>
-                                                        </c:if>
-                                                    </td>
-                                                </tr>
-                                                <tr>
                                                     <td class="text-left">
-                                                        <span class="subtotal_text">TOTAL</span>
+                                                            <div class="checkbox_item mb_15">
+                                                                    <label for="shipping_checkbox"><input id="shipping_checkbox"
+                                                                                    type="checkbox" checked> Free Shipping</label>
+                                                            </div>
+                                                            <div class="checkbox_item mb_15">
+                                                                    <label for="flatrate_checkbox"><input id="flatrate_checkbox"
+                                                                                    type="checkbox"> Flat rate: $15.00</label>
+                                                            </div>
+                                                            <div class="checkbox_item">
+                                                                    <label for="localpickup_checkbox"><input id="localpickup_checkbox"
+                                                                                    type="checkbox"> Local Pickup: $8.00</label>
+                                                            </div>
                                                     </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <c:if test="${not empty requestScope.total}">
-                                                            <span class="total_price">${requestScope.total}VND</span>
-                                                            <input name="totalPrice" type="hidden" value="${requestScope.total}">
-                                                        </c:if>
-                                                    </td>
-                                                </tr>
-                                                <!-- <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                                <span class="subtotal_text">Shipping</span>
-                                                        </td>
-                                                        <td class="text-left">
-                                                                <div class="checkbox_item mb_15">
-                                                                        <label for="shipping_checkbox"><input id="shipping_checkbox"
-                                                                                        type="checkbox" checked> Free Shipping</label>
-                                                                </div>
-                                                                <div class="checkbox_item mb_15">
-                                                                        <label for="flatrate_checkbox"><input id="flatrate_checkbox"
-                                                                                        type="checkbox"> Flat rate: $15.00</label>
-                                                                </div>
-                                                                <div class="checkbox_item">
-                                                                        <label for="localpickup_checkbox"><input id="localpickup_checkbox"
-                                                                                        type="checkbox"> Local Pickup: $8.00</label>
-                                                                </div>
-                                                        </td>
-                                                </tr> -->
+                                            </tr> -->
 
 
                                             </tbody>
@@ -1418,13 +1419,13 @@
         <!-- custom - jquery include -->
         <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
         <script>
-        const deliveryAddressInput = document.getElementsByName('deliveryAddress')[0];
-        const hiddenDeliveryAddressInput = document.getElementById('hiddenDeliveryAddress');
+            const deliveryAddressInput = document.getElementsByName('deliveryAddress')[0];
+            const hiddenDeliveryAddressInput = document.getElementById('hiddenDeliveryAddress');
 
-        deliveryAddressInput.addEventListener('input', function () {
-            hiddenDeliveryAddressInput.value = this.value;
-        });
-    </script>
+            deliveryAddressInput.addEventListener('input', function () {
+                hiddenDeliveryAddressInput.value = this.value;
+            });
+        </script>
     </body>
 
 </html>

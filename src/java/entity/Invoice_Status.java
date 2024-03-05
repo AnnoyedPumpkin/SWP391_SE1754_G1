@@ -17,17 +17,8 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 
-public class Invoice {
+public class Invoice_Status {
     private int id;
-    private int account_id;
-    private Date invoice_Date;
-    private double total_price;
-    private int status_Id;
-    private String cartCode;
-    private String address;
-    
-    private Invoice_Detail in_de;
-    private Invoice_Status in_st;
-    private Product pro;
+    private String status;
     
 }

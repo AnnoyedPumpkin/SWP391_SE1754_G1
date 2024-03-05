@@ -14,6 +14,9 @@ import entity.Color;
 import entity.Discount;
 import entity.Gender;
 import entity.Image;
+import entity.Invoice;
+import entity.Invoice_Detail;
+import entity.Invoice_Status;
 import entity.Product;
 import entity.Product_Detail;
 import entity.Size;
@@ -475,6 +478,59 @@ public class CommonDao extends DBContext {
     }
 
     /**
+     *
+     * @param invoiceId
+     * @return
+     */
+    public List<Invoice> getInvoiceListById(int invoiceId) {
+        List<Invoice> IList = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String query = "SELECT i.Id AS Invoice_Id, i.Account_Id, i.Invoice_Date, i.Total_Price AS Total_Price_Per_Product, i.CartCode, i.[Address],\n"
+                    + "id.Product_Id, id.Quantity, id.TotalPrice, id.Id AS Invoice_Detail_Id,\n"
+                    + "ist.[Status],\n"
+                    + "p.[Name] AS Product_Name, p.Price AS Product_Price\n"
+                    + "FROM Invoice i JOIN Invoice_Detail id ON i.Id = id.Invoice_Id\n"
+                    + "JOIN Invoice_Status ist ON i.Status_Id = ist.Id\n"
+                    + "JOIN Product p ON id.Product_Id = p.Id\n"
+                    + "WHERE i.Id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, invoiceId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product product = Product.builder()
+                        .name(resultSet.getString("Product_Name"))
+                        .price(resultSet.getDouble("Product_Price"))
+                        .build();
+                Invoice_Status invoiceStatus = Invoice_Status.builder()
+                        .status(resultSet.getString("Status"))
+                        .build();
+                Invoice_Detail invoiceDetail = Invoice_Detail.builder()
+                        .product_Id(resultSet.getInt("Product_Id"))
+                        .quantity(resultSet.getInt("Quantity"))
+                        .total_price(resultSet.getDouble("TotalPrice"))
+                        .id(resultSet.getInt("Invoice_Detail_Id"))
+                        .build();
+                Invoice invoice = Invoice.builder()
+                        .id(resultSet.getInt("Invoice_Id"))
+                        .account_id(resultSet.getInt("Account_Id"))
+                        .invoice_Date(resultSet.getDate("Invoice_Date"))
+                        .total_price(resultSet.getDouble("Total_Price_Per_Product"))
+                        .cartCode(resultSet.getString("CartCode"))
+                        .address(resultSet.getString("Address"))
+                        .in_de(invoiceDetail)
+                        .in_st(invoiceStatus)
+                        .pro(product)
+                        .build();
+                IList.add(invoice);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return IList;
+    }
+
+    /**
      * Methods description: Updates the quantity of a product in the cart detail based on the product ID.
      *
      * @param quantity - The new quantity of the product.
@@ -519,10 +575,11 @@ public class CommonDao extends DBContext {
      * @param totalPrice
      * @param cartCode
      * @param address
+     * @param discountPercent
      */
-    public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address) {
-        String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Status_Id ) \n"
-                + "  VALUES (?,?,?,?,?,1)";
+    public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address, double discountPercent) {
+        String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Discount_percent, Status_Id) \n"
+                + "  VALUES (?,?,?,?,?,?,1)";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
@@ -531,6 +588,7 @@ public class CommonDao extends DBContext {
             preparedStatement.setDouble(3, totalPrice);
             preparedStatement.setString(4, cartCode);
             preparedStatement.setString(5, address);
+            preparedStatement.setDouble(6, discountPercent);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -583,6 +641,10 @@ public class CommonDao extends DBContext {
         }
     }
 
+    /**
+     *
+     * @param cartId
+     */
     public void deleteCartDetailByCartId(int cartId) {
         try {
             String query = "DELETE FROM Cart_Detail WHERE Cart_Id = ?";
@@ -595,6 +657,10 @@ public class CommonDao extends DBContext {
         }
     }
 
+    /**
+     *
+     * @param Id
+     */
     public void deleteCartById(int Id) {
         try {
             String query = "DELETE FROM Cart WHERE Id = ?";
@@ -624,6 +690,7 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
     }
+
 }
 
 class main {
@@ -631,27 +698,49 @@ class main {
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
         List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
+        int Count = 0;
+        Count = shoppingCartDetails.size();
+        System.out.println(Count);
+//
+//        // Iterate through the list and print each element
+//        for (Cart cart : shoppingCartDetails) {
+//            System.out.println("Cart ID: " + cart.getId());
+//            System.out.println("Address: " + cart.getAddress());
+//            System.out.println("Account ID: " + cart.getAccount_id());
+//            System.out.println("Cart Detail ID: " + cart.getC_Det().getId());
+//            System.out.println("Product ID: " + cart.getC_Det().getProduct_id());
+//            System.out.println("Quantity: " + cart.getC_Det().getQuantity());
+//            System.out.println("Product Name: " + cart.getP().getName());
+//            System.out.println("Price: " + cart.getP().getPrice());
+//            System.out.println("Product Detail ID: " + cart.getP_Det().getId());
+//            System.out.println("Stock: " + cart.getP_Det().getStock());
+//            System.out.println("Color: " + cart.getC().getColor());
+//            System.out.println("Size: " + cart.getS().getSize());
+//            System.out.println("Category: " + cart.getCate().getCategory());
+//            System.out.println("Gender: " + cart.getGen().getGender());
+//            System.out.println("Image Path: " + cart.getIma().getImage());
+//            System.out.println("Discount ID: " + cart.getDis().getId());
+//            System.out.println("Discount Percent: " + cart.getDis().getDiscount_percent());
+//            System.out.println("-------------------------------------------------------------");
+//        }
+//        List<Invoice> iv = c.getInvoiceListById(10);
+//        for (Invoice invoice : iv) {
+//            System.out.println("Invoice id: " + invoice.getId());
+//            System.out.println("Account id: " + invoice.getAccount_id());
+//            System.out.println("Invoice date: " + invoice.getInvoice_Date());
+//            System.out.println("Total price: " + invoice.getTotal_price());
+//            System.out.println("Address: " + invoice.getAddress());
+//            System.out.println("Cart code: " + invoice.getCartCode());
+//            System.out.println("Invoice detail id: " + invoice.getIn_de().getId());
+//            System.out.println("Product id: " + invoice.getIn_de().getProduct_Id());
+//            System.out.println("Quantity: " + invoice.getIn_de().getQuantity());
+//            System.out.println("Total price: " + invoice.getIn_de().getTotal_price());
+//            System.out.println("Status: " + invoice.getIn_st().getStatus());
+//            System.out.println("Product name: " + invoice.getPro().getName());
+//            System.out.println("Unit price: " + invoice.getPro().getPrice());
+//
+//            System.out.println("-------------------------------------------------------------");
+//        }
 
-        // Iterate through the list and print each element
-        for (Cart cart : shoppingCartDetails) {
-            System.out.println("Cart ID: " + cart.getId());
-            System.out.println("Address: " + cart.getAddress());
-            System.out.println("Account ID: " + cart.getAccount_id());
-            System.out.println("Cart Detail ID: " + cart.getC_Det().getId());
-            System.out.println("Product ID: " + cart.getC_Det().getProduct_id());
-            System.out.println("Quantity: " + cart.getC_Det().getQuantity());
-            System.out.println("Product Name: " + cart.getP().getName());
-            System.out.println("Price: " + cart.getP().getPrice());
-            System.out.println("Product Detail ID: " + cart.getP_Det().getId());
-            System.out.println("Stock: " + cart.getP_Det().getStock());
-            System.out.println("Color: " + cart.getC().getColor());
-            System.out.println("Size: " + cart.getS().getSize());
-            System.out.println("Category: " + cart.getCate().getCategory());
-            System.out.println("Gender: " + cart.getGen().getGender());
-            System.out.println("Image Path: " + cart.getIma().getImage());
-            System.out.println("Discount ID: " + cart.getDis().getId());
-            System.out.println("Discount Percent: " + cart.getDis().getDiscount_percent());
-            System.out.println("-------------------------------------------------------------");
-        }
     }
 }

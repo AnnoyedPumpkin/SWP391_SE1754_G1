@@ -880,7 +880,9 @@
                     <div class="order_complete_alart text-center">
                         <h2>Congratulation! You’ve <strong>Completed</strong> Payment.</h2><br>
                     </div>
-                    <button class="btn-block custom_btn bg_default_red text-uppercase mb_50"><a style="color: white;" href="/home">Back to Home Page</a></button>
+                    <form action="Checkout?action=invoicehtml" method="post">
+                        <button type="submit" class="btn-block custom_btn bg_default_red text-uppercase mb_50"><a style="color: white;" >Back to Home Page</a></button> <!--href="/home"-->
+                    </form>
                 </div>
             </section>
             <!-- checkout_section - end
