@@ -15,6 +15,7 @@ import entity.Gender;
 import entity.Image;
 import entity.Invoice;
 import entity.Invoice_Form;
+import entity.Invoice_Status;
 import entity.Product_Form;
 import entity.Size;
 import java.sql.Connection;
@@ -1159,5 +1160,82 @@ public class SellerDao extends DBContext {
             }
         }
         return null;
+    }
+    
+    public List<Invoice_Status> getAllInvoiceStatus(){
+        List<Invoice_Status> listIs = new ArrayList();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM [Invoice_Status]";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Invoice_Status is = new Invoice_Status();
+                listIs.add(is);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return listIs;
+        
+    }
+    
+     public boolean findInvoiceDetailExist(int invoiceID) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM [Invoice_Detail] where invoice_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, invoiceID);
+
+            resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public void deleteInvoiceDetailByInvoiceID(int invoiceID){
+        try {
+            connection = this.getConnection();
+
+            String sql = "Delete from [Invoice_Detail] where Invoice_Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, invoiceID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteInvoiceByID(int invoiceID){
+        try {
+            connection = this.getConnection();
+
+            String sql = "Delete from Invoice where Id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, invoiceID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

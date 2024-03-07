@@ -10,6 +10,7 @@ import entity.Account;
 import entity.Account_Detail;
 import entity.Invoice;
 import entity.Invoice_Form;
+import entity.Invoice_Status;
 import entity.Pagination;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,6 +48,16 @@ public class SellerManageInvoiceController extends HttpServlet {
                 request.setAttribute("listIfd", listIfd);
                 request.getRequestDispatcher("/views/admin/page_Invoice.jsp").forward(request, response);
                 break;
+            case "updateInvoice":
+//                invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+//                listIfd = sellerDao.getListInvoiceDetailByID(invoiceID);
+//                invoiceForm = sellerDao.getInvoiceDetailByID(invoiceID);
+//                List<Invoice_Status> listIs = sellerDao.getAllInvoiceStatus();
+//                request.setAttribute("invoiceForm", invoiceForm);
+//                request.setAttribute("listIfd", listIfd);
+//                request.setAttribute("listIs", listIs);
+//                request.getRequestDispatcher("/views/admin/invoiceList.jsp").forward(request, response);
+                break;
             default:
                 session.setAttribute("listIf", listIf);
                 request.setAttribute("pagination", pagination);
@@ -65,7 +76,18 @@ public class SellerManageInvoiceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        sellerDao = new SellerDao();
+        String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+        String url = "";
+        switch (action) {
+            case "deleteInvoice":
+                deleteInvoice(request, response);
+                url = "/views/admin/invoiceList.jsp";
+                break;
+            default:
+                throw new AssertionError();
+        }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     private List<Invoice_Form> pagination(HttpServletRequest request, Pagination pagination) {
@@ -95,6 +117,20 @@ public class SellerManageInvoiceController extends HttpServlet {
         pagination.setTotalPage(totalPage);
         pagination.setTotalRecord(totalInvoice);
         return listIf;
+    }
+
+    private void deleteInvoice(HttpServletRequest request, HttpServletResponse response) {
+        int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+        //Xoa invoice detail truoc
+        sellerDao.deleteInvoiceDetailByInvoiceID(invoiceID);
+        //Kiem tra xem invoice Detail con ton tai hay ko
+        if (sellerDao.findInvoiceDetailExist(invoiceID)) {
+            request.setAttribute("errdp", "Delete invoice error !!");
+        } //Xoa Invoice theo ID
+        else {
+            sellerDao.deleteInvoiceByID(invoiceID);
+            request.setAttribute("msgdp", "Delete invoice successfully !!");
+        }
     }
 
     @Override

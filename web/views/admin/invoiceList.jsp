@@ -22,7 +22,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/app-assets/images/ico/favicon.ico">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
-        
+
         <!-- BEGIN: Vendor CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/tables/datatable/datatables.min.css">
@@ -387,6 +387,8 @@
                     <section id="data-list-view" class="data-list-view-header">
                         <!-- DataTable starts -->
                         <div class="table-responsive">
+                            <div style="color: red">${errdp}</div>
+                            <div style="color: green">${msgdp}</div>
                             <table class="table" id = "invoiceTable">
                                 <thead>
                                     <tr>
@@ -415,8 +417,22 @@
                                             <td class="product-price">$${If.totalPrice}</td>
                                             <td>
                                                 <c:choose>
-                                                    <c:when test="${If.status == 'Pending'}">
+                                                    <c:when test="${If.status == 'Cancel'}">
                                                         <div class="chip chip-warning">
+                                                            <div class="chip-body">
+                                                                <div class="chip-text">${If.status}</div>
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:when test="${If.status == 'Delivering'}">
+                                                        <div class="chip chip-light">
+                                                            <div class="chip-body">
+                                                                <div class="chip-text">${If.status}</div>
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:when test="${If.status == 'Peding'}">
+                                                        <div class="chip chip-text">
                                                             <div class="chip-body">
                                                                 <div class="chip-text">${If.status}</div>
                                                             </div>
@@ -433,8 +449,8 @@
                                             </td>
                                             <td class="product-action">
                                                 <span class="action-edit"><a href="manageInvoice?page=view-invoice-details&invoiceID=${If.id}"><i class="feather icon-eye"></i></a></span>
-                                                <span class="action-edit"><i class="feather icon-edit"></i></span>
-                                                <span class="action-delete"><i class="feather icon-trash"></i></span>
+                                                <span class="action-edit"><a href="" onclick="updateInvoiceDetail('${lf.id}','${If.cartCode}','${If.invoice_Date}','${If.username}','${If.email}','${If.address}')"><i class="feather icon-edit"></i></a></span>
+                                                <span class="action-delete"><a href="manageInvoice?action=deleteInvoice?invoiceID=${If.id}"><i class="feather icon-trash"></i></a></span>
                                             </td>
                                         </tr> 
                                     </c:forEach>
@@ -442,6 +458,67 @@
                             </table>
                         </div>
                         <!-- DataTable ends -->
+                        <!-- add new sidebar starts -->
+                        <div class="add-new-data-sidebar">
+                            <div class="overlay-bg"></div>
+                            <div class="add-new-data">
+                                <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                                    <div>
+                                        <h4 class="text-uppercase">List View Data</h4>
+                                    </div>
+                                    <div class="hide-data-sidebar">
+                                        <i class="feather icon-x"></i>
+                                    </div>
+                                </div>
+                                <div class="data-items pb-3">
+                                    <div class="data-fields px-2 mt-3">
+                                        <div class="row">
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">ID</label>
+                                                <input type="text" class="form-control">${invoiceForm.id}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">Username</label>
+                                                <input type="text" class="form-control">${invoiceForm.username}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">Invoice Date</label>
+                                                <input type="text" class="form-control">${invoiceForm.invoice_Date}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">Address</label>
+                                                <input type="text" class="form-control">${invoiceForm.address}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">Email</label>
+                                                <input type="text" class="form-control">${invoiceForm.email}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-name">Phone Number</label>
+                                                <input type="text" class="form-control">${invoiceForm.phoneNumber}
+                                            </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label for="data-status">Invoice Status</label>
+                                                <select class="form-control" id="data-status">
+                                                    <c:forEach items="${listIs}" var="Is">
+                                                        <option value="${Is.id}">${Is.status}</option>                                                  
+                                                    </c:forEach>
+                                                </select>
+                                            </div>                                     
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
+                                    <div class="add-data-btn">
+                                        <button class="btn btn-primary">Edit Data</button>
+                                    </div>
+                                    <div class="cancel-data-btn">
+                                        <button class="btn btn-outline-danger">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add new sidebar ends -->
                     </section>
                     <!-- Data list view end -->
 
@@ -488,9 +565,9 @@
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
         <script>
-                new DataTable('#invoiceTable', {
-                    pagingType: 'full_numbers'
-                });
+            new DataTable('#invoiceTable', {
+                pagingType: 'full_numbers'
+            });
         </script>
     </body>
     <!-- END: Body-->

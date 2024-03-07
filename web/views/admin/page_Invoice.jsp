@@ -482,11 +482,11 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>SUBTOTAL</th>
-                                                        <td>114000 USD</td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <th>DISCOUNT (5%)</th>
-                                                        <td>5700 USD</td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <th>TOTAL</th>
@@ -508,7 +508,6 @@
                                 </p>
                             </div>
                             <!--/ Invoice Footer -->
-
                         </div>
                     </section>
                     <!-- invoice page end -->
