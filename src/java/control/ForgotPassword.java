@@ -64,9 +64,6 @@ public class ForgotPassword extends HttpServlet {
         String otpInput = digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
         String otpCheck = commonDao.getOTPByEmail(email);
 
-//        String serverName = request.getServerName();
-//        int serverPort = request.getServerPort();
-//        String localhostAddress = "http://" + serverName + ":" + serverPort;
         if (otpCheck != null && otpInput.equals(otpCheck)) {
             String newPassword = commonDao.generateRandomPassword();
             commonDao.updatePasswordById(newPassword, accountID);
@@ -84,9 +81,7 @@ public class ForgotPassword extends HttpServlet {
     }
 
     private void sendCode(HttpServletRequest request, HttpServletResponse response, String email) throws ServletException, IOException {
-//        String serverName = request.getServerName();
-//        int serverPort = request.getServerPort();
-        //String localhostAddress = "http://" + serverName + ":" + serverPort;
+
         String otp = commonDao.generateRandomOTP();
         commonDao.addOTPForAccountByEmail(otp, email);
         String MsgSend = htmlTemplate(otp);
@@ -94,6 +89,9 @@ public class ForgotPassword extends HttpServlet {
     }
 
     private String htmlTemplate(String MSG) {
+//        String serverName = request.getServerName();
+//        int serverPort = request.getServerPort();
+//        String localhostAddress = "http://" + serverName + ":" + serverPort;
         String htmlContect = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
                 + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n"
                 + "\n"

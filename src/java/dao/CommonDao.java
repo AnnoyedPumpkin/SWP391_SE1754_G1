@@ -33,6 +33,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 /**
  *
  * @author admin
@@ -160,6 +162,20 @@ public class CommonDao extends DBContext {
             System.out.println(e);
         }
         return -1;
+    }
+    public String getEmailByAccountId(int accId) {
+        try {
+            String query = "SELECT Email FROM Account WHERE id=?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, accId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("Email");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     /**
@@ -486,13 +502,13 @@ public class CommonDao extends DBContext {
         List<Invoice> IList = new ArrayList<>();
         try {
             connection = this.getConnection();
-            String query = "SELECT i.Id AS Invoice_Id, i.Account_Id, i.Invoice_Date, i.Total_Price AS Total_Price_Per_Product, i.CartCode, i.[Address],\n"
-                    + "id.Product_Id, id.Quantity, id.TotalPrice, id.Id AS Invoice_Detail_Id,\n"
+            String query = "SELECT i.Id AS Invoice_Id, i.Account_Id, i.Invoice_Date, i.Total_Price , i.CartCode, i.[Address], i.Discount_percent,\n"
+                    + "id.Product_Id, id.Quantity, id.TotalPrice AS Total_Price_Per_Product, id.Id AS Invoice_Detail_Id,\n"
                     + "ist.[Status],\n"
                     + "p.[Name] AS Product_Name, p.Price AS Product_Price\n"
                     + "FROM Invoice i JOIN Invoice_Detail id ON i.Id = id.Invoice_Id\n"
-                    + "JOIN Invoice_Status ist ON i.Status_Id = ist.Id\n"
-                    + "JOIN Product p ON id.Product_Id = p.Id\n"
+                    + "               JOIN Invoice_Status ist ON i.Status_Id = ist.Id\n"
+                    + "               JOIN Product p ON id.Product_Id = p.Id\n"
                     + "WHERE i.Id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, invoiceId);
@@ -508,16 +524,17 @@ public class CommonDao extends DBContext {
                 Invoice_Detail invoiceDetail = Invoice_Detail.builder()
                         .product_Id(resultSet.getInt("Product_Id"))
                         .quantity(resultSet.getInt("Quantity"))
-                        .total_price(resultSet.getDouble("TotalPrice"))
+                        .total_price(resultSet.getDouble("Total_Price_Per_Product"))
                         .id(resultSet.getInt("Invoice_Detail_Id"))
                         .build();
                 Invoice invoice = Invoice.builder()
                         .id(resultSet.getInt("Invoice_Id"))
                         .account_id(resultSet.getInt("Account_Id"))
                         .invoice_Date(resultSet.getDate("Invoice_Date"))
-                        .total_price(resultSet.getDouble("Total_Price_Per_Product"))
+                        .total_price(resultSet.getDouble("Total_Price"))
                         .cartCode(resultSet.getString("CartCode"))
                         .address(resultSet.getString("Address"))
+                        .discount_percent(resultSet.getDouble("Discount_percent"))
                         .in_de(invoiceDetail)
                         .in_st(invoiceStatus)
                         .pro(product)
@@ -697,10 +714,13 @@ class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-        List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
-        int Count = 0;
-        Count = shoppingCartDetails.size();
-        System.out.println(Count);
+        String htmlContent = "";
+                try {
+                    htmlContent = new String(Files.readAllBytes(Paths.get("web/views/common/invoicemailsender.jsp")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println(htmlContent);
 //
 //        // Iterate through the list and print each element
 //        for (Cart cart : shoppingCartDetails) {

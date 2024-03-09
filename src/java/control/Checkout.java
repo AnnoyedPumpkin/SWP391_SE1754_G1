@@ -5,12 +5,11 @@
 package control;
 
 import EmailSender.EmailSender;
-import constant.Constant;
 import dao.CommonDao;
 import entity.Account;
 import entity.Cart;
 import entity.Discount;
-import entity.Product;
+import entity.Invoice;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,9 +17,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 /**
  *
  * @author FPT-LAPTOP
@@ -65,13 +64,19 @@ public class Checkout extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         int accountId = (Integer) session.getAttribute("acc_id");
+        String email = commonDao.getEmailByAccountId(accountId);
         switch (action) {
             case "invoicehtml":
-                int invoiceId = commonDao.getInvoiceIdByCartCode("");
-                request.getRequestDispatcher("views/common/invoicemailsender.jsp").forward(request, response);
+                int invoiceIdd = (Integer) session.getAttribute("invoiceId");
+                List<Invoice> in = commonDao.getInvoiceListById(invoiceIdd);
+                session.setAttribute("invoice_list_detail", in);
+                String htmlContent = invoiceHTML(in);
+                //emailSender.sendMsgEmail(email, htmlContent, "Your Invoice");
+                session.setAttribute("hhh", htmlContent);
+                //request.getRequestDispatcher("views/common/invoicemailsender.jsp").forward(request, response);
                 break;
             case "placeOrder":
-//                //Update stock in product detail by product id.
+                //Update stock in product detail by product id.
 //                String[] remainingStockStrings = request.getParameterValues("remaining_stock");
 //                String[] productIdStrings = request.getParameterValues("product_id");
 //                int[] remainingStock = new int[remainingStockStrings.length];
@@ -91,7 +96,7 @@ public class Checkout extends HttpServlet {
 //                Double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
 //                String address = request.getParameter("hiddenDeliveryAddress");
 //                String cartCode = commonDao.generateRandomCartCode();
-//                int discountPercent = Double.parseDouble(request.getParameter("discountPercent"));
+//                double discountPercent = Double.parseDouble(request.getParameter("discountPercent"));
 //                commonDao.addCartCodeForCartByAccountId(cartCode, accountId);
 //                commonDao.addInvoice(accountId, invoiceDate, totalPrice, cartCode, address, discountPercent);
 //                int invoiceId = commonDao.getInvoiceIdByCartCode(cartCode);
@@ -116,13 +121,14 @@ public class Checkout extends HttpServlet {
 //                }
 //                //Delete Cart and CartDetail.
 //                int cartId = Integer.parseInt(request.getParameter("cart_id"));
-////                commonDao.deleteCartDetailByCartId(cartId);
-////                commonDao.deleteCartById(cartId);
+//                commonDao.deleteCartDetailByCartId(cartId);
+//                commonDao.deleteCartById(cartId);
+                //session.setAttribute("invoiceId", invoiceId);
                 request.getRequestDispatcher("views/common/checkoutstep3.jsp").forward(request, response);
                 break;
             case "deleteProduct":
                 int p_id = Integer.parseInt(request.getParameter("p_id"));
-                //commonDao.deleteProductInCartDetailByProductId(p_id);
+                commonDao.deleteProductInCartDetailByProductId(p_id);
                 List<Cart> up = commonDao.getShoppingCartDetailsByAccountId(accountId);
                 session.setAttribute("shopping_cart_details", up);
                 request.getRequestDispatcher("views/common/checkoutstep1.jsp").forward(request, response);
@@ -156,13 +162,36 @@ public class Checkout extends HttpServlet {
         }
     }
 
-    private String invoiceHTML() {
+    private String invoiceHTML(List<Invoice> invoice) {
         String htmlContent = "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
+                + "<html>\n"
                 + "    <head>\n"
-                + "        <meta charset=\"utf-8\" />\n"
-                + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
+                + "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n"
+                + "        <title>JSP Page</title>\n"
+                + "        <!-- fraimwork - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/bootstrap.min.css\">\n"
                 + "\n"
+                + "        <!-- icon - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/fontawesome.css\">\n"
+                + "\n"
+                + "        <!-- animation - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/animate.css\">\n"
+                + "\n"
+                + "        <!-- nice select - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/nice-select.css\">\n"
+                + "\n"
+                + "        <!-- carousel - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/slick.css\">\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/slick-theme.css\">\n"
+                + "\n"
+                + "        <!-- popup images & videos - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/magnific-popup.css\">\n"
+                + "\n"
+                + "        <!-- jquery ui - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/jquery-ui.css\">\n"
+                + "\n"
+                + "        <!-- custom - css include -->\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"${pageContext.request.contextPath}/assets/css/style.css\">\n"
                 + "        <style>\n"
                 + "            body {\n"
                 + "                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n"
@@ -235,23 +264,41 @@ public class Checkout extends HttpServlet {
                 + "                background: #eee;\n"
                 + "                border-bottom: 1px solid #ddd;\n"
                 + "                font-weight: bold;\n"
+                + "                text-align: right;\n"
+                + "            }\n"
+                + "            .invoice-box table tr.heading td:first-child {\n"
+                + "                background: #eee;\n"
+                + "                border-bottom: 1px solid #ddd;\n"
+                + "                font-weight: bold;\n"
+                + "                text-align: left;\n"
                 + "            }\n"
                 + "\n"
+                + "            .invoice-box table tr.heading td:nth-child(2) {\n"
+                + "                padding-right: 120px;\n"
+                + "            }\n"
                 + "            .invoice-box table tr.details td {\n"
                 + "                padding-bottom: 20px;\n"
                 + "            }\n"
                 + "\n"
                 + "            .invoice-box table tr.item td {\n"
                 + "                border-bottom: 1px solid #eee;\n"
+                + "                text-align: right;\n"
                 + "            }\n"
-                + "\n"
+                + "            .invoice-box table tr.item td:first-child {\n"
+                + "                border-bottom: 1px solid #eee;\n"
+                + "                text-align: left;\n"
+                + "            }\n"
+                + "            .invoice-box table tr.item td:nth-child(2) {\n"
+                + "                text-align: center;\n"
+                + "            }\n"
                 + "            .invoice-box table tr.item.last td {\n"
                 + "                border-bottom: none;\n"
                 + "            }\n"
                 + "\n"
-                + "            .invoice-box table tr.total td:nth-child(2) {\n"
+                + "            .invoice-box table tr.total td:nth-child(3) {\n"
                 + "                border-top: 2px solid #eee;\n"
                 + "                font-weight: bold;\n"
+                + "                text-align: right;\n"
                 + "            }\n"
                 + "\n"
                 + "            @media only screen and (max-width: 600px) {\n"
@@ -269,93 +316,88 @@ public class Checkout extends HttpServlet {
                 + "            }\n"
                 + "        </style>\n"
                 + "    </head>\n"
-                + "\n"
                 + "    <body>\n"
                 + "        <div class=\"invoice-box\">\n"
                 + "            <table>\n"
                 + "                <tr class=\"top\">\n"
-                + "                    <td colspan=\"2\">\n"
+                + "                    <td colspan=\"3\">\n"
                 + "                        <table>\n"
                 + "                            <tr>\n"
                 + "                                <td class=\"title\">\n"
-                + "                                    <img src=\"test.jpg\" alt=\"Company logo\" style=\"width: 100%; max-width: 100px\" />\n"
+                + "                                    <img src=\"${pageContext.request.contextPath}\\assets\\images\\Hieuimagetest\\test.jpg\" alt=\"Company logo\" style=\"width: 100%; max-width: 100px\" />\n"
                 + "                                </td>\n"
                 + "\n"
                 + "                                <td>\n"
-                + "                                    Invoice #: 123<br />\n"
-                + "                                    Created: January 1, 2023<br />\n"
-                + "                                    Due: February 1, 2023\n"
-                + "                                </td>\n"
-                + "                            </tr>\n"
-                + "                        </table>\n"
-                + "                    </td>\n"
-                + "                </tr>\n"
+                + "                                    <c:if test=\"${not empty sessionScope.invoice_list_detail}\">\n"
+                + "                                        <c:set var=\"firstInvoice\" value=\"${sessionScope.invoice_list_detail[0]}\" />\n"
+                + "                                        Invoice #: ${firstInvoice.cartCode}\n"
+                + "                                        <br />\n"
+                + "                                        Created at: <script>const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];\n"
+                + "                                            const monthIndex = new Date().getMonth();\n"
+                + "                                            const monthString = months[monthIndex];\n"
+                + "                                            document.write(new Date().getHours() + \":\" + new Date().getMinutes() + \", \" + new Date().getDate() + \"/\" + monthString + \"/\" + new Date().getFullYear());</script><br />\n"
+                + "                                    </td>\n"
+                + "                                </tr>\n"
+                + "                            </table>\n"
+                + "                        </td>\n"
+                + "                    </tr>\n"
                 + "\n"
-                + "                <tr class=\"information\">\n"
-                + "                    <td colspan=\"2\">\n"
-                + "                        <table>\n"
-                + "                            <tr>\n"
-                + "                                <td>\n"
-                + "                                    Sparksuite, Inc.<br />\n"
-                + "                                    12345 Sunny Road<br />\n"
-                + "                                    Sunnyville, TX 12345\n"
-                + "                                </td>\n"
+                + "                    <tr class=\"information\">\n"
+                + "                        <td colspan=\"3\">\n"
+                + "                            <table>\n"
+                + "                                <tr>\n"
+                + "                                    <c:if test=\"${not empty account_information}\">\n"
+                + "                                        <td>\n"
+                + "                                            Recipient: ${account_information.getAcc_det().getUsername()}<br />\n"
+                + "                                            Delivery address: ${firstInvoice.address}<br />\n"
+                + "                                            Contact number: ${account_information.getAcc_det().getPhone_number()}\n"
+                + "                                        </td>\n"
+                + "                                        <td>\n"
+                + "                                            Sender: Brava Shop<br />\n"
+                + "                                            Branch: Group 1, Ha Noi\n"
+                + "                                        </td>\n"
                 + "\n"
-                + "                                <td>\n"
-                + "                                    Acme Corp.<br />\n"
-                + "                                    John Doe<br />\n"
-                + "                                    john@example.com\n"
-                + "                                </td>\n"
-                + "                            </tr>\n"
-                + "                        </table>\n"
-                + "                    </td>\n"
-                + "                </tr>\n"
+                + "                                    </c:if>\n"
+                + "                                </tr>\n"
+                + "                            </table>\n"
+                + "                        </td>\n"
+                + "                    </tr>\n"
                 + "\n"
-                + "                <tr class=\"heading\">\n"
-                + "                    <td>Payment Method</td>\n"
+                + "                    <tr class=\"heading\">\n"
+                + "                        <td>Item</td>\n"
+                + "                        <td>Unit Price x (Quantity)</td>\n"
+                + "                        <td>Price</td>\n"
+                + "                    </tr>\n"
+                + "                    <c:forEach items=\"${invoice_list_detail}\" var=\"in\">\n"
+                + "                        <tr class=\"item\">\n"
+                + "                            <td>${in.pro.name}</td>\n"
+                + "                            <td>${in.pro.price}VND x(${in.in_de.quantity})</td>\n"
+                + "                            <td>${in.in_de.total_price}VND</td>\n"
+                + "                        </tr>\n"
                 + "\n"
-                + "                    <td>Check #</td>\n"
-                + "                </tr>\n"
+                + "                    </c:forEach>\n"
                 + "\n"
-                + "                <tr class=\"details\">\n"
-                + "                    <td>Check</td>\n"
-                + "\n"
-                + "                    <td>1000</td>\n"
-                + "                </tr>\n"
-                + "\n"
-                + "                <tr class=\"heading\">\n"
-                + "                    <td>Item</td>\n"
-                + "\n"
-                + "                    <td>Price</td>\n"
-                + "                </tr>\n"
-                + "\n"
-                + "                <tr class=\"item\">\n"
-                + "                    <td>Website design</td>\n"
-                + "\n"
-                + "                    <td>$300.00</td>\n"
-                + "                </tr>\n"
-                + "\n"
-                + "                <tr class=\"item\">\n"
-                + "                    <td>Hosting (3 months)</td>\n"
-                + "\n"
-                + "                    <td>$75.00</td>\n"
-                + "                </tr>\n"
-                + "\n"
-                + "                <tr class=\"item last\">\n"
-                + "                    <td>Domain name (1 year)</td>\n"
-                + "\n"
-                + "                    <td>$10.00</td>\n"
-                + "                </tr>\n"
-                + "\n"
-                + "                <tr class=\"total\">\n"
-                + "                    <td></td>\n"
-                + "\n"
-                + "                    <td>Total: $385.00</td>\n"
-                + "                </tr>\n"
+                + "                    <tr class=\"item\">\n"
+                + "                        <td></td>\n"
+                + "                        <td></td>\n"
+                + "                        <td>Subtotal: ${firstInvoice.total_price}VND</td>\n"
+                + "                    </tr>\n"
+                + "                    <tr class=\"item\">\n"
+                + "                        <td></td>\n"
+                + "                        <td></td>\n"
+                + "                        <td>Discount(%): ${firstInvoice.discount_percent}</td>\n"
+                + "                    </tr>\n"
+                + "                    <tr class=\"total\">\n"
+                + "                        <td>Total: </td>\n"
+                + "                        <td></td>\n"
+                + "                        <td>${firstInvoice.total_price-(firstInvoice.total_price*firstInvoice.discount_percent)}VND</td>\n"
+                + "                    </tr>\n"
+                + "                </c:if>\n"
                 + "            </table>\n"
-                + "        </div>\n"
-                + "    </body>\n"
-                + "</html>";
+                + "            </div>\n"
+                + "        </body>\n"
+                + "    </html>\n"
+                + "";
         return htmlContent;
     }
 }

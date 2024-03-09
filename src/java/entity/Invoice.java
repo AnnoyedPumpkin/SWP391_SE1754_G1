@@ -25,6 +25,7 @@ public class Invoice {
     private int status_Id;
     private String cartCode;
     private String address;
+    private double discount_percent;
     
     private Invoice_Detail in_de;
     private Invoice_Status in_st;

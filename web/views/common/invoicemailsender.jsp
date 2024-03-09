@@ -1,38 +1,33 @@
-<%-- 
-    Document   : invoicemailsender
-    Created on : Mar 4, 2024, 12:32:59 PM
-    Author     : FPT-LAPTOP
---%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <!-- fraimwork - css include -->
+        fraimwork - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
 
-        <!-- icon - css include -->
+        icon - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/fontawesome.css">
 
-        <!-- animation - css include -->
+        animation - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/animate.css">
 
-        <!-- nice select - css include -->
+        nice select - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/nice-select.css">
 
-        <!-- carousel - css include -->
+        carousel - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/slick-theme.css">
 
-        <!-- popup images & videos - css include -->
+        popup images & videos - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/magnific-popup.css">
 
-        <!-- jquery ui - css include -->
+        jquery ui - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/jquery-ui.css">
 
-        <!-- custom - css include -->
+        custom - css include 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <style>
             body {
@@ -106,23 +101,41 @@
                 background: #eee;
                 border-bottom: 1px solid #ddd;
                 font-weight: bold;
+                text-align: right;
+            }
+            .invoice-box table tr.heading td:first-child {
+                background: #eee;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
+                text-align: left;
             }
 
+            .invoice-box table tr.heading td:nth-child(2) {
+                padding-right: 120px;
+            }
             .invoice-box table tr.details td {
                 padding-bottom: 20px;
             }
 
             .invoice-box table tr.item td {
                 border-bottom: 1px solid #eee;
+                text-align: right;
             }
-
+            .invoice-box table tr.item td:first-child {
+                border-bottom: 1px solid #eee;
+                text-align: left;
+            }
+            .invoice-box table tr.item td:nth-child(2) {
+                text-align: center;
+            }
             .invoice-box table tr.item.last td {
                 border-bottom: none;
             }
 
-            .invoice-box table tr.total td:nth-child(2) {
+            .invoice-box table tr.total td:nth-child(3) {
                 border-top: 2px solid #eee;
                 font-weight: bold;
+                text-align: right;
             }
 
             @media only screen and (max-width: 600px) {
@@ -144,7 +157,7 @@
         <div class="invoice-box">
             <table>
                 <tr class="top">
-                    <td colspan="2">
+                    <td colspan="3">
                         <table>
                             <tr>
                                 <td class="title">
@@ -152,79 +165,78 @@
                                 </td>
 
                                 <td>
-                                    Invoice #: 123<br />
-                                    Created at: <script>const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-                                        const monthIndex = new Date().getMonth();
-                                        const monthString = months[monthIndex];
-                                        document.write(new Date().getHours() + ":" + new Date().getMinutes() + ", " + new Date().getDate() + "/" + monthString + "/" + new Date().getFullYear());</script><br />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                                    <c:if test="${not empty sessionScope.invoice_list_detail}">
+                                        <c:set var="firstInvoice" value="${sessionScope.invoice_list_detail[0]}" />
+                                        Invoice #: ${firstInvoice.cartCode}
+                                        <br />
+                                        Created at: <script>const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+                                            const monthIndex = new Date().getMonth();
+                                            const monthString = months[monthIndex];
+                                            document.write(new Date().getHours() + ":" + new Date().getMinutes() + ", " + new Date().getDate() + "/" + monthString + "/" + new Date().getFullYear());</script><br />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-                <tr class="information">
-                    <td colspan="2">
-                        <table>
-                            <tr>
-                                <td>
-                                    Sparksuite, Inc.<br />
-                                    12345 Sunny Road<br />
-                                    Sunnyville, TX 12345
-                                </td>
+                    <tr class="information">
+                        <td colspan="3">
+                            <table>
+                                <tr>
+                                    <c:if test="${not empty account_information}">
+                                        <td>
+                                            Recipient: ${account_information.getAcc_det().getUsername()}<br />
+                                            Delivery address: ${firstInvoice.address}<br />
+                                            Contact number: ${account_information.getAcc_det().getPhone_number()}
+                                        </td>
+                                        <td>
+                                            Sender: Brava Shop<br />
+                                            Branch: Group 1, Ha Noi
+                                        </td>
 
-                                <td>
-                                    Acme Corp.<br />
-                                    John Doe<br />
-                                    john@example.com
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                                    </c:if>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-                <tr class="heading">
-                    <td>Payment Method</td>
+                    <tr class="heading">
+                        <td>Item</td>
+                        <td>Unit Price x (Quantity)</td>
+                        <td>Price</td>
+                    </tr>
+                    <c:forEach items="${invoice_list_detail}" var="in">
+                        <tr class="item">
+                            <td>${in.pro.name}</td>
+                            <td>${in.pro.price}VND x(${in.in_de.quantity})</td>
+                            <td>${in.in_de.total_price}VND</td>
+                        </tr>
 
-                    <td>Check #</td>
-                </tr>
+                    </c:forEach>
 
-                <tr class="details">
-                    <td>Check</td>
-
-                    <td>1000</td>
-                </tr>
-
-                <tr class="heading">
-                    <td>Item</td>
-
-                    <td>Price</td>
-                </tr>
-
-                <tr class="item">
-                    <td>Website design</td>
-
-                    <td>$300.00</td>
-                </tr>
-
-                <tr class="item">
-                    <td>Hosting (3 months)</td>
-
-                    <td>$75.00</td>
-                </tr>
-
-                <tr class="item last">
-                    <td>Domain name (1 year)</td>
-
-                    <td>$10.00</td>
-                </tr>
-
-                <tr class="total">
-                    <td></td>
-
-                    <td>Total: $385.00</td>
-                </tr>
+                    <tr class="item">
+                        <td></td>
+                        <td></td>
+                        <td>Subtotal: ${firstInvoice.total_price}VND</td>
+                    </tr>
+                    <tr class="item">
+                        <td></td>
+                        <td></td>
+                        <td>Discount(%): ${firstInvoice.discount_percent}</td>
+                    </tr>
+                    <tr class="total">
+                        <td>Total: </td>
+                        <td></td>
+                        <td>${firstInvoice.total_price-(firstInvoice.total_price*firstInvoice.discount_percent)}VND</td>
+                    </tr>
+                </c:if>
             </table>
+            <c:if test="${not empty hhh}">
+                ${hhh}
+            </c:if>
         </div>
     </body>
 </html>
+<%--<c:if test="${not empty hhh}">
+    ${hhh}
+</c:if>--%>
