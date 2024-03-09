@@ -4,6 +4,7 @@
  */
 package entity;
 
+import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 /**
@@ -24,4 +25,7 @@ public class Product_Detail {
     private int brand_id;
     private int stock;
     private int gender_id;
+    private Date created_on;
+    private int status;
+    private Date statusDate;
 }

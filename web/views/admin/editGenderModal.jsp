@@ -23,7 +23,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editGenderForm" action="../admin/dashboard?action=edit-gender" method="POST">
+                <form id="updateGenderForm" action="../admin/dashboard?action=update-gender" method="POST">
                     <input style="display: none" type="text" class="form-control" id="genderIdToUpdate" name="genderIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldGenderName" name="oldGenderName">
                     <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="editGenderForm" onclick="validateGenderForm2()">Submit</button>
+                <button type="submit" class="btn btn-primary" form="updateGenderForm" onclick="validateGenderForm2()">Submit</button>
             </div>
         </div>
     </div>
@@ -48,19 +48,19 @@
     if (msg) {
         alert("Success: " + msg);
     }
-    
+
     var error = "${errorge}";
     if (error) {
         alert("Error: " + error);
     }
-    
+
     function validateGenderForm2() {
         let gender = $('#genderToUpdate').val();
         // Clear current error messages
         $('.error').html('');
         if (gender === '') {
             $('#genderE').html('Gender input cannot be blank');
-        } else if (!/^[A-Za-z&-\s]+$/.test(brand.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(gender.trim())) {
             $('#genderE').html('Gender input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -69,7 +69,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#editGenderForm').submit();
+            if (confirm('Are you sure you want to update this gender?')) {
+                $('#updateGenderForm').submit();
+            }
         } else {
             event.preventDefault();
         }

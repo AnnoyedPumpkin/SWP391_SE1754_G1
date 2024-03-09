@@ -34,20 +34,6 @@
                         <div id="productpriceError" class="error"></div>
                     </div>
                     <div class="form-group">
-                        <label for="stock">Stock: </label>
-                        <input type="text" class="form-control" id="stockInput" name="stock">
-                        <div id="stockError" class="error"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="colorSelect">Color:</label>
-                        <select class="form-control" id="colorSelect" name="color" required>
-                            <<option value="">Select color</option>
-                            <c:forEach items="${listC}" var="c">
-                                <option value="${c.id}">${c.color}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="cateSelect">Category: </label>
                         <select class="form-control" id="cateSelect" name="cate" required>
                             <<option value="">Select category</option>
@@ -55,15 +41,7 @@
                                 <option value="${cate.id}">${cate.category}</option>
                             </c:forEach>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sizeSelect">Size: </label>
-                        <select class="form-control" id="sizeSelect" name="size" required>
-                            <<option value="">Select size</option>
-                            <c:forEach items="${listS}" var="s">
-                                <option value="${s.id}">${s.size}</option>
-                            </c:forEach>
-                        </select>
+                        <div id="cateError" class="error"></div>
                     </div>
                     <div class="form-group">
                         <label for="brandSelect">Brand: </label>
@@ -73,15 +51,7 @@
                                 <option value="${b.id}">${b.brand}</option>
                             </c:forEach>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="genderSelect">Gender: </label>
-                        <select class="form-control" id="genderSelect" name="gender" required>
-                            <<option value="">Select gender</option>
-                            <c:forEach items="${listG}" var="g">
-                                <option value="${g.id}">${g.gender}</option>
-                            </c:forEach>
-                        </select>
+                        <div id="brandError" class="error"></div>
                     </div>
                     <div class="form-group">
                         <label for="image">Product Image Layout: </label>
@@ -90,17 +60,32 @@
                                 <span class="input-group-text">Upload (*.png, *.jpg, *.jpeg)</span>
                             </div>
                             <div class="custom-file">
-                                <input accept="image/png, image/jpg, image/jpeg" type="file" class="custom-file-input" id="image" name="image" onchange="displayImage(this)" required>
+                                <input value="" accept="image/png, image/jpg, image/jpeg" type="file" class="custom-file-input" id="image" name="image" onchange="displayImage(this)" required>
                                 <label class="custom-file-label">Choose file</label>
                             </div>
                         </div>
                         <img id="previewImage" src="#" alt="Preview" style="display: none; max-width: 300px; max-height: 300px;">
                     </div>
+                    <div id="imageError" class="error"></div>
+                    <div class="form-group">
+                        <label for="image">Product Images:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Upload (*.png, *.jpg, *.jpeg)</span>
+                            </div>
+                            <div class="custom-file">
+                                <input multiple="multiple" accept="image/png, image/jpg, image/jpeg" type="file" class="custom-file-input" id="list_image" name="list_image" onchange="displayImage2(this)">
+                                <label class="custom-file-label">Choose file</label>
+                            </div>
+                        </div>
+                        <div id="previewImagesContainer"></div>
+                    </div>
+                    <div id="imageError2" class="error"></div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="addProductForm" onclick="validateForm()">Add</button>
+                <button type="submit" class="btn btn-primary" form="addProductForm" onclick="validateAddProductForm()">Add</button>
             </div>
         </div>
     </div>
@@ -118,51 +103,69 @@
         alert("Success: " + msgap);
     }
 
-    function validateForm() {
-        
+    function validateAddProductForm() {
 
         let productName = $('#productnameInput').val();
         let productDescription = $('#productdescriptionInput').val();
         let productPrice = $('#productpriceInput').val();
         let stock = $('#stockInput').val();
-        // Remove existing error messages
+        let cateID = $('#cateSelect').val();
+        let brandID = $('#brandSelect').val();
+        let image = $('#image').val();
+        let images = $('#list_image')[0].files;
         $('.error').html('');
 
+
+        if (cateID === '') {
+            $('#cateError').html('Please choose category!');
+        }
+        if (brandID === '') {
+            $('#brandError').html('Please choose brand!');
+        }
+        if (image === '') {
+            $('#imageError').html('Please choose image!');
+        }
+        if (images.length === 0) {
+            $('#imageError2').html('Please choose at least one image!');
+        } else if (images.length > 6) {
+            $('#imageError2').html('Maximum of 6 images allowed!');
+        }
         if (productName === '') {
             $('#productnameError').html('Product Name cannot be blank');
-        } else if (productName.value.length < 3) {
+        } else if (productName.length < 3) {
             $('#productnameError').html('Product Name must be at least 3 characters long.');
-        } else if (!/^[A-Za-z\s\u0080-\uFFFF]+$/.test(productName.value)) {
+        } else if (!/^(?!.*\s{2})[A-Za-z\s]+$/.test(productName)) {
             $('#productnameError').html('Product Name must contain only letters');
         }
 
         if (productDescription === '') {
             $('#productdescriptionError').html('Product Description cannot be blank');
-        } else if (productDescription.value.length < 10) {
+        } else if (productDescription.length < 10) {
             $('#productdescriptionError').html('Product Description must be at least 10 characters long.');
-        } else if (!/^[A-Za-z0-9\s\u0080-\uFFFF]+$/.test(productDescription.value)) {
+        } else if (!/^(?!.*\s{2})[A-Za-z0-9.,\s]+$/.test(productDescription)) {
             $('#productdescriptionError').html('Product Description must contain only letters and numbers');
         }
 
         if (productPrice === '') {
             $('#productpriceError').html('Product Price cannot be blank');
-        } else if (!/^[0-9]+$/.test(productPrice.value) || parseFloat(productPrice) < 0) {
+        } else if (!/^\d+(\.\d{1,2})?$/.test(productPrice) || parseFloat(productPrice) <= 0) {
             $('#productpriceError').html('Product Price must contain only numbers and larger than zero');
         }
-        
+
         if (stock === '') {
             $('#stockError').html('Stock cannot be blank');
-        } else if (!/^[0-9]+$/.test(stock.value) || parseInt(stock) < 0) {
+        } else if (!/^[0-9]+$/.test(stock) || parseInt(stock) <= 0) {
             $('#stockError').html('Stock must contain only numbers');
         }
 
-        // Check if there are any error messages
         let error = '';
         $('.error').each(function () {
             error += $(this).html();
         });
         if (error === '') {
-            $('#addProductForm').submit();
+            if (confirm('Are you sure you want to add this product?')) {
+                $('#addProductForm').submit();
+            }
         } else {
             event.preventDefault();
         }
@@ -179,5 +182,29 @@
             previewImage.style.display = "block";
         };
         reader.readAsDataURL(file);
+    }
+
+    function displayImage2(input) {
+        var previewImagesContainer = document.getElementById("previewImagesContainer");
+        previewImagesContainer.innerHTML = "";
+
+        for (var i = 0; i < input.files.length; i++) {
+            var file = input.files[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imageContainer = document.createElement("div");
+                imageContainer.classList.add("imageContainer");
+
+                var previewImage = document.createElement("img");
+                previewImage.src = e.target.result;
+                previewImage.alt = "Preview";
+
+                imageContainer.appendChild(previewImage);
+                previewImagesContainer.appendChild(imageContainer);
+            };
+
+            reader.readAsDataURL(file);
+        }
     }
 </script>

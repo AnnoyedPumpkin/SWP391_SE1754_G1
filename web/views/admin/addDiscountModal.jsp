@@ -65,13 +65,14 @@
         } else if (!/^[0-9]+$/.test(discount.trim())) {
             $('#discountError').html('Discount input must contain only number');
         }
-        // Check if there are no errors, then submit the form
         let error = '';
         $('.error').each(function () {
             error += $(this).html();
         });
         if (error === '') {
-            $('#addDiscountForm').submit();
+            if (confirm('Are you sure you want to add this discount?')) {
+                $('#addDiscountForm').submit();
+            }
         } else {
             event.preventDefault();
         }

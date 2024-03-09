@@ -24,6 +24,7 @@
         <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
 
         <!-- BEGIN: Vendor CSS-->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/tables/datatable/datatables.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/charts/apexcharts.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/extensions/tether-theme-arrows.css">
@@ -137,17 +138,15 @@
                         <ul class="menu-content">
                             <li><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Characteristics</span></a>
                             </li>
                             <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Discounts">Manage Discount</span></a>
-                            </li>
-                            <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
                         <ul class="menu-content">
-                            <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manageUser"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
@@ -207,7 +206,6 @@
                                                 <table class="table table-bordered table-striped col-10" id="discountTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Discount Percent</th>
                                                             <th class="col-4">Create On</th>
                                                             <th class="col-4">Status</th>
@@ -217,7 +215,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listD}" var="d">
                                                             <tr>
-                                                                <td>${d.id}</td>
                                                                 <td>${d.discount_percent}%</td>
                                                                 <td>${d.create_at}</td>
                                                                 <c:choose>
@@ -294,6 +291,11 @@
         <!-- END: Page JS-->
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/jquery-ui.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/bootstrap-confirmation.js"></script>
+
         <script>
                 new DataTable('#discountTable', {
                     pagingType: 'full_numbers'

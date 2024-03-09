@@ -50,7 +50,7 @@
         $('.error').html('');
         if (gender === '') {
             $('#genderError').html('Gender input cannot be blank');
-        } else if (!/^[A-Za-z\s]+$/.test(gender.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(gender.trim())) {
             $('#genderError').html('Gender input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -59,7 +59,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#addGenderForm').submit();
+            if (confirm('Are you sure you want to add this gender?')) {
+                $('#addGenderForm').submit();
+            }
         } else {
             event.preventDefault();
         }

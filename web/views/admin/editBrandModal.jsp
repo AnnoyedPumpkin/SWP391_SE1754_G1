@@ -17,7 +17,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editBrandForm" action="../admin/dashboard?action=edit-brand" method="POST">
+                <form id="updateBrandForm" action="../admin/dashboard?action=update-brand" method="POST">
                     <input style="display: none" type="text" class="form-control" id="brandIdToUpdate" name="brandIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldBrandName" name="oldBrandName">
                     <div class="form-group">
@@ -54,7 +54,7 @@
         $('.error').html('');
         if (brand === '') {
             $('#brandE').html('Brand input cannot be blank');
-        } else if (!/^[A-Za-z&-\s]+$/.test(brand.trim())) {
+        } else if (!/^[A-Za-z&-\s{1,6}]+$/.test(brand.trim())) {
             $('#brandE').html('Brand input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -63,7 +63,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#editBrandForm').submit();
+            if (confirm('Are you sure you want to update this brand?')) {
+                $('#updateBrandForm').submit();
+            }
         } else {
             event.preventDefault();
         }

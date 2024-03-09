@@ -50,7 +50,7 @@
         $('.error').html('');
         if (size === '') {
             $('#sizeError').html('Size input cannot be blank');
-        } else if (!/^[A-Za-z\s]+$/.test(size.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(size.trim())) {
             $('#sizeError').html('Size input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -59,7 +59,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#addSizeForm').submit();
+            if (confirm('Are you sure you want to add this size?')) {
+                $('#addSizeForm').submit();
+            }
         } else {
             event.preventDefault();
         }

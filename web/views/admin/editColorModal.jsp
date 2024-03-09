@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editColorForm" action="../admin/dashboard?action=edit-color" method="POST">
+                <form id="updateColorForm" action="../admin/dashboard?action=update-color" method="POST">
                     <input style="display: none" type="text" class="form-control" id="colorIdToUpdate" name="colorIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldNameColor" name="oldNameColor">
                     <div class="form-group">
@@ -28,7 +28,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="editColorForm" onclick="validateColorForm2()">Submit</button>
+                <button type="submit" class="btn btn-primary" form="updateColorForm" onclick="validateColorForm2()">Submit</button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
         $('.error').html('');
         if (color === '') {
             $('#colorE').html('Color input cannot be blank');
-        } else if (!/^[A-Za-z\s]+$/.test(color.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(color.trim())) {
             $('#colorE').html('Color input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -62,7 +62,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#addColorForm').submit();
+            if (confirm('Are you sure you want to update this color?')) {
+                $('#updateColorForm').submit();
+            }
         } else {
             event.preventDefault();
         }

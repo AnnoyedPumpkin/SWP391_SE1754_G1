@@ -22,4 +22,8 @@ public class Product {
     private String description;
     private double price;
     private String image_path;
+    private int category_id;
+    private int brand_id;
+    private String status;
+    private Date status_date;
 }

@@ -45,13 +45,12 @@
         <!-- BEGIN: Custom CSS-->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <!-- END: Custom CSS-->
-
     </head>
     <!-- END: Head-->
 
     <!-- BEGIN: Body-->
 
-    <body class="vertical-layout vertical-menu-modern dark-layout 2-columns ecommerce-application navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
+    <body id="body" class="vertical-layout vertical-menu-modern dark-layout 2-columns ecommerce-application navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
 
         <!-- BEGIN: Header-->
         <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-dark navbar-shadow">
@@ -245,6 +244,7 @@
                                             </a>
                                         </div>
                                     </div>
+
                                     <div class="col-12 col-md-6">
                                         <h5>${productForm.name}
                                         </h5>
@@ -254,52 +254,182 @@
                                         </div>
                                         <hr>
                                         <p>${productForm.description}</p>
-                                        <p class="font-weight-bold" id="stockInfo"> <i class="feather icon-database mr-50 font-medium-2"></i>Stock: ${productForm.stock}</p>
+                                        <p class="font-weight-bold" id="stockInfo"> <i class="feather icon-database mr-50 font-medium-2"></i>${StockOfProductDetail}</p>
                                         <hr>
-                                        <div class="form-group">
-                                            <div class="d-flex align-items-center"> 
-                                                <label class="font-weight-bold mr-1">Color:</label> 
-                                                <div class="product-color-options"> 
-                                                    <ul class="list-inline mb-0">
-                                                        <c:set var="ColorClass">
-                                                            <c:choose>
-                                                                <c:when test="${productForm.color.toLowerCase() == 'black'}">
-                                                                    black
-                                                                </c:when>
-                                                                <c:when test="${productForm.color.toLowerCase() == 'white'}">
-                                                                    white
-                                                                </c:when>
-                                                                <c:when test="${productForm.color.toLowerCase() == 'red'}">
-                                                                    danger
-                                                                </c:when>
-                                                                <c:when test="${productForm.color.toLowerCase() == 'purple'}">
-                                                                    primary
-                                                                </c:when>
-                                                                <c:when test="${productForm.color.toLowerCase() == 'yellow'}">
-                                                                    warning
-                                                                </c:when>
-                                                            </c:choose>
-                                                        </c:set>
-                                                        <li class="d-inline-block">
-                                                            <div class="color-option b-${ColorClass}">
-                                                                <div class="filloption bg-${ColorClass}"></div>
+                                        <div id="content">
+                                            <div class="form-group">
+                                                <div class="d-flex align-items-center"> 
+                                                    <label class="font-weight-bold mr-1">Color:</label> 
+                                                    <div class="product-color-options"> 
+                                                        <ul class="list-inline mb-0">
+                                                            <c:forEach items="${listC}" var="c">
+                                                                <c:set var="ColorClass">
+                                                                    <c:choose>
+                                                                        <c:when test="${c.color.toLowerCase() == 'black'}">
+                                                                            black
+                                                                        </c:when>
+                                                                        <c:when test="${c.color.toLowerCase() == 'white'}">
+                                                                            white
+                                                                        </c:when>
+                                                                        <c:when test="${c.color.toLowerCase() == 'red'}">
+                                                                            danger
+                                                                        </c:when>
+                                                                        <c:when test="${c.color.toLowerCase() == 'purple'}">
+                                                                            primary
+                                                                        </c:when>
+                                                                        <c:when test="${c.color.toLowerCase() == 'yellow'}">
+                                                                            warning
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </c:set>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty listCa}">
+                                                                        <c:choose>
+                                                                            <c:when test="${!listCa.contains(c)}">
+                                                                                <li class="d-inline-block">
+                                                                                    <div class="color-option b-${ColorClass}">
+                                                                                        <button disabled onclick="selectColor('${c.id}'); return false;" class="filloption" style="background-color: ${c.color}; color: white;">
+                                                                                            <span>X</span>
+                                                                                        </button>
+                                                                                    </div> 
+                                                                                </li>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <c:if test="${not empty colorIdA && colorIdA eq c.id}">
+                                                                                    <li class="d-inline-block selected">
+                                                                                        <div class="color-option b-${ColorClass} ">
+                                                                                            <button onclick="selectColor('${c.id}'); return false;" class="filloption" style="background-color: ${c.color}"></button>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                </c:if>
+                                                                                <c:if test="${empty colorIdA || colorIdA ne c.id}">
+                                                                                    <li class="d-inline-block">
+                                                                                        <div class="color-option b-${ColorClass}">
+                                                                                            <button onclick="selectColor('${c.id}'); return false;" class="filloption" style="background-color: ${c.color}"></button>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                </c:if>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <c:if test="${not empty colorIdA && colorIdA eq c.id}">
+                                                                            <li class="d-inline-block selected">
+                                                                                <div class="color-option b-${ColorClass} ">
+                                                                                    <button onclick="selectColor('${c.id}'); return false;" class="filloption" style="background-color: ${c.color}"></button>
+                                                                                </div>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        <c:if test="${empty colorIdA || colorIdA ne c.id}">
+                                                                            <li class="d-inline-block">
+                                                                                <div class="color-option b-${ColorClass}">
+                                                                                    <button onclick="selectColor('${c.id}'); return false;" class="filloption" style="background-color: ${c.color}"></button>
+                                                                                </div>
+                                                                            </li>
+                                                                        </c:if>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="d-flex align-items-center"> 
+                                                    <label class="font-weight-bold mr-3">Size:</label>
+                                                    <ul class="list-unstyled mb-0 mt-0 product-size">
+                                                        <div class="product-size" id="productSize">
+                                                            <div id="content">
+                                                                <c:forEach items="${listS}" var="s">
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty listSa}">
+                                                                            <c:choose>
+                                                                                <c:when test="${!listSa.contains(s)}">
+                                                                                    <button class="size-option disabled-size btn btn-primary btn-sm" disabled>
+                                                                                        ${s.size}
+                                                                                    </button>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <c:if test="${not empty sizeIdA && sizeIdA eq s.id}">
+                                                                                        <button class="size-option active btn btn-success btn-sm" onclick="selectSize('${s.id}'); return false;">
+                                                                                            ${s.size}
+                                                                                        </button>
+                                                                                    </c:if>
+                                                                                    <c:if test="${empty sizeIdA || sizeIdA ne s.id}">
+                                                                                        <button class="size-option btn btn-primary btn-sm" onclick="selectSize('${s.id}'); return false;">
+                                                                                            ${s.size}
+                                                                                        </button>
+                                                                                    </c:if>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:if test="${not empty sizeIdA && sizeIdA eq s.id}">
+                                                                                <button class="size-option active btn btn-success btn-sm" onclick="selectSize('${s.id}'); return false;">
+                                                                                    ${s.size}
+                                                                                </button>
+                                                                            </c:if>
+                                                                            <c:if test="${empty sizeIdA || sizeIdA ne s.id}">
+                                                                                <button class="size-option btn btn-primary btn-sm" onclick="selectSize('${s.id}'); return false;">
+                                                                                    ${s.size}
+                                                                                </button>
+                                                                            </c:if>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:forEach>
                                                             </div>
-                                                        </li>
+                                                        </div>
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-flex align-items-center"> 
-                                                <label class="font-weight-bold mr-3">Size:</label>
-                                                <ul class="list-unstyled mb-0 mt-0 product-size">
-                                                    <li class="d-inline-block">
-                                                        <div class="size-option">
-                                                            <div class="size">${productForm.size}</div> 
+                                            <div class="form-group">
+                                                <div class="d-flex align-items-center">
+                                                    <label class="font-weight-bold mr-3">Gender:</label>
+                                                    <ul class="list-unstyled mb-0 mt-0 product-gender">
+                                                        <div class="product-gender">
+                                                            <div id="content">
+                                                                <c:forEach items="${listG}" var="g">
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty listGa}">
+                                                                            <c:choose>
+                                                                                <c:when test="${!listGa.contains(g)}">
+                                                                                    <a class="size-option disabled-size btn btn-primary btn-sm" disabled>
+                                                                                        ${g.gender}
+                                                                                    </a>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <c:if test="${not empty genderIdA && genderIdA eq g.id}">
+                                                                                        <button class="size-option btn-success btn-sm" onclick="selectGender('${g.id}'); return false;">
+                                                                                            ${g.gender}
+                                                                                        </button>
+                                                                                    </c:if>
+                                                                                    <c:if test="${empty genderIdA || genderIdA ne g.id}">
+                                                                                        <button class="size-option btn btn-primary btn-sm" onclick="selectGender('${g.id}'); return false;">
+                                                                                            ${g.gender}
+                                                                                        </button>
+                                                                                    </c:if>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:if test="${not empty genderIdA && genderIdA eq g.id}">
+                                                                                <button class="size-option btn-success btn-sm" onclick="selectGender('${g.id}'); return false;">
+                                                                                    ${g.gender}
+                                                                                </button>
+                                                                            </c:if>
+                                                                            <c:if test="${empty genderIdA || genderIdA ne g.id}">
+                                                                                <button class="size-option btn btn-primary btn-sm" onclick="selectGender('${g.id}'); return false;">
+                                                                                    ${g.gender}
+                                                                                </button>
+                                                                            </c:if>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:forEach>
+                                                            </div>
                                                         </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    </ul>
+                                                </div>
+                                            </div> 
                                         </div>
                                         <div class="form-group">
                                             <div class="d-flex align-items-center">
@@ -319,30 +449,19 @@
                                                 <ul class="list-unstyled mb-0 mt-0 product-category">
                                                     <li class="d-inline-block">
                                                         <div class="size-option">
-                                                            <div class="brand">${productForm.category}</div>
+                                                            <div class="category">${productForm.category}</div>
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="d-flex align-items-center">
-                                                <label class="font-weight-bold mr-3">Gender:</label>
-                                                <ul class="list-unstyled mb-0 mt-0 product-gender">
-                                                    <li class="d-inline-block">
-                                                        <div class="size-option">
-                                                            <div class="brand">${productForm.gender}</div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+
                                         <hr>
                                         <c:choose>
-                                            <c:when test="${characterStock != 0}">
+                                            <c:when test="${StockOfProductDetail != 0}">
                                                 <p>Available - <span class="text-success">In stock</span></p>
                                             </c:when>
-                                            <c:when test="${characterStock == 0}">
+                                            <c:when test="${StockOfProductDetail == 0}">
                                                 <p>Available - <span class="text-danger">Out of stock</span></p>
                                             </c:when>
                                         </c:choose>
@@ -396,16 +515,52 @@
 
         </body>
         <!-- END: Body-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <<script>
 
-                var errorup = "${errorup}";
-                if (errorup) {
-                    alert("Error: " + errorup);
+                var selectedColorId;
+                var selectedSizeId;
+                var selectedGenderId;
+
+
+                function selectColor(colorId) {
+                    selectedColorId = colorId;
+                    getProductDetailOfEachProperties('${productForm.id}', selectedColorId, selectedSizeId, selectedGenderId);
                 }
 
-                var msgup = "${msgup}";
-                if (msgup) {
-                    alert("Success: " + msgup);
+                function selectSize(sizeId) {
+                    selectedSizeId = sizeId;
+                    getProductDetailOfEachProperties('${productForm.id}', selectedColorId, selectedSizeId, selectedGenderId);
+                }
+
+                function selectGender(genderId) {
+                    selectedGenderId = genderId;
+                    getProductDetailOfEachProperties('${productForm.id}', selectedColorId, selectedSizeId, selectedGenderId);
+                }
+
+                function getProductDetailOfEachProperties(productId, colorId, sizeId, genderId) {
+                    var param1 = productId;
+                    var param2 = colorId;
+                    var param3 = sizeId;
+                    var param4 = genderId;
+                    $.ajax({
+                        url: "/SWP391_SE1754_G1/productDetailsAjax",
+                        type: "GET",
+                        data: {
+                            productID: param1,
+                            colorID: param2,
+                            sizeID: param3,
+                            genderID: param4
+                        },
+                        success: function (data) {
+                            var content = document.getElementById("body");
+                            content.innerHTML = "";
+                            content.innerHTML += data;
+                        },
+                        error: function (xhr) {
+                            //
+                        }
+                    });
                 }
 
     </script>

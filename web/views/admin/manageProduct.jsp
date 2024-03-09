@@ -7,10 +7,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" data-textdirection="ltr">
     <!-- BEGIN: Head-->
 
     <head>
+        <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -95,20 +96,40 @@
                 display: block;
             }
 
-            .deleteButton {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: rgba(255, 0, 0, 0.5);
-                color: white;
-                border: none;
+            .btn-custom-size {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .circle {
+                width: 20px;
+                height: 20px;
                 border-radius: 50%;
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-                cursor: pointer;
-                z-index: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-weight: bold;
+                background-color: rgb(0, 220, 0);
+                box-shadow: 0 0 20px 10px rgba(0, 235, 0, 0.2),
+                    0 0 2px 5px rgba(0, 230, 0, 0.2),
+                    0 0 5px 2px rgba(0, 230, 0, 0.1);
+            }
+
+            .circle-1 {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-weight: bold;
+                background-color: rgb(192, 192, 192);
+                box-shadow: 0 0 20px 10px rgba(128, 128, 128, 0.2),
+                    0 0 2px 5px rgba(128, 128, 128, 0.2),
+                    0 0 5px 2px rgba(128, 128, 128, 0.1);
             }
         </style>
     </head>
@@ -198,17 +219,15 @@
                         <ul class="menu-content">
                             <li class="active"><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Product Characteristics</span></a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Discount</span></a>
-                            </li>
-                            <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
                         <ul class="menu-content">
-                            <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manageUser"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
@@ -248,7 +267,7 @@
                     </div>
 
                 </div>
-                <div class="content-detached content-right">
+                <div class="content-detached content-body">
                     <div class="content-body">
                         <!-- Ecommerce Content Section Starts -->
                         <section id="ecommerce-header">
@@ -263,33 +282,42 @@
                                                 ${pagination.totalRecord} results found
                                             </div>
                                         </div>
-                                        <!-- Add Product Button -->
+
                                         <div class="view-options">
-                                            <select name="sort" class="price-options form-control" id="ecommerce-price-options" onchange="sortHiddenInput(this)">
-                                                <option selected>Sorted</option>
-                                                <option value="asc">Lowest</option>
-                                                <option value="desc">Highest</option>
-                                            </select>
-                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+                                            <select name="searchByStatus" class="price-options form-control" onchange="updateUrlParams()">
+                                                <option selected value="">Status</option>
+                                                <option value="0" id="hideOption" <c:if test="${status eq '0'}">selected</c:if>>Hide</option>
+                                                <option value="1" id="displayOption" <c:if test="${status eq '1'}">selected</c:if>>Display</option>
+                                                </select>
+                                                <select name="sortByDate" class="price-options form-control" onchange="updateUrlParams()">
+                                                    <option selected value="">Sorted By Date</option>
+                                                    <option value="desc" id="descOptionDate"<c:if test="${sortedByDate eq 'desc'}">selected</c:if>>Newest</option>
+                                                <option value="asc" id="ascOptionDate"<c:if test="${sortedByDate eq 'asc'}">selected</c:if>>Oldest</option>
+                                                </select>
+                                                <select name="sortByPrice" class="price-options form-control" id="ecommerce-price-options" onchange="updateUrlParams()">
+                                                    <option selected value="">Sorted By Price</option>
+                                                    <option value="asc" id="ascOption" <c:if test="${sortedByPrice eq 'asc'}">selected</c:if>>Lowest</option>
+                                                <option value="desc" id="descOption" <c:if test="${sortedByPrice eq 'desc'}">selected</c:if>>Highest</option>
+                                                </select>
+                                                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
-                        <!-- Ecommerce Content Section Starts -->
-                        <!-- background Overlay when sidebar is shown  starts-->
-                        <div class="shop-content-overlay"></div>
-                        <!-- background Overlay when sidebar is shown  ends-->
+                            </section>
+                            <!-- Ecommerce Content Section Starts -->
+                            <!-- background Overlay when sidebar is shown  starts-->
+                            <div class="shop-content-overlay"></div>
+                            <!-- background Overlay when sidebar is shown  ends-->
 
-                        <!-- Ecommerce Search Bar Starts -->
-                        <form action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
+                            <!-- Ecommerce Search Bar Starts -->
+                            <form action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
                             <section id="ecommerce-searchbar">
                                 <div class="row mt-1">
                                     <div class="col-sm-12">
                                         <fieldset class="form-group position-relative">
                                             <input type="hidden" name="action" value="search-products">
-                                            <input type="hidden" name="sort" id="sortHidden1">
-                                            <input name="keyword" type="text" class="form-control search-product" id="iconLeft5" placeholder="Search here">
+                                            <input value="${keyword}" name="keyword" type="text" class="form-control search-product" placeholder="Search by product name" id="iconLeft5" placeholder="Search here">
                                             <div class="form-control-position">
                                                 <button type="submit"><i class="feather icon-search"></i></button>
                                             </div>
@@ -301,57 +329,72 @@
                         <!-- Ecommerce Search Bar Ends -->
 
                         <!-- Ecommerce Products Starts -->
-                        <section id="ecommerce-products" class="grid-view">
-                            <c:forEach items="${listPf}" var="pf">
-                                <div class="card ecommerce-card">
-                                    <div class="card-content">
-                                        <div class="item-img text-center">
-                                            <a href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
-                                                <img class="img-fluid" src="${pf.image_path}" alt="img-placeholder">
-                                            </a>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="item-wrapper">
-                                                <!--                                                <div class="item-rating">
-                                                                                                    <div class="badge badge-primary badge-md">
-                                                                                                        <span>4</span> <i class="feather icon-star"></i>
-                                                                                                    </div>
-                                                                                                </div>-->
-                                                <div>
-                                                    <h6 class="item-price">
-                                                        $${pf.price}
-                                                    </h6>
+                        <div class="table-responsive">
+                            <c:if test="${not empty status && status ne 'null' && status eq '0'}">
+                                <h4 style="color: red; font-style: italic;">***Warning: Any products after change hide status of product will be deleted after 15 days since the day you changed status.</h4> 
+                            </c:if>
+                            <table class="table custom-table table-striped ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="align-middle">Product ID</th>
+                                        <th class="align-middle">Image</th>
+                                        <th class="align-middle">Name</th>
+                                        <th class="align-middle">Category</th>
+                                        <th class="align-middle">Brand</th>
+                                        <th class="align-middle">Create On</th>
+                                        <th class="align-middle">Price</th>
+                                        <th class="align-middle">Status</th>
+                                            <c:if test="${not empty status && status ne 'null' && status eq '0'}">
+                                            <th class="align-middle">Remaining Days</th>
+                                            </c:if>
+                                        <th class="align-middle text-center">Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="p" items="${listPf}">
+                                        <tr>
+                                            <td class="align-middle border-bottom">${p.id}</td>
+                                            <td class="align-middle item-img h-50 px-2 py-4 border-bottom">
+                                                <img class="img-thumbnail" src="${p.image_path}" alt="Product Image">
+                                            </td>
+                                            <td class="align-middle px-2 py-2 border-bottom">${p.name}</td>
+                                            <td class="align-middle border-bottom">${p.category}</td>
+                                            <td class="align-middle border-bottom">${p.brand}</td>
+                                            <td class="align-middle px-1 py-1 border-bottom">${p.create_on}</td>
+                                            <td class="align-middle px-2 py-2 border-bottom">${p.price}VND</td>
+                                            <c:if test="${p.status eq '1'}">
+                                                <td class="align-middle px-2 py-2 border-bottom">
+                                                    <div class="circle"></div>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${p.status eq '0'}">
+                                                <td class="align-middle px-2 py-2 border-bottom">
+                                                    <div class="circle-1"></div>
+                                                </td>
+                                                <td class="align-middle px-1 py-1 border-bottom">${p.remainingDayBeforeDelete}</td>
+                                            </c:if>
+                                            <td class="align-middle item-options px-2 py-2 border-bottom  text-center">
+                                                <div class="btn-group" role="group" aria-label="Product Options">
+                                                    <a class="btn btn-success btn-custom-size view-options" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${p.id}">
+                                                        <i class="feather icon-external-link"></i> <span class="ml-1" style="color:white">View</span>
+                                                    </a>
+                                                    <c:if test="${p.status eq '1'}">
+                                                        <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductModal" title="Edit Status Product" onclick="editStatusProductModal('${p.id}', '${p.status}')">
+                                                            <i class="feather icon-eye-off"></i> <span class="ml-1" style="color:white">Hide</span>
+                                                        </button>
+                                                    </c:if>
+                                                    <c:if test="${p.status eq '0'}">
+                                                        <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductModal" title="Edit Status Product" onclick="editStatusProductModal('${p.id}', '${p.status}')">
+                                                            <i class="feather icon-eye"></i> <span class="ml-1" style="color:white">Display</span>
+                                                        </button>
+                                                    </c:if>
                                                 </div>
-                                            </div>
-                                            <div class="item-name">
-                                                <a href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">${pf.name}</a>
-                                                <!--                                                <p class="item-company">By <span class="company-name">Google</span></p>-->
-                                            </div>
-                                            <div>
-                                                <p class="item-size" style="display: inline-block; margin-right: 10px;">
-                                                    Size: ${pf.size}
-                                                </p>
-                                                <p class="item-color" style="display: inline-block; margin-right: 10px;">
-                                                    Gender: ${pf.gender}
-                                                </p>
-                                                <p class="item-color" style="display: inline-block; margin-right: 10px;">
-                                                    Color:
-                                                </p>
-                                                <div class="color-circle" style="background-color: ${pf.color}; display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align: middle;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="item-options text-center">
-                                            <a class="btn btn-primary btn-equal-size view-options mb-2 mb-md-0 flex-fill" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${pf.id}&colorID=${pf.color_id}&categoryID=${pf.category_id}&sizeID=${pf.size_id}&brandID=${pf.brand_id}&genderID=${pf.gender_id}">
-                                                <i class="feather icon-eye"></i> <span style="color: black">View</span>
-                                            </a>                                           
-                                            <button class="btn btn-danger btn-equal-size delete mb-2 mb-md-0 flex-fill" data-toggle="modal" data-target="#deleteProductModal" title="Delete Product" onclick="deleteProductModal('${pf.id}', '${pf.color_id}', '${pf.category_id}', '${pf.size_id}', '${pf.brand_id}', '${pf.gender_id}')">
-                                                <i class=" feather icon-trash "></i>  <span style="color: black">Delete</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </section>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                         <!-- Ecommerce Products Ends -->
 
                         <!-- Ecommerce Pagination Starts -->
@@ -364,7 +407,7 @@
                                                 <li class="page-item prev-item"><a class="page-link" href="${pagination.urlPattern}pagination=1">Start</a></li>
                                                 </c:if>
                                                 <c:if test="${pagination.page > 1}">
-                                                <li class="page-item active"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
                                                 </c:if>
                                             <!--PAGE - 2 (in case last page )-->
                                             <c:if test="${pagination.page == pagination.totalPage && pagination.page > 2}">
@@ -376,7 +419,7 @@
                                                 </c:if>
                                             <!--PAGE-->
                                             <c:if test="${pagination.totalPage > 1}">
-                                                <li class="page-item" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
+                                                <li class="page-item active" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
                                                 </c:if>
                                             <!--PAGE + 1-->
                                             <c:if test="${pagination.page < pagination.totalPage}">
@@ -388,7 +431,7 @@
                                                 </c:if>
                                             <!--NEXT-->
                                             <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
-                                                <li class="page-item active"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
+                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
                                                 </c:if>
                                             <!--LAST-->
                                             <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
@@ -400,260 +443,6 @@
                             </div>
                         </section>
                         <!-- Ecommerce Pagination Ends -->
-                    </div>
-                </div>
-                <div class="sidebar-detached sidebar-left">
-                    <div class="sidebar">
-                        <!-- Ecommerce Sidebar Starts -->
-                        <form id="filter-form2" action="${pageContext.request.contextPath}/admin/manageproduct" method="GET">
-                            <input type="hidden" name="action" value="filter-products">
-                            <input type="hidden" name="sort" id="sortHidden2">
-                            <div class="sidebar-shop" id="ecommerce-sidebar-toggler">
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h6 class="filter-heading d-none d-lg-block">Filters</h6>
-                                    </div>
-                                </div>
-                                <span class="sidebar-close-icon d-block d-md-none">
-                                    <i class="feather icon-x"></i>
-                                </span>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="multi-range-price">
-                                            <div class="multi-range-title pb-75">
-                                                <h6 class="filter-title mb-0">Multi Range</h6>
-                                            </div>
-                                            <ul class="list-unstyled price-range" id="price-range">
-                                                <li>
-                                                    <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" checked value="">
-                                                        <span class="vs-radio">
-                                                            <span class="vs-radio--border"></span>
-                                                            <span class="vs-radio--circle"></span>
-                                                        </span>
-                                                        <span class="ml-50">All</span>
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="0-50">
-                                                        <span class="vs-radio">
-                                                            <span class="vs-radio--border"></span>
-                                                            <span class="vs-radio--circle"></span>
-                                                        </span>
-                                                        <span class="ml-50" value="">&lt;=$50</span>
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="50-100">
-                                                        <span class="vs-radio">
-                                                            <span class="vs-radio--border"></span>
-                                                            <span class="vs-radio--circle"></span>
-                                                        </span>
-                                                        <span class="ml-50" value="">$50 - $100</span>
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="100-300">
-                                                        <span class="vs-radio">
-                                                            <span class="vs-radio--border"></span>
-                                                            <span class="vs-radio--circle"></span>
-                                                        </span>
-                                                        <span class="ml-50" value="">$100 - $300</span>
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span class="vs-radio-con vs-radio-primary py-25">
-                                                        <input type="radio" name="price-range" value="300-1000">
-                                                        <span class="vs-radio">
-                                                            <span class="vs-radio--border"></span>
-                                                            <span class="vs-radio--circle"></span>
-                                                        </span>
-                                                        <span class="ml-50" value="">&gt;= $300</span>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <!-- /Price Filter -->
-                                        <hr>
-                                        <!-- Categories Starts -->
-                                        <div id="product-categories">
-                                            <div class="product-category-title">
-                                                <h6 class="filter-title mb-1">Categories</h6>
-                                            </div>
-                                            <ul class="list-unstyled categories-list">
-                                                <c:forEach items="${listCate}" var="cate">
-                                                    <li>
-                                                        <span class="vs-checkbox-con vs-checkbox-primary py-25">
-                                                            <input type="checkbox" name="category-filter" value="${cate.id}">
-                                                            <span class="vs-checkbox">
-                                                                <span class="vs-checkbox--check"></span>
-                                                            </span>
-                                                            <span class="ml-50">${cate.category}</span>
-                                                        </span>
-                                                    </li>
-                                                </c:forEach>
-                                            </ul>
-                                        </div>
-                                        <!-- Categories Ends -->
-                                        <hr>
-                                        <!-- Brands -->
-                                        <div class="brands">
-                                            <div class="brand-title mt-1 pb-1">
-                                                <h6 class="filter-title mb-0">Brands</h6>
-                                            </div>
-                                            <div class="brand-list" id="brands">
-                                                <ul class="list-unstyled">
-                                                    <c:forEach items="${brandCounts}" var="bc">
-                                                        <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-checkbox-con vs-checkbox-primary">
-                                                                <input type="checkbox" name="brand-filter" value="${bc.id}">
-                                                                <span class="vs-checkbox">
-                                                                    <span class="vs-checkbox--check"></span>
-                                                                </span>
-                                                                <span class="">${bc.brand}</span>
-                                                            </span>
-                                                            <span>${bc.countEachBrand}</span>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /Brand -->
-                                        <hr>
-                                        <!-- Color -->
-                                        <div class="colors">
-                                            <div class="brand-title mt-1 pb-1">
-                                                <h6 class="filter-title mb-0">Color</h6>
-                                            </div>
-                                            <div class="colors-list" id="colors">
-                                                <ul class="list-unstyled">
-                                                    <c:forEach items="${listC}" var="c">
-                                                        <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-checkbox-con vs-checkbox-primary">
-                                                                <input type="checkbox" name="colors-filter" value="${c.id}">
-                                                                <span class="vs-checkbox">
-                                                                    <span class="vs-checkbox--check"></span>
-                                                                </span>
-                                                                <span class="">${c.color}</span>
-                                                            </span>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /Brand -->
-                                        <hr>
-                                        <!-- Size -->
-                                        <div class="size">
-                                            <div class="brand-title mt-1 pb-1">
-                                                <h6 class="filter-title mb-0">Size</h6>
-                                            </div>
-                                            <div class="size-list" id="size">
-                                                <ul class="list-unstyled">
-                                                    <c:forEach items="${listS}" var="s">
-                                                        <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-checkbox-con vs-checkbox-primary">
-                                                                <input type="checkbox" name="size-filter" value="${s.id}">
-                                                                <span class="vs-checkbox">
-                                                                    <span class="vs-checkbox--check"></span>
-                                                                </span>
-                                                                <span class="">${s.size}</span>
-                                                            </span>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /Size -->
-                                        <hr>
-                                        <!-- Gender -->
-                                        <div class="gender">
-                                            <div class="brand-title mt-1 pb-1">
-                                                <h6 class="filter-title mb-0">Gender</h6>
-                                            </div>
-                                            <div class="gender-list" id="gender">
-                                                <ul class="list-unstyled">
-                                                    <c:forEach items="${listG}" var="g">
-                                                        <li class="d-flex justify-content-between align-items-center py-25">
-                                                            <span class="vs-checkbox-con vs-checkbox-primary">
-                                                                <input type="checkbox" name="gender-filter" value="${g.id}">
-                                                                <span class="vs-checkbox">
-                                                                    <span class="vs-checkbox--check"></span>
-                                                                </span>
-                                                                <span class="">${g.gender}</span>
-                                                            </span>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /Brand -->
-
-                                        <!--                                     Rating section starts 
-                                                                            <div id="ratings">
-                                                                                <div class="ratings-title mt-1 pb-75">
-                                                                                    <h6 class="filter-title mb-0">Ratings</h6>
-                                                                                </div>
-                                                                                <div class="d-flex justify-content-between">
-                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li>& up</li>
-                                                                                    </ul>
-                                                                                    <div class="stars-received">(160)</div>
-                                                                                </div>
-                                                                                <div class="d-flex justify-content-between">
-                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li>& up</li>
-                                                                                    </ul>
-                                                                                    <div class="stars-received">(176)</div>
-                                                                                </div>
-                                                                                <div class="d-flex justify-content-between">
-                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0">
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li>& up</li>
-                                                                                    </ul>
-                                                                                    <div class="stars-received">(291)</div>
-                                                                                </div>
-                                                                                <div class="d-flex justify-content-between">
-                                                                                    <ul class="unstyled-list list-inline ratings-list mb-0 ">
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                                                                        <li>& up</li>
-                                                                                    </ul>
-                                                                                    <div class="stars-received">(190)</div>
-                                                                                </div>
-                                                                            </div>
-                                                                             Rating section Ends -->
-                                        <hr>
-                                        <div id="submit-filters">
-                                            <button type="submit" id="submit-filters-btn" class="btn btn-block btn-primary">SEARCH</button>
-                                        </div>
-                                        <br>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- Ecommerce Sidebar Ends -->
                     </div>
                 </div>
             </div>
@@ -698,38 +487,56 @@
         <!-- END: Page JS-->
 
         <script>
-                function clearFilters() {
-                    // Clear radio buttons for price range
-                    document.querySelectorAll('input[name="price-range"]').forEach(function (element) {
-                        element.checked = false;
-                    });
-
-                    // Clear radio buttons for category filter
-                    document.querySelectorAll('input[name="category-filter"]').forEach(function (element) {
-                        element.checked = false;
-                    });
-
-                    // Clear checkboxes for brands
-                    document.querySelectorAll('input[name="brand-filter"]').forEach(function (element) {
-                        element.checked = false;
-                    });
+                var errmp = "${errmp}";
+                if (errmp) {
+                    alert("Error: " + errmp);
                 }
 
-                function sortHiddenInput(selectElement) {
-                    var selectedValue = selectElement.value;
-                    if (selectedValue === 'Sorted') {
-                        document.getElementById('sortHidden1').value = null;
-                        document.getElementById('sortHidden2').value = null;
-                    } else {
-                        document.getElementById('sortHidden1').value = selectedValue;
-                        document.getElementById('sortHidden2').value = selectedValue;
+                function updateUrlParams() {
+                    var currentUrl = new URL(window.location.href);
+
+                    var searchKeywordParam = currentUrl.searchParams.get('keyword');
+                    var statusParam = currentUrl.searchParams.get('status');
+                    var sortByPriceParam = currentUrl.searchParams.get('sortByPrice');
+                    var sortByDateParam = currentUrl.searchParams.get('sortByDate');
+
+                    var statusSelect = document.querySelector('select[name="searchByStatus"]');
+                    var sortByPriceSelect = document.querySelector('select[name="sortByPrice"]');
+                    var sortByDateSelect = document.querySelector('select[name="sortByDate"]');
+
+
+                    statusParam = statusSelect.value || "";
+
+                    sortByPriceParam = sortByPriceSelect.value || "";
+
+                    sortByDateParam = sortByDateSelect.value || "";
+
+                    var newUrl = "manageproduct?action=search-products";
+
+                    if (searchKeywordParam) {
+                        newUrl += "&keyword=" + searchKeywordParam;
                     }
+
+                    if (statusParam !== "") {
+                        newUrl += "&status=" + statusParam;
+                    }
+
+                    if (sortByPriceParam !== "") {
+                        newUrl += "&sortByPrice=" + sortByPriceParam;
+                    }
+
+                    if (sortByDateParam) {
+                        newUrl += "&sortByDate=" + sortByDateParam;
+                    }
+
+                    window.location.href = newUrl;
                 }
+
         </script>    
 
         <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
         <jsp:include page="../admin/addProductModal.jsp"></jsp:include> 
-        <jsp:include page="../admin/deleteProductModal.jsp"></jsp:include> 
+        <jsp:include page="../admin/editStatusProductModal.jsp"></jsp:include> 
     </body>
     <!-- END: Body-->
 

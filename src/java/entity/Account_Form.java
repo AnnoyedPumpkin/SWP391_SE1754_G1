@@ -10,20 +10,20 @@ import lombok.Data;
 
 /**
  *
- * @author admin
+ * @author LENOVO
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account {
+public class Account_Form {
     private int id;
     private String email;
-    private String password;
     private String member_code;
-    private int verifyCode;
-    private int role_Id;
+    private String phone_number;
+    private String gender;
+    private Date dob;
+    private String address;
+    private String username;
     private String role;
-    private String status;
-    private Date status_date;
 }

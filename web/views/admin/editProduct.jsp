@@ -122,7 +122,7 @@
                 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                     <li class=" nav-item"><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="feather icon-home"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge badge-warning badge-pill float-right mr-2">1</span></a>
                         <ul class="menu-content">
-                            <li><a href="dashboard-analytics.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
+                            <li class=""><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
                             </li>
                         </ul>
                     </li>
@@ -136,8 +136,6 @@
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Discount</span></a>
-                            </li>
-                            <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
                     </li>
@@ -194,10 +192,11 @@
                     <section class="app-ecommerce-details">
                         <div class="card">
                             <div class="card-body">
-                                <form id="updateProductForm" action="manageproduct?action=edit-product" method="POST" enctype="multipart/form-data">
+                                <h1>Update Product Form</h1>
+                                <form id="updateProductForm" action="manageproduct?action=update-product" method="POST" enctype="multipart/form-data">
                                     <div class="row mb-5 mt-2">
                                         <div class="col-md-6">
-                                            <input type="hidden" type="text" class="form-control" id="productid" name="product_id" value="${productForm.id}">
+                                            <input type="hidden" type="text" class="form-control" id="productid" name="productID" value="${productForm.id}">
                                             <div class="form-group">
                                                 <label for="pname">Product Name: </label>
                                                 <input type="text" class="form-control" id="productnameInput1" name="product_name" value="${productForm.name}">
@@ -214,49 +213,28 @@
                                                 <div id="productdescriptionError1" class="error"></div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="stock">Stock: </label>
-                                                <input type="text" class="form-control" id="stockInput1" name="stock" value="${productForm.stock}">
-                                                <div id="stockError1" class="error"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="colorSelect">Color:</label>
-                                                <input type="hidden" type="text" class="form-control" id="colorid" name="color_id" value="${productForm.color_id}">
-                                                <select class="form-control" id="colorSelect1" name="color" required>
-                                                    <option value="">Select color</option>
-                                                    <c:forEach items="${listC}" var="c">
+                                                <label for="cateSelect">Category: </label>
+                                                <input type="hidden" type="text" class="form-control" id="cateid" name="cate_id" value="${productForm.category_id}">
+                                                <select class="form-control" id="cateSelect1" name="cate" required>
+                                                    <option selected="" value="">Select category</option>
+                                                    <c:forEach items="${listCate}" var="c">
                                                         <c:choose>
-                                                            <c:when test="${productForm.color_id == c.id}">
-                                                                <option value="${c.id}" selected>${c.color}</option>
+                                                            <c:when test="${productForm.category_id == c.id}">
+                                                                <option value="${c.id}" selected>${c.category}</option>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <option value="${c.id}">${c.color}</option>
+                                                                <option value="${c.id}">${c.category}</option>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:forEach>
                                                 </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="sizeSelect">Size: </label>
-                                                <input type="hidden" type="text" class="form-control" id="sizeid" name="size_id" value="${productForm.size_id}">
-                                                <select class="form-control" id="sizeSelect1" name="size" required>
-                                                    <option value="">Select size</option>
-                                                    <c:forEach items="${listS}" var="s">
-                                                        <c:choose>
-                                                            <c:when test="${s.id == productForm.size_id}">
-                                                                <option value="${s.id}" selected>${s.size}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${s.id}">${s.size}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </select>
+                                                <div id="cateError1" class="error"></div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="brandSelect">Brand: </label>
                                                 <input type="hidden" type="text" class="form-control" id="brandid" name="brand_id" value="${productForm.brand_id}">
                                                 <select class="form-control" id="brandSelect1" name="brand" required>
-                                                    <option value="">Select brand</option>
+                                                    <option selected value="">Select brand</option>
                                                     <c:forEach items="${listB}" var="b">
                                                         <c:choose>
                                                             <c:when test="${b.id == productForm.brand_id}">
@@ -268,51 +246,8 @@
                                                         </c:choose>
                                                     </c:forEach>
                                                 </select>
+                                                <div id="brandError1" class="error"></div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="cateSelect">Category: </label>
-                                                <input type="hidden" type="text" class="form-control" id="cateid" name="cate_id" value="${productForm.category_id}">
-                                                <select class="form-control" id="cateSelect1" name="cate" required>
-                                                    <option value="">Select category</option>
-                                                    <c:forEach items="${listCate}" var="cate">
-                                                        <c:choose>
-                                                            <c:when test="${cate.id == productForm.category_id}">
-                                                                <option value="${cate.id}" selected>${cate.category}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${cate.id}">${cate.category}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="genderSelect">Gender: </label>
-                                                <input type="hidden" type="text" class="form-control" id="genderid" name="gender_id" value="${productForm.gender_id}">
-                                                <select class="form-control" id="genderSelect1" name="gender" required>
-                                                    <option value="">Select gender</option>
-                                                    <c:forEach items="${listG}" var="g">
-                                                        <c:choose>
-                                                            <c:when test="${g.id == productForm.gender_id}">
-                                                                <option value="${g.id}" selected>${g.gender}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${g.id}">${g.gender}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <hr>
-                                            <c:choose>
-                                                <c:when test="${characterStock != 0}">
-                                                    <p>Available - <span class="text-success">In stock</span></p>
-                                                </c:when>
-                                                <c:when test="${characterStock == 0}">
-                                                    <p>Available - <span class="text-danger">Out of stock</span></p>
-                                                </c:when>
-                                            </c:choose>
-                                            <hr>
                                         </div>
                                         <div class="col-6 form-group">
                                             <label for="image">Product Image Layout: </label>
@@ -325,7 +260,9 @@
                                                     <label class="custom-file-label">Choose file</label>
                                                 </div>
                                             </div>
-                                            <img id="imageLayout" src="${productForm.image_path}" alt="Preview" style="max-width: 300px; max-height: 300px;">
+                                            <c:if test="${ not empty productForm.image_path}">
+                                                <img id="imageLayout" src="${productForm.image_path}" alt="Preview" style="max-width: 300px; max-height: 300px;">
+                                            </c:if>
                                             <br>
                                             <br>
                                             <label for="image">Product Images: </label>
@@ -338,6 +275,7 @@
                                                     <label class="custom-file-label">Choose file</label>
                                                 </div>
                                             </div>
+                                            <div id="imageError1" class="error"></div>
                                             <c:forEach items="${listImages}" var="image">
                                                 <div style="position: relative; display: inline-block;">
                                                     <img src="${image.image}" alt="Preview" style="max-width: 200px; max-height: 200px;">
@@ -404,24 +342,43 @@
 
 
         <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
-        <script>
+            <script>
 
+                var errorup = "${errorup}";
+                if (errorup) {
+                    alert("Error: " + errorup);
+                }
+
+                var msgup = "${msgup}";
+                if (msgup) {
+                    alert("Success: " + msgup);
+                }
 
 
                 function validateUpdateProductForm() {
                     let productName1 = $('#productnameInput1').val();
                     let productDescription1 = $('#productdescriptionInput1').val();
                     let productPrice1 = $('#productpriceInput1').val();
-                    let stock1 = $('#stockInput1').val();
+                    let cateID = $('#cateSelect1').val();
+                    let brandID = $('#brandSelect1').val();
+                    let images = $('#list_image')[0].files;
 
-                    // Remove existing error messages
                     $('.error').html('');
 
+                    if (cateID === '') {
+                        $('#cateError1').html('Please choose category!');
+                    }
+                    if (brandID === '') {
+                        $('#brandError1').html('Please choose brand!');
+                    }
+                    if (images.length > 6) {
+                        $('#imageError1').html('Maximum of 6 images allowed!');
+                    }
                     if (productName1 === '') {
                         $('#productnameError1').html('Product Name cannot be blank');
                     } else if (productName1.length < 3) {
                         $('#productnameError1').html('Product Name must be at least 3 characters long.');
-                    } else if (!/^[A-Za-z\s\u0080-\uFFFF]+$/.test(productName1)) {
+                    } else if (!/^(?!.*\s{2})[A-Za-z\s]+$/.test(productName1)) {
                         $('#productnameError1').html('Product Name must contain only letters');
                     }
 
@@ -429,29 +386,26 @@
                         $('#productdescriptionError1').html('Product Description cannot be blank');
                     } else if (productDescription1.length < 10) {
                         $('#productdescriptionError1').html('Product Description must be at least 10 characters long.');
-                    } else if (!/^[A-Za-z0-9\s\u0080-\uFFFF]+$/.test(productDescription1)) {
+                    } else if (!/^(?!.*\s{2})[A-Za-z0-9.,\s]+$/.test(productDescription1)) {
                         $('#productdescriptionError1').html('Product Description must contain only letters and numbers');
                     }
 
                     if (productPrice1 === '') {
                         $('#productpriceError1').html('Product Price cannot be blank');
                     } else if (!/^\d+(\.\d{1,2})?$/.test(productPrice1) || parseFloat(productPrice1) <= 0) {
-                        $('#productpriceError1').html('Product Price must be a valid number (up to two decimal places) and larger than zero');
+                        $('#productpriceError1').html('Product Price must contain only numbers and be larger than zero');
                     }
 
-                    if (stock1 === '') {
-                        $('#stockError1').html('Stock cannot be blank');
-                    } else if (!/^[0-9]+$/.test(stock1) || parseFloat(stock1) < 0) {
-                        $('#stockError1').html('Stock must contain only numbers');
-                    }
-
-                    // Check if there are any error messages
                     let error = '';
                     $('.error').each(function () {
                         error += $(this).html();
                     });
                     if (error === '') {
-                        $('#updateProductForm').submit();
+                        if (confirm('Are you sure you want to update this product?')) {
+                            $('#updateProductForm').submit();
+                        } else {
+                            event.preventDefault();
+                        }
                     } else {
                         event.preventDefault();
                     }

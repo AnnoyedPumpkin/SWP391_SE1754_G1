@@ -6,6 +6,8 @@ package control.admin;
 
 import constant.Constant;
 import dao.AdminDao;
+import entity.Account;
+import entity.Account_Form;
 import entity.Brand;
 import entity.Category;
 import entity.Color;
@@ -40,6 +42,10 @@ public class DashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         adminDAO = new AdminDao();
         HttpSession session = request.getSession();
         List<Color> listC;
@@ -48,6 +54,9 @@ public class DashboardController extends HttpServlet {
         List<Category> listCate;
         List<Size> listS;
         List<Discount> listD;
+        List<Account_Form> listAf;
+        int countAccounts = adminDAO.countAllAccount();
+        int countInvoices = adminDAO.countAllInvoice();
         String page = request.getParameter("page") == null ? "" : request.getParameter("page");
         String url = "";
         switch (page) {
@@ -69,7 +78,14 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listD", listD);
                 url = "../views/admin/manageDiscount.jsp";
                 break;
+            case "manageUser":
+                listAf = adminDAO.findAllAccount();
+                session.setAttribute("listAf", listAf);
+                url = "../views/admin/manageUser.jsp";
+                break;
             default:
+                session.setAttribute("countAccount", countAccounts);
+                session.setAttribute("countInvoice", countInvoices);
                 url = "../views/admin/dashboard.jsp";
                 break;
         }
@@ -79,6 +95,10 @@ public class DashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         List<Color> listC;
         List<Brand> listB;
@@ -101,8 +121,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listC", listC);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "edit-color":
-                editColor(request, response);
+            case "update-color":
+                updateColor(request, response);
                 listC = adminDAO.findAllColor();
                 session.setAttribute("listC", listC);
                 url = "../views/admin/productCharacteristic.jsp";
@@ -119,8 +139,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listB", listB);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "edit-brand":
-                editBrand(request, response);
+            case "update-brand":
+                updateBrand(request, response);
                 listB = adminDAO.findAllBrand();
                 session.setAttribute("listB", listB);
                 url = "../views/admin/productCharacteristic.jsp";
@@ -137,8 +157,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listCate", listCate);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "edit-category":
-                editCategory(request, response);
+            case "update-category":
+                updateCategory(request, response);
                 listCate = adminDAO.findAllCategory();
                 session.setAttribute("listCate", listCate);
                 url = "../views/admin/productCharacteristic.jsp";
@@ -155,8 +175,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listG", listG);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "edit-gender":
-                editGender(request, response);
+            case "update-gender":
+                updateGender(request, response);
                 listG = adminDAO.findAllGender();
                 session.setAttribute("listG", listG);
                 url = "../views/admin/productCharacteristic.jsp";
@@ -173,8 +193,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
                 break;
-            case "edit-size":
-                editSize(request, response);
+            case "update-size":
+                updateSize(request, response);
                 listS = adminDAO.findAllSize();
                 session.setAttribute("listS", listS);
                 url = "../views/admin/productCharacteristic.jsp";
@@ -191,8 +211,8 @@ public class DashboardController extends HttpServlet {
                 session.setAttribute("listD", listD);
                 url = "../views/admin/manageDiscount.jsp";
                 break;
-            case "edit-discount":
-                editDiscount(request, response);
+            case "update-discount":
+                updateDiscount(request, response);
                 listD = adminDAO.findAllDiscount();
                 session.setAttribute("listD", listD);
                 url = "../views/admin/manageDiscount.jsp";
@@ -207,7 +227,7 @@ public class DashboardController extends HttpServlet {
         adminDAO = new AdminDao();
         String color = request.getParameter("color");
 
-        if (color == null || color.isEmpty()) {
+        if (color == null || color.isEmpty() || !color.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorcoa", "Create color error!");
             return;
         }
@@ -237,12 +257,12 @@ public class DashboardController extends HttpServlet {
         request.setAttribute("msgcod", "Delete color successfully!");
     }
 
-    private void editColor(HttpServletRequest request, HttpServletResponse response) {
+    private void updateColor(HttpServletRequest request, HttpServletResponse response) {
         String idToEdit = request.getParameter("colorIdToUpdate");
         String color = request.getParameter("colorToUpdate");
         String oldColorName = request.getParameter("oldNameColor");
 
-        if (idToEdit == null || idToEdit.isEmpty() || color == null || color.isEmpty() || oldColorName == null || oldColorName.isEmpty()) {
+        if (idToEdit == null || idToEdit.isEmpty() || color == null || color.isEmpty() || oldColorName == null || oldColorName.isEmpty() || !idToEdit.matches("^[0-9]+$") || !color.matches("^[A-Za-z\\s]+$") || !oldColorName.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorcoe", "Edit color error!");
             return;
         }
@@ -266,7 +286,7 @@ public class DashboardController extends HttpServlet {
     private void addCategory(HttpServletRequest request, HttpServletResponse response) {
         String category = request.getParameter("cate");
 
-        if (category == null || category.isEmpty()) {
+        if (category == null || category.isEmpty() || !category.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorca", "Create category error!");
             return;
         }
@@ -281,12 +301,12 @@ public class DashboardController extends HttpServlet {
         }
     }
 
-    private void editCategory(HttpServletRequest request, HttpServletResponse response) {
+    private void updateCategory(HttpServletRequest request, HttpServletResponse response) {
         String idToEdit = request.getParameter("categoryIdToUpdate");
         String cate = request.getParameter("categoryToUpdate");
         String oldCategoryName = request.getParameter("oldNameCategory");
 
-        if (idToEdit == null || idToEdit.isEmpty() || cate == null || cate.isEmpty() || oldCategoryName == null || oldCategoryName.isEmpty()) {
+        if (idToEdit == null || idToEdit.isEmpty() || cate == null || cate.isEmpty() || oldCategoryName == null || oldCategoryName.isEmpty() || !idToEdit.matches("^[0-9]+$") || !cate.matches("^[A-Za-z\\s]+$") || !oldCategoryName.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorce", "Edit brand error!");
             return;
         }
@@ -324,7 +344,7 @@ public class DashboardController extends HttpServlet {
     private void addBrand(HttpServletRequest request, HttpServletResponse response) {
         String brand = request.getParameter("brand");
 
-        if (brand == null || brand.isEmpty()) {
+        if (brand == null || brand.isEmpty() || !brand.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorba", "Create brand error!");
             return;
         }
@@ -339,12 +359,12 @@ public class DashboardController extends HttpServlet {
         }
     }
 
-    private void editBrand(HttpServletRequest request, HttpServletResponse response) {
+    private void updateBrand(HttpServletRequest request, HttpServletResponse response) {
         String idToEdit = request.getParameter("brandIdToUpdate");
         String brand = request.getParameter("brandToUpdate");
         String oldBrandName = request.getParameter("oldBrandName");
 
-        if (idToEdit == null || idToEdit.isEmpty() || brand == null || brand.isEmpty() || oldBrandName == null || oldBrandName.isEmpty()) {
+        if (idToEdit == null || idToEdit.isEmpty() || brand == null || brand.isEmpty() || oldBrandName == null || oldBrandName.isEmpty() || !idToEdit.matches("^[0-9]+$") || !brand.matches("^[A-Za-z\\s]+$") || !oldBrandName.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorbe", "Edit brand error!");
             return;
         }
@@ -382,7 +402,7 @@ public class DashboardController extends HttpServlet {
     private void addGender(HttpServletRequest request, HttpServletResponse response) {
         String gender = request.getParameter("gender");
 
-        if (gender == null || gender.isEmpty()) {
+        if (gender == null || gender.isEmpty() || !gender.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorga", "Create gender error!");
             return;
         }
@@ -412,12 +432,12 @@ public class DashboardController extends HttpServlet {
         request.setAttribute("msggd", "Delete gender successfully!");
     }
 
-    private void editGender(HttpServletRequest request, HttpServletResponse response) {
+    private void updateGender(HttpServletRequest request, HttpServletResponse response) {
         String idToUpdate = request.getParameter("genderIdToUpdate");
         String gender = request.getParameter("genderToUpdate");
         String oldGenderName = request.getParameter("oldGenderName");
 
-        if (idToUpdate == null || idToUpdate.isEmpty() || gender == null || gender.isEmpty() || oldGenderName == null || oldGenderName.isEmpty()) {
+        if (idToUpdate == null || idToUpdate.isEmpty() || gender == null || gender.isEmpty() || oldGenderName == null || oldGenderName.isEmpty() || !idToUpdate.matches("^[0-9]+$") || !gender.matches("^[A-Za-z\\s]+$") || !oldGenderName.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorge", "Edit gender error!");
             return;
         }
@@ -441,7 +461,7 @@ public class DashboardController extends HttpServlet {
     private void addSize(HttpServletRequest request, HttpServletResponse response) {
         String size = request.getParameter("size");
 
-        if (size == null || size.isEmpty()) {
+        if (size == null || size.isEmpty() || !size.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorsa", "Create size error!");
             return;
         }
@@ -456,12 +476,12 @@ public class DashboardController extends HttpServlet {
         }
     }
 
-    private void editSize(HttpServletRequest request, HttpServletResponse response) {
+    private void updateSize(HttpServletRequest request, HttpServletResponse response) {
         String idToEdit = request.getParameter("sizeIdToUpdate");
         String size = request.getParameter("sizeToUpdate");
         String oldSizeName = request.getParameter("oldSizeName");
 
-        if (idToEdit == null || idToEdit.isEmpty() || size == null || size.isEmpty() || oldSizeName == null || oldSizeName.isEmpty()) {
+        if (idToEdit == null || idToEdit.isEmpty() || size == null || size.isEmpty() || oldSizeName == null || oldSizeName.isEmpty() || !idToEdit.matches("^[0-9]+$") || !size.matches("^[A-Za-z\\s]+$") || !oldSizeName.matches("^[A-Za-z\\s]+$")) {
             request.setAttribute("errorse", "Edit size error!");
             return;
         }
@@ -498,7 +518,7 @@ public class DashboardController extends HttpServlet {
         String discountRaw = request.getParameter("discount");
         Date currentTimestamp = new Date(System.currentTimeMillis());
         String statusRaw = request.getParameter("status");
-        if (discountRaw == null || discountRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty()) {
+        if (discountRaw == null || discountRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty() || !discountRaw.matches("^[0-9]+$") || !statusRaw.equalsIgnoreCase("Inactive") || !statusRaw.equalsIgnoreCase("Active")) {
             request.setAttribute("errorad", "Create discount error!");
             return;
         }
@@ -531,13 +551,13 @@ public class DashboardController extends HttpServlet {
         request.setAttribute("msgdd", "Delete discount successfully!");
     }
 
-    private void editDiscount(HttpServletRequest request, HttpServletResponse response) {
+    private void updateDiscount(HttpServletRequest request, HttpServletResponse response) {
         String idToEdit = request.getParameter("discountIdToUpdate");
         String oldDiscountRaw = request.getParameter("oldDiscount");
         String discountPercentRaw = request.getParameter("discountPercentToUpdate");
         String statusRaw = request.getParameter("status");
 
-        if (idToEdit == null || idToEdit.isEmpty() || discountPercentRaw == null || discountPercentRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty() || oldDiscountRaw == null || oldDiscountRaw.isEmpty()) {
+        if (idToEdit == null || idToEdit.isEmpty() || discountPercentRaw == null || discountPercentRaw.isEmpty() || statusRaw == null || statusRaw.isEmpty() || oldDiscountRaw == null || oldDiscountRaw.isEmpty() || !discountPercentRaw.matches("^[0-9]+$") || !oldDiscountRaw.matches("^[0-9]+$") || !statusRaw.equalsIgnoreCase("Inactive") || !statusRaw.equalsIgnoreCase("Active")) {
             request.setAttribute("errored", "Edit discount error!");
             return;
         }

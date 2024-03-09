@@ -128,17 +128,15 @@
                         <ul class="menu-content">
                             <li><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Characteristics</span></a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Discount</span></a>
-                            </li>
-                            <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
                         <ul class="menu-content">
-                            <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manageUser"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
@@ -169,7 +167,7 @@
                 <div class="content-body">
                     <!-- Dashboard Analytics Start -->
                     <section id="dashboard-analytics">
-                        <div class="row">
+                        <div class="row match-height">
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <div class="card bg-analytics text-white">
                                     <div class="card-content">
@@ -184,58 +182,68 @@
                                                 </div>
                                             </div>
                                             <div class="text-center">
-                                                <h1 class="mb-2 text-white">Congratulations John,</h1>
-                                                <p class="m-auto w-75">You have done <strong>57.6%</strong> more sales today. Check your new badge in your profile.</p>
+                                                <h1 class="mb-2 text-white">Congratulations ${account.email},</h1>
+                                                <p class="m-auto w-75">You have done <strong>57.6%</strong> more sales today.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-12">
-                                <div class="card">
+                                <div class="card h-75">
                                     <div class="card-header d-flex flex-column align-items-start pb-0">
                                         <div class="avatar bg-rgba-primary p-50 m-0">
                                             <div class="avatar-content">
                                                 <i class="feather icon-users text-primary font-medium-5"></i>
                                             </div>
                                         </div>
-                                        <h2 class="text-bold-700 mt-1 mb-25">92.6k</h2>
-                                        <p class="mb-0">Subscribers Gained</p>
-                                    </div>
-                                    <div class="card-content">
-                                        <div id="subscribe-gain-chart"></div>
+                                        <c:choose>
+                                            <c:when test="${countAccount > 999 && countAccount < 999999}">
+                                                <h2 class="text-bold-700 mt-1 mb-25">${countAccount}K</h2>
+                                                <p class="mb-0">Subscribers Gained</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h2 class="text-bold-700 mt-1 mb-25">${countAccount} </h2>
+                                                <p class="mb-0">Subscribers Gained</p>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-12">
-                                <div class="card">
+                                <div class="card h-75">
                                     <div class="card-header d-flex flex-column align-items-start pb-0">
                                         <div class="avatar bg-rgba-warning p-50 m-0">
                                             <div class="avatar-content">
                                                 <i class="feather icon-package text-warning font-medium-5"></i>
                                             </div>
                                         </div>
-                                        <h2 class="text-bold-700 mt-1 mb-25">97.5K</h2>
-                                        <p class="mb-0">Orders Received</p>
-                                    </div>
-                                    <div class="card-content">
-                                        <div id="orders-received-chart"></div>
+                                        <c:choose>
+                                            <c:when test="${countInvoice > 999 && countInvoice < 999999}">
+                                                <h2 class="text-bold-700 mt-1 mb-25">${countInvoice}K</h2>
+                                                <p class="mb-0">Orders Received Gained</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h2 class="text-bold-700 mt-1 mb-25">${countInvoice} </h2>
+                                                <p class="mb-0">Orders Received Gained</p>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
+                        <div class="row match-height">
+                            <div class="col-md-5 col-12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row pb-50">
                                                 <div class="col-lg-6 col-12 d-flex justify-content-between flex-column order-lg-1 order-2 mt-lg-0 mt-2">
                                                     <div>
-                                                        <h2 class="text-bold-700 mb-25">2.7K</h2>
+                                                        <h2 class="text-bold-700 mb-25">3.3 K</h2>
                                                         <p class="text-bold-500 mb-75">Avg Sessions</p>
                                                         <h5 class="font-medium-2">
-                                                            <span class="text-success">+5.2% </span>
+                                                            <span class="text-success">+5.3% </span>
                                                             <span>vs last 7 days</span>
                                                         </h5>
                                                     </div>
@@ -286,53 +294,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between pb-0">
-                                        <h4 class="card-title">Support Tracker</h4>
-                                        <div class="dropdown chart-dropdown">
-                                            <button class="btn btn-sm border-0 dropdown-toggle p-0" type="button" id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Last 7 Days
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
-                                                <a class="dropdown-item" href="#">Last 28 Days</a>
-                                                <a class="dropdown-item" href="#">Last Month</a>
-                                                <a class="dropdown-item" href="#">Last Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body pt-0">
-                                            <div class="row">
-                                                <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
-                                                    <h1 class="font-large-2 text-bold-700 mt-2 mb-0">163</h1>
-                                                    <small>Tickets</small>
-                                                </div>
-                                                <div class="col-sm-10 col-12 d-flex justify-content-center">
-                                                    <div id="support-tracker-chart"></div>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info d-flex justify-content-between">
-                                                <div class="text-center">
-                                                    <p class="mb-50">New Tickets</p>
-                                                    <span class="font-large-1">29</span>
-                                                </div>
-                                                <div class="text-center">
-                                                    <p class="mb-50">Open Tickets</p>
-                                                    <span class="font-large-1">63</span>
-                                                </div>
-                                                <div class="text-center">
-                                                    <p class="mb-50">Response Time</p>
-                                                    <span class="font-large-1">1d</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row match-height">
-                            <div class="col-lg-4 col-12">
+                            <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between pb-0">
                                         <h4>Product Orders</h4>
@@ -381,7 +343,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-12">
+                            <div class="col-md-3 col-12">
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between align-items-start">
                                         <div>
@@ -393,69 +355,6 @@
                                     <div class="card-content">
                                         <div class="card-body px-0">
                                             <div id="sales-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Activity Timeline</h4>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <ul class="activity-timeline timeline-left list-unstyled">
-                                                <li>
-                                                    <div class="timeline-icon bg-primary">
-                                                        <i class="feather icon-plus font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Client Meeting</p>
-                                                        <span class="font-small-3">Bonbon macaroon jelly beans gummi bears jelly lollipop apple</span>
-                                                    </div>
-                                                    <small class="text-muted">25 mins ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-warning">
-                                                        <i class="feather icon-alert-circle font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Email Newsletter</p>
-                                                        <span class="font-small-3">Cupcake gummi bears soufflé caramels candy</span>
-                                                    </div>
-                                                    <small class="text-muted">15 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-danger">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Plan Webinar</p>
-                                                        <span class="font-small-3">Candy ice cream cake. Halvah gummi bears</span>
-                                                    </div>
-                                                    <small class="text-muted">20 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-success">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Launch Website</p>
-                                                        <span class="font-small-3">Candy ice cream cake. </span>
-                                                    </div>
-                                                    <small class="text-muted">25 days ago</small>
-                                                </li>
-                                                <li>
-                                                    <div class="timeline-icon bg-primary">
-                                                        <i class="feather icon-check font-medium-2 align-middle"></i>
-                                                    </div>
-                                                    <div class="timeline-info">
-                                                        <p class="font-weight-bold mb-0">Marketing</p>
-                                                        <span class="font-small-3">Candy ice cream. Halvah bears Cupcake gummi bears.</span>
-                                                    </div>
-                                                    <small class="text-muted">28 days ago</small>
-                                                </li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -612,7 +511,7 @@
 
         <!-- BEGIN: Footer-->
         <footer class="footer footer-static footer-light">
-            <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
+            <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; <script>document.write(new Date().getFullYear());</script><a class="text-bold-800 grey darken-2" href="" target="_blank">Brava,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
                 <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
             </p>
         </footer>
@@ -639,7 +538,9 @@
         <!-- BEGIN: Page JS-->
         <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/dashboard-analytics.js"></script>
         <!-- END: Page JS-->
+        <<script src="link">
 
+        </script>
     </body>
     <!-- END: Body-->
 

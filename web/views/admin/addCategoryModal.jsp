@@ -49,7 +49,7 @@
         $('.error').html('');
         if (cate === '') {
             $('#cateError').html('Category input cannot blank');
-        } else if (!/^[A-Za-z\s]+$/.test(cate.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(cate.trim())) {
             $('#cateError').html('Category input must contain only letters');
         }
         // Kiểm tra nếu không có lỗi thì submit form
@@ -58,7 +58,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#addCategoryForm').submit();
+            if (confirm('Are you sure you want to add this category?')) {
+                $('#addCategoryForm').submit();
+            }
         } else {
             event.preventDefault();
         }

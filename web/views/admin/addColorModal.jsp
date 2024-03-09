@@ -44,7 +44,7 @@
         $('.error').html('');
         if (color === '') {
             $('#colorError').html('Color input cannot be blank');
-        } else if (!/^[A-Za-z\s]+$/.test(color.trim())) {
+        } else if (!/^[A-Za-z\s{1,6}]+$/.test(color.trim())) {
             $('#colorError').html('Color input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -53,7 +53,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#addColorForm').submit();
+            if (confirm('Are you sure you want to add this color?')) {
+                $('#addColorForm').submit();
+            }
         } else {
             event.preventDefault();
         }

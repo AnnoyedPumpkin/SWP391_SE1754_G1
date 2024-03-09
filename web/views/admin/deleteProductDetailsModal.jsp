@@ -1,12 +1,12 @@
 <%-- 
-    Document   : deleteProductModal
-    Created on : Feb 19, 2024, 2:57:19 PM
+    Document   : deleteProductDetailsModal
+    Created on : Mar 8, 2024, 11:09:09 AM
     Author     : LENOVO
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
+<div class="modal fade" id="deleteProductDetailsModal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,10 +16,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this product?</p>
+                <p>Are you sure you want to delete this product detail of <span id="productName"></span>?</p>
             </div>
             <div class="modal-footer">
-                <form action="manageproduct?action=delete-product" method="POST">
+                <form action="manageproduct?action=delete-product-details" method="POST">
                     <div class="form-group" style="display: none">
                         <input type="text" class="form-control" id="idProductDeleteInput" name="product_ID">
                     </div>
@@ -27,13 +27,7 @@
                         <input type="text" class="form-control" id="idColorDeleteInput" name="color_ID">
                     </div>
                     <div class="form-group" style="display: none">
-                        <input type="text" class="form-control" id="idCategoryDeleteInput" name="category_ID">
-                    </div>
-                    <div class="form-group" style="display: none">
                         <input type="text" class="form-control" id="idSizeDeleteInput" name="size_ID">
-                    </div>
-                    <div class="form-group" style="display: none">
-                        <input type="text" class="form-control" id="idBrandDeleteInput" name="brand_ID">
                     </div>
                     <div class="form-group" style="display: none">
                         <input type="text" class="form-control" id="idGenderDeleteInput" name="gender_ID">
@@ -47,23 +41,23 @@
 </div>
 
 <script>
-    function deleteProductModal(id, colorID, categoryID, sizeID, brandID, genderID, ) {
+    $(document).ready(function () {
+        var msgdp = "${msgdp}";
+        if (msgdp) {
+            alert("Success: " + msgdp);
+        }
+
+        var errordp = "${errdp}";
+        if (errordp) {
+            alert("Error: " + errordp);
+        }
+    });
+
+    function deleteProductDetailsModal(id, colorId, sizeId, genderId, productName) {
         $('#idProductDeleteInput').val(id);
-        $('#idColorDeleteInput').val(colorID);
-        $('#idCategoryDeleteInput').val(categoryID);
-        $('#idSizeDeleteInput').val(sizeID);
-        $('#idBrandDeleteInput').val(brandID);
-        $('#idGenderDeleteInput').val(genderID);
-    }
-    var msgdp = "${msgdp}";
-    if (msgdp) {
-        alert("Success: " + msgdp);
-    }
-    
-    var errordp = "${errdp}";
-    if (errordp) {
-        alert("Error: " + errordp);
+        $('#idColorDeleteInput').val(colorId);
+        $('#idSizeDeleteInput').val(sizeId);
+        $('#idGenderDeleteInput').val(genderId);
+        $('#productName').text(productName);
     }
 </script>
-
-

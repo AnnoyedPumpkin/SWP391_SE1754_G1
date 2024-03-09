@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editSizeForm" action="../admin/dashboard?action=edit-size" method="POST">
+                <form id="updateSizeForm" action="../admin/dashboard?action=update-size" method="POST">
                     <input style="display: none" type="text" class="form-control" id="sizeIdToUpdate" name="sizeIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldSizeName" name="oldSizeName">
                     <div class="form-group">
@@ -28,7 +28,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="editSizeForm" onclick="validateSizeForm2()">Submit</button>
+                <button type="submit" class="btn btn-primary" form="updateSizeForm" onclick="validateSizeForm2()">Submit</button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
         $('.error').html('');
         if (size === '') {
             $('#sizeE').html('Size input cannot be blank');
-        } else if (!/^[A-Za-z&-\s]+$/.test(size.trim())) {
+        } else if (!/^[A-Za-z&-\s{1,6}]+$/.test(size.trim())) {
             $('#sizeE').html('Size input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -62,7 +62,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#editSizeForm').submit();
+            if (confirm('Are you sure you want to update this size?')) {
+                $('#updateSizeForm').submit();
+            }
         } else {
             event.preventDefault();
         }

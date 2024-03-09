@@ -4,26 +4,18 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 
 /**
  *
- * @author admin
+ * @author LENOVO
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account {
+public class Role {
     private int id;
-    private String email;
-    private String password;
-    private String member_code;
-    private int verifyCode;
-    private int role_Id;
     private String role;
-    private String status;
-    private Date status_date;
 }

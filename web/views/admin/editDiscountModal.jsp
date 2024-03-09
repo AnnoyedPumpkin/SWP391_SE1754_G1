@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editDiscountForm" action="../admin/dashboard?action=edit-discount" method="POST">
+                <form id="updateDiscountForm" action="../admin/dashboard?action=update-discount" method="POST">
                     <input style="display: none" type="text" class="form-control" id="discountIdToUpdate" name="discountIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldDiscount" name="oldDiscount">
                     <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="editDiscountForm" onclick="validateDiscountEditForm()">Submit</button>
+                <button type="submit" class="btn btn-primary" form="updateDiscountForm" onclick="validateDiscountEditForm()">Submit</button>
             </div>
         </div>
     </div>
@@ -43,13 +43,13 @@
 
 
 <script>
-    
+
     var selectElement = document.getElementById('statusToUpdate');
 
     if (selectElement.value === '1') {
-        selectElement.selectedIndex = 0; 
-    }else{
-        selectElement.selectedIndex = 1; 
+        selectElement.selectedIndex = 0;
+    } else {
+        selectElement.selectedIndex = 1;
     }
 
     var msged = "${msged}";
@@ -68,7 +68,7 @@
         $('.error').html('');
         if (discount === '') {
             $('#discountPercentE').html('Discount input cannot be blank');
-        } else if (!/^[0-9\s]+$/.test(discount.trim())) {
+        } else if (!/^[0-9\s{1,6}]+$/.test(discount.trim())) {
             $('#discountPercentE').html('Discount input must contain only number');
         }
         let error = '';
@@ -76,7 +76,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#editDiscountForm').submit();
+            if (confirm('Are you sure you want to update this discount?')) {
+                $('#updateDiscountForm').submit();
+            }
         } else {
             event.preventDefault();
         }

@@ -103,78 +103,6 @@
                 </div>
             </div>
         </nav>
-        <ul class="main-search-list-defaultlist d-none">
-            <li class="d-flex align-items-center"><a class="pb-25" href="#">
-                    <h6 class="text-primary mb-0">Files</h6>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
-                    <div class="d-flex">
-                        <div class="mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/icons/xls.png" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
-                        </div>
-                    </div><small class="search-data-size mr-50 text-muted">&apos;17kb</small>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
-                    <div class="d-flex">
-                        <div class="mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/icons/jpg.png" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd Developer</small>
-                        </div>
-                    </div><small class="search-data-size mr-50 text-muted">&apos;11kb</small>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
-                    <div class="d-flex">
-                        <div class="mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/icons/pdf.png" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital Marketing Manager</small>
-                        </div>
-                    </div><small class="search-data-size mr-50 text-muted">&apos;150kb</small>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
-                    <div class="d-flex">
-                        <div class="mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/icons/doc.png" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
-                        </div>
-                    </div><small class="search-data-size mr-50 text-muted">&apos;256kb</small>
-                </a></li>
-            <li class="d-flex align-items-center"><a class="pb-25" href="#">
-                    <h6 class="text-primary mb-0">Members</h6>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-8.jpg" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
-                        </div>
-                    </div>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-1.jpg" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd Developer</small>
-                        </div>
-                    </div>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-14.jpg" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing Manager</small>
-                        </div>
-                    </div>
-                </a></li>
-            <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar mr-50"><img src="${pageContext.request.contextPath}/app-assets/images/portrait/small/avatar-s-6.jpg" alt="png" height="32"></div>
-                        <div class="search-data">
-                            <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
-                        </div>
-                    </div>
-                </a></li>
-        </ul>
         <ul class="main-search-list-defaultlist-other-list d-none">
             <li class="auto-suggestion d-flex align-items-center justify-content-between cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100 py-50">
                     <div class="d-flex justify-content-start"><span class="mr-75 feather icon-alert-circle"></span><span>No results found.</span></div>
@@ -209,17 +137,15 @@
                         <ul class="menu-content">
                             <li><a href="${pageContext.request.contextPath}/admin/manageproduct"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Manage Products</span></a>
                             </li>
-                            <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Details</span></a>
+                            <li     class="active"><a href="${pageContext.request.contextPath}/admin/dashboard?page=view-details"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Product Characteristics</span></a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manage-discount"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Manage Discount</span></a>
-                            </li>
-                            <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
                         <ul class="menu-content">
-                            <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
+                            <li><a href="${pageContext.request.contextPath}/admin/dashboard?page=manageUser"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
                             </li>
                             <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
                             </li>
@@ -281,7 +207,6 @@
                                                 <table class="table table-bordered table-striped col-10" id="colorTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Color</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
@@ -289,7 +214,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listC}" var="c">
                                                             <tr>
-                                                                <td>${c.id}</td>
                                                                 <td>${c.color}</td>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
@@ -330,10 +254,9 @@
                                     <div class="card-content">
                                         <div class="card-body mb-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="brandTable">
+                                                <table class="table table-bordered table-striped col-10" id="brandTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Brand</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
@@ -341,7 +264,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listB}" var="b">
                                                             <tr>
-                                                                <td>${b.id}</td>
                                                                 <td>${b.brand}</td>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
@@ -382,10 +304,9 @@
                                     <div class="card-content">
                                         <div class="card-body mb-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="cateTable">
+                                                <table class="table table-bordered table-striped col-10" id="cateTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Category</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
@@ -393,7 +314,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listCate}" var="cate">
                                                             <tr>
-                                                                <td>${cate.id}</td>
                                                                 <td>${cate.category}</td>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
@@ -434,10 +354,9 @@
                                     <div class="card-content">
                                         <div class="card-body mb-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="genderTable">
+                                                <table class="table table-bordered table-striped col-10" id="genderTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Gender</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
@@ -445,7 +364,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listG}" var="g">
                                                             <tr>
-                                                                <td>${g.id}</td>
                                                                 <td>${g.gender}</td>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"
@@ -486,10 +404,9 @@
                                     <div class="card-content">
                                         <div class="card-body mb-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped col-10 text-center" id="sizeTable">
+                                                <table class="table table-bordered table-striped col-10" id="sizeTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="col-4">ID</th>
                                                             <th class="col-4">Size</th>
                                                             <th class="col-4">Action</th>
                                                         </tr>
@@ -497,7 +414,6 @@
                                                     <tbody>
                                                         <c:forEach items="${listS}" var="s">
                                                             <tr>
-                                                                <td>${s.id}</td>
                                                                 <td>${s.size}</td>
                                                                 <td>
                                                                     <i class="fa fa-edit fa-2x px-2 py-2 rounded text-primary"

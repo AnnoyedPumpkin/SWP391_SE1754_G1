@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editCategoryForm" action="../admin/dashboard?action=edit-category" method="POST">
+                <form id="updateCategoryForm" action="../admin/dashboard?action=update-category" method="POST">
                     <input style="display: none" type="text" class="form-control" id="categoryIdToUpdate" name="categoryIdToUpdate">
                     <input style="display: none" type="text" class="form-control" id="oldNameCategory" name="oldNameCategory">
                     <div class="form-group">
@@ -53,7 +53,7 @@
         $('.error').html('');
         if (cate === '') {
             $('#cateE').html('Category input cannot be blank');
-        } else if (!/^[A-Za-z&-\s]+$/.test(cate.trim())) {
+        } else if (!/^[A-Za-z&-\s{1,6}]+$/.test(cate.trim())) {
             $('#cateE').html('Category input must contain only letters');
         }
         // Check if there are no errors, then submit the form
@@ -62,7 +62,9 @@
             error += $(this).html();
         });
         if (error === '') {
-            $('#editCategoryForm').submit();
+            if (confirm('Are you sure you want to update this category?')) {
+                $('#updateCategoryForm').submit();
+            }
         } else {
             event.preventDefault();
         }
