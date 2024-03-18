@@ -46,6 +46,20 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
         <!-- END: Custom CSS-->
         <style>
+            #carouselIndicators {
+                width: 100%;
+            }
+
+            #carouselIndicators .carousel-item {
+                width: 100%;
+            }
+
+            #carouselIndicators .carousel-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
             .color-circle {
                 width: 20px;
                 height: 20px;
@@ -244,11 +258,11 @@
                                                 <c:when test="${not empty productForm.image_path and not empty listImages}">
                                                     <div class="carousel-inner">
                                                         <div class="carousel-item active">
-                                                            <img src="${productForm.image_path}" class="d-block w-100 h-100" alt="Default Image">
+                                                            <img src="${productForm.image_path}" class="d-block" alt="Default Image">
                                                         </div>
                                                         <c:forEach var="image" items="${listImages}" varStatus="loop">
                                                             <div class="carousel-item">
-                                                                <img class="d-block w-100 h-100" src="${image.image}" alt="Slide ${loop.index + 1}">
+                                                                <img class="d-block" src="${image.image}" alt="Slide ${loop.index + 1}">
                                                             </div>
                                                         </c:forEach>
                                                         <ol class="carousel-indicators">
@@ -262,14 +276,14 @@
                                                 <c:when test="${empty listImages}">
                                                     <div class="carousel-inner">
                                                         <div class="carousel-item active">
-                                                            <img src="${productForm.image_path}" class="d-block w-100 h-100" alt="Default Image">
+                                                            <img src="${productForm.image_path}" class="d-block" alt="Default Image">
                                                         </div>
                                                     </div>
                                                 </c:when>
                                                 <c:when test="${empty productForm.image_path}">
                                                     <c:forEach var="image" items="${listImages}" varStatus="loop">
                                                         <div class="carousel-item">
-                                                            <img class="d-block w-100 h-100" src="${image.image}" alt="Slide ${loop.index + 1}">
+                                                            <img class="d-block" src="${image.image}" alt="Slide ${loop.index + 1}">
                                                         </div>
                                                     </c:forEach>
                                                     <ol class="carousel-indicators">
@@ -289,300 +303,287 @@
                                                 <span class="sr-only">Next</span>
                                             </a>
                                         </div>
-                                    </div>
-                                    <!-- end carousel-->
-                                    <div class="col-12 col-md-6">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h1 class="card-title">${productForm.name}</h1>
-                                                <h5 class="card-text text-muted">${productForm.price} VND</h5>
-                                                <p class="card-text text-muted">Brand: ${productForm.brand}</p>
-                                                <p class="card-text text-muted">Category: ${productForm.category}</p>
-                                                <p class="card-text">Description: ${productForm.description}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Ecommerce Content Section Starts -->
-                                <hr>
+                                        <!-- end carousel -->
+                                        <!-- Ecommerce Content Section Starts -->
+                                        <hr>
 
-                                <section id="ecommerce-header">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="result-toggler">
-                                                <button class="navbar-toggler shop-sidebar-toggler" type="button" data-toggle="collapse">
-                                                    <span class="navbar-toggler-icon d-block d-lg-none"><i class="feather icon-menu"></i></span>
-                                                </button>
-                                                <div class="search-results">
-                                                    ${pagination.totalRecord} results found
+                                        <section id="ecommerce-header">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="result-toggler">
+                                                        <button class="navbar-toggler shop-sidebar-toggler" type="button" data-toggle="collapse">
+                                                            <span class="navbar-toggler-icon d-block d-lg-none"><i class="feather icon-menu"></i></span>
+                                                        </button>
+                                                        <div class="search-results">
+                                                            ${pagination.totalRecord} results found
+                                                        </div>
+                                                    </div>
+                                                    <div class="ecommerce-header-items" style="float:right">
+                                                        <div class="view-options">
+                                                            <select name="searchByStatus" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
+                                                                <option selected value="">Status</option>
+                                                                <option value="0" id="hideOption" <c:if test="${status eq '0'}">selected</c:if>>Hide</option>
+                                                                <option value="1" id="displayOption" <c:if test="${status eq '1'}">selected</c:if>>Display</option>
+                                                                </select>
+                                                                <select name="sortByDate" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
+                                                                    <option selected value="">Sorted By Date</option>
+                                                                    <option value="desc" id="descOptionDate" <c:if test="${sortedByDate eq 'desc'}">selected=""</c:if>>Newest</option>
+                                                                <option value="asc" id="ascOptionDate" <c:if test="${sortedByDate eq 'asc'}">selected=""</c:if>>Oldest</option>
+                                                                </select>
+                                                                <select name="sortByColor" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
+                                                                    <option selected value="">Sort By Color</option>
+                                                                <c:forEach items="${listCp}" var="c">
+                                                                    <option value="${c.id}" id="colorOption" <c:if test="${colorID eq c.id}"> selected</c:if> >${c.color}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <select name="sortBySize" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
+                                                                <option selected value="">Sort By Size</option>
+                                                                <c:forEach items="${listSp}" var="s">
+                                                                    <option value="${s.id}" id="sizeOption" <c:if test="${sizeID eq s.id}"> selected</c:if> >${s.size}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <select name="sortByGender" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
+                                                                <option selected value="">Sort By Gender</option>
+                                                                <c:forEach items="${listGp}" var="g">
+                                                                    <option value="${g.id}" id="genderOption" <c:if test="${genderID eq g.id}"> selected</c:if> >${g.gender}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            <button  class="btn btn-success" type="button" data-toggle="modal" data-target="#addProductDetailsModal" onclick="addProductDetailsModal('${productID}', '${productName}')">Add Product Details</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="ecommerce-header-items" style="float:right">
-                                                <div class="view-options">
-                                                    <select name="searchByStatus" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
-                                                        <option selected value="">Status</option>
-                                                        <option value="0" id="hideOption" <c:if test="${status eq '0'}">selected</c:if>>Hide</option>
-                                                        <option value="1" id="displayOption" <c:if test="${status eq '1'}">selected</c:if>>Display</option>
-                                                        </select>
-                                                        <select name="sortByDate" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
-                                                            <option selected value="">Sorted By Date</option>
-                                                            <option value="desc" id="descOptionDate" <c:if test="${sortedByDate eq 'desc'}">selected=""</c:if>>Newest</option>
-                                                        <option value="asc" id="ascOptionDate" <c:if test="${sortedByDate eq 'asc'}">selected=""</c:if>>Oldest</option>
-                                                        </select>
-                                                        <select name="sortByColor" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
-                                                            <option selected value="">Sort By Color</option>
-                                                        <c:forEach items="${listCp}" var="c">
-                                                            <option value="${c.id}" id="colorOption" <c:if test="${colorID eq c.id}"> selected</c:if> >${c.color}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                    <select name="sortBySize" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
-                                                        <option selected value="">Sort By Size</option>
-                                                        <c:forEach items="${listSp}" var="s">
-                                                            <option value="${s.id}" id="sizeOption" <c:if test="${sizeID eq s.id}"> selected</c:if> >${s.size}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                    <select name="sortByGender" class="selectpicker" data-style="btn-success" onchange="updateUrlParams()">
-                                                        <option selected value="">Sort By Gender</option>
-                                                        <c:forEach items="${listGp}" var="g">
-                                                            <option value="${g.id}" id="genderOption" <c:if test="${genderID eq g.id}"> selected</c:if> >${g.gender}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                    <button  class="btn btn-success" type="button" data-toggle="modal" data-target="#addProductDetailsModal" onclick="addProductDetailsModal('${productID}', '${productName}')">Add Product Details</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <!-- Ecommerce Content Section End -->
-                                <!-- Ecommerce Products Starts -->
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <c:if test="${not empty status && status ne '' && status eq '0'}">
-                                            <h4 style="color: red; font-style: italic;">***Warning: Any products after change hide status of product will be deleted after 15 days since the day you changed status.</h4> 
-                                        </c:if>
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th class="align-middle">Color</th>
-                                                <th class="align-middle">Size</th>
-                                                <th class="align-middle">Gender</th>
-                                                <th class="align-middle">Created On</th>
-                                                <th class="align-middle">Stock</th>
-                                                <th class="align-middle">Status</th>
-                                                    <c:if test="${not empty status && status ne '' && status eq '0'}">
-                                                    <th class="align-middle">Remaining Days</th>
-                                                    </c:if>
-                                                <th class="align-middle text-center">Options</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <c:forEach var="p" items="${listPf}">
-                                                <tr>
-                                                    <td class="align-middle px-1 py-1 border-bottom">${p.color}</td>
-                                                    <td class="align-middle px-1 py-1 border-bottom">${p.size}</td>
-                                                    <td class="align-middle px-1 py-1 border-bottom">${p.gender}</td>
-                                                    <td class="align-middle px-2 py-2 border-bottom">${p.created_on}</td>
-                                                    <td class="align-middle px-2 py-2 border-bottom">${p.stock}</td>
-                                                    <c:if test="${p.status eq '1'}">
-                                                        <td class="align-middle px-2 py-2 border-bottom">
-                                                            <div class="circle"></div>
-                                                        </td>
-                                                    </c:if>
-                                                    <c:if test="${p.status eq '0'}">
-                                                        <td class="align-middle px-2 py-2 border-bottom">
-                                                            <div class="circle-1"></div>
-                                                        </td>
-                                                        <td class="align-middle px-1 py-1 border-bottom">${p.remainingDayBeforeDelete}</td>
-                                                    </c:if>
-                                                    <td class="align-middle item-options px-2 py-2 border-bottom  text-center">
-                                                        <div class="btn-group" role="group" aria-label="Product Options">
-                                                            <a class="btn btn-success btn-custom-size view-options" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${p.id}">
-                                                                <i class="feather icon-edit"></i> <span class="ml-1" style="color:white">Update</span>
-                                                            </a>
+                                        </section>
+                                        <!-- Ecommerce Content Section End -->
+                                        <!-- Ecommerce Products Starts -->
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <c:if test="${not empty status && status ne '' && status eq '0'}">
+                                                    <h4 style="color: red; font-style: italic;">***Warning: Any products after change hide status of product will be deleted after 15 days since the day you changed status.</h4> 
+                                                </c:if>
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th class="align-middle">Color</th>
+                                                        <th class="align-middle">Size</th>
+                                                        <th class="align-middle">Gender</th>
+                                                        <th class="align-middle">Created On</th>
+                                                        <th class="align-middle">Stock</th>
+                                                        <th class="align-middle">Status</th>
+                                                            <c:if test="${not empty status && status ne '' && status eq '0'}">
+                                                            <th class="align-middle">Remaining Days</th>
+                                                            </c:if>
+                                                        <th class="align-middle text-center">Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <c:forEach var="p" items="${listPf}">
+                                                        <tr>
+                                                            <td class="align-middle px-1 py-1 border-bottom">${p.color}</td>
+                                                            <td class="align-middle px-1 py-1 border-bottom">${p.size}</td>
+                                                            <td class="align-middle px-1 py-1 border-bottom">${p.gender}</td>
+                                                            <td class="align-middle px-2 py-2 border-bottom">${p.created_on}</td>
+                                                            <td class="align-middle px-2 py-2 border-bottom">${p.stock}</td>
                                                             <c:if test="${p.status eq '1'}">
-                                                                <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductDetailModal" title="Edit Status Product Detail" onclick="editStatusProductDetailModal('${p.id}', '${p.status}', '${p.color_id}', '${p.size_id}', '${p.gender_id}')">
-                                                                    <i class="feather icon-eye-off"></i> <span class="ml-1" style="color:white">Hide</span>
-                                                                </button>
+                                                                <td class="align-middle px-2 py-2 border-bottom">
+                                                                    <div class="circle"></div>
+                                                                </td>
                                                             </c:if>
                                                             <c:if test="${p.status eq '0'}">
-                                                                <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductDetailModal" title="Edit Status Product Detail" onclick="editStatusProductDetailModal('${p.id}', '${p.status}', '${p.color_id}', '${p.size_id}', '${p.gender_id}')">
-                                                                    <i class="feather icon-eye"></i> <span class="ml-1" style="color:white">Display</span>
-                                                                </button>
+                                                                <td class="align-middle px-2 py-2 border-bottom">
+                                                                    <div class="circle-1"></div>
+                                                                </td>
+                                                                <td class="align-middle px-1 py-1 border-bottom">${p.remainingDayBeforeDelete}</td>
                                                             </c:if>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- Ecommerce Products Ends -->
-
-                                <!-- Ecommerce Pagination Starts -->
-                                <section id="ecommerce-pagination">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination justify-content-center mt-2">
-                                                    <c:if test="${pagination.page > 1}">
-                                                        <li class="page-item prev-item"><a class="page-link" href="${pagination.urlPattern}pagination=1">Start</a></li>
-                                                        </c:if>
-                                                        <c:if test="${pagination.page > 1}">
-                                                        <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
-                                                        </c:if>
-                                                    <!--PAGE - 2 (in case last page )-->
-                                                    <c:if test="${pagination.page == pagination.totalPage && pagination.page > 2}">
-                                                        <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 2}">${pagination.page - 2}</a></li>
-                                                        </c:if>
-                                                    <!--PAGE - 1 (in case last page )-->
-                                                    <c:if test="${pagination.page == pagination.totalPage && pagination.page > 1}">
-                                                        <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">${pagination.page - 1}</a></li>
-                                                        </c:if>
-                                                    <!--PAGE-->
-                                                    <c:if test="${pagination.totalPage > 1}">
-                                                        <li class="page-item active" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
-                                                        </c:if>
-                                                    <!--PAGE + 1-->
-                                                    <c:if test="${pagination.page < pagination.totalPage}">
-                                                        <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">${pagination.page + 1}</a></li>
-                                                        </c:if>
-                                                    <!--PAGE + 2-->
-                                                    <c:if test="${pagination.page + 1 < pagination.totalPage}">
-                                                        <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 2}">${pagination.page + 2}</a></li>
-                                                        </c:if>
-                                                    <!--NEXT-->
-                                                    <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
-                                                        <li class="page-item "><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
-                                                        </c:if>
-                                                    <!--LAST-->
-                                                    <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
-                                                        <li class="page-item next-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.totalPage}">Last</a></li>
-                                                        </c:if>
-                                                </ul>
-                                            </nav>
+                                                            <td class="align-middle item-options px-2 py-2 border-bottom  text-center">
+                                                                <div class="btn-group" role="group" aria-label="Product Options">
+                                                                    <a class="btn btn-success btn-custom-size view-options" href="${pageContext.request.contextPath}/admin/manageproduct?page=view-product-details&productID=${p.id}">
+                                                                        <i class="feather icon-edit"></i> <span class="ml-1" style="color:white">Update</span>
+                                                                    </a>
+                                                                    <c:if test="${p.status eq '1'}">
+                                                                        <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductDetailModal" title="Edit Status Product Detail" onclick="editStatusProductDetailModal('${p.id}', '${p.status}', '${p.color_id}', '${p.size_id}', '${p.gender_id}')">
+                                                                            <i class="feather icon-eye-off"></i> <span class="ml-1" style="color:white">Hide</span>
+                                                                        </button>
+                                                                    </c:if>
+                                                                    <c:if test="${p.status eq '0'}">
+                                                                        <button class="btn btn-primary btn-custom-size delete" data-toggle="modal" data-target="#editStatusProductDetailModal" title="Edit Status Product Detail" onclick="editStatusProductDetailModal('${p.id}', '${p.status}', '${p.color_id}', '${p.size_id}', '${p.gender_id}')">
+                                                                            <i class="feather icon-eye"></i> <span class="ml-1" style="color:white">Display</span>
+                                                                        </button>
+                                                                    </c:if>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
                                         </div>
+                                        <!-- Ecommerce Products Ends -->
+
+                                        <!-- Ecommerce Pagination Starts -->
+                                        <section id="ecommerce-pagination">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination justify-content-center mt-2">
+                                                            <c:if test="${pagination.page > 1}">
+                                                                <li class="page-item prev-item"><a class="page-link" href="${pagination.urlPattern}pagination=1">Start</a></li>
+                                                                </c:if>
+                                                                <c:if test="${pagination.page > 1}">
+                                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
+                                                                </c:if>
+                                                            <!--PAGE - 2 (in case last page )-->
+                                                            <c:if test="${pagination.page == pagination.totalPage && pagination.page > 2}">
+                                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 2}">${pagination.page - 2}</a></li>
+                                                                </c:if>
+                                                            <!--PAGE - 1 (in case last page )-->
+                                                            <c:if test="${pagination.page == pagination.totalPage && pagination.page > 1}">
+                                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">${pagination.page - 1}</a></li>
+                                                                </c:if>
+                                                            <!--PAGE-->
+                                                            <c:if test="${pagination.totalPage > 1}">
+                                                                <li class="page-item active" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
+                                                                </c:if>
+                                                            <!--PAGE + 1-->
+                                                            <c:if test="${pagination.page < pagination.totalPage}">
+                                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">${pagination.page + 1}</a></li>
+                                                                </c:if>
+                                                            <!--PAGE + 2-->
+                                                            <c:if test="${pagination.page + 1 < pagination.totalPage}">
+                                                                <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 2}">${pagination.page + 2}</a></li>
+                                                                </c:if>
+                                                            <!--NEXT-->
+                                                            <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                                                <li class="page-item "><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
+                                                                </c:if>
+                                                            <!--LAST-->
+                                                            <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                                                <li class="page-item next-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.totalPage}">Last</a></li>
+                                                                </c:if>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <!-- Ecommerce Pagination Ends -->
                                     </div>
+                                </div>
                                 </section>
-                                <!-- Ecommerce Pagination Ends -->
+                                <!-- app ecommerce details end -->
                             </div>
                         </div>
-                    </section>
-                    <!-- app ecommerce details end -->
                 </div>
-            </div>
-        </div>
-        <!-- END: Content-->
+                <!-- END: Content-->
 
-        <div class="sidenav-overlay"></div>
-        <div class="drag-target"></div>
+                <div class="sidenav-overlay"></div>
+                <div class="drag-target"></div>
 
-        <!-- BEGIN: Footer-->
-        <footer class="footer footer-static footer-light">
-            <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; <script>document.write(new Date().getFullYear());</script><a class="text-bold-800 grey darken-2" href="" target="_blank">Brava,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
-                <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
-            </p>
-        </footer>
-        <!-- END: Footer-->
+                <!-- BEGIN: Footer-->
+                <footer class="footer footer-static footer-light">
+                    <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; <script>document.write(new Date().getFullYear());</script><a class="text-bold-800 grey darken-2" href="" target="_blank">Brava,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
+                        <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
+                    </p>
+                </footer>
+                <!-- END: Footer-->
 
 
-        <!-- BEGIN: Vendor JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
-        <!-- BEGIN Vendor JS-->
+                <!-- BEGIN: Vendor JS-->
+                <script src="${pageContext.request.contextPath}/app-assets/vendors/js/vendors.min.js"></script>
+                <!-- BEGIN Vendor JS-->
 
-        <!-- BEGIN: Page Vendor JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/swiper.min.js"></script>
-        <!-- END: Page Vendor JS--> 
+                <!-- BEGIN: Page Vendor JS-->
+                <script src="${pageContext.request.contextPath}/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
+                <script src="${pageContext.request.contextPath}/app-assets/vendors/js/extensions/swiper.min.js"></script>
+                <!-- END: Page Vendor JS--> 
 
-        <!-- BEGIN: Theme JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/js/core/app-menu.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/js/core/app.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/components.js"></script>
-        <!-- END: Theme JS-->
+                <!-- BEGIN: Theme JS-->
+                <script src="${pageContext.request.contextPath}/app-assets/js/core/app-menu.js"></script>
+                <script src="${pageContext.request.contextPath}/app-assets/js/core/app.js"></script>
+                <script src="${pageContext.request.contextPath}/app-assets/js/scripts/components.js"></script>
+                <!-- END: Theme JS-->
 
-        <!-- BEGIN: Page JS-->
-        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/app-ecommerce-details.js"></script>
-        <script src="${pageContext.request.contextPath}/app-assets/js/scripts/forms/number-input.js"></script>
-        <!-- END: Page JS-->
+                <!-- BEGIN: Page JS-->
+                <script src="${pageContext.request.contextPath}/app-assets/js/scripts/pages/app-ecommerce-details.js"></script>
+                <script src="${pageContext.request.contextPath}/app-assets/js/scripts/forms/number-input.js"></script>
+                <!-- END: Page JS-->
 
-        <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
-        <jsp:include page="../admin/deleteProductDetailsModal.jsp"></jsp:include> 
-        <jsp:include page="../admin/addProductDetailsModal.jsp"></jsp:include>
-        <jsp:include page="../admin/editStatusProductDetailModal.jsp"></jsp:include>
+                <jsp:include page="../admin/logOutModal.jsp"></jsp:include> 
+                <jsp:include page="../admin/deleteProductDetailsModal.jsp"></jsp:include> 
+                <jsp:include page="../admin/addProductDetailsModal.jsp"></jsp:include>
+                <jsp:include page="../admin/editStatusProductDetailModal.jsp"></jsp:include>
 
-        </body>
-        <!-- END: Body-->
-        <script>
+                    </body>
+                    <!-- END: Body-->
+                    <script>
 
-                var errorup = "${errorup}";
-                if (errorup) {
-                    alert("Error: " + errorup);
-                }
+                        var errorup = "${errorup}";
+                        if (errorup) {
+                            alert("Error: " + errorup);
+                        }
 
-                var msgup = "${msgup}";
-                if (msgup) {
-                    alert("Success: " + msgup);
-                }
+                        var msgup = "${msgup}";
+                        if (msgup) {
+                            alert("Success: " + msgup);
+                        }
 
-                function updateUrlParams() {
-                    var currentUrl1 = window.location.href;
-                    var searchUrl = new URL(currentUrl1);
+                        function updateUrlParams() {
+                            var currentUrl1 = window.location.href;
+                            var searchUrl = new URL(currentUrl1);
 
-                    var statusParam = searchUrl.searchParams.get('status');
-                    var colorParam = searchUrl.searchParams.get('colorID');
-                    var sizeParam = searchUrl.searchParams.get('sizeID');
-                    var genderParam = searchUrl.searchParams.get('genderID');
-                    var dateParam = searchUrl.searchParams.get('sortByDate');
+                            var statusParam = searchUrl.searchParams.get('status');
+                            var colorParam = searchUrl.searchParams.get('colorID');
+                            var sizeParam = searchUrl.searchParams.get('sizeID');
+                            var genderParam = searchUrl.searchParams.get('genderID');
+                            var dateParam = searchUrl.searchParams.get('sortByDate');
 
-                    var statusSelect = document.querySelector('select[name="searchByStatus"]');
-                    var colorSelect = document.querySelector('select[name="sortByColor"]');
-                    var sizeSelect = document.querySelector('select[name="sortBySize"]');
-                    var genderSelect = document.querySelector('select[name="sortByGender"]');
-                    var sortByDate = document.querySelector('select[name="sortByDate"]');
+                            var statusSelect = document.querySelector('select[name="searchByStatus"]');
+                            var colorSelect = document.querySelector('select[name="sortByColor"]');
+                            var sizeSelect = document.querySelector('select[name="sortBySize"]');
+                            var genderSelect = document.querySelector('select[name="sortByGender"]');
+                            var sortByDate = document.querySelector('select[name="sortByDate"]');
 
-                    statusParam = statusSelect.value || "";
+                            statusParam = statusSelect.value || "";
 
-                    if (colorSelect.value === "") {
-                        colorParam = "";
-                    } else {
-                        colorParam = colorSelect.value;
-                    }
-                    if (sizeSelect.value === "") {
-                        sizeParam = "";
-                    } else {
-                        sizeParam = sizeSelect.value;
-                    }
-                    if (genderSelect.value === "") {
-                        genderParam = "";
-                    } else {
-                        genderParam = genderSelect.value;
-                    }
-                    if (sortByDate.value === "") {
-                        dateParam = "";
-                    } else {
-                        dateParam = sortByDate.value;
-                    }
+                            if (colorSelect.value === "") {
+                                colorParam = "";
+                            } else {
+                                colorParam = colorSelect.value;
+                            }
+                            if (sizeSelect.value === "") {
+                                sizeParam = "";
+                            } else {
+                                sizeParam = sizeSelect.value;
+                            }
+                            if (genderSelect.value === "") {
+                                genderParam = "";
+                            } else {
+                                genderParam = genderSelect.value;
+                            }
+                            if (sortByDate.value === "") {
+                                dateParam = "";
+                            } else {
+                                dateParam = sortByDate.value;
+                            }
 
-                    var newUrl = "manageproduct?page=view-product-details&action=search-product-details&productID=${productID}";
+                            var newUrl = "manageproduct?page=view-product-details&action=search-product-details&productID=${productID}";
 
-                    if (statusParam !== "") {
-                        newUrl += "&status=" + statusParam;
-                    }
-                    if (colorParam) {
-                        newUrl += "&colorID=" + colorParam;
-                    }
-                    if (sizeParam) {
-                        newUrl += "&sizeID=" + sizeParam;
-                    }
-                    if (genderParam) {
-                        newUrl += "&genderID=" + genderParam;
-                    }
-                    if (dateParam) {
-                        newUrl += "&sortByDate=" + dateParam;
-                    }
+                            if (statusParam !== "") {
+                                newUrl += "&status=" + statusParam;
+                            }
+                            if (colorParam) {
+                                newUrl += "&colorID=" + colorParam;
+                            }
+                            if (sizeParam) {
+                                newUrl += "&sizeID=" + sizeParam;
+                            }
+                            if (genderParam) {
+                                newUrl += "&genderID=" + genderParam;
+                            }
+                            if (dateParam) {
+                                newUrl += "&sortByDate=" + dateParam;
+                            }
 
-                    window.location.href = newUrl;
-                }
+                            window.location.href = newUrl;
+                        }
 
-    </script>    
-</html>
+                </script>    
+                </html>

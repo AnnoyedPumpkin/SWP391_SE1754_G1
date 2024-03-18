@@ -235,8 +235,9 @@ public class ManageProductController extends HttpServlet {
             case "search-products":
                 String status = request.getParameter("status");
                 if (status != null && !status.isEmpty()) {
-                    adminDAO.deleteProductHideInterval15Days();
-                    adminDAO.deleteProductDetailsHideInterval15Days();
+                    adminDAO.deleteProductHideInterval30Days();
+                    adminDAO.deleteProductDetailsHideInterval30Days();
+                    adminDAO.deleteProductImageHideInterval30Days();
                 }
                 String sortedByPrice = request.getParameter("sortByPrice");
                 String sortedByDate = request.getParameter("sortByDate");
@@ -425,10 +426,12 @@ public class ManageProductController extends HttpServlet {
             if (statusProduct == 1) {
                 adminDAO.updateProductStatus(idProduct, 0, currentTimestamp);
                 adminDAO.updateProductDetailsStatus(idProduct, 0, currentTimestamp);
+                adminDAO.updateProductImageStatus(idProduct, 0 , currentTimestamp);
                 request.setAttribute("msgusp", "Update status of product successfully !!");
             } else {
                 adminDAO.updateProductStatus(idProduct, 1, currentTimestamp);
                 adminDAO.updateProductDetailsStatus(idProduct, 1, currentTimestamp);
+                adminDAO.updateProductImageStatus(idProduct, 1 , currentTimestamp);
                 request.setAttribute("msgusp", "Update status of product successfully !!");
             }
         }
@@ -565,7 +568,7 @@ public class ManageProductController extends HttpServlet {
                 totalProductDetails = adminDAO.findTotalProductDetailsById(productID, colorID, sizeID, genderID, status);
                 StringBuilder url = new StringBuilder("manageproduct?page=view-product-details&action=search-product-details&productID=" + productID + "&");
                 if (status != null && !status.isEmpty()) {
-                    adminDAO.deleteProductDetailsHideInterval15Days();
+                    adminDAO.deleteProductDetailsHideInterval30Days();
                     url.append("status=").append(status).append("&");
                 }
                 if (colorID != null && !colorID.isEmpty()) {

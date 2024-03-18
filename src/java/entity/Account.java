@@ -26,4 +26,5 @@ public class Account {
     private String role;
     private String status;
     private Date status_date;
+     private Date expire_date;
 }

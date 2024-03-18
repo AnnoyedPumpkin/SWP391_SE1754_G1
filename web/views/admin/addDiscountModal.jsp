@@ -72,6 +72,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to add this discount?')) {
                 $('#addDiscountForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

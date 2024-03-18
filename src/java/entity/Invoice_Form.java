@@ -8,16 +8,33 @@ import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ *
+ * @author LENOVO
+ */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Invoice {
+public class Invoice_Form {
+
     private int id;
     private int account_id;
     private Date invoice_date;
-    private float total_price;
     private int status_id;
     private String cartCode;
     private String address;
+    private int invoiceDetail_id;
+    private int product_id;
+    private int productDetail_id;
+    private float price;
+    private float totalPrice;
+    private String productName;
+    private String productImage;
+    private String productCategory;
+    private String productBrand;
+    private int productQuantity;
+    private String productColor;
+    private String productSize;
+    private String productGender;
 }

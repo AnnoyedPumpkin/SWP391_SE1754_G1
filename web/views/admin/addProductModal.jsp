@@ -165,6 +165,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to add this product?')) {
                 $('#addProductForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

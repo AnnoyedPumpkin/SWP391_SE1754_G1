@@ -16,21 +16,11 @@ import lombok.Data;
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account_Form {
+public class History {
     private int id;
-    private String email;
-    private String password;
-    private String member_code;
-    private String phone_number;
-    private int gender_id;
-    private String gender;
-    private Date dob;
-    private String address;
+    private int account_id;
+    private Date update_date;
     private String username;
-    private int role_Id;
-    private String role;
-    private int status;
-    private Date status_date;
-    private Date expire_date;
-    private int remainingDayBeforeDelete;
+    private String email;
+    private String phone_number;
 }

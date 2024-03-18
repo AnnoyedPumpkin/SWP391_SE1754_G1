@@ -9,7 +9,7 @@ package constant;
  * @author LENOVO
  */
 public class Constant {
-    public static final int RECORD_PER_PAGE = 4;
+    public static final int RECORD_PER_PAGE = 10;
 
     
     public static final String SESSION_ACCOUNT = "account";

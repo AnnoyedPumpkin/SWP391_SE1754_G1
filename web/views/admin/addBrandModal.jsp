@@ -61,6 +61,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to add this brand?')) {
                 $('#addBrandForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

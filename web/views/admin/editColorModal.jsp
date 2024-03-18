@@ -64,6 +64,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to update this color?')) {
                 $('#updateColorForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

@@ -8,6 +8,7 @@ package control.admin;
 import constant.Constant;
 import dao.AdminDao;
 import entity.Account;
+import entity.Account_Form;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -76,7 +77,7 @@ public class AuthentAdminController extends HttpServlet {
         adminDAO = new AdminDao();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Account account = Account.builder()
+        Account_Form account = Account_Form.builder()
                 .email(username)
                 .password(password)
                 .build();

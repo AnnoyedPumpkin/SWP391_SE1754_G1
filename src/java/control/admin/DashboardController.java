@@ -13,13 +13,16 @@ import entity.Category;
 import entity.Color;
 import entity.Discount;
 import entity.Gender;
+import entity.History;
 import entity.Pagination;
 import entity.Product;
+import entity.Role;
 import entity.Size;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +49,7 @@ public class DashboardController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        Pagination pagination = new Pagination();
         adminDAO = new AdminDao();
         HttpSession session = request.getSession();
         List<Color> listC;
@@ -55,6 +59,7 @@ public class DashboardController extends HttpServlet {
         List<Size> listS;
         List<Discount> listD;
         List<Account_Form> listAf;
+        List<Role> listR;
         int countAccounts = adminDAO.countAllAccount();
         int countInvoices = adminDAO.countAllInvoice();
         String page = request.getParameter("page") == null ? "" : request.getParameter("page");
@@ -79,9 +84,35 @@ public class DashboardController extends HttpServlet {
                 url = "../views/admin/manageDiscount.jsp";
                 break;
             case "manageUser":
-                listAf = adminDAO.findAllAccount();
+                String status = request.getParameter("status");
+                String roleId = request.getParameter("role");
+                String genderId = request.getParameter("gender");
+                String keyword = request.getParameter("keyword");
+                listR = adminDAO.findRoleForSellerAndCustomer();
+                listG = adminDAO.findAllGender();
+                listAf = pagination(request, pagination);
+                session.setAttribute("status", status);
+                session.setAttribute("roleId", roleId);
+                session.setAttribute("genderId", genderId);
+                session.setAttribute("listR", listR);
+                session.setAttribute("listG", listG);
                 session.setAttribute("listAf", listAf);
+                session.setAttribute("pagination", pagination);
                 url = "../views/admin/manageUser.jsp";
+                break;
+            case "view-account-details":
+                String accountIdRaw = request.getParameter("accountID");
+                if (accountIdRaw == null && accountIdRaw.isEmpty()) {
+                    request.setAttribute("errorua", "Can't find account!");
+                } else {
+                    int accountID = Integer.parseInt(accountIdRaw);
+                    Account_Form af = adminDAO.getAccountByID(accountID);
+                    List<History> listH = paginationForHistory(request, pagination);
+                    session.setAttribute("listH", listH);
+                    session.setAttribute("pagination", pagination);
+                    session.setAttribute("Account_Form", af);
+                }
+                url = "../views/admin/accountDetail.jsp";
                 break;
             default:
                 session.setAttribute("countAccount", countAccounts);
@@ -99,6 +130,8 @@ public class DashboardController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        Pagination pagination = new Pagination();
+        List<Account_Form> listAf;
         HttpSession session = request.getSession();
         List<Color> listC;
         List<Brand> listB;
@@ -106,6 +139,7 @@ public class DashboardController extends HttpServlet {
         List<Gender> listG;
         List<Size> listS;
         List<Discount> listD;
+        List<Role> listR;
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         String url = "";
         switch (action) {
@@ -216,6 +250,32 @@ public class DashboardController extends HttpServlet {
                 listD = adminDAO.findAllDiscount();
                 session.setAttribute("listD", listD);
                 url = "../views/admin/manageDiscount.jsp";
+                break;
+            case "update-status-account":
+                updateStatusAccount(request, response);
+                listAf = pagination(request, pagination);
+                session.setAttribute("listAf", listAf);
+                session.setAttribute("pagination", pagination);
+                url = "../views/admin/manageUser.jsp";
+                break;
+            case "update-account-details":
+                String accountIdRaw = request.getParameter("accountID");
+                if (accountIdRaw == null && accountIdRaw.isEmpty()) {
+                    request.setAttribute("errorua", "Can't find account!");
+                } else {
+                    listG = adminDAO.findAllGender();
+                    listR = adminDAO.findRoleForSellerAndCustomer();
+                    updateAccountDetails(request, response);
+                    int accountID = Integer.parseInt(accountIdRaw);
+                    Account_Form af = adminDAO.getAccountByID(accountID);
+                    List<History> listH = paginationForHistory(request, pagination);
+                    session.setAttribute("listH", listH);
+                    session.setAttribute("pagination", pagination);
+                    session.setAttribute("Account_Form", af);
+                    session.setAttribute("listG", listG);
+                    session.setAttribute("listR", listR);
+                }
+                url = "../views/admin/accountDetail.jsp";
                 break;
             default:
                 throw new AssertionError();
@@ -578,6 +638,174 @@ public class DashboardController extends HttpServlet {
         } else {
             request.setAttribute("errored", "This discount exist already, please edit different from remaining gender !!");
         }
+    }
+
+    private List<Account_Form> pagination(HttpServletRequest request, Pagination pagination) {
+        String pageRaw = request.getParameter("pagination");
+        int page, pageSize = 0;
+        String sorted;
+        try {
+            page = Integer.parseInt(pageRaw);
+        } catch (Exception e) {
+            page = 1;
+        }
+        int totalAccount = 0;
+        List<Account_Form> listAf = null;
+        String action = request.getParameter("action") == null ? "default" : request.getParameter("action");
+        switch (action) {
+            case "search-users":
+                String status = request.getParameter("status");
+                String roleId = request.getParameter("role");
+                String genderId = request.getParameter("gender");
+                String keyword = request.getParameter("keyword");
+                String pageSizeRaw = request.getParameter("pageSize");
+                if (status != null && !status.isEmpty()) {
+                    adminDAO.deleteAccountHideInterval30Days();
+                    adminDAO.deleteAccountDetailsHideInterval30Days();
+                }
+                try {
+                    pageSize = Integer.parseInt(pageSizeRaw);
+                } catch (NumberFormatException e) {
+                }
+                totalAccount = adminDAO.findTotalAccountBySearch(keyword, status, roleId, genderId);
+                listAf = adminDAO.findPageBySearch(page, keyword, status, roleId, genderId, pageSize);
+                StringBuilder url = new StringBuilder("dashboard?page=manageUser&action=search-users");
+                if (keyword != null && !keyword.isEmpty()) {
+                    url.append("&keyword=").append(keyword);
+                }
+                if (status != null && !status.isEmpty()) {
+                    url.append("&status=").append(status);
+                }
+                if (roleId != null && !roleId.isEmpty()) {
+                    url.append("&role=").append(roleId);
+                }
+                if (genderId != null && !genderId.isEmpty()) {
+                    url.append("&gender=").append(genderId);
+                }
+                if (pageSize != 0) {
+                    url.append("&pageSize=").append(pageSize);
+                }
+                url.append("&");
+                pagination.setUrlPattern(url.toString());
+                break;
+            default:
+                totalAccount = adminDAO.findTotalAccount();
+                listAf = adminDAO.findAccountByPage(page);
+                pagination.setUrlPattern("dashboard?page=manageUser&");
+        }
+        int totalPage = (totalAccount % Constant.RECORD_PER_PAGE) == 0
+                ? (totalAccount / Constant.RECORD_PER_PAGE)
+                : (totalAccount / Constant.RECORD_PER_PAGE) + 1;
+        pagination.setPage(page);
+        pagination.setTotalPage(totalPage);
+        pagination.setTotalRecord(totalAccount);
+        return listAf;
+    }
+
+    private void updateStatusAccount(HttpServletRequest request, HttpServletResponse response) {
+        String idAccountRaw = request.getParameter("accountID");
+        String statusAccountRaw = request.getParameter("status");
+        Date currentTimestamp = new Date(System.currentTimeMillis());
+
+        if (idAccountRaw == null || idAccountRaw.isEmpty() || statusAccountRaw == null || statusAccountRaw.isEmpty()) {
+            request.setAttribute("errusp", "Update status of product error !!");
+        } else {
+            int status = Integer.parseInt(statusAccountRaw);
+            int idAccount = Integer.parseInt(idAccountRaw);
+            if (status == 1) {
+                adminDAO.updateAccountStatus(idAccount, 0, currentTimestamp);
+                adminDAO.updateAccountDetailsStatus(idAccount, 0, currentTimestamp);
+                request.setAttribute("msgusp", "Update status of account successfully !!");
+            } else {
+                adminDAO.updateAccountStatus(idAccount, 1, currentTimestamp);
+                adminDAO.updateAccountDetailsStatus(idAccount, 1, currentTimestamp);
+                request.setAttribute("msgusp", "Update status of account successfully !!");
+            }
+        }
+    }
+
+    private void updateAccountDetails(HttpServletRequest request, HttpServletResponse response) {
+        String oldEmail = request.getParameter("oldEmail");
+        String accountIdRaw = request.getParameter("accountID");
+        String emailRaw = request.getParameter("email");
+        String usernameRaw = request.getParameter("username");
+        String phonenumberRaw = request.getParameter("phone_number");
+        String dobRaw = request.getParameter("dob");
+        String addressRaw = request.getParameter("address");
+        String genderRaw = request.getParameter("gender");
+        String roleRaw = request.getParameter("role");
+        Date currentTimestamp = new Date(System.currentTimeMillis());
+        if (addressRaw == null || addressRaw.isEmpty() || emailRaw == null || emailRaw.isEmpty() || usernameRaw == null || usernameRaw.isEmpty() || phonenumberRaw == null || phonenumberRaw.isEmpty() || roleRaw == null || roleRaw.isEmpty() || genderRaw == null || genderRaw.isEmpty()) {
+            request.setAttribute("Required", "All field must be required");
+            return;
+        }
+        if (!emailRaw.matches(Constant.EMAIL_REGEX)) {
+            request.setAttribute("emailRegex", "Email not valid!");
+            return;
+        }
+        if (!addressRaw.matches("^(?!.*\\s{2})[A-Za-z0-9\\s]+$")) {
+            request.setAttribute("addressRegex", "Address only contain (A-Z, a-z, 0-9, space)");
+            return;
+        }
+        if (!usernameRaw.matches("^(?!.*\\s{2})[A-Za-z0-9\\s]+$")) {
+            request.setAttribute("usernameRegex", "Username only contain (A-Z, a-z, 0-9, space)");
+            return;
+        }
+        if (!phonenumberRaw.matches("^[0-9]{10}+$")) {
+            request.setAttribute("phonenumberRegex", "Phone number only contains numbers (0-9) and not greater than 10 numbers");
+            return;
+        }
+        int role = Integer.parseInt(roleRaw);
+        int gender = Integer.parseInt(genderRaw);
+        int accountID = Integer.parseInt(accountIdRaw);
+        Date dob = Date.valueOf(dobRaw);
+        Account_Form af = Account_Form.builder()
+                .id(accountID)
+                .email(emailRaw)
+                .username(usernameRaw)
+                .phone_number(phonenumberRaw)
+                .dob(dob)
+                .address(addressRaw)
+                .gender_id(gender)
+                .role_Id(role).build();
+
+        boolean isAccountExist = adminDAO.checkExistOfAccount(emailRaw);
+        if (!isAccountExist) {
+            adminDAO.updateAccount(af);
+            adminDAO.updateAccountRole(af);
+            adminDAO.updateAccountDetail(af);
+            adminDAO.insertHistoryUpdate(af, currentTimestamp);
+        } else {
+            adminDAO.updateAccountRole(af);
+            adminDAO.updateAccountDetail(af);
+            adminDAO.insertHistoryUpdateIfEmailNotExist(af, currentTimestamp, oldEmail);
+        }
+        request.setAttribute("msgua", "Update account successfull!");
+    }
+
+    private List<History> paginationForHistory(HttpServletRequest request, Pagination pagination) {
+        String pageRaw = request.getParameter("pagination");
+        int page, pageSize = 0;
+        String sorted;
+        try {
+            page = Integer.parseInt(pageRaw);
+        } catch (Exception e) {
+            page = 1;
+        }
+        int totalHistory = 0;
+        List<History> listH = null;
+        String accountIdRaw = request.getParameter("accountID");
+        totalHistory = adminDAO.findTotalHistory(accountIdRaw);
+        listH = adminDAO.findHistoryByPage(page, accountIdRaw);
+        
+        pagination.setUrlPattern("dashboard?page=view-account-details&accountID=" + accountIdRaw);
+        int totalPage = (totalHistory % Constant.RECORD_PER_PAGE) == 0
+                ? (totalHistory / Constant.RECORD_PER_PAGE)
+                : (totalHistory / Constant.RECORD_PER_PAGE) + 1;
+        pagination.setPage(page);
+        pagination.setTotalPage(totalPage);
+        pagination.setTotalRecord(totalHistory);
+        return listH;
     }
 
 }

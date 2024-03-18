@@ -55,6 +55,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to add this color?')) {
                 $('#addColorForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

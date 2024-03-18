@@ -7,10 +7,13 @@ package control;
 import constant.Constant;
 import dao.CommonDao;
 import entity.Account;
+import entity.Account_Form;
+import entity.Product_Form;
 import helper.BCrypt;
 import static helper.BCrypt.hashpw;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -89,15 +92,21 @@ public class AuthentController extends HttpServlet {
                 .email(email)
                 .password(password)
                 .build();
-        account = commonDAO.checkExistOfAcc(account);
+        Account_Form af = commonDAO.checkExistOfAcc(account);
 
-        if (account == null) {
+        if (af == null) {
             request.setAttribute("err", "Nhap sai ten dang nhap hoac mat khau");
             request.getRequestDispatcher("views/common/login.jsp").forward(request, response);
         } else {
-            if (account.getRole_Id() == 1) {
+            if (af.getRole_Id() == 1) {
+                Account_Form accountProfile = commonDAO.findProfileById(af);
+                List<Product_Form> listProduct = commonDAO.findCartByAccountId(af.getId());
+                int totalPrice = commonDAO.findTotalPriceInCart(af.getId());
                 HttpSession session = request.getSession();
-                session.setAttribute(Constant.SESSION_ACCOUNT, account);
+                session.setAttribute(Constant.SESSION_ACCOUNT, af);
+                session.setAttribute("accountProfile", accountProfile);
+                session.setAttribute("listProductInCart", listProduct);
+                session.setAttribute("totalPrice", totalPrice);
                 Cookie userC = new Cookie("userC", email);
                 Cookie passC = new Cookie("passC", password);
                 if (remember != null) {

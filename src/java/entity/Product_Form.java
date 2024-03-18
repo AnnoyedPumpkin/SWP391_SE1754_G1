@@ -38,4 +38,7 @@ public class Product_Form {
     private String gender;
     private int remainingDayBeforeDelete;
     private Date created_on;
+    private int quantity;
+    private int account_id;
+    private int cart_id;
 }

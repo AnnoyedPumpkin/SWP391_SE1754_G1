@@ -4,27 +4,23 @@
  */
 package entity;
 
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 
 /**
  *
- * @author admin
+ * @author LENOVO
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account_Detail {
+public class Invoice_Details {
     private int id;
-    private int account_id;
-    private String phone_number;
-    private boolean gender;
-    private Date dob;
-    private String address;
-    private String username;
-    private int status;
-    private Date status_date;
-    private Date expire_date;
+    private int invoice_id;
+    private int product_id;
+    private int productDetail_id;
+    private int quantity;
+    private float price;
+    private float totalPrice;
 }

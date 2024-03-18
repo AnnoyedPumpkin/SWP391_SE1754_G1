@@ -116,6 +116,8 @@
         if (error === '') {
             if (confirm('Are you sure you want to add this product details?')) {
                 $('#addProductDetailsForm').submit();
+            } else {
+                event.preventDefault();
             }
         } else {
             event.preventDefault();

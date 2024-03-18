@@ -6,6 +6,7 @@ package filter;
 
 import constant.Constant;
 import entity.Account;
+import entity.Account_Form;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -114,7 +115,7 @@ public class AdminDashboardFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        Account account = (Account) session.getAttribute(Constant.SESSION_ACCOUNT);
+        Account_Form account = (Account_Form) session.getAttribute(Constant.SESSION_ACCOUNT);
         if (account == null && req.getRequestURI().equals(req.getContextPath() + "/admin/manageproduct")) {
             resp.sendRedirect(req.getServletContext().getContextPath() + "/admin/authen?action=login");
         } else if (account == null) {

@@ -13,10 +13,12 @@ import entity.Category;
 import entity.Color;
 import entity.Discount;
 import entity.Gender;
+import entity.History;
 import entity.Image;
 import entity.Product;
 import entity.Product_Detail;
 import entity.Product_Form;
+import entity.Role;
 import entity.Size;
 import helper.BCrypt;
 import java.sql.Connection;
@@ -41,14 +43,14 @@ public class AdminDao extends DBContext {
     ResultSet resultSet = null;
     BCrypt bcryp = new BCrypt();
 
-    public Account checkExistOfAdmin(Account account) {
+    public Account_Form checkExistOfAdmin(Account_Form account) {
         try {
             connection = this.getConnection();
 
             String sql = "SELECT a.Email, a.Password, a.Role_Id, r.Role "
                     + "FROM Account a "
                     + "JOIN Role r ON r.Id = a.Role_Id "
-                    + "WHERE a.Email = ?";
+                    + "WHERE a.Email = ? AND a.status = 1";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getEmail());
 
@@ -56,10 +58,9 @@ public class AdminDao extends DBContext {
 
             if (resultSet.next()) {
                 String hashedPassword = resultSet.getString("password");
-
                 // Kiem tra mat khau nhap vao voi mat khau ma hoa trong db
                 if (bcryp.checkpw(account.getPassword(), hashedPassword)) {
-                    Account foundAccount = new Account();
+                    Account_Form foundAccount = new Account_Form();
                     foundAccount.setEmail(resultSet.getString("email"));
                     foundAccount.setPassword(hashedPassword);
                     foundAccount.setRole_Id(resultSet.getInt("Role_Id"));
@@ -903,29 +904,6 @@ public class AdminDao extends DBContext {
         return productList;
     }
 
-    public List<Brand> countProductsByBrand() {
-        List<Brand> brandCounts = new ArrayList<>();
-        try {
-            connection = this.getConnection();
-            String sql = "SELECT b.Brand, b.id, COUNT(*) AS Count "
-                    + "FROM Product_Detail pd "
-                    + "INNER JOIN Brand b ON pd.brand_id = b.id "
-                    + "GROUP BY b.Brand, b.id";
-            preparedStatement = connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Brand b = new Brand();
-                b.setId(resultSet.getInt("Id"));
-                b.setBrand(resultSet.getString("Brand"));
-                b.setCountEachBrand(resultSet.getInt("Count"));
-                brandCounts.add(b);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return brandCounts;
-    }
-
     public Product_Form findProductDetailByID(String productID, String colorID, String sizeID, String genderID) {
         try {
             connection = this.getConnection();
@@ -1046,7 +1024,7 @@ public class AdminDao extends DBContext {
     public void insertNewProduct(Product product) {
         try {
             connection = this.getConnection();
-            String sql = "INSERT INTO Product (Name, Create_on, Description, Price, Image_path, Category_Id, Brand_Id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Product (Name, Create_on, Description, Price, Image_path, Category_Id, Brand_Id, Status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
 
             preparedStatement = connection.prepareStatement(sql);
 
@@ -1113,22 +1091,6 @@ public class AdminDao extends DBContext {
         return images;
     }
 
-    public void deleteProductDetailById(String idProduct) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "DELETE FROM Product_Detail "
-                    + "WHERE Product_Id = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, idProduct);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean findProductDetailExist(String idProduct) {
         try {
             connection = this.getConnection();
@@ -1162,20 +1124,6 @@ public class AdminDao extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    public void deleteProductById(String idProduct) {
-        try {
-            connection = this.getConnection();
-
-            String sql = "DELETE FROM Product WHERE Id = ?";
-            preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setString(1, idProduct);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -1500,6 +1448,7 @@ public class AdminDao extends DBContext {
                 af.setAddress(resultSet.getString("Address"));
                 af.setUsername(resultSet.getString("Username"));
                 af.setRole(resultSet.getString("Role"));
+                af.setStatus(resultSet.getInt("Status"));
                 listAf.add(af);
             }
         } catch (Exception e) {
@@ -1672,30 +1621,6 @@ public class AdminDao extends DBContext {
         return listC;
     }
 
-    public List<Gender> findGenderBySize(String productID, String sizeId) {
-        List<Gender> listG = new ArrayList<>();
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT distinct g.Gender, pd.Gender_Id FROM Product_Detail pd "
-                    + "JOIN Gender g ON g.Id = pd.Gender_Id "
-                    + "WHERE pd.Product_Id = ? AND pd.Size_Id = ? ";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, productID);
-            preparedStatement.setString(2, sizeId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Gender g = new Gender();
-                g.setId(resultSet.getInt("Gender_Id"));
-                g.setGender(resultSet.getString("Gender"));
-                listG.add(g);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listG;
-    }
-
     public List<Color> findColorByGender(String productID, String genderID) {
         List<Color> listC = new ArrayList<>();
         try {
@@ -1742,31 +1667,6 @@ public class AdminDao extends DBContext {
             e.printStackTrace();
         }
         return listS;
-    }
-
-    public List<Gender> findGenderByColorAndSize(String productID, String colorId, String sizeId) {
-        List<Gender> listG = new ArrayList<>();
-        try {
-            connection = this.getConnection();
-
-            String sql = "SELECT distinct g.Gender, pd.Gender_Id FROM Product_Detail pd "
-                    + "JOIN Gender g ON g.Id = pd.Gender_Id "
-                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Size_Id = ? ";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, productID);
-            preparedStatement.setString(2, colorId);
-            preparedStatement.setString(3, sizeId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Gender g = new Gender();
-                g.setId(resultSet.getInt("Gender_Id"));
-                g.setGender(resultSet.getString("Gender"));
-                listG.add(g);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listG;
     }
 
     public List<Size> findSizeByColorAndGender(String productID, String colorId, String genderID) {
@@ -1819,18 +1719,17 @@ public class AdminDao extends DBContext {
         return listC;
     }
 
-    public int getStockProductDetailByAllField(String productID, String colorId, String sizeId, String genderID) {
+    public int getStockProductDetailByAllField(String productID, String colorId, String sizeId) {
         int StockOfProductDetail = 0;
         try {
             connection = this.getConnection();
 
             String sql = "SELECT pd.Stock FROM Product_Detail pd "
-                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Gender_Id = ? AND pd.Size_Id = ? ";
+                    + "WHERE pd.Product_Id = ? AND pd.Color_Id = ? AND pd.Size_Id = ? ";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, productID);
             preparedStatement.setString(2, colorId);
-            preparedStatement.setString(3, genderID);
-            preparedStatement.setString(4, sizeId);
+            preparedStatement.setString(3, sizeId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 StockOfProductDetail = resultSet.getInt("Stock");
@@ -2143,7 +2042,7 @@ public class AdminDao extends DBContext {
     public void updateProductStatus(int idProduct, int statusProduct, Date currentTimestamp) {
         try {
             connection = this.getConnection();
-            String sql = "UPDATE Product SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 15, ?) WHERE Id = ?";
+            String sql = "UPDATE Product SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Id = ?";
 
             preparedStatement = connection.prepareStatement(sql);
 
@@ -2158,11 +2057,11 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public void deleteProductHideInterval15Days() {
+    public void deleteProductHideInterval30Days() {
         try {
             connection = this.getConnection();
             String sql = "DELETE FROM product "
-                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -14, GETDATE())";
+                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -29, GETDATE())";
             preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.executeUpdate();
@@ -2174,7 +2073,7 @@ public class AdminDao extends DBContext {
     public void updateProductDetailsStatus(int idProduct, int statusProduct, Date currentTimestamp, int colorID, int sizeID, int genderID) {
         try {
             connection = this.getConnection();
-            String sql = "UPDATE Product_Detail SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 15, ?) WHERE Product_Id = ? AND color_id = ? AND size_id = ? AND gender_id = ?";
+            String sql = "UPDATE Product_Detail SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Product_Id = ? AND color_id = ? AND size_id = ? AND gender_id = ?";
 
             preparedStatement = connection.prepareStatement(sql);
 
@@ -2192,11 +2091,11 @@ public class AdminDao extends DBContext {
         }
     }
 
-    public void deleteProductDetailsHideInterval15Days() {
+    public void deleteProductDetailsHideInterval30Days() {
         try {
             connection = this.getConnection();
             String sql = "DELETE FROM product_detail "
-                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -14, GETDATE())";
+                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -29, GETDATE())";
             preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.executeUpdate();
@@ -2208,7 +2107,7 @@ public class AdminDao extends DBContext {
     public void updateProductDetailsStatus(int idProduct, int status, Date currentTimestamp) {
         try {
             connection = this.getConnection();
-            String sql = "UPDATE Product_Detail SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 15, ?) WHERE Product_Id = ? ";
+            String sql = "UPDATE Product_Detail SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Product_Id = ? ";
 
             preparedStatement = connection.prepareStatement(sql);
 
@@ -2265,14 +2164,526 @@ public class AdminDao extends DBContext {
 
             resultSet = preparedStatement.executeQuery();
 
-            // Check if result set has next (which it should if there's a matching product)
             if (resultSet.next()) {
                 status = resultSet.getInt("status");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
         return status;
+    }
+
+    public int findTotalAccount() {
+        int totalAccount = 0;
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Account a "
+                    + "JOIN Account_Detail ad ON a.Id = ad.Account_Id "
+                    + "JOIN Role r ON r.id = a.Role_Id "
+                    + "WHERE r.role IN ('Seller', 'Customer') "
+                    + "AND a.status = 1";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                totalAccount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalAccount;
+    }
+
+    public List<Account_Form> findAccountByPage(int page) {
+        List<Account_Form> listAf = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Account a "
+                    + "JOIN Account_Detail ad ON ad.Account_Id = a.id "
+                    + "JOIN Role r ON r.id = a.role_id "
+                    + "JOIN Gender g ON g.id = ad.gender_id "
+                    + "WHERE a.status = 1 AND r.role IN ('Seller', 'Customer') "
+                    + "ORDER BY a.id "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Account_Form af = new Account_Form();
+                af.setId(resultSet.getInt("Id"));
+                af.setEmail(resultSet.getString("Email"));
+                af.setRole(resultSet.getString("Role"));
+                af.setRole_Id(resultSet.getInt("Role_Id"));
+                af.setStatus(resultSet.getInt("Status"));
+                af.setPhone_number(resultSet.getString("Phone_Number"));
+                af.setGender(resultSet.getString("Gender"));
+                af.setGender_id(resultSet.getInt("Gender_Id"));
+                af.setDob(resultSet.getDate("Dob"));
+                af.setAddress(resultSet.getString("Address"));
+                af.setUsername(resultSet.getString("Username"));
+                listAf.add(af);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listAf;
+    }
+
+    public List<Role> findAllRole() {
+        List<Role> listR = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Role r ORDER BY r.id ";
+
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Role r = new Role();
+                r.setId(resultSet.getInt("Id"));
+                r.setRole(resultSet.getString("Role"));
+                listR.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listR;
+    }
+
+    public int findTotalAccountBySearch(String keyword, String status, String roleId, String genderId) {
+        int totalAccount = 0;
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM Account a JOIN Account_Detail ad ON a.Id = ad.Account_Id "
+                    + "JOIN Role r ON r.id = a.Role_Id WHERE r.role IN ('Seller', 'Customer') ";
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "AND ad.Username LIKE ? ";
+            }
+            if (status != null && !status.equals("null")) {
+                sql += "AND a.status = ? ";
+
+            } else {
+                sql += "AND a.status = 1 ";
+            }
+            if (roleId != null && !roleId.equals("null")) {
+                sql += "AND a.role_id = ? ";
+
+            }
+            if (genderId != null && !genderId.equals("null")) {
+                sql += "AND ad.gender_id = ? ";
+            }
+
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+            if (status != null && !status.equals("null")) {
+                preparedStatement.setString(parameterIndex++, status);
+            }
+            if (roleId != null && !roleId.equals("null")) {
+                preparedStatement.setString(parameterIndex++, roleId);
+            }
+            if (genderId != null && !genderId.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderId);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalAccount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalAccount;
+    }
+
+    public List<Account_Form> findPageBySearch(int page, String keyword, String status, String roleId, String genderId, int pageSize) {
+        List<Account_Form> listAf = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT *, DATEDIFF(DAY, GETDATE(), a.Expire_date) AS remaining_days FROM Account a "
+                    + "JOIN Account_Detail ad ON a.Id = ad.Account_Id "
+                    + "JOIN Role r ON r.Id = a.Role_Id "
+                    + "JOIN Gender g ON g.Id = ad.Gender_Id WHERE r.role IN ('Seller', 'Customer') ";
+            if (keyword != null && !keyword.equals("null")) {
+                sql += "AND ad.Username LIKE ? ";
+            }
+            if (status != null && !status.equals("null")) {
+                sql += "AND a.status = ? ";
+            } else {
+                sql += "AND a.status = 1 ";
+            }
+            if (roleId != null && !roleId.equals("null")) {
+                sql += "AND a.role_id = ? ";
+            }
+            if (genderId != null && !genderId.equals("null")) {
+                sql += "AND ad.gender_id = ? ";
+            }
+            sql += "ORDER BY a.id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (keyword != null && !keyword.equals("null")) {
+                preparedStatement.setString(parameterIndex++, "%" + keyword + "%");
+            }
+            if (status != null && !status.equals("null")) {
+                preparedStatement.setString(parameterIndex++, status);
+            }
+            if (roleId != null && !roleId.equals("null")) {
+                preparedStatement.setString(parameterIndex++, roleId);
+            }
+            if (genderId != null && !genderId.equals("null")) {
+                preparedStatement.setString(parameterIndex++, genderId);
+            }
+            if (pageSize == 0) {
+                preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+                preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+            } else {
+                preparedStatement.setInt(parameterIndex++, (page - 1) * pageSize);
+                preparedStatement.setInt(parameterIndex++, pageSize);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Account_Form af = new Account_Form();
+                af.setId(resultSet.getInt("Id"));
+                af.setEmail(resultSet.getString("Email"));
+                af.setRole(resultSet.getString("Role"));
+                af.setRole_Id(resultSet.getInt("Role_Id"));
+                af.setStatus(resultSet.getInt("Status"));
+                af.setPhone_number(resultSet.getString("Phone_Number"));
+                af.setGender(resultSet.getString("Gender"));
+                af.setGender_id(resultSet.getInt("Gender_Id"));
+                af.setDob(resultSet.getDate("Dob"));
+                af.setAddress(resultSet.getString("Address"));
+                af.setUsername(resultSet.getString("Username"));
+                af.setRemainingDayBeforeDelete(resultSet.getInt("remaining_days"));
+                listAf.add(af);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listAf;
+    }
+
+    public void updateAccountStatus(int idAccount, int status, Date currentTimestamp) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, status);
+            preparedStatement.setDate(2, currentTimestamp);
+            preparedStatement.setDate(3, currentTimestamp);
+            preparedStatement.setInt(4, idAccount);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAccountDetailsStatus(int idAccount, int status, Date currentTimestamp) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Account_Detail SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, status);
+            preparedStatement.setDate(2, currentTimestamp);
+            preparedStatement.setDate(3, currentTimestamp);
+            preparedStatement.setInt(4, idAccount);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAccountHideInterval30Days() {
+        try {
+            connection = this.getConnection();
+            String sql = "DELETE FROM Account "
+                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -29, GETDATE())";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAccountDetailsHideInterval30Days() {
+        try {
+            connection = this.getConnection();
+            String sql = "DELETE FROM Account_Detail "
+                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -29, GETDATE())";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Account_Form getAccountByID(int accountID) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT * FROM Account a "
+                    + "JOIN Account_Detail ad ON a.id = ad.Account_Id "
+                    + "JOIN Role r ON r.id = a.Role_Id "
+                    + "JOIN Gender g ON g.id = ad.Gender_Id WHERE a.id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, accountID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Account_Form af = new Account_Form();
+                af.setId(resultSet.getInt("Id"));
+                af.setEmail(resultSet.getString("Email"));
+                af.setRole_Id(resultSet.getInt("Role_Id"));
+                af.setRole(resultSet.getString("Role"));
+                af.setPhone_number(resultSet.getString("phone_number"));
+                af.setGender_id(resultSet.getInt("gender_id"));
+                af.setGender(resultSet.getString("gender"));
+                af.setDob(resultSet.getDate("Dob"));
+                af.setAddress(resultSet.getString("Address"));
+                af.setUsername(resultSet.getString("Username"));
+                return af;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean checkExistOfAccount(String emailRaw) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) AS count "
+                    + "FROM Account a "
+                    + "JOIN Account_Detail ad ON ad.Account_Id = a.id "
+                    + "JOIN Role r ON r.Id = a.Role_Id "
+                    + "WHERE a.Email = ? ";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, emailRaw);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void updateAccount(Account_Form af) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Account SET Email = ? "
+                    + "WHERE Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, af.getEmail());
+            preparedStatement.setInt(2, af.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAccountDetail(Account_Form af) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Account_Detail SET Phone_Number = ?, Gender_Id = ?, "
+                    + "Dob = ?, Address = ?, Username = ? "
+                    + "WHERE Account_Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, af.getPhone_number());
+            preparedStatement.setInt(2, af.getGender_id());
+            preparedStatement.setDate(3, (Date) af.getDob());
+            preparedStatement.setString(4, af.getAddress());
+            preparedStatement.setString(5, af.getUsername());
+            preparedStatement.setInt(6, af.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAccountRole(Account_Form af) {
+        try {
+            connection = this.getConnection();
+
+            String sql = "UPDATE Account SET Role_Id = ? "
+                    + "WHERE Id = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, af.getRole_Id());
+            preparedStatement.setInt(2, af.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Role> findRoleForSellerAndCustomer() {
+        List<Role> listR = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM Role r WHERE r.role IN ('Seller', 'Customer') ORDER BY r.id ";
+
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Role r = new Role();
+                r.setId(resultSet.getInt("Id"));
+                r.setRole(resultSet.getString("Role"));
+                listR.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listR;
+    }
+
+    public void insertHistoryUpdate(Account_Form af, Date currentTimestamp) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO History (Account_Id, Username, Email, Phone_number, Update_date) VALUES (?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, af.getId());
+            preparedStatement.setString(2, af.getUsername());
+            preparedStatement.setString(3, af.getEmail());
+            preparedStatement.setString(4, af.getPhone_number());
+            preparedStatement.setDate(4, currentTimestamp);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertHistoryUpdateIfEmailNotExist(Account_Form af, Date currentTimestamp, String oldEmail) {
+        try {
+            connection = this.getConnection();
+            String sql = "INSERT INTO History (Account_Id, Email, Username, Phone_number, Update_date) VALUES (?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, af.getId());
+            preparedStatement.setString(2, af.getEmail());
+            preparedStatement.setString(3, af.getUsername());
+            preparedStatement.setString(4, af.getPhone_number());
+            preparedStatement.setDate(5, currentTimestamp);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int findTotalHistory(String accountIdRaw) {
+        int totalHistory = 0;
+
+        try {
+            connection = this.getConnection();
+
+            String sql = "SELECT COUNT(*) FROM History h WHERE account_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, accountIdRaw);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalHistory = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalHistory;
+    }
+
+    public List<History> findHistoryByPage(int page, String accountIdRaw) {
+        List<History> listH = new ArrayList<>();
+        try {
+            connection = this.getConnection();
+            String sql = "SELECT * FROM History h "
+                    + "WHERE h.account_id = ? "
+                    + "ORDER BY h.id "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+            preparedStatement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+            preparedStatement.setString(parameterIndex++, accountIdRaw);
+            preparedStatement.setInt(parameterIndex++, (page - 1) * Constant.RECORD_PER_PAGE);
+            preparedStatement.setInt(parameterIndex++, Constant.RECORD_PER_PAGE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                History h = new History();
+                h.setUpdate_date(resultSet.getDate("Update_date"));
+                h.setEmail(resultSet.getString("Email"));
+                h.setUsername(resultSet.getString("Username"));
+                h.setPhone_number(resultSet.getString("Phone_number"));
+                listH.add(h);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listH;
+    }
+
+    public void updateProductImageStatus(int idProduct, int status, Date currentTimestamp) {
+        try {
+            connection = this.getConnection();
+            String sql = "UPDATE Image SET Status = ?, Status_date = ?, Expire_date = DATEADD(DAY, 30, ?) WHERE Product_Id = ? ";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, status);
+            preparedStatement.setDate(2, currentTimestamp);
+            preparedStatement.setDate(3, currentTimestamp);
+            preparedStatement.setInt(4, idProduct);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteProductImageHideInterval30Days() {
+        try {
+            connection = this.getConnection();
+            String sql = "DELETE FROM Image "
+                    + "WHERE Status = 0 AND Status_date < DATEADD(DAY, -29, GETDATE())";
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

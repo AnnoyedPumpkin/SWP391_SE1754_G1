@@ -1,21 +1,20 @@
 <%-- 
-    Document   : login
-    Created on : Jan 11, 2024, 12:32:33 AM
+    Document   : homePage
+    Created on : Mar 10, 2024, 5:40:31 PM
     Author     : LENOVO
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
     <head>
-
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <title>Login Page</title>
+        <title>Home - Brava Shop</title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/logo/favourite_icon_01.png">
 
         <!-- fraimwork - css include -->
@@ -46,16 +45,16 @@
     </head>
 
 
-    <body>
+    <body class="home_fashion_minimal">
 
 
         <!-- backtotop - start -->
         <div id="thetop"></div>
-        <div class="backtotop bg_default_red">
-            <a href="#" class="scroll">
-                <i class="far fa-arrow-up"></i>
-            </a>
-        </div>
+        <!-- <div class="backtotop bg_fashion2_red">
+                <a href="${pageContext.request.contextPath}/#" class="scroll">
+                        <i class="far fa-arrow-up"></i>
+                </a>
+        </div> -->
         <!-- backtotop - end -->
 
         <!-- preloader - start -->
@@ -194,7 +193,7 @@
 
 
             <!-- sidebar mobile menu & sidebar cart - start
-           ================================================== -->
+            ================================================== -->
             <div class="sidebar-menu-wrapper">
                 <div class="cart_sidebar">
                     <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
@@ -237,7 +236,7 @@
                     <div class="msb_widget mobile_menu_list clearfix">
                         <h3 class="title_text mb_15 text-uppercase"><i class="far fa-bars mr-2"></i> Menu List</h3>
                         <ul class="ul_li_block clearfix">
-                            <li class="">
+                            <li class="active">
                                 <a href="${pageContext.request.contextPath}/home">Home</a>
                             </li>
                             <li class="">
@@ -291,252 +290,248 @@
 
             <!-- breadcrumb_section - start
             ================================================== -->
-            <section class="breadcrumb_section minimal_fashion_breadcrumb text-center d-flex align-items-center clearfix" data-background="assets/images/breadcrumb/bg_10.jpg">
+            <section
+                class="breadcrumb_section text-white text-center text-uppercase d-flex align-items-end clearfix"
+                data-background="assets/images/breadcrumb/bg_01.jpg">
+                <div class="overlay" data-bg-color="#1d1d1d"></div>
                 <div class="container">
-                    <h1 class="medical_page_title mb_15">Login</h1>
+                    <h1 class="page_title text-white">Invoice</h1>
+                    <ul class="breadcrumb_nav ul_li_center clearfix">
+                        <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                        <li>Invoice</li>
+                    </ul>
                 </div>
             </section>
             <!-- breadcrumb_section - end
             ================================================== -->
 
 
-            <!-- register_section - start
+            <!-- product_section - start
             ================================================== -->
-            <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg">
+            <section class="register_section sec_ptb_140 has_overlay parallaxie clearfix" data-background="assets/images/backgrounds/bg_22.jpg" style="height: 100vh;">
                 <div class="overlay" data-bg-color="rgba(55, 55, 55, 0.75)"></div>
-                <div class="container">
-                    <div class="reg_form_wrap login_form" data-background="assets/images/reg_bg_01.png">
-                        <form action="authen?action=login" method="POST">
-                            <div class="reg_form">
-                                <h2 class="form_title text-uppercase text-center">Login</h2>
-                                <div class="form_item">
-                                    <input id="username_input" value="${username}" type="text" name="username" placeholder="username">
-                                    <label for="username_input"><i class="fal fa-user"></i></label>
-                                </div>
-                                <div class="form_item">
-                                    <input id="password_input" value="${password}" type="password" name="password" placeholder="password">
-                                    <label for="password_input"><i class="fal fa-unlock-alt"></i></label>
-                                </div>
-                                <div class="form-group form-check d-flex">
-                                    <input id="check" name="remember" value="1" type="checkbox" class="form-check-input">
-                                    <label class="form-check-label" for="check">Remember me</label>
-                                </div>
-                                <div style="color: red">${err}</div>
-                                <a class="forget_pass text-uppercase mb_30" href="${pageContext.request.contextPath}/ForgotPassword">Forgot password?</a>
-                                <button type="submit" class="custom_btn bg_default_red text-uppercase mb_50">Login</button>
-
-                                <!--                                <div class="social_wrap mb_100">
-                                                                    <h4 class="small_title_text mb_15 text-center text-uppercase">Or Login With</h4>
-                                                                    <ul class="circle_social_links ul_li_center clearfix">
-                                                                        <li><a data-bg-color="#3b5998" href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                                                        <li><a data-bg-color="#1da1f2" href="#!"><i class="fab fa-twitter"></i></a></li>
-                                                                        <li><a data-bg-color="#ea4335" href="#!"><i class="fab fa-google-plus-g"></i></a></li>
-                                                                    </ul>
-                                                                </div>-->
-
-                                <div class="create_account text-center">
-                                    <h4 class="small_title_text text-center text-uppercase">Have not account yet?</h4>
-                                    <a class="create_account_btn text-uppercase" href="${pageContext.request.contextPath}/authen?action=register">Sign Up</a>
+                <div class="main-body d-flex align-items-center">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="mb-4 text-b">Invoice</h3>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Create At</th>
+                                                        <th>Product Image</th>
+                                                        <th>Product name</th>
+                                                        <th>Category</th>
+                                                        <th>Brand</th>
+                                                        <th>Unit Price</th>
+                                                        <th>Total Price</th>
+                                                        <th>Status</th>
+                                                        <th style="text-align: center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:choose>
+                                                        <c:when test="${not empty listIf}">
+                                                            <c:forEach items="${listIf}" var="If">
+                                                                <tr>
+                                                                    <td>${If.invoice_date}</td>
+                                                                    <td><img src="${If.productImage}" alt="Product Image" style="max-width: 100px;"></td>
+                                                                    <td>${If.productName}</td>
+                                                                    <td>${If.productCategory}</td>
+                                                                    <td>${If.productBrand}</td>
+                                                                    <td>${If.price}</td>
+                                                                    <td>${If.totalPrice}</td>
+                                                                    <c:if test="${If.status_id == 1}">
+                                                                        <td style="color: rgb(168, 166, 50)">Pending</td>
+                                                                    </c:if>
+                                                                    <c:if test="${If.status_id == 2}">
+                                                                        <td style="color: rgb(50, 168, 87)">Delivery</td>
+                                                                    </c:if>
+                                                                    <c:if test="${If.status_id == 3}">
+                                                                        <td style="color: rgb(50, 168, 87)">Received</td>
+                                                                    </c:if>
+                                                                    <c:if test="${If.status_id == 4}">
+                                                                        <td style="color: red">Canceled</td>
+                                                                    </c:if>
+                                                                    <td>
+                                                                        <button class="custom_btn bg_success text-uppercase mb_25 w-100"><a href="${pageContext.request.contextPath}/home?page=view-invoice-details&invoiceID=${If.id}&productID=${If.product_id}" style="color: white">View Details</a></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <tr>
+                                                                <td style="text-align: center" colspan="8">Not found any invoice</td>
+                                                            </tr>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </section>
-            <!-- register_section - end
-            ================================================== -->
-
-
-        </main>
-        <!-- main body - end
-        ================================================== -->
-
-
-        <!-- footer_section - start
-        ================================================== -->
-        <footer class="footer_section default_footer clearfix">
-            <div class="footer_widget_area sec_ptb_100 clearfix" data-bg-color="#1f1f1f">
-                <div class="container">
-                    <div class="row justify-content-lg-between">
-                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                            <div class="footer_widget df_about_area">
-                                <div class="brand_logo mb_30">
-                                    <a href="index.html">
-                                        <img src="assets/images/logo/logo_28_1x.png" srcset="assets/images/logo/logo_28_2x.png 2x" alt="logo_not_found">
-                                    </a>
-                                </div>
-
-                                <p class="mb_15">
-                                    We’ve completed 1000+ demo site for more than one million of our customers. 
-                                </p>
-
-                                <ul class="df_contact_info ul_li_block clearfix">
-                                    <li><i class="fas fa-phone-alt"></i> 001-6688-9999</li>
-                                    <li><i class="fas fa-envelope"></i> contact@site.com</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                            <div class="footer_widget product_list clearfix">
-                                <h3 class="df_widget_title text-white text-uppercase">Hot Products</h3>
-                                <ul class="ul_li_block">
-                                    <li>
-                                        <div class="small_product">
-                                            <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_10.jpg" alt="image_not_found">
-                                            </div>
-                                            <div class="item_content">
-                                                <h3 class="item_title">
-                                                    <a class="text-white" href="#!">
-                                                        Lobortis Laculis ut Condimentum
-                                                    </a>
-                                                </h3>
-                                                <span class="item_price">$110.00</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="small_product">
-                                            <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_11.jpg" alt="image_not_found">
-                                            </div>
-                                            <div class="item_content">
-                                                <h3 class="item_title">
-                                                    <a class="text-white" href="#!">
-                                                        Lobortis Laculis ut Condimentum
-                                                    </a>
-                                                </h3>
-                                                <span class="item_price">$110.00</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                            <div class="footer_widget product_list clearfix">
-                                <h3 class="df_widget_title text-white text-uppercase">Sale Products</h3>
-                                <ul class="ul_li_block">
-                                    <li>
-                                        <div class="small_product">
-                                            <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_12.jpg" alt="image_not_found">
-                                            </div>
-                                            <div class="item_content">
-                                                <h3 class="item_title">
-                                                    <a class="text-white" href="#!">
-                                                        Lobortis Laculis ut Condimentum
-                                                    </a>
-                                                </h3>
-                                                <span class="item_price">$110.00</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="small_product">
-                                            <div class="item_image">
-                                                <img src="assets/images/shop/minimal/img_13.jpg" alt="image_not_found">
-                                            </div>
-                                            <div class="item_content">
-                                                <h3 class="item_title">
-                                                    <a class="text-white" href="#!">
-                                                        Lobortis Laculis ut Condimentum
-                                                    </a>
-                                                </h3>
-                                                <span class="item_price">$110.00</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                            <div class="footer_widget df_newsletter">
-                                <h3 class="df_widget_title text-white text-uppercase">Newsletter</h3>
-                                <p class="mb_30">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ex tortor
-                                </p>
-                                <form action="#">
-                                    <div class="form_item mb-0">
-                                        <input type="email" name="email" placeholder="Email Address">
-                                        <button type="submit" class="submit_btn"><i class="fal fa-paper-plane"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer_bottom clearfix" data-bg-color="#1a1a1a">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <p class="copyright_text mb-0">
-                                @2021 Designed By <a href="#!" class="author_link text-white">jthemes</a>.
-                            </p>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <ul class="circle_social_links ul_li_right clearfix">
-                                <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#!"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#!"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
+            <!-- Ecommerce Pagination Starts -->
+            <section id="ecommerce-pagination">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center mt-2">
+                                <c:if test="${pagination.page > 1}">
+                                    <li class="page-item prev-item"><a class="page-link" href="${pagination.urlPattern}pagination=1">Start</a></li>
+                                    </c:if>
+                                    <c:if test="${pagination.page > 1}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">Previous</a></li>
+                                    </c:if>
+                                <!--PAGE - 2 (in case last page )-->
+                                <c:if test="${pagination.page == pagination.totalPage && pagination.page > 2}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 2}">${pagination.page - 2}</a></li>
+                                    </c:if>
+                                <!--PAGE - 1 (in case last page )-->
+                                <c:if test="${pagination.page == pagination.totalPage && pagination.page > 1}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page - 1}">${pagination.page - 1}</a></li>
+                                    </c:if>
+                                <!--PAGE-->
+                                <c:if test="${pagination.totalPage > 1}">
+                                    <li class="page-item active" aria-current="page"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page}">${pagination.page}</a></li>
+                                    </c:if>
+                                <!--PAGE + 1-->
+                                <c:if test="${pagination.page < pagination.totalPage}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">${pagination.page + 1}</a></li>
+                                    </c:if>
+                                <!--PAGE + 2-->
+                                <c:if test="${pagination.page + 1 < pagination.totalPage}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 2}">${pagination.page + 2}</a></li>
+                                    </c:if>
+                                <!--NEXT-->
+                                <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                    <li class="page-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.page + 1}">Next</a></li>
+                                    </c:if>
+                                <!--LAST-->
+                                <c:if test="${pagination.page != pagination.totalPage && pagination.totalPage > 0}">
+                                    <li class="page-item next-item"><a class="page-link" href="${pagination.urlPattern}pagination=${pagination.totalPage}">Last</a></li>
+                                    </c:if>
                             </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+            <!-- Ecommerce Pagination Ends -->
+
+        </div>
+    </section>
+    <!-- product_section - end
+    ================================================== -->
+</main>
+<!-- main body - end
+================================================== -->
+
+
+<!-- footer_section - start
+================================================== -->
+<footer class="footer_section fashion_minimal_footer clearfix" data-bg-color="#222222">
+    <div class="backtotop" data-background="assets/images/shape_01.png">
+        <a href="${pageContext.request.contextPath}/#" class="scroll">
+            <i class="far fa-arrow-up"></i>
+        </a>
+    </div>
+
+    <div class="footer_widget_area sec_ptb_100 clearfix">
+        <div class="container">
+            <div class="row justify-content-lg-between">
+                <div class="col-lg-4">
+                    <div class="footer_widget footer_about">
+                        <div class="brand_logo mb_30">
+                            <a href="${pageContext.request.contextPath}/home">
+                                <img class="w-75" src="assets/images/logo/logoHomePage3.png">
+                            </a>
+                        </div>
+                        <p class="mb-0">
+                            Thank you for using my shopping website!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row justify-content-lg-between">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <div class="footer_widget footer_useful_links clearfix">
+                                <h3 class="footer_widget_title text-white">Contact</h3>
+                                <ul class="ul_li_block">
+                                    <li><i class="fal fa-phone-square"></i> 0981456235</li>
+                                    <li><i class="fal fa-envelope"></i> clothingshoponlineg1se1754@gmail.com</li>
+                                    <li><i class="fal fa-map"></i> FPT Univeristy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="footer_widget footer_useful_links clearfix">
+                                <h3 class="footer_widget_title text-white">Links</h3>
+                                <ul class="ul_li_block">
+                                    <li><a href="${pageContext.request.contextPath}/#!">Contact</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/#!">Shop</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- footer_section - end
-        ================================================== -->
+        </div>
+    </div>
 
+    <div class="container">
+        <div class="footer_bottom text-center">
+            <p class="copyright_text mb-0">
+                © Copyrights, <script>document.write(new Date().getFullYear());</script> <a href="${pageContext.request.contextPath}/home" class="author_link text-white">Brava</a>
+            </p>
+        </div>
+    </div>
+</footer>
+<!-- footer_section - end-->
 
-        <!-- fraimwork - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/jquery-3.5.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<!-- fraimwork - jquery include -->
+<script src="assets/js/jquery-3.5.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
 
-        <!-- mobile menu - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/mCustomScrollbar.js"></script>
+<!-- mobile menu - jquery include -->
+<script src="assets/js/mCustomScrollbar.js"></script>
 
-        <!-- google map - jquery include -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/gmaps.min.js"></script>
+<!-- google map - jquery include -->
+<script src="assets/js/gmaps.min.js"></script>
 
-        <!-- animation - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/parallaxie.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/wow.min.js"></script>
+<!-- animation - jquery include -->
+<script src="assets/js/parallaxie.js"></script>
+<script src="assets/js/wow.min.js"></script>
 
-        <!-- nice select - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/nice-select.min.js"></script>
+<!-- nice select - jquery include -->
+<script src="assets/js/nice-select.min.js"></script>
 
-        <!-- carousel - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/slick.min.js"></script>
+<!-- carousel - jquery include -->
+<script src="assets/js/slick.min.js"></script>
 
-        <!-- countdown timer - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/countdown.js"></script>
+<!-- countdown timer - jquery include -->
+<script src="assets/js/countdown.js"></script>
 
-        <!-- popup images & videos - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/magnific-popup.min.js"></script>
+<!-- popup images & videos - jquery include -->
+<script src="assets/js/magnific-popup.min.js"></script>
 
-        <!-- filtering & masonry layout - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/isotope.pkgd.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/masonry.pkgd.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/imagesloaded.pkgd.min.js"></script>
+<!-- filtering & masonry layout - jquery include -->
+<script src="assets/js/isotope.pkgd.min.js"></script>
+<script src="assets/js/masonry.pkgd.min.js"></script>
+<script src="assets/js/imagesloaded.pkgd.min.js"></script>
 
-        <!-- jquery ui - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/jquery-ui.js"></script>
+<!-- jquery ui - jquery include -->
+<script src="assets/js/jquery-ui.js"></script>
 
-        <!-- custom - jquery include -->
-        <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
+<!-- custom - jquery include -->
+<script src="assets/js/custom.js"></script>
+</body>
 
-
-    </body>
 </html>

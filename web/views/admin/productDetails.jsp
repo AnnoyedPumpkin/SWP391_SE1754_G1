@@ -50,7 +50,7 @@
 
     <!-- BEGIN: Body-->
 
-    <body id="body" class="vertical-layout vertical-menu-modern dark-layout 2-columns ecommerce-application navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
+    <body class="vertical-layout vertical-menu-modern dark-layout 2-columns ecommerce-application navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
 
         <!-- BEGIN: Header-->
         <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-dark navbar-shadow">
@@ -516,7 +516,7 @@
         </body>
         <!-- END: Body-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <<script>
+        <script>
 
                 var selectedColorId;
                 var selectedSizeId;
@@ -554,7 +554,6 @@
                         },
                         success: function (data) {
                             var content = document.getElementById("body");
-                            content.innerHTML = "";
                             content.innerHTML += data;
                         },
                         error: function (xhr) {
