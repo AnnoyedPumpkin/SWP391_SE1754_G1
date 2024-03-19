@@ -35,6 +35,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author admin
@@ -422,27 +423,23 @@ public class CommonDao extends DBContext {
         List<Cart> CList = new ArrayList<>();
         try {
             connection = this.getConnection();
-            String query = "Select c.Id AS Cart_ID, c.[Address],c.Account_Id, cd.Id AS Cart_Detail_Id,cd.Quantity,cd.Product_Id,\n"
-                    + "p.Id AS Product_Id,p.[Name] AS Product_Name,p.Price,pd.Id AS Product_Detail_Id,pd.Stock, \n"
-                    + "co.Color, s.Size, ca.Category, g.Gender, i.[Image] AS Image_Path,dis.Id AS Discount_Id_Of_Cart, dis.Discount_percent\n"
-                    + "From Cart c JOIN Cart_Detail cd ON c.Id=cd.Cart_Id\n"
-                    + "JOIN Product p ON p.Id = cd.Product_Id\n"
-                    + "JOIN Product_Detail pd ON  pd.Product_Id = p.Id\n"
-                    + "JOIN Color co ON co.Id = pd.Color_Id\n"
-                    + "JOIN Size s ON s.Id = pd.Size_Id\n"
-                    + "JOIN Category ca ON ca.Id = pd.Category_Id\n"
-                    + "JOIN Gender g ON g.Id = pd.Gender_Id\n"
-                    + "JOIN Discount dis ON dis.id = c.Discount_Id\n"
-                    + "LEFT JOIN [Image] i ON i.Product_Id = p.Id\n"
-                    + "Where (c.CartCode IS NULL) AND (c.Account_Id = ?)";
+            String query = "  Select c.Id AS Cart_ID, c.[Address],c.Account_Id, cd.Id AS Cart_Detail_Id,cd.Quantity,cd.Product_Id,\n" +
+"                    p.Id AS Product_Id,p.[Name] AS Product_Name,p.Price,pd.Id AS Product_Detail_Id,pd.Stock, \n" +
+"                    co.Color, s.Size, ca.Category, g.Gender, p.[Image_path] AS Image_Path\n" +
+"                    From Cart c  JOIN Cart_Detail cd ON c.Id=cd.Cart_Id\n" +
+"                     JOIN Product p ON p.Id = cd.Product_Id\n" +
+"                     JOIN Product_Detail pd ON  pd.Product_Id = p.Id\n" +
+"                     JOIN Color co ON co.Id = pd.Color_Id\n" +
+"                     JOIN Size s ON s.Id = pd.Size_Id\n" +
+"                     JOIN Category ca ON ca.Id = pd.Category_Id\n" +
+"                     JOIN Gender g ON g.Id = pd.Gender_Id\n" +
+"                    LEFT JOIN [Image] i ON i.Product_Id = p.Id\n" +
+"                    Where (c.CartCode IS NULL) AND (c.Account_Id = ?)";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accId);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Discount discount = Discount.builder()
-                        .discount_percent(resultSet.getDouble("Discount_Percent"))
-                        .build();
                 Color color = Color.builder()
                         .color(resultSet.getString("Color"))
                         .build();
@@ -461,6 +458,7 @@ public class CommonDao extends DBContext {
                 Product product = Product.builder()
                         .name(resultSet.getString("Product_Name"))
                         .price(resultSet.getDouble("Price"))
+                        .image_path(resultSet.getString("Image_Path"))
                         .build();
                 Product_Detail productDetail = Product_Detail.builder()
                         .id(resultSet.getInt("Product_Detail_Id"))
@@ -472,7 +470,6 @@ public class CommonDao extends DBContext {
                         .build();
                 Cart c = Cart.builder()
                         .id(resultSet.getInt("Cart_ID"))
-                        .discount_id(resultSet.getInt("Discount_Id_Of_Cart"))
                         .account_id(resultSet.getInt("Account_Id"))
                         .address(resultSet.getString("Address"))
                         .c_Det(cartDetail)
@@ -483,7 +480,6 @@ public class CommonDao extends DBContext {
                         .s(size)
                         .gen(gender)
                         .ima(image)
-                        .dis(discount)
                         .build();
                 CList.add(c);
             }
@@ -502,7 +498,7 @@ public class CommonDao extends DBContext {
         List<Invoice> IList = new ArrayList<>();
         try {
             connection = this.getConnection();
-            String query = "SELECT i.Id AS Invoice_Id, i.Account_Id, i.Invoice_Date, i.Total_Price , i.CartCode, i.[Address], i.Discount_percent,\n"
+            String query = "SELECT i.Id AS Invoice_Id, i.Account_Id, i.Invoice_Date, i.Total_Price , i.CartCode, i.[Address],\n"
                     + "id.Product_Id, id.Quantity, id.TotalPrice AS Total_Price_Per_Product, id.Id AS Invoice_Detail_Id,\n"
                     + "ist.[Status],\n"
                     + "p.[Name] AS Product_Name, p.Price AS Product_Price\n"
@@ -534,7 +530,6 @@ public class CommonDao extends DBContext {
                         .total_price(resultSet.getDouble("Total_Price"))
                         .cartCode(resultSet.getString("CartCode"))
                         .address(resultSet.getString("Address"))
-                        .discount_percent(resultSet.getDouble("Discount_percent"))
                         .in_de(invoiceDetail)
                         .in_st(invoiceStatus)
                         .pro(product)
@@ -570,15 +565,15 @@ public class CommonDao extends DBContext {
      * Methods description: Add Cart code for Cart with the given Id.
      *
      * @param cartCode - The Cart code to be add.
-     * @param id - The id of the cart for which the Cart code added.
+     * @param accId - The id of the cart for which the Cart code added.
      */
-    public void addCartCodeForCartByAccountId(String cartCode, int id) {
-        String query = "UPDATE Cart Set CartCode = ? Where Id = ?";
+    public void addCartCodeForCartByAccountId(String cartCode, int accId) {
+        String query = "UPDATE Cart Set CartCode = ? Where Account_Id = ?";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, cartCode);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, accId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -594,9 +589,9 @@ public class CommonDao extends DBContext {
      * @param address
      * @param discountPercent
      */
-    public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address, double discountPercent) {
-        String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Discount_percent, Status_Id) \n"
-                + "  VALUES (?,?,?,?,?,?,1)";
+    public void addInvoice(int accId, Date invoiceDate, double totalPrice, String cartCode, String address) {
+        String query = "  INSERT INTO Invoice (Account_Id, Invoice_Date, Total_Price, CartCode, [Address], Status_Id) \n"
+                + "  VALUES (?,?,?,?,?,1)";
         try {
             connection = this.getConnection();
             preparedStatement = connection.prepareStatement(query);
@@ -605,7 +600,6 @@ public class CommonDao extends DBContext {
             preparedStatement.setDouble(3, totalPrice);
             preparedStatement.setString(4, cartCode);
             preparedStatement.setString(5, address);
-            preparedStatement.setDouble(6, discountPercent);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -714,15 +708,9 @@ class main {
 
     public static void main(String[] args) {
         CommonDao c = new CommonDao();
-        String htmlContent = "";
-                try {
-                    htmlContent = new String(Files.readAllBytes(Paths.get("web/views/common/invoicemailsender.jsp")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println(htmlContent);
-//
-//        // Iterate through the list and print each element
+//        List<Cart> shoppingCartDetails = c.getShoppingCartDetailsByAccountId(15);
+//        System.out.println(shoppingCartDetails.get(0).getS().getSize());
+        // Iterate through the list and print each element
 //        for (Cart cart : shoppingCartDetails) {
 //            System.out.println("Cart ID: " + cart.getId());
 //            System.out.println("Address: " + cart.getAddress());
@@ -739,11 +727,9 @@ class main {
 //            System.out.println("Category: " + cart.getCate().getCategory());
 //            System.out.println("Gender: " + cart.getGen().getGender());
 //            System.out.println("Image Path: " + cart.getIma().getImage());
-//            System.out.println("Discount ID: " + cart.getDis().getId());
-//            System.out.println("Discount Percent: " + cart.getDis().getDiscount_percent());
 //            System.out.println("-------------------------------------------------------------");
 //        }
-//        List<Invoice> iv = c.getInvoiceListById(10);
+//        List<Invoice> iv = c.getInvoiceListById(2);
 //        for (Invoice invoice : iv) {
 //            System.out.println("Invoice id: " + invoice.getId());
 //            System.out.println("Account id: " + invoice.getAccount_id());

@@ -7,19 +7,26 @@ package entity;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
+
 /**
  *
- * @author Win 10
+ * @author admin
  */
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Product {
+public class Invoice_Form {
     private int id;
-    private String name;
-    private Date create_on;
-    private String description;
-    private double price;
-    private String image_path;
+    private String cartCode;
+    private Date invoice_Date;
+    private String username;
+    private String email;
+    private String address;
+    private double totalPrice;
+    private String status;
+    private String productName;
+    private int productQuantity;
+    private double productPrice;
+    private String phoneNumber;
 }

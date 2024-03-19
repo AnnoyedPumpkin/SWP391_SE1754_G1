@@ -5,10 +5,6 @@
         <servlet-class>control.AuthentController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DashboardController</servlet-name>
-        <servlet-class>control.seller.DashboardController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>control.HomeController</servlet-class>
     </servlet>
@@ -19,6 +15,22 @@
     <servlet>
         <servlet-name>AuthentAdminController</servlet-name>
         <servlet-class>control.admin.AuthentAdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerProfileController</servlet-name>
+        <servlet-class>control.seller.SellerProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerDashboardController</servlet-name>
+        <servlet-class>control.seller.SellerDashboardController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerManageProductController</servlet-name>
+        <servlet-class>control.seller.SellerManageProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerManageInvoiceController</servlet-name>
+        <servlet-class>control.seller.SellerManageInvoiceController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPassword</servlet-name>
@@ -38,15 +50,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
-        <url-pattern>/seller/dashboard</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DashboardController</servlet-name>
         <url-pattern>/admin/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AuthentAdminController</servlet-name>
         <url-pattern>/admin/authen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerProfileController</servlet-name>
+        <url-pattern>/sellerProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerDashboardController</servlet-name>
+        <url-pattern>/seller/dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ForgotPassword</servlet-name>
@@ -55,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>Checkout</servlet-name>
         <url-pattern>/Checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerManageProductController</servlet-name>
+        <url-pattern>/seller/manageProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerManageInvoiceController</servlet-name>
+        <url-pattern>/seller/manageInvoice</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

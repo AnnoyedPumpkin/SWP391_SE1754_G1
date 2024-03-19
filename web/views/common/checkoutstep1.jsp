@@ -908,8 +908,8 @@
                                                     <div class="item_image">
                                                         <img src="${pageContext.request.contextPath}${p.ima.image}" alt="image_not_found">
                                                     </div>
-                                                    <div class="item_content">
-                                                        <h4 class="item_title">${p.p.name}</h4>
+                                                    <div class="item_content" style=" width: 300px;word-wrap: break-word;">
+                                                        <h6 class="item_title">${p.p.name}</h6>
                                                         <span class="item_type">${p.cate.category}</span>
                                                         Size: ${p.s.size}
                                                         | Color: <div style="background-color: ${p.c.color}; width: 15px; height: 15px; display: inline-block; border-radius: 15px;"></div>

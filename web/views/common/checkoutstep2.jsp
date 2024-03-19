@@ -1071,6 +1071,8 @@
                             <h3 class="form_title mb_30">Review your order</h3>
                             <form action="Checkout?action=placeOrder" method="post">
                                 <div class="form_wrap">
+                                    <input type="hidden" id="hiddenUserName" name="hiddenUserName" value="${account_information.getAcc_det().getUsername()}">
+                                    <input type="hidden" id="hiddenPhoneNumber" name="hiddenPhoneNumber" value="${account_information.getAcc_det().getPhone_number()}">
                                     <input type="hidden" id="hiddenDeliveryAddress" name="hiddenDeliveryAddress" value="${account_information.getAcc_det().getAddress()}">
                                     <div class="checkout_table">
                                         <table class="table text-center mb_50">
@@ -1421,9 +1423,18 @@
         <script>
             const deliveryAddressInput = document.getElementsByName('deliveryAddress')[0];
             const hiddenDeliveryAddressInput = document.getElementById('hiddenDeliveryAddress');
-
+            const userNameInput = document.getElementsByName('username')[0];
+            const hiddenUserNameInput = document.getElementById('hiddenUserName');
+            const phoneNumberInput = document.getElementsByName('phone')[0];
+            const hiddenPhoneNumberInput = document.getElementById('hiddenPhoneNumber');
             deliveryAddressInput.addEventListener('input', function () {
                 hiddenDeliveryAddressInput.value = this.value;
+            });
+            userNameInput.addEventListener('input', function () {
+                hiddenUserNameInput.value = this.value;
+            });
+            phoneNumberInput.addEventListener('input', function () {
+                hiddenPhoneNumberInput.value = this.value;
             });
         </script>
     </body>

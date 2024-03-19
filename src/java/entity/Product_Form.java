@@ -34,5 +34,5 @@ public class Product_Form {
     private String size;
     private String brand;
     private String gender;
-
+    private String image_path;
 }
